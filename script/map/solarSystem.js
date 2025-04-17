@@ -1,0 +1,499 @@
+import { addDescriptionEvent, removeDescription } from "../addUIDescriptions.js";
+import dispatchShip from "../ship/dispatchShip.js";
+import { openHangar } from "../ship/hangar.js";
+import { addNavigationAttention, currentScreenDisplayed } from "../toggleUIElement.js";
+import notify from "../notifs/notify.js";
+import { arriveAtTarget } from "./arriveAtTarget.js";
+import { combat } from "./combat.js";
+import threatLevel from "./threatLevel.js";
+import notifyUnique from "../notifs/notifyUnique.js";
+import { removeFromArray } from "../utils.js";
+import { updateResearchButtons } from "../pageUpdates.js";
+const planetVelocity = 8.8;
+let activeScreen = "";
+let cursorX = 0;
+let cursorY = 0;
+let selected;
+//I FUCKING HATE CSS SO MUCH
+
+function updateVisibleDivs() {
+    document.querySelectorAll(".sidebarScreen").forEach(e => {
+        if (e.id !== activeScreen) {
+            e.style.display = "none";
+        } else {
+            e.style.display = "block";
+        }
+    });
+}
+function updateSolarSystem(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    removeDescription();
+    updateVisibleDivs();
+    let cumulativeOffsetY = 0;
+    if (currentScreenDisplayed === "Map") {
+
+        document.getElementById("systemMap").innerHTML = "";
+        const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
+
+        //Draw the star
+        const star = drawNewElement(375, 375);
+        star.style.backgroundColor = "Yellow";
+        star.style.height = "20px";
+        star.style.width = "20px";
+        cumulativeOffsetY += 20;
+        star.style.borderRadius = `15px`;
+
+        star.addEventListener("click", _ => {
+            if (activeScreen !== "scriptPlayer") {
+                activeScreen = "sunInfo";
+                updateVisibleDivs();
+                document.getElementById("solarSystemName").textContent = currentSystem.name;
+            }
+        });
+
+        addDescriptionEvent(star, {
+            content: currentSystem.name
+        });
+
+        for (const id in currentSystem.objects) {
+            const thing = currentSystem.objects[id];
+            let posX = 0;
+            let posY = 0;
+            switch (thing.type) {
+                case "planet":
+                    posX = thing.posX;
+                    posY = thing.posY;
+                    const radius = thing.radius;
+                    const systemObject = drawNewElement(posX - radius, posY - cumulativeOffsetY - radius);
+
+                    addDescriptionEvent(systemObject, {
+                        content: `Planet ${thing.name}`
+                    });
+
+                    systemObject.addEventListener("click", _ => {
+                        if (activeScreen !== "scriptPlayer") {
+                            activeScreen = "planetInfo";
+                            selected = id;
+                            updateVisibleDivs();
+                            document.getElementById("planetName").textContent = thing.name;
+                        }
+                    });
+                    systemObject.style.backgroundColor = thing.color;
+                    systemObject.style.borderRadius = "500px";
+                    systemObject.style.height = `${thing.radius * 2}px`;
+                    cumulativeOffsetY += thing.radius * 2;
+                    systemObject.style.width = `${thing.radius * 2}px`;
+                    break;
+                case "player":
+                    const you = drawNewElement(thing.posX - 10, thing.posY - cumulativeOffsetY - 10);
+                    you.style.width = "20px";
+                    you.style.height = "20px";
+                    cumulativeOffsetY += 20;
+                    you.style.backgroundColor = "white";
+                    addDescriptionEvent(you, {
+                        content: "You"
+                    });
+                    break;
+                case "hostile":
+                    const enemy = drawNewElement(thing.posX - 7.5, thing.posY - cumulativeOffsetY - 7.5);
+
+                    addDescriptionEvent(enemy, {
+                        content: `Hostile: threat level ${threatLevel(thing)}`
+                    });
+
+                    enemy.addEventListener("click", _ => {
+                        if (activeScreen !== "scriptPlayer") {
+                            selected = id;
+                            activeScreen = "hostileInfo";
+                            document.getElementById("missileCount").textContent = currentMultiverse.missiles;
+                            updateVisibleDivs();
+                        }
+                    });
+                    cumulativeOffsetY += 15;
+                    enemy.style.backgroundColor = "red";
+                    enemy.style.width = "15px";
+                    enemy.style.height = "15px";
+                    break;
+                case "missile":
+                    const missile = drawNewElement(thing.posX - 2.5, thing.posY - 2.5 - cumulativeOffsetY);
+                    cumulativeOffsetY += 5;
+                    missile.style.width = "5px";
+                    missile.style.height = "5px";
+                    missile.style.backgroundColor = "purple";
+                    break;
+            }
+        }
+        for (const ship of currentMultiverse.ships) {
+            if (ship.inSolarSystem) {
+                const shipX = ship.posX;
+                const shipY = ship.posY;
+
+                const shipDiv = drawNewElement(shipX - 2.5, shipY - cumulativeOffsetY - 2.5);
+
+                shipDiv.style.height = "10px";
+                shipDiv.style.width = "10px";
+                shipDiv.style.borderRadius = "10px";
+                cumulativeOffsetY += 10;
+                shipDiv.style.backgroundColor = "green";
+            }
+        }
+    }
+}
+
+document.getElementById("systemMap").addEventListener("click", e => {
+    if (e.target.id == "systemMap" && activeScreen !== "scriptPlayer") {
+        activeScreen = "emptySpaceInfo";
+        updateVisibleDivs();
+
+        cursorX = e.offsetX;
+        cursorY = e.offsetY;
+        document.getElementById("spaceCoordsX").textContent = cursorX;
+        document.getElementById("spaceCoordsY").textContent = cursorY;
+
+    }
+});
+
+async function sendShipToSun(userData) {
+    const callback = e => {
+        return e.accessories.includes("Sunscoop");
+    }
+    openHangar(userData, true, callback).then(ship => {
+        dispatchShip(ship, "sun", userData);
+    }, _ => { });
+}
+
+function moveMothership(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
+    currentSystem.objects.player.targetX = cursorX;
+    currentSystem.objects.player.targetY = cursorY;
+
+    activeScreen = "";
+    updateVisibleDivs();
+}
+
+document.body.addEventListener("click", e => {
+    if (activeScreen !== "scriptPlayer") {
+        //Did we click outside the system map?
+        let clickedOutside = true;
+        let node = e.target;
+        while (node) {
+            if (node.id === "systemMap" || node.id === "encounterInfo") {
+                clickedOutside = false;
+                break;
+            }
+            node = node.parentNode;
+        }
+        if (clickedOutside) {
+            activeScreen = "";
+            updateVisibleDivs();
+        }
+    }
+});
+
+function launchMissile(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
+    if (currentMultiverse.missiles > 0) {
+        currentMultiverse.missiles--;
+        let key = Math.floor(Math.random() * 10000);
+        while (key in currentSystem.objects) {
+            key = Math.floor(Math.random() * 10000);
+        }
+        currentSystem.objects[key] = {
+            type: "missile",
+            posX: currentSystem.objects.player.posX,
+            posY: currentSystem.objects.player.posY,
+            targetObjectId: selected,
+            damage: 10
+        }
+    }
+    document.getElementById("missileCount").textContent = currentMultiverse.missiles;
+}
+
+async function goToHostile(userData) {
+    openHangar(userData, true).then(ship => {
+        dispatchShip(ship, selected, userData);
+    });
+}
+
+function moveTowards(ship, target, speed) {
+    const shipX = ship.posX;
+    const shipY = ship.posY;
+    const targetX = target.posX;
+    const targetY = target.posY;
+    const deltaX = shipX - targetX;
+    const deltaY = shipY - targetY;
+    const theta = deltaX != 0 ? Math.atan(deltaY / deltaX) : 0;
+    const changeX = Math.abs(speed * Math.cos(theta) * 0.4);
+    const changeY = Math.abs(speed * Math.sin(theta) * 0.4);
+    if (shipX > targetX) {
+        ship.posX -= changeX;
+    } else {
+        ship.posX += changeX;
+    }
+    if (shipY > targetY) {
+        ship.posY -= changeY;
+    } else {
+        ship.posY += changeY;
+    }
+}
+async function updateSolarSystemPositions(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
+    if (currentMultiverse.allowSolarSystemUpdates) {
+        for (const id in currentSystem.objects) {
+            const thing = currentSystem.objects[id];
+            if (thing.type === "planet") {
+                thing.theta += planetVelocity / (2 * Math.PI * thing.orbitalRadius);
+                thing.posX = Math.cos(thing.theta) * thing.orbitalRadius + 375;
+                thing.posY = Math.sin(thing.theta) * thing.orbitalRadius + 375;
+                if (thing.theta >= 2 * Math.PI) thing.theta -= 2 * Math.PI;
+            }
+        }
+        for (const ship of currentMultiverse.ships) {
+            if (ship.inSolarSystem && ship.targetObjectId) {
+                if (ship.targetObjectId === "sun") {
+                    moveTowards(ship, {
+                        posX: 375,
+                        posY: 375
+                    }, ship.baseStats.baseSpeed * 0.5);
+                    const distanceToTarget = getDistanceTo(ship, {
+                        posX: 375,
+                        posY: 375
+                    });
+
+                    if (distanceToTarget < 20) {
+                        const energyGained = Math.ceil(Math.random() * 5000) + 5000;
+                        if (ship.cargo.energy) {
+                            ship.cargo.energy += energyGained;
+                        } else {
+                            ship.cargo.energy = energyGained;
+                        }
+                        removeFromArray(ship.accessories, "Sunscoop");
+                    }
+
+                } else {
+                    let target = currentSystem.objects[ship.targetObjectId];
+
+                    if (!target) {
+                        target = currentSystem.objects.player;
+                        ship.targetObjectId = "player";
+                    }
+
+                    moveTowards(ship, target, ship.baseStats.baseSpeed * 0.5);
+                    const deltaX = ship.posX - target.posX;
+                    const deltaY = ship.posY - target.posY;
+                    const distToTarget = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                    if (distToTarget < 10) {
+                        if (currentSystem.objects[ship.targetObjectId].type !== "hostile") {
+                            if (ship.targetObjectId !== "player") {
+                                activeScreen = "scriptPlayer";
+                                currentMultiverse.allowSolarSystemUpdates = false;
+                                arriveAtTarget(ship, userData).then(res => {
+                                    activeScreen = "";
+                                    currentMultiverse.allowSolarSystemUpdates = true;
+                                });
+                            } else {
+                                arriveAtTarget(ship, userData);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        let hostileCount = 0;
+        for (const object in currentSystem.objects) {
+            const thing = currentSystem.objects[object];
+            if (thing.type == "hostile") {
+                const hostileX = thing.posX;
+                const hostileY = thing.posY;
+                hostileCount++;
+                let closestShip;
+                let closestShipIndex;
+                let closestDistance = 9999;
+                for (const i in currentMultiverse.ships) {
+                    const ship = currentMultiverse.ships[i];
+                    if (ship.inSolarSystem) {
+                        const distToShip = getDistanceTo(thing, ship);
+                        if (distToShip < closestDistance) {
+                            closestShip = ship;
+                            closestShipIndex = i;
+                            closestDistance = distToShip;
+                        }
+                    }
+                }
+                if (closestShip && closestDistance < 50) {
+                    moveTowards(thing, closestShip, thing.baseStats.baseSpeed * 0.2);
+                    if (closestDistance < 10) {
+                        addNavigationAttention("Map", "pageMap");
+                        notify(`Your ${closestShip.class} is under attack!`);
+                        const combatOutcome = await initCombat(closestShip, thing, userData);
+                        currentMultiverse.allowSolarSystemUpdates = true;
+                        if (combatOutcome) { //if the player won
+                            delete currentSystem.objects[object];
+                        } else {
+                            currentMultiverse.ships.splice(closestShipIndex, 1);
+                        }
+                        updateSolarSystem(userData);
+                    }
+                } else { //Move between random points in the solar system if we have no ship to target
+                    const targetX = thing.targetX;
+                    const targetY = thing.targetY;
+                    moveTowards(thing, {
+                        posX: targetX,
+                        posY: targetY
+                    }, thing.baseStats.baseSpeed * 0.2);
+
+                    const distanceToTarget = Math.sqrt(Math.pow(hostileX - targetX, 2) + Math.pow(hostileY - targetY, 2));
+                    if (distanceToTarget < 10) {
+                        thing.targetX = Math.random() * 750;
+                        thing.targetY = Math.random() * 750;
+                    }
+                }
+            } else if (thing.type === "missile") {
+                let target = currentSystem.objects[thing.targetObjectId];
+                if (!target) {
+                    target = currentSystem.objects.player;
+                    thing.targetObjectId = "player";
+                }
+                moveTowards(thing, currentSystem.objects[thing.targetObjectId], 10);
+                const distance = getDistanceTo(thing, target);
+                if (distance < 10) {
+                    if (thing.targetObjectId === "player") {
+                        currentMultiverse.missiles++;
+                        document.getElementById("missileCount").textContent = currentMultiverse.missiles;
+                        delete currentSystem.objects[object];
+                    } else {
+                        target.currentHealth -= target.damage;
+                        if (target.currentHealth < 0) {
+                            delete currentSystem.objects[thing.targetObjectId];
+                            notify(`A missile detonated and destroyed an enemy.`);
+                        } else {
+                            notify(`A missile detonated and dealt 10 damage to an enemy (their hull: ${target.currentHealth}).`);
+                        }
+                        delete currentSystem.objects[object];
+                    }
+
+                }
+            } else if (thing.type === "player") {
+                if ("targetX" in thing && "targetY" in thing) {
+                    if (currentMultiverse.energy > 0) {
+                        const energyUsed = Math.min(currentMultiverse.energy, currentMultiverse.mothershipCurrentThrust);
+                        moveTowards(thing, {
+                            posX: thing.targetX,
+                            posY: thing.targetY
+                        }, energyUsed * 0.5);
+                        if (getDistanceTo(thing, {
+                            posX: thing.targetX,
+                            posY: thing.targetY
+                        }) < 10) {
+                            delete thing.targetX;
+                            delete thing.targetY;
+                        }
+                        currentMultiverse.energy -= energyUsed;
+                    }
+                }
+
+                const distanceToSun = getDistanceTo(thing, { posX: 375, posY: 375 });
+                if (distanceToSun < 50 && !currentMultiverse.eventsDone.includes("unlockSunscoop")) {
+                    addNavigationAttention("Research", "pageResearch");
+                    notifyUnique("unlockSunscoop");
+                    currentMultiverse.researchUnlocked.push("Sunscoop");
+                    updateResearchButtons(userData);
+                    currentMultiverse.eventsDone.push("unlockSunscoop");
+                }
+            }
+        }
+        if (hostileCount < 3) {
+            currentSystem.timeUntilHostileSpawn--;
+            if (currentSystem.timeUntilHostileSpawn === 0) {
+                currentSystem.timeUntilHostileSpawn = Math.random() * 1500 + 500;
+                let key = Math.floor(Math.random() * 10000);
+                while (key in currentSystem.objects) {
+                    key = Math.floor(Math.random() * 10000);
+                }
+                currentSystem.objects[key] = newHostile(userData);
+            }
+        }
+    }
+}
+function getDistanceTo(obj1, obj2) {
+    return Math.sqrt(Math.pow(obj1.posX - obj2.posX, 2) + Math.pow(obj1.posY - obj2.posY, 2));
+}
+const statMappings = {
+    baseAttack: "Attack",
+    baseHealth: "Hull",
+    baseShield: "Shield",
+    baseSpeed: "Speed"
+}
+
+async function initCombat(ship, enemy, userData) {
+    return new Promise(res => {
+        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+        currentMultiverse.allowSolarSystemUpdates = false;
+        activeScreen = "attacked";
+        updateVisibleDivs();
+        for (const stat in ship.baseStats) {
+            const newLi = document.createElement("li");
+            newLi.classList.add("center");
+            newLi.textContent = `${statMappings[stat]}: ${ship.baseStats[stat]}`;
+            document.getElementById("attackedYourStats").appendChild(newLi);
+        }
+        for (const stat in enemy.baseStats) {
+            const newLi = document.createElement("li");
+            newLi.classList.add("center");
+            newLi.textContent = `${statMappings[stat]}: ${enemy.baseStats[stat]}`;
+            document.getElementById("attackedEnemyStats").appendChild(newLi);
+        }
+
+        const combatButton = document.createElement("button");
+        combatButton.textContent = "Combat";
+        document.getElementById("attacked").appendChild(combatButton);
+
+        combatButton.addEventListener("click", _ => {
+            combatButton.remove();
+            document.getElementById("attackedYourStats").innerHTML = "";
+            document.getElementById("attackedEnemyStats").innerHTML = "";
+            activeScreen = "";
+            updateVisibleDivs();
+            res(combat(ship, enemy));
+        });
+    })
+}
+function newHostile(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
+    const playerX = currentSystem.objects.player.posX;
+    const playerY = currentSystem.objects.player.posY;
+    return {
+        type: "hostile",
+        currentHealth: 5,
+        baseStats: {
+            baseHealth: 5,
+            baseAttack: 1,
+            baseShield: 3,
+            baseSpeed: 10
+        },
+        posX: playerX - 100 + Math.random() * 200,
+        posY: playerY - 100 + Math.random() * 200,
+        targetX: playerX,
+        targetY: playerY,
+    }
+}
+
+async function dispatchShipEvent(userData) {
+    openHangar(userData, true).then(ship => {
+        dispatchShip(ship, selected, userData);
+    }, _ => { });
+}
+function drawNewElement(x, y) {
+    const newDiv = document.createElement("div");
+    newDiv.style.left = `${x}px`;
+    newDiv.style.top = `${y}px`;
+    document.getElementById("systemMap").appendChild(newDiv);
+    return newDiv;
+}
+export { updateSolarSystem, dispatchShipEvent, updateSolarSystemPositions, goToHostile, launchMissile, moveMothership, sendShipToSun };

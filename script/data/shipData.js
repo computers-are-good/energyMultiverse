@@ -1,0 +1,92 @@
+const shipClasses = {
+    "Scout": {
+        baseStats: {
+            baseHealth: 10,
+            baseAttack: 1,
+            baseShield: 5,
+            baseSpeed: 10,
+        },
+        description: "A basic ship for scouting out the area.",
+        accessorySlots: 1,
+        baseCost: {
+            dust: 1
+        },
+        energyCost: 10
+    },
+    "Fighter": {
+        baseStats: {
+            baseHealth: 30,
+            baseAttack: 10,
+            baseShield: 5,
+            baseSpeed: 5
+        },
+        accessorySlots: 2,
+        description: "A small and nimble ship.",
+        baseCost: {
+            dust: 30
+        },
+        energyCost: 1000
+    },
+    "Blackbird": {
+        baseStats: {
+            baseHealth: 60,
+            baseAttack: 3,
+            baseShield: 10,
+            baseSpeed: 4
+        },
+        description: "Tired of losing your ships? The blackbird is built to be durable!",
+        accessorySlots: 1,
+        baseCost: {
+            dust: 50
+        },
+        energyCost: 2500
+    }, "Titan": {
+        baseStats: {
+            baseHealth: 150,
+            baseAttack: 10,
+            baseShield: 50,
+            baseSpeed: 1
+        },
+        description: "He big.",
+        accessorySlots: 5,
+        baseCost: {
+            dust: 150
+        },
+        energyCost: 5000
+    }
+}
+
+const shipAccessories = {
+    "Basic shield": {
+        description: "Increases a ship's base shield by 3.",
+        baseCost: {
+            dust: 15
+        },
+        energyCost: 300,
+        accessorySlots: 1,
+        onComplete: function (userData, shipObject) {
+            shipObject.baseStats.baseShield += 3;
+        }
+    },
+    "Reinforcement Plates": {
+        description: "Increases a ship's base hull by 10.",
+        baseCost: {
+            dust: 30
+        },
+        accessorySlots: 1,
+        onComplete: function (userData, shipObject) {
+            shipObject.baseStats.baseHealth += 10;
+        },
+        energyCost: 500
+    },
+    "Sunscoop": {
+        description: "Equip this on a ship to scoop vast amount of energy from the sun! Once this accessory is used once, it is destroyed.",
+        baseCost: {
+            dust: 15
+        },
+        energyCost: 100
+    }
+
+}
+
+export { shipClasses, shipAccessories }

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing</title>
+    <script src="./script/main.js" type="module"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geo:ital@0;1&display=swap" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <main>
+        <div id="descriptionBox" class="side">
+            <p id="description"></p>
+            <p id="cost"></p>
+            <p id="upgradePreview"></p>
+        </div>
+        <div id="pageSelector">
+            <ul>
+                <li id="pageEnergy">Energy</li>
+                <li id="pageResearch">Research</li>
+                <li id="pageUpgrades">Upgrades</li>
+                <li id="pageShipyard">Shipyard</li>
+                <li id="pageMap">Map</li>
+            </ul>
+        </div>
+        <div id="droneView">
+            <h2>Your drones</h2>
+            <button id="viewDronesBack">←</button>
+            <div id="dronesDisplay"></div>
+        </div>
+        <div id="dustbotView">
+            <h2>Dustbot</h2>
+            <button id="viewDustbotBack">←</button>
+            <button id="buildDustbot">Build Dustbot</button>
+            <div id="dustbotDiv">
+                <div id="dustbotSliderContainer" class="flexCenter">
+                    <p>Dustbot speed:</p>
+                    <input id="dustbotSlider" type="range" min="0" max="100" step="1">
+                </div>
+                <p id="dustbotSliderInfo">Dustbot will make dust once every <span id="dustbotSliderSeconds"></span>s (next dust in <span id="dustbotNextDust"></span>s)</p>
+                <p id="dustbotInactive">Dustbot is inactive</p>
+            </div>
+        </div>
+        <div id="Energy">
+            <h2 id="energyTitle">Energy</h2>
+            <div id="bigEnergy">
+                <div id="energyClicker"></div>
+            </div>
+            <div id="dusts">
+                <button id="dust">Make Dust</button>
+                <button id="dustBot">→</button>
+            </div>
+            <div id="metals">
+                <button id="metal">Make Metal</button>
+            </div>
+            <div id="drones">
+                <button id="drone">Make drone</button>
+                <button id="viewDrones">→</button>
+            </div>
+        </div>
+        <div id="Shipyard">
+            <h2>Shipyard</h2>
+            <div id="chooseShipToBuild">
+                <p>Select a class:</p>
+                <div id="chooseShipClass" class="flexCenter list"></div>
+                <p id="selectAccessoriesText">Select accessories (<span id="accessoriesCostUsed"></span>/<span id="accessoriesCostTotal"></span>):</p>
+                <div id="chooseShipAccessories" class="flexCenter list"></div>
+
+                <p id="totalEnergyCost">Energy cost: <span id="totalEnergyCostSpan"></span></p>
+                <button id="buildShip">Build ship</button>
+            </div>
+            <div id="buildShipDiv">
+                <p>Building ship...</p>
+                <div id="buildingShipBar" class="progressBarDiv">
+                    <button id="decreaseBuildingRate">-</button>
+                    <div id="buildingBarBackground" class="progressBarBackground">
+                        <div id="buildingBarForeground" class="progressBarForeground"></div>
+                    </div>
+                    <button id="increaseBuildingRate">+</button>
+                </div>
+                <p>Using <span id="shipBuildingEnergyUsed"></span> energy every second.</p>
+            </div>
+            <div id="Manufactory">
+                <h2>Manufactory</h2>
+                <button id="makeMissile">Missile</button>
+            </div>
+            <button id="hangar">Hangar</button>
+        </div>
+        <div id="playerShips">
+            <h2>Your ships</h2>
+            <div id="playerShipsDisplay"class="flexCenter list"></div>
+            <button id="closeHangar">←</button>
+            <button id="cancelShipDispatch">Cancel</button>
+            <button id="submitShipSelection">Select ship</button>
+        </div>
+        <div id="Upgrades">
+            <h2>Upgrades</h2>
+        </div>
+        <div id="Research">
+            <h2>Research</h2>
+            <p id="researchPointsParagraph">Research points: <span id="researchPointCount"></span></p>
+            <p id="usingEnergyInfo"></p>
+            <div id="researchBar" class="progressBarDiv">
+                <button id="decreaseResearchRate">-</button>
+                <div id="researchBarBackground" class="progressBarBackground">
+                    <div id="researchBarForeground" class="progressBarForeground"></div>
+                </div>
+                <button id="increaseResearchRate">+</button>
+            </div>
+            <div id="researchInfo">
+                <p>Research rate: <span id="researchRateDisplay"></span> energy / <span id="ticksPerResearchAdvancementDisplay"></span></p>
+            </div>
+            <div id="researchButtons"></div>
+        </div>
+        <div id="Map">
+            <h2>System map</h2>
+            <div class="flexCenter">
+                <div id="systemMap"></div>
+                <div id="mapSide">
+                    <div id="encounterInfo">
+                        <div id="planetInfo" class="sidebarScreen">
+                            <p id="planetName"></p>
+                            <button id="Dispatch">Dispatch</button>
+                        </div>
+                        <div id="hostileInfo" class="sidebarScreen">
+                            <h2>Hostile</h2>
+                            <button id="hostileAttack">Attack</button>
+                            <p>Missiles: <span id="missileCount"></span></p>
+                            <button id="launchMissile">Launch Missile</button>
+                        </div>
+                        <div id="spaceInfo" class="sidebarScreen">
+                            <p>Point (<span id="pointX"></span>, <span id="pointY"></span>)</p>
+                        </div>
+                        <div id="scriptPlayer" class="sidebarScreen">
+                            <h2>Event</h2>
+                            <p id="eventText"></p>
+                            <div id="eventChoices"></div>
+                        </div>
+                        <div id="attacked" class="sidebarScreen">
+                            <h2>You've been attacked!</h2>
+                            <div id="yourShip">
+                                <p>Your ship</p>
+                                <ul id="attackedYourStats"></ul>
+                            </div>
+                            <div id="enemyShip">
+                                <p>Enemy ship</p>
+                                <ul id="attackedEnemyStats"></ul>
+                            </div>
+                        </div>
+                        <div id="emptySpaceInfo" class="sidebarScreen">
+                            <h2>Space</h2>
+                            <div id="spaceCoords">
+                                <p>X: <span id="spaceCoordsX"></span></p>
+                                <p>Y: <span id="spaceCoordsY"></span></p>
+                                <button id="moveMothership">Move here</button>
+                            </div>
+                        </div>
+                        <div id="sunInfo" class="sidebarScreen">
+                            <h2>The <span id="solarSystemName"> system</h2>
+                            <button id="dispatchToSun">Dispatch</button>
+                        </div>
+                    </div>
+                    <div id="thrusterSettings">
+                        <p>Thrust</p>
+                        <div id="thrustAdjust">
+                            <button id="decreaseShipThrust">-</button>
+                            <p>Using <span id="thrustSpeed"></span> energy a second</p>
+                            <button id="increaseShipThrust">+</button>
+                        </div>
+                        <button id="galaxyView">Galaxy Map</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="combat">
+            <h2>To arms!</h2>
+            <div id="combatMain" class="flexCenter">
+                <div id="player">
+                    <p>You</p>
+                    <p>Hull: <span id="playerHull"></span></p>
+                    <p>Shield: <span id="playerShield"></span></p>
+                    <p>Attack: <span id="playerAttack"></span></p>
+                    <div id="actionButtons"></div>
+                </div>
+                <div id="combatLog"></div>
+                <div id="enemy">
+                    <p>Enemy</p>
+                    <p>Hull: <span id="enemyHull"></span></p>
+                    <p>Shield: <span id="enemyShield"></span></p>
+                    <p>Attack: <span id="enemyAttack"></span></p>
+                </div>
+            </div>
+            <div id="combatVisualisation"></div>
+        </div>
+        <div id="galaxyMap">
+
+        </div>
+    </main>
+    <div id="sidecontent">
+        <div id="sidebar" class="side">
+            <h3>Resources</h3>
+            <ul>
+                <li id="energyCounter">Energy: <span id="energyAmount"></span>
+                <li id="dustCounter">Dust: <span id="dustAmount"></span></li>
+                <li id="metalCounter">Metal: <span id="metalAmount"></span></li>
+            </ul>
+        </div>
+        <div id="notificationsWrapper" class="side">
+            <h3>Notifications</h3>
+            <div id="notifications"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>

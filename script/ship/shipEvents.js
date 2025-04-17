@@ -1,0 +1,61 @@
+import { shipAccessories } from "../data/shipData.js";
+import notify from "../notifs/notify.js";
+import { updateEnergyCounter, updateShipConstruction, updateShipConstructionBar } from "../pageUpdates.js";
+import { addNavigationAttention } from "../toggleUIElement.js";
+
+function buildShip(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    const currentShip = currentMultiverse.shipInProgress;
+    if (Object.keys(currentShip).length > 0) {
+        const progress = Math.min(currentMultiverse.currentShipBuildingRate, currentMultiverse.energy);
+        currentMultiverse.energy -= progress;
+        currentShip.energySpent += progress;
+    
+        if (currentShip.energySpent >= currentShip.energyCostTotal) {
+            const shipInfo = currentShip.shipInfo;
+            addNavigationAttention("Shipyard", "pageShipyard");
+            notify(`Your ${shipInfo.class} has finished construction.`);
+            shipInfo.currentHealth = shipInfo.baseStats.baseHealth;
+            shipInfo.posX = 0;
+            shipInfo.poxY = 0;
+            shipInfo.inSolarSystem = false;
+            shipInfo.isBusy = false;
+            shipInfo.targetObjectId = 0;
+            shipInfo.cargo = {};
+            currentMultiverse.ships.push(shipInfo);
+            currentMultiverse.shipInProgress = {};
+            const accessories = currentShip.shipInfo.accessories;
+            accessories.forEach(e => {
+                if (shipAccessories[e].onComplete) {
+                    shipAccessories[e].onComplete(userData, currentShip.shipInfo);
+                }
+            });
+
+            notify(`Finsihed building ${currentShip.shipInfo.class}.`);
+            updateShipConstruction(userData);
+        }
+        updateShipConstructionBar(userData);
+        updateEnergyCounter(userData);
+    }
+}
+
+function increaseBuildRate(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    if (currentMultiverse.currentShipBuildingRate < currentMultiverse.maxShipBuildingRate) {
+        currentMultiverse.currentShipBuildingRate++;
+    }
+    updateShipConstructionBar(userData);
+}
+function decreaseBuildRate(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    if (currentMultiverse.currentShipBuildingRate > 0) {
+        currentMultiverse.currentShipBuildingRate--;
+    }
+    updateShipConstructionBar(userData);
+}
+
+export {
+    buildShip,
+    increaseBuildRate,
+    decreaseBuildRate
+}
