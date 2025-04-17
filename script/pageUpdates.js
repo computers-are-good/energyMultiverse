@@ -18,6 +18,13 @@ function updateResearchPoints(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     document.getElementById("researchPointCount").textContent = currentMultiverse.researchPoints;
 }
+function updateIridiumCounter(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    document.getElementById("iridiumAmount").textContent = currentMultiverse.iridium;
+    if (currentMultiverse.iridium === 0) {
+        document.getElementById("iridiumCounter").style.display = "none";
+    }
+}
 function updateResearchBar(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const width = 750 * (currentMultiverse.progressUntilResearchPoint / currentMultiverse.energyUntilResearchPoint);
@@ -102,5 +109,6 @@ export {
     updateDustbot,
     updateShipConstruction,
     updateShipConstructionBar,
-    updateMetalCounter
+    updateMetalCounter,
+    updateIridiumCounter
 }

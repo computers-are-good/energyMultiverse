@@ -30,7 +30,6 @@ function buildShip(userData) {
                     shipAccessories[e].onComplete(userData, currentShip.shipInfo);
                 }
             });
-
             notify(`Finsihed building ${currentShip.shipInfo.class}.`);
             updateShipConstruction(userData);
         }

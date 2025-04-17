@@ -41,6 +41,17 @@ const research = {
         description: "Learn to build sunscoops to harvest energy from a star",
         complete: function(userData) {
             userData.multiverses[userData.currentMultiverse].shipAccessoriesUnlocked.push("Sunscoop");
+            unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "dispatchToSun");   
+        }
+    },
+    "repairKit": {
+        cost: {
+            points: 10
+        },
+        name: "Repair kits",
+        description: "Tired of your ships never being at full hull? Learn how to repair them!",
+        complete: function (userData) {
+            unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "makeRepairKit");
         }
     }
 }

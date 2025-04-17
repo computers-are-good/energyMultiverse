@@ -1,5 +1,6 @@
 import { addDescriptionEvent, changeDescriptionText, manualDescriptionUpdate } from "../addUIDescriptions.js";
 import { shipClasses, shipAccessories } from "../data/shipData.js";
+import notify from "../notifs/notify.js";
 import { updateEnergyCounter, updateShipConstruction } from "../pageUpdates.js";
 import { deepClone } from "../utils.js";
 
@@ -15,6 +16,9 @@ const statMappings = {
     baseAttack: "Attack",
     baseShield: "Shield",
     baseSpeed: "Speed"
+}
+let totalShipCost = {
+    dust: 0
 }
 function drawBuildShipsDiv(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -126,12 +130,10 @@ function drawBuildShipsDiv(userData) {
         document.getElementById("chooseShipAccessories").appendChild(newDiv);
     }
 }
-let totalShipCost = {
-    dust: 0
-}
 function calculateShipCost() {
     totalShipCost = {
-        dust: 0
+        dust: 0,
+        metal: 0
     }
     for (let cost in shipClasses[selectedShipType].baseCost) {
         totalShipCost[cost] += shipClasses[selectedShipType].baseCost[cost];
@@ -171,11 +173,16 @@ function buildShip(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
     if (!selectedShipType) return;
+    if (currentMultiverse.ships.length >= currentMultiverse.maxHangarShips) {
+        notify("You have reached the maximum number of ships in your hangar.");
+        return;
+    }
     calculateShipCost();
     const shipObj = {
         shipInfo: {
             class: selectedShipType,
             baseStats: deepClone(shipClasses[selectedShipType].baseStats),
+            cost: deepClone(totalShipCost),
             accessories: []
         },
         energyCostTotal: totalEnergyCost,

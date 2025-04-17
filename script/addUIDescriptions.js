@@ -24,11 +24,19 @@ const mouseoverDescriptions = {
         content: "Start building your ship. You will pay the material costs, but the energy costs are paid as you go."
     },
     "makeMissile": {
-        content: "A missile will deal 10 damage to any enemy ship's hull."
+        content: "A missile will deal 10 damage to any enemy ship's hull.",
+        cost: "50 energy 5 metal"
     },
     "metal": {
         content: "Make somthing better and more usable from dust.",
         cost: "30 energy, 5 dust"
+    },
+    "makeRepairKit": {
+        content: "Repairs 15% of a ship's hull.",
+        cost: "3 metal"
+    },
+    "dispatchToSun": {
+        content: "Sends a ship to harvest energy from the star. The ship must have a sunscoop. The sunscoop will be destroyed."
     }
 }
 let currentDescription = "";

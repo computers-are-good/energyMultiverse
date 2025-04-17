@@ -9,9 +9,10 @@ const shipClasses = {
         description: "A basic ship for scouting out the area.",
         accessorySlots: 1,
         baseCost: {
-            dust: 1
+            dust: 10,
+            metal: 1
         },
-        energyCost: 10
+        energyCost: 500
     },
     "Fighter": {
         baseStats: {
@@ -23,7 +24,8 @@ const shipClasses = {
         accessorySlots: 2,
         description: "A small and nimble ship.",
         baseCost: {
-            dust: 30
+            dust: 30,
+            metal: 5
         },
         energyCost: 1000
     },
@@ -37,7 +39,8 @@ const shipClasses = {
         description: "Tired of losing your ships? The blackbird is built to be durable!",
         accessorySlots: 1,
         baseCost: {
-            dust: 50
+            dust: 50,
+            metal: 15
         },
         energyCost: 2500
     }, "Titan": {
@@ -50,7 +53,8 @@ const shipClasses = {
         description: "He big.",
         accessorySlots: 5,
         baseCost: {
-            dust: 150
+            dust: 150,
+            metal: 50
         },
         energyCost: 5000
     }
@@ -76,6 +80,7 @@ const shipAccessories = {
         accessorySlots: 1,
         onComplete: function (userData, shipObject) {
             shipObject.baseStats.baseHealth += 10;
+            shipObject.currentHealth += 10;
         },
         energyCost: 500
     },

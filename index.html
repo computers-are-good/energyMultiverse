@@ -85,15 +85,18 @@
                 </div>
                 <p>Using <span id="shipBuildingEnergyUsed"></span> energy every second.</p>
             </div>
+            <h2>Manufactory</h2>
             <div id="Manufactory">
-                <h2>Manufactory</h2>
                 <button id="makeMissile">Missile</button>
+                <button id="makeRepairKit">Repair kit</button>
             </div>
             <button id="hangar">Hangar</button>
         </div>
         <div id="playerShips">
             <h2>Your ships</h2>
             <div id="playerShipsDisplay"class="flexCenter list"></div>
+            <p>Repair kits: <span id="repairKitCount"></span></p>
+            <p>Capacity: <span id="hangarCapacityUsed"></span> / <span id="hangarCapacityTotal"></span></p>
             <button id="closeHangar">←</button>
             <button id="cancelShipDispatch">Cancel</button>
             <button id="submitShipSelection">Select ship</button>
@@ -198,6 +201,7 @@
             <div id="combatVisualisation"></div>
         </div>
         <div id="galaxyMap">
+            <button id="galaxyMapBack">←</button>
 
         </div>
     </main>
@@ -208,6 +212,7 @@
                 <li id="energyCounter">Energy: <span id="energyAmount"></span>
                 <li id="dustCounter">Dust: <span id="dustAmount"></span></li>
                 <li id="metalCounter">Metal: <span id="metalAmount"></span></li>
+                <li id="iridiumCounter">Iridium: <span id="iridiumAmount"></span></li>
             </ul>
         </div>
         <div id="notificationsWrapper" class="side">

@@ -9,7 +9,9 @@ const hideableIDs = [
     "drones",
     "energyTitle",
     "dustbotDiv",
-    "dustBot"
+    "dustBot",
+    "makeRepairKit",
+    "dispatchToSun"
 ];
 const screens = [
     "Energy",

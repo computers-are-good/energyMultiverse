@@ -4,7 +4,7 @@ import {hideLockedElements, toggleScreen} from "../toggleUIElement.js";
 import {spawnDrone, animateDrones} from "../drone/drones.js";
 import tick from "../interval/tick.js"
 import {addUIDescriptions, mouseoverDescriptions, removeDescription} from "../addUIDescriptions.js";
-import { updateEnergyCounter, updateDustCounter, updateResearchPoints, updateResearchRate, updateResearchBar, updateResearchButtons, updateDustbot, updateShipConstruction, updateShipConstructionBar, updateMetalCounter } from "../pageUpdates.js";
+import { updateEnergyCounter, updateDustCounter, updateResearchPoints, updateResearchRate, updateResearchBar, updateResearchButtons, updateDustbot, updateShipConstruction, updateShipConstructionBar, updateMetalCounter, updateIridiumCounter } from "../pageUpdates.js";
 import { droneClicker, droneCost, drawDronesDivs} from "../drone/droneClicker.js";
 import { decreaseResearchRate, increaseResearchRate, showResearchProgress } from "../research/researchClicker.js";
 import notifyUnique from "../notifs/notifyUnique.js";
@@ -15,9 +15,11 @@ import { buildShip, drawBuildShipsDiv, showShipbuildingProgress } from "../ship/
 import { decreaseBuildRate, increaseBuildRate } from "../ship/shipEvents.js";
 import { closeHangar, openHangar } from "../ship/hangar.js";
 import { dispatchShipEvent, goToHostile, launchMissile, moveMothership, sendShipToSun } from "../map/solarSystem.js";
-import makeMissile from "./makeMissile.js";
+import {makeMissile, makeRepairKit} from "../ship/manufactory.js";
 import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "../map/thrust.js";
 import metalClicker from "../resources/metal.js";
+import addCheats from "../cheats.js";
+import { closeGalaxyView, galaxyView } from "../map/galaxyView.js";
 
 async function pageLoad(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -30,13 +32,14 @@ async function pageLoad(userData) {
 
     mouseoverDescriptions.drone.cost = `${droneCost(currentMultiverse.drones.length)} dust`;
 
-    toggleScreen("Map");
+    toggleScreen(currentMultiverse.lastScreen || "Energy");
 
     document.getElementById("drone").addEventListener("mousedown", _ => droneClicker(userData));
     document.getElementById("dust").addEventListener("mousedown", _ => dustClicker(userData));
     document.getElementById("energyClicker").addEventListener("mouseup", _ => energyClicker(userData));
     document.querySelectorAll("#pageSelector li").forEach(e => e.addEventListener("click", _ => {
         e.classList.remove("navigationAttention");
+        currentMultiverse.lastScreen = e.textContent;
         toggleScreen(e.textContent);
     }));
     document.getElementById("viewDrones").addEventListener("mousedown", _ => {
@@ -69,7 +72,11 @@ async function pageLoad(userData) {
     document.getElementById("moveMothership").addEventListener("click", _ => moveMothership(userData));
     document.getElementById("dispatchToSun").addEventListener("click", _ => sendShipToSun(userData));
     document.getElementById("metal").addEventListener("click", _ => metalClicker(userData));
-
+    document.getElementById("makeRepairKit").addEventListener("click", _ => makeRepairKit(userData));
+    document.getElementById("galaxyMapBack").addEventListener("click", closeGalaxyView);
+    document.getElementById("galaxyView").addEventListener("click", _ => galaxyView(userData));
+    
+    addCheats(userData);
     addUIDescriptions();
     updateResearchRate(userData);
     updateResearchBar(userData);
@@ -80,6 +87,7 @@ async function pageLoad(userData) {
     updateShipThrust(userData);
     updateShipConstructionBar(userData);
     updateResearchPoints(userData);
+    updateIridiumCounter(userData);
     updateEnergyCounter(userData);
     updateDustCounter(userData);
     updateResearchButtons(userData);
