@@ -19,7 +19,7 @@ import {makeMissile, makeRepairKit} from "../ship/manufactory.js";
 import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "../map/thrust.js";
 import metalClicker from "../resources/metal.js";
 import addCheats from "../cheats.js";
-import { closeGalaxyView, galaxyView } from "../map/galaxyView.js";
+import { closeGalaxyView, galaxyView, jumpButtonClicked } from "../map/galaxyView.js";
 import generateAllSystems from "../map/newSolarSystem.js";
 
 async function pageLoad(userData) {
@@ -79,6 +79,7 @@ async function pageLoad(userData) {
     document.getElementById("galaxyView").addEventListener("click", _ => galaxyView(userData));
     document.getElementById("recallShip").addEventListener("click", recallButton);
     document.getElementById("dispatchToDebris").addEventListener("click", _ => sendShipToDebris(userData));
+    document.getElementById("jumpToSystem").addEventListener("click", _ => jumpButtonClicked(userData));
     
     addCheats(userData);
    /*  currentMultiverse.solarSystems = [];

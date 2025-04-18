@@ -33,7 +33,8 @@ const defaultMultiverseData = {
     statistics: {
         energyClicked: 0,
         dustClicked: 0,
-        metalMade: 0
+        metalMade: 0,
+        totalTicksPassed: 0
     },
     ships: [],
     shipInProgress: {},

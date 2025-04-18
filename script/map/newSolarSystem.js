@@ -22,8 +22,8 @@ function generateAllSystems(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     for (let i = 1; i < 8; i++) {
         for (let j = 1; j < 6; j++) {
-            let x = i * 100 - 100 + Math.floor(Math.random() * 250);
-            let y = j * 100 - 100 + Math.floor(Math.random() * 250);
+            let x = i * 100 - 100 + Math.floor(Math.random() * 200);
+            let y = j * 100 - 100 + Math.floor(Math.random() * 200);
             for (const system of currentMultiverse.solarSystems) {
                 while (Math.abs(system.galaxyX - x) + Math.abs(system.galaxyY - y) < 50) {
                     x = i * 100 - 100 + Math.floor(Math.random() * 250);

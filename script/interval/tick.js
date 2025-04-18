@@ -52,6 +52,7 @@ function tick(userData) {
        updateSolarSystemPositions(userData);
         if (currentScreenDisplayed === "Map") updateSolarSystem(userData);
     }
+    currentMultiverse.statistics.totalTicksPassed++;
 }
 
 export default tick;
