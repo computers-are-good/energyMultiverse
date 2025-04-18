@@ -1,6 +1,8 @@
 import defaultData from "./data/defaultData.js";
 import defaultMultiverseData from "./data/defaultMultiverseData.js";
+import generateAllSystems from "./map/newSolarSystem.js";
 import newSolarSystem from "./map/newSolarSystem.js";
+import notify from "./notifs/notify.js";
 import {choice, deepClone} from "./utils.js";
 
 function addMissingEntries(dataToFix, dataReference) {
@@ -32,10 +34,16 @@ function newMultiverse(userData) {
     const chosenName = choice(multiverseNames);
     const multiverse = deepClone(defaultMultiverseData);
     multiverse.name = chosenName;
-    multiverse.solarSystems.push(newSolarSystem());
+    generateAllSystems(userData);
     userData.multiverses.push(multiverse);
 }
-function storeUserData(data) {
-    window.localStorage.setItem("saveData", JSON.stringify(data));
+function storeUserData(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    if (!currentMultiverse.allowSolarSystemUpdates) {
+        notify("Please resolve event in the solar system before saving.");
+        return;
+    }
+    window.localStorage.setItem("saveData", JSON.stringify(userData));
+    notify("Data saved.");
 }
 export {getUserData, storeUserData}

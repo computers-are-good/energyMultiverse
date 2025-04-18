@@ -328,3 +328,10 @@ button {
     background-color: rgb(23, 22, 22);
     z-index: 100;
 }
+#bigGalaxyMap {
+    background-color: black;
+    width: 1000px;
+    height: 700px;
+    margin: auto;
+    display: block;
+}

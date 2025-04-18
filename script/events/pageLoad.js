@@ -20,6 +20,7 @@ import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "../map
 import metalClicker from "../resources/metal.js";
 import addCheats from "../cheats.js";
 import { closeGalaxyView, galaxyView } from "../map/galaxyView.js";
+import generateAllSystems from "../map/newSolarSystem.js";
 
 async function pageLoad(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -77,6 +78,8 @@ async function pageLoad(userData) {
     document.getElementById("galaxyView").addEventListener("click", _ => galaxyView(userData));
     
     addCheats(userData);
+    currentMultiverse.solarSystems = [];
+    generateAllSystems(userData);
     addUIDescriptions();
     updateResearchRate(userData);
     updateResearchBar(userData);

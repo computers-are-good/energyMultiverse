@@ -7,8 +7,9 @@ import { arriveAtTarget } from "./arriveAtTarget.js";
 import { combat } from "./combat.js";
 import threatLevel from "./threatLevel.js";
 import notifyUnique from "../notifs/notifyUnique.js";
-import { removeFromArray } from "../utils.js";
+import { choice, deepClone, removeFromArray } from "../utils.js";
 import { updateResearchButtons } from "../pageUpdates.js";
+import hostileTiers from "../data/hostileTiers.js";
 const planetVelocity = 8.8;
 let activeScreen = "";
 let cursorX = 0;
@@ -30,6 +31,7 @@ function updateSolarSystem(userData) {
     removeDescription();
     updateVisibleDivs();
     let cumulativeOffsetY = 0;
+    
     if (currentScreenDisplayed === "Map") {
 
         document.getElementById("systemMap").innerHTML = "";
@@ -57,6 +59,7 @@ function updateSolarSystem(userData) {
 
         for (const id in currentSystem.objects) {
             const thing = currentSystem.objects[id];
+
             let posX = 0;
             let posY = 0;
             switch (thing.type) {
@@ -409,14 +412,14 @@ async function updateSolarSystemPositions(userData) {
         }
         if (hostileCount < 3) {
             currentSystem.timeUntilHostileSpawn--;
-            if (currentSystem.timeUntilHostileSpawn === 0) {
-                currentSystem.timeUntilHostileSpawn = Math.random() * 1500 + 500;
+            //if (currentSystem.timeUntilHostileSpawn <= 0) {
+                currentSystem.timeUntilHostileSpawn = Math.random() * 700 + 200;
                 let key = Math.floor(Math.random() * 10000);
                 while (key in currentSystem.objects) {
                     key = Math.floor(Math.random() * 10000);
                 }
                 currentSystem.objects[key] = newHostile(userData);
-            }
+            //}
         }
     }
 }
@@ -468,19 +471,17 @@ function newHostile(userData) {
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
     const playerX = currentSystem.objects.player.posX;
     const playerY = currentSystem.objects.player.posY;
+
+    const selectedHostileStats = choice(hostileTiers[currentSystem.tier]);
+
     return {
         type: "hostile",
-        currentHealth: 5,
-        baseStats: {
-            baseHealth: 5,
-            baseAttack: 1,
-            baseShield: 3,
-            baseSpeed: 10
-        },
+        currentHealth: selectedHostileStats.baseStats.baseHealth,
+        baseStats: deepClone(selectedHostileStats.baseStats),
         posX: playerX - 100 + Math.random() * 200,
         posY: playerY - 100 + Math.random() * 200,
-        targetX: playerX,
-        targetY: playerY,
+        targetX: Math.random() * 750,
+        targetY: Math.random() * 750,
     }
 }
 
