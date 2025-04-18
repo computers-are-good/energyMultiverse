@@ -330,8 +330,18 @@ button {
 }
 #bigGalaxyMap {
     background-color: black;
-    width: 1000px;
+    width: 800px;
     height: 700px;
-    margin: auto;
     display: block;
+}
+#galaxyMapSidebar {
+    margin-left: 12px;
+    height: 700px;
+    border: 1px solid white;
+    width: 300px;
+}
+#cannotJump {
+    display: none;
+    width: 80%;
+    margin: 30px auto;
 }

@@ -11,10 +11,12 @@ import { choice, deepClone, removeFromArray } from "../utils.js";
 import { updateResearchButtons } from "../pageUpdates.js";
 import hostileTiers from "../data/hostileTiers.js";
 const planetVelocity = 8.8;
+
 let activeScreen = "";
 let cursorX = 0;
 let cursorY = 0;
 let selected;
+let shipSelected;
 //I FUCKING HATE CSS SO MUCH
 
 function updateVisibleDivs() {
@@ -31,7 +33,7 @@ function updateSolarSystem(userData) {
     removeDescription();
     updateVisibleDivs();
     let cumulativeOffsetY = 0;
-    
+
     if (currentScreenDisplayed === "Map") {
 
         document.getElementById("systemMap").innerHTML = "";
@@ -50,6 +52,7 @@ function updateSolarSystem(userData) {
                 activeScreen = "sunInfo";
                 updateVisibleDivs();
                 document.getElementById("solarSystemName").textContent = currentSystem.name;
+                document.getElementById("systemTierDisplay").textContent = currentSystem.tier;
             }
         });
 
@@ -73,7 +76,7 @@ function updateSolarSystem(userData) {
                         content: `Planet ${thing.name}`
                     });
 
-                    systemObject.addEventListener("click", _ => {
+                    systemObject.addEventListener("mousedown", _ => {
                         if (activeScreen !== "scriptPlayer") {
                             activeScreen = "planetInfo";
                             selected = id;
@@ -104,7 +107,7 @@ function updateSolarSystem(userData) {
                         content: `Hostile: threat level ${threatLevel(thing)}`
                     });
 
-                    enemy.addEventListener("click", _ => {
+                    enemy.addEventListener("mousedown", _ => {
                         if (activeScreen !== "scriptPlayer") {
                             selected = id;
                             activeScreen = "hostileInfo";
@@ -138,9 +141,24 @@ function updateSolarSystem(userData) {
                 shipDiv.style.borderRadius = "10px";
                 cumulativeOffsetY += 10;
                 shipDiv.style.backgroundColor = "green";
+
+                shipDiv.addEventListener("mousedown", _ => {
+                    if (activeScreen !== "scriptPlayer") {
+                        shipSelected = ship;
+                        activeScreen = "shipInfo";
+                        updateVisibleDivs();
+                        document.getElementById("destinationSpan").textContent = ship.targetObjectId === "player" ? "Mothership" : currentSystem.objects[ship.targetObjectId].name;
+                    }
+                });
             }
         }
     }
+}
+
+function recallButton() {
+    shipSelected.targetObjectId = "player";
+    activeScreen = "";
+    updateVisibleDivs();
 }
 
 document.getElementById("systemMap").addEventListener("click", e => {
@@ -208,7 +226,7 @@ function launchMissile(userData) {
             posX: currentSystem.objects.player.posX,
             posY: currentSystem.objects.player.posY,
             targetObjectId: selected,
-            damage: 10
+            damage: 5
         }
     }
     document.getElementById("missileCount").textContent = currentMultiverse.missiles;
@@ -362,7 +380,7 @@ async function updateSolarSystemPositions(userData) {
                     target = currentSystem.objects.player;
                     thing.targetObjectId = "player";
                 }
-                moveTowards(thing, currentSystem.objects[thing.targetObjectId], 10);
+                moveTowards(thing, currentSystem.objects[thing.targetObjectId], 5);
                 const distance = getDistanceTo(thing, target);
                 if (distance < 10) {
                     if (thing.targetObjectId === "player") {
@@ -370,12 +388,12 @@ async function updateSolarSystemPositions(userData) {
                         document.getElementById("missileCount").textContent = currentMultiverse.missiles;
                         delete currentSystem.objects[object];
                     } else {
-                        target.currentHealth -= target.damage;
+                        target.currentHealth -= thing.damage;
                         if (target.currentHealth < 0) {
                             delete currentSystem.objects[thing.targetObjectId];
                             notify(`A missile detonated and destroyed an enemy.`);
                         } else {
-                            notify(`A missile detonated and dealt 10 damage to an enemy (their hull: ${target.currentHealth}).`);
+                            notify(`A missile detonated and dealt 5 damage to an enemy (their hull: ${target.currentHealth}).`);
                         }
                         delete currentSystem.objects[object];
                     }
@@ -412,20 +430,18 @@ async function updateSolarSystemPositions(userData) {
         }
         if (hostileCount < 3) {
             currentSystem.timeUntilHostileSpawn--;
-            //if (currentSystem.timeUntilHostileSpawn <= 0) {
+           if (currentSystem.timeUntilHostileSpawn <= 0) {
                 currentSystem.timeUntilHostileSpawn = Math.random() * 700 + 200;
                 let key = Math.floor(Math.random() * 10000);
                 while (key in currentSystem.objects) {
                     key = Math.floor(Math.random() * 10000);
                 }
                 currentSystem.objects[key] = newHostile(userData);
-            //}
+            }
         }
     }
 }
-function getDistanceTo(obj1, obj2) {
-    return Math.sqrt(Math.pow(obj1.posX - obj2.posX, 2) + Math.pow(obj1.posY - obj2.posY, 2));
-}
+const getDistanceTo = (obj1, obj2) => Math.sqrt(Math.pow(obj1.posX - obj2.posX, 2) + Math.pow(obj1.posY - obj2.posY, 2));
 const statMappings = {
     baseAttack: "Attack",
     baseHealth: "Hull",
@@ -456,13 +472,14 @@ async function initCombat(ship, enemy, userData) {
         combatButton.textContent = "Combat";
         document.getElementById("attacked").appendChild(combatButton);
 
-        combatButton.addEventListener("click", _ => {
-            combatButton.remove();
+        combatButton.addEventListener("click", async _ => {
             document.getElementById("attackedYourStats").innerHTML = "";
             document.getElementById("attackedEnemyStats").innerHTML = "";
             activeScreen = "";
             updateVisibleDivs();
-            res(combat(ship, enemy));
+            const combatResults = await combat(ship, enemy);
+            res(combatResults);
+            combatButton.remove();
         });
     })
 }
@@ -497,4 +514,13 @@ function drawNewElement(x, y) {
     document.getElementById("systemMap").appendChild(newDiv);
     return newDiv;
 }
-export { updateSolarSystem, dispatchShipEvent, updateSolarSystemPositions, goToHostile, launchMissile, moveMothership, sendShipToSun };
+export {
+    updateSolarSystem,
+    dispatchShipEvent,
+    updateSolarSystemPositions,
+    goToHostile,
+    launchMissile,
+    moveMothership,
+    sendShipToSun,
+    recallButton,
+};

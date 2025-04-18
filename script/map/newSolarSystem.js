@@ -30,17 +30,18 @@ function generateAllSystems(userData) {
                     y = j * 100 - 100 + Math.floor(Math.random() * 250);
                 } 
             }
+            const systemTier = Math.floor((i + j) / 2)
             const solarSystem = {
                 name: choice(starNames),
                 objects: {},
                 starSize: 10,
                 galaxyX: x,
                 galaxyY: y,
-                tier: Math.floor((i + j) / 2),
+                tier: systemTier,
                 timeUntilHostileSpawn: Math.random() * 1500 + 500
             }
             let planetCount = 0;
-            for (let i = 0; i < Math.random() * 4 + 2; i++) {
+            for (let i = 0; i < Math.random() * 2 + systemTier + 1; i++) {
                 let newID = Math.floor(Math.random() * 10000)
                 while (newID in solarSystem.objects) {
                     newID = Math.floor(Math.random() * 10000);
@@ -66,7 +67,7 @@ function newPlanet(planetCount) {
         name: choice(planetNames),
         radius: Math.floor(Math.random() * 5) + 8,
         theta: Math.PI * Math.random(),
-        orbitalRadius: 60 * planetCount + 80
+        orbitalRadius: 40 * planetCount + 80
     }
     planetCount++;
     return newPlanet;

@@ -65,48 +65,50 @@ function openHangar(userData, askForShipSelection, f) {
                 selectedDiv.classList.add("shipSelected");
             });
         }
+        if (!ship.isBusy) {
 
-        const buttonsDiv = document.createElement("div");
-        buttonsDiv.classList.add("hangarButtons");
+            const buttonsDiv = document.createElement("div");
+            buttonsDiv.classList.add("hangarButtons");
+            const repairButton = document.createElement("button");
+            repairButton.textContent = "Repair";
+            repairButton.classList.add("repairButton");
+            if (ship.currentHealth < ship.baseStats.baseHealth) buttonsDiv.appendChild(repairButton);
 
-        const repairButton = document.createElement("button");
-        repairButton.textContent = "Repair";
-        repairButton.classList.add("repairButton");
-        if (ship.currentHealth < ship.baseStats.baseHealth) buttonsDiv.appendChild(repairButton);
-
-        repairButton.addEventListener("click", _ => {
-            if (currentMultiverse.repairKit > 0) {
-                currentMultiverse.repairKit--;
-                document.getElementById("repairKitCount").textContent = currentMultiverse.repairKit;
-                ship.currentHealth += Math.ceil(ship.baseStats.baseHealth * 0.15);
-                healthDiv.textContent = `Hull: ${ship.currentHealth} / ${ship.baseStats.baseHealth}`;
-                if (ship.currentHealth >= ship.baseStats.baseHealth) {
-                    ship.currentHealth = ship.baseStats.baseHealth;
-                    repairButton.remove();
+            repairButton.addEventListener("click", _ => {
+                if (currentMultiverse.repairKit > 0) {
+                    currentMultiverse.repairKit--;
+                    document.getElementById("repairKitCount").textContent = currentMultiverse.repairKit;
+                    ship.currentHealth += Math.ceil(ship.baseStats.baseHealth * 0.15);
+                    healthDiv.textContent = `Hull: ${ship.currentHealth} / ${ship.baseStats.baseHealth}`;
+                    if (ship.currentHealth >= ship.baseStats.baseHealth) {
+                        ship.currentHealth = ship.baseStats.baseHealth;
+                        repairButton.remove();
+                    }
                 }
-            }
-        });
+            });
 
-        const scrapButton = document.createElement("button");
-        scrapButton.classList.add("scrapButton");
-        scrapButton.textContent = "Scrap";
-        buttonsDiv.appendChild(scrapButton);
+            const scrapButton = document.createElement("button");
+            scrapButton.classList.add("scrapButton");
+            scrapButton.textContent = "Scrap";
+            buttonsDiv.appendChild(scrapButton);
 
-        scrapButton.addEventListener("click", _ => {
-            const confirmed = confirm(`Scrap ship? You will obtain ${JSON.stringify(ship.cost)}`);
-            if (confirmed) {
-                for (const cost in ship.cost) currentMultiverse[cost] += ship.cost[cost];
-                updateEnergyCounter(userData);
-                updateMetalCounter(userData);
-                updateDustCounter(userData);
-                updateIridiumCounter(userData);
-                document.getElementById("hangarCapacityUsed").textContent = currentMultiverse.ships.length;
-                currentMultiverse.ships.splice(i, 1);
-                newDiv.remove();
-            }
-        })
+            scrapButton.addEventListener("click", _ => {
+                const confirmed = confirm(`Scrap ship? You will obtain ${JSON.stringify(ship.cost)}`);
+                if (confirmed) {
+                    for (const cost in ship.cost) currentMultiverse[cost] += ship.cost[cost];
+                    updateEnergyCounter(userData);
+                    updateMetalCounter(userData);
+                    updateDustCounter(userData);
+                    updateIridiumCounter(userData);
+                    document.getElementById("hangarCapacityUsed").textContent = currentMultiverse.ships.length;
+                    currentMultiverse.ships.splice(i, 1);
+                    newDiv.remove();
+                }
+            });
+            newDiv.appendChild(buttonsDiv);
+        }
 
-        newDiv.appendChild(buttonsDiv);
+
 
         document.getElementById("playerShipsDisplay").appendChild(newDiv);
     }

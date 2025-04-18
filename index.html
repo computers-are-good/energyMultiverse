@@ -163,8 +163,16 @@
                                 <button id="moveMothership">Move here</button>
                             </div>
                         </div>
+                        <div id="shipInfo" class="sidebarScreen">
+                            <h2>Your ship</h2>
+                            <div id="detailedShipInfo">
+                                <p>Destination: <span id="destinationSpan"></span></p>
+                                <button id="recallShip">Recall</button>
+                            </div>
+                        </div>
                         <div id="sunInfo" class="sidebarScreen">
-                            <h2>The <span id="solarSystemName"> system</h2>
+                            <h2>The <span id="solarSystemName"></span> system</h2>
+                            <p>Tier <span id="systemTierDisplay"></span> system</p>
                             <button id="dispatchToSun">Dispatch</button>
                         </div>
                     </div>
@@ -201,7 +209,12 @@
             <div id="combatVisualisation"></div>
         </div>
         <div id="galaxyMap">
-            <div id="bigGalaxyMap"></div>
+            <div class="flexCenter">
+                <div id="bigGalaxyMap"></div>
+                <div id="galaxyMapSidebar">
+                    <p id="cannotJump">Cannot jump; one or more ships are in the solar system.</p>
+                </div>
+            </div>
             <button id="galaxyMapBack">←</button>
 
         </div>

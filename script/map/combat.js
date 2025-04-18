@@ -5,7 +5,8 @@ function combat(playerShip, enemyShip) { //resolve with true if the player has w
     playerShip.currentShield = 0;
     enemyShip.currentShield = 0;
     return new Promise(res => {
-        updateStatsDisplay(playerShip, enemyShip)
+        updateStatsDisplay(playerShip, enemyShip);
+
         document.getElementById("combat").style.display = "block";
 
         if (playerShip.baseStats.baseSpeed >= enemyShip.baseStats.baseSpeed) {
@@ -16,8 +17,17 @@ function combat(playerShip, enemyShip) { //resolve with true if the player has w
 
     });
 }
-function endCombatCleanup() {
-    document.getElementById("combat").style.display = "none";
+async function endCombat() {
+    return new Promise(res => {
+        const endButton = document.createElement("button");
+        endButton.textContent = "End combat";
+        document.getElementById("player").appendChild(endButton);
+        endButton.addEventListener("click", _ => {
+            res();
+            endButton.remove();
+            document.getElementById("combat").style.display = "none";
+        });
+    });
 }
 function attack(attacker, attacked) {
     const damage = attacker.baseStats.baseAttack;
@@ -44,26 +54,32 @@ async function playerTurn(playerShip, enemyShip) {
         const oldHealth = enemyShip.currentHealth;
         attack(playerShip, enemyShip);
         combatLog(`You attacked the enemy for ${oldHealth - enemyShip.currentHealth} damage!`);
-        updateStatsDisplay(playerShip, enemyShip);
         if (enemyShip.currentHealth <= 0) {
-            endCombatCleanup();
+            enemyShip.currentHealth = 0;
+            updateStatsDisplay(playerShip, enemyShip);
+            combatLog("You are victorious.");
+            await endCombat();
             return true;
         } else {
+            updateStatsDisplay(playerShip, enemyShip);
             return enemyTurn(playerShip, enemyShip);
         }
     }
 }
 
-function enemyTurn(playerShip, enemyShip) {
+async function enemyTurn(playerShip, enemyShip) {
     document.getElementById("actionButtons").style.display = "none";
     const oldHealth = playerShip.currentHealth;
     attack(enemyShip, playerShip);
     combatLog(`The enemy attacked you for ${oldHealth - playerShip.currentHealth} damage!`)
-    updateStatsDisplay(playerShip, enemyShip);
     if (playerShip.currentHealth <= 0) {
-        endCombatCleanup();
+        playerShip.currentHealth = 0;
+        updateStatsDisplay(playerShip, enemyShip);
+        combatLog("You were defeated.");
+        await endCombat();
         return false;
     } else {
+        updateStatsDisplay(playerShip, enemyShip);
         return playerTurn(playerShip, enemyShip);
     }
 }
@@ -77,4 +93,4 @@ function updateStatsDisplay(playerShip, enemyShip) {
     document.getElementById("enemyAttack").textContent = enemyShip.baseStats.baseAttack;
 }
 
-export {combat}
+export { combat }

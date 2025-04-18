@@ -14,7 +14,7 @@ import { buildDustbotEvent, dustbotSlider } from "../resources/dustbotClicker.js
 import { buildShip, drawBuildShipsDiv, showShipbuildingProgress } from "../ship/buildShip.js";
 import { decreaseBuildRate, increaseBuildRate } from "../ship/shipEvents.js";
 import { closeHangar, openHangar } from "../ship/hangar.js";
-import { dispatchShipEvent, goToHostile, launchMissile, moveMothership, sendShipToSun } from "../map/solarSystem.js";
+import { dispatchShipEvent, goToHostile, launchMissile, moveMothership, recallButton, sendShipToSun, updateSolarSystem } from "../map/solarSystem.js";
 import {makeMissile, makeRepairKit} from "../ship/manufactory.js";
 import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "../map/thrust.js";
 import metalClicker from "../resources/metal.js";
@@ -34,6 +34,7 @@ async function pageLoad(userData) {
     mouseoverDescriptions.drone.cost = `${droneCost(currentMultiverse.drones.length)} dust`;
 
     toggleScreen(currentMultiverse.lastScreen || "Energy");
+    if (currentMultiverse.lastScreen === "Map") updateSolarSystem(userData);
 
     document.getElementById("drone").addEventListener("mousedown", _ => droneClicker(userData));
     document.getElementById("dust").addEventListener("mousedown", _ => dustClicker(userData));
@@ -76,10 +77,11 @@ async function pageLoad(userData) {
     document.getElementById("makeRepairKit").addEventListener("click", _ => makeRepairKit(userData));
     document.getElementById("galaxyMapBack").addEventListener("click", closeGalaxyView);
     document.getElementById("galaxyView").addEventListener("click", _ => galaxyView(userData));
+    document.getElementById("recallShip").addEventListener("click", recallButton);
     
     addCheats(userData);
-    currentMultiverse.solarSystems = [];
-    generateAllSystems(userData);
+   /*  currentMultiverse.solarSystems = [];
+    generateAllSystems(userData); */
     addUIDescriptions();
     updateResearchRate(userData);
     updateResearchBar(userData);

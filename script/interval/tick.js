@@ -48,7 +48,7 @@ function tick(userData) {
     if (tickCount % 10 === 0)
         buildShip(userData);
 
-    if (tickCount % 20 === 0) {
+   if (tickCount % 20 === 0) {
        updateSolarSystemPositions(userData);
         if (currentScreenDisplayed === "Map") updateSolarSystem(userData);
     }

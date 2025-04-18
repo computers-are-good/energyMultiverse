@@ -8,7 +8,7 @@ function addCheats(userData) {
         const currentMultiverse = userData.multiverses[userData.currentMultiverse];
         document.body.addEventListener("keypress", e => {
             if (e.key === "\\") {
-                const code = prompt("Speak thy soul");
+                const code = prompt("Confess, young child, and speak thy soul.");
                 switch (code) {
                     case "ENERGYFORDAYS":
                         currentMultiverse.energy = 99999;
@@ -23,9 +23,8 @@ function addCheats(userData) {
                         updateMetalCounter(userData);
                         break;
                     case "IAMSMORT":
-                        for (const item of research) {
-                            item.complete(userData);
-                        }
+                        for (const item in research) research[item].complete(userData);
+                        
                         break;
                     case "PEWPEW":
                         currentMultiverse.ships = [];

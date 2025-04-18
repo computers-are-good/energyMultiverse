@@ -1,3 +1,6 @@
+import fadeIn from "../animations/fadeIn.js";
+import notify from "../notifs/notify.js";
+
 const bigGalaxyMap = document.getElementById("bigGalaxyMap");
 const tierColours = {
     1: "#52cc38",
@@ -9,22 +12,47 @@ const tierColours = {
 
 }
 function galaxyView(userData) {
-    document.getElementById("galaxyMap").style.display = "block";
-    bigGalaxyMap.innerHTML = "";
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    for (const i in currentMultiverse.solarSystems) {
-        const system = currentMultiverse.solarSystems[i];
-        const systemDiv = drawSystem(system.galaxyX, system.galaxyY);
+    const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
 
-        if (i === currentMultiverse.currentSolarSystem) {
-            systemDiv.style.backgroundColor = "white";
-        } else {
-            systemDiv.style.backgroundColor = tierColours[system.tier];
+    if (currentMultiverse.allowSolarSystemUpdates) {
+        document.getElementById("galaxyMap").style.display = "block";
+        bigGalaxyMap.innerHTML = "";
+        for (const i in currentMultiverse.solarSystems) {
+            const system = currentMultiverse.solarSystems[i];
+            const systemDiv = drawSystem(system.galaxyX, system.galaxyY);
+    
+            if (i === currentMultiverse.currentSolarSystem) {
+                systemDiv.style.backgroundColor = "white";
+            } else {
+                systemDiv.style.backgroundColor = tierColours[system.tier];
+            }
+            systemDiv.addEventListener("click", _ => jumpToSystem(userData, i));
         }
-        systemDiv.addEventListener("click", _ => {
-            currentMultiverse.currentSolarSystem = i;
-        })
+    } else {
+        notify("Please resolve the event in the solar system before opening the galaxy map.")
     }
+}
+const cannotJump = document.getElementById("cannotJump");
+function jumpToSystem(userData, systemId) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+
+    let canMakeJump = true;
+
+    for (let ship of currentMultiverse.ships) {
+        if (ship.isBusy) {
+            canMakeJump = false;
+            cannotJump.style.display = "block";
+            fadeIn(cannotJump, 0.2);
+            setTimeout(_ => cannotJump.style.display = "none", 3000);
+            break;
+        }
+    }
+    if (canMakeJump) {
+        currentMultiverse.currentSolarSystem = systemId;
+        closeGalaxyView();
+    }
+
 }
 function drawSystem(x, y) {
     const newSystem = document.createElement("div");
@@ -37,7 +65,7 @@ function drawSystem(x, y) {
     bigGalaxyMap.appendChild(newSystem);
     return newSystem;
 }
-function closeGalaxyView(userData) {
+function closeGalaxyView() {
     document.getElementById("galaxyMap").style.display = "none";
 }
 
