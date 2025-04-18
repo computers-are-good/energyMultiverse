@@ -1,5 +1,6 @@
 import fadeIn from "../animations/fadeIn.js";
 import notify from "../notifs/notify.js";
+import { updateSolarSystem, updateSolarSystemPositions } from "./solarSystem.js";
 
 const bigGalaxyMap = document.getElementById("bigGalaxyMap");
 const tierColours = {
@@ -51,6 +52,8 @@ function jumpToSystem(userData, systemId) {
     if (canMakeJump) {
         currentMultiverse.currentSolarSystem = systemId;
         closeGalaxyView();
+        updateSolarSystemPositions(userData);
+        updateSolarSystem(userData);
     }
 
 }

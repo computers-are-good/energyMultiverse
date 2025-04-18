@@ -345,3 +345,6 @@ button {
     width: 80%;
     margin: 30px auto;
 }
+#debrisInfo li {
+    text-align: center;
+}

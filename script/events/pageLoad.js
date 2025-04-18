@@ -14,7 +14,7 @@ import { buildDustbotEvent, dustbotSlider } from "../resources/dustbotClicker.js
 import { buildShip, drawBuildShipsDiv, showShipbuildingProgress } from "../ship/buildShip.js";
 import { decreaseBuildRate, increaseBuildRate } from "../ship/shipEvents.js";
 import { closeHangar, openHangar } from "../ship/hangar.js";
-import { dispatchShipEvent, goToHostile, launchMissile, moveMothership, recallButton, sendShipToSun, updateSolarSystem } from "../map/solarSystem.js";
+import { dispatchShipEvent, goToHostile, launchMissile, moveMothership, recallButton, sendShipToDebris, sendShipToSun, updateSolarSystem } from "../map/solarSystem.js";
 import {makeMissile, makeRepairKit} from "../ship/manufactory.js";
 import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "../map/thrust.js";
 import metalClicker from "../resources/metal.js";
@@ -78,6 +78,7 @@ async function pageLoad(userData) {
     document.getElementById("galaxyMapBack").addEventListener("click", closeGalaxyView);
     document.getElementById("galaxyView").addEventListener("click", _ => galaxyView(userData));
     document.getElementById("recallShip").addEventListener("click", recallButton);
+    document.getElementById("dispatchToDebris").addEventListener("click", _ => sendShipToDebris(userData));
     
     addCheats(userData);
    /*  currentMultiverse.solarSystems = [];

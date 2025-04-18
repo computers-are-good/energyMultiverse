@@ -8,7 +8,7 @@ import { combat } from "./combat.js";
 import threatLevel from "./threatLevel.js";
 import notifyUnique from "../notifs/notifyUnique.js";
 import { choice, deepClone, removeFromArray } from "../utils.js";
-import { updateResearchButtons } from "../pageUpdates.js";
+import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons } from "../pageUpdates.js";
 import hostileTiers from "../data/hostileTiers.js";
 const planetVelocity = 8.8;
 
@@ -127,6 +127,36 @@ function updateSolarSystem(userData) {
                     missile.style.height = "5px";
                     missile.style.backgroundColor = "purple";
                     break;
+                case "debris":
+                    const debris = drawNewElement(thing.posX - 5, thing.posY - 5 - cumulativeOffsetY);
+                    cumulativeOffsetY += 10;
+                    debris.style.width = "10px";
+                    debris.style.height = "10px";
+                    debris.style.backgroundColor = "grey";
+
+                    addDescriptionEvent(debris, {
+                        content: "Debris"
+                    });
+
+                    debris.addEventListener("mousedown", _ => {
+                        selected = id;
+
+                        if (activeScreen !== "scriptPlayer") {
+
+                            const debrisDiv = document.getElementById("debrisContent");
+                            debrisDiv.innerHTML = "";
+
+                            for (const item in thing.cargo) {
+                                const newLi = document.createElement("li");
+                                newLi.textContent = `${item}: ${thing.cargo[item]}`;
+                                debrisDiv.appendChild(newLi);
+                            }
+
+                            activeScreen = "debrisInfo";
+                            updateVisibleDivs();
+                        }
+                    });
+                    break;
             }
         }
         for (const ship of currentMultiverse.ships) {
@@ -180,6 +210,12 @@ async function sendShipToSun(userData) {
     }
     openHangar(userData, true, callback).then(ship => {
         dispatchShip(ship, "sun", userData);
+    }, _ => { });
+}
+
+async function sendShipToDebris(userData) {
+    openHangar(userData, true).then(ship => {
+        dispatchShip(ship, selected, userData);
     }, _ => { });
 }
 
@@ -308,17 +344,58 @@ async function updateSolarSystemPositions(userData) {
                     const distToTarget = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
                     if (distToTarget < 10) {
-                        if (currentSystem.objects[ship.targetObjectId].type !== "hostile") {
-                            if (ship.targetObjectId !== "player") {
-                                activeScreen = "scriptPlayer";
-                                currentMultiverse.allowSolarSystemUpdates = false;
-                                arriveAtTarget(ship, userData).then(res => {
-                                    activeScreen = "";
-                                    currentMultiverse.allowSolarSystemUpdates = true;
-                                });
-                            } else {
-                                arriveAtTarget(ship, userData);
-                            }
+                        switch (currentSystem.objects[ship.targetObjectId].type) {
+                            case "planet":
+                                if (ship.targetObjectId !== "player") {
+                                    activeScreen = "scriptPlayer";
+                                    currentMultiverse.allowSolarSystemUpdates = false;
+                                    arriveAtTarget(ship, userData).then(res => {
+                                        activeScreen = "";
+                                        currentMultiverse.allowSolarSystemUpdates = true;
+                                    });
+                                } else {
+                                    arriveAtTarget(ship, userData);
+                                }
+                                break;
+                            case "debris":
+                                let notifyString = "A ship arrived at debris and picked up";
+                                for (let item in target.cargo) {
+                                    if (item in ship.cargo) {
+                                        ship.cargo[item] += target.cargo[item];
+                                    } else {
+                                        ship.cargo[item] = target.cargo[item]
+                                    }
+                                    notifyString += ` ${target.cargo[item]} ${item}`;
+                                }
+                                notifyString += ".";
+                                notify(notifyString);
+                                delete currentSystem.objects[ship.targetObjectId];
+                                ship.targetObjectId = "player";
+                                break;
+                            case "player":
+                                ship.isBusy = false;
+                                ship.inSolarSystem = false;
+                                let cargoText = ""
+                                for (let item in ship.cargo) {
+                                    currentMultiverse[item] += ship.cargo[item];
+                                    cargoText += `${ship.cargo[item]} ${item} `;
+                                    delete ship.cargo[item];
+                                }
+                                updateEnergyCounter(userData);
+                                updateDustCounter(userData);
+                                updateMetalCounter(userData);
+                                updateIridiumCounter(userData);
+                    
+                                if (ship.currentHealth < ship.baseStats.baseHealth && !currentMultiverse.eventsDone.includes("unlockRepairKit")) {
+                                    notifyUnique("unlockRepairKit");
+                                    addNavigationAttention("Research", "pageResearch");
+                                    currentMultiverse.researchUnlocked.push("repairKit");
+                                    updateResearchButtons(userData);
+                                    currentMultiverse.eventsDone.push("unlockRepairKit");
+                                }
+                    
+                                notify(`A ship has returned ${cargoText ? `carrying ${cargoText}` : ""}`);
+                                break;
                         }
                     }
                 }
@@ -349,12 +426,16 @@ async function updateSolarSystemPositions(userData) {
                 if (closestShip && closestDistance < 50) {
                     moveTowards(thing, closestShip, thing.baseStats.baseSpeed * 0.2);
                     if (closestDistance < 10) {
+                        const loot = generateShipLoot(thing);
                         addNavigationAttention("Map", "pageMap");
                         notify(`Your ${closestShip.class} is under attack!`);
                         const combatOutcome = await initCombat(closestShip, thing, userData);
                         currentMultiverse.allowSolarSystemUpdates = true;
                         if (combatOutcome) { //if the player won
                             delete currentSystem.objects[object];
+                            for (const material in loot) {
+                                closestShip.cargo[material] += loot[material];
+                            }
                         } else {
                             currentMultiverse.ships.splice(closestShipIndex, 1);
                         }
@@ -380,7 +461,7 @@ async function updateSolarSystemPositions(userData) {
                     target = currentSystem.objects.player;
                     thing.targetObjectId = "player";
                 }
-                moveTowards(thing, currentSystem.objects[thing.targetObjectId], 5);
+                moveTowards(thing, target, 5);
                 const distance = getDistanceTo(thing, target);
                 if (distance < 10) {
                     if (thing.targetObjectId === "player") {
@@ -392,6 +473,7 @@ async function updateSolarSystemPositions(userData) {
                         if (target.currentHealth < 0) {
                             delete currentSystem.objects[thing.targetObjectId];
                             notify(`A missile detonated and destroyed an enemy.`);
+                            generateDebris(userData, target);
                         } else {
                             notify(`A missile detonated and dealt 5 damage to an enemy (their hull: ${target.currentHealth}).`);
                         }
@@ -430,7 +512,7 @@ async function updateSolarSystemPositions(userData) {
         }
         if (hostileCount < 3) {
             currentSystem.timeUntilHostileSpawn--;
-           if (currentSystem.timeUntilHostileSpawn <= 0) {
+            if (currentSystem.timeUntilHostileSpawn <= 0) {
                 currentSystem.timeUntilHostileSpawn = Math.random() * 700 + 200;
                 let key = Math.floor(Math.random() * 10000);
                 while (key in currentSystem.objects) {
@@ -447,6 +529,33 @@ const statMappings = {
     baseHealth: "Hull",
     baseShield: "Shield",
     baseSpeed: "Speed"
+}
+
+function generateShipLoot(enemyShip) {
+    const evaluatedThreatLevel = threatLevel(enemyShip);
+    const iridiumGained = Math.ceil(evaluatedThreatLevel / 2);
+    const metalGained = Math.ceil(evaluatedThreatLevel * Math.random());
+
+    return {
+        iridium: iridiumGained,
+        metal: metalGained
+    }
+}
+
+function generateDebris(userData, enemyShip) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
+    const debrisObj = {
+        type: "debris",
+        posX: enemyShip.posX,
+        posY: enemyShip.posY,
+        cargo: generateShipLoot(enemyShip)
+    }
+    let key = Math.floor(Math.random() * 10000);
+    while (key in currentSystem.objects) {
+        key = Math.floor(Math.random() * 10000);
+    }
+    currentSystem.objects[key] = debrisObj;
 }
 
 async function initCombat(ship, enemy, userData) {
@@ -523,4 +632,5 @@ export {
     moveMothership,
     sendShipToSun,
     recallButton,
+    sendShipToDebris
 };
