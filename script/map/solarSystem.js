@@ -436,7 +436,11 @@ async function updateSolarSystemPositions(userData) {
                         if (combatOutcome) { //if the player won
                             delete currentSystem.objects[object];
                             for (const material in loot) {
-                                closestShip.cargo[material] += loot[material];
+                                if (material in closestShip.cargo) {
+                                    closestShip.cargo[material] += loot[material];
+                                } else {
+                                    closestShip.cargo[material] = loot[material];
+                                }
                             }
                         } else {
                             currentMultiverse.ships.splice(closestShipIndex, 1);
@@ -566,7 +570,7 @@ async function initCombat(ship, enemy, userData) {
         currentMultiverse.allowSolarSystemUpdates = false;
         activeScreen = "attacked";
         updateVisibleDivs();
-        for (const stat in ship.baseStats) {A
+        for (const stat in ship.baseStats) {
             const newLi = document.createElement("li");
             newLi.classList.add("center");
             newLi.textContent = `${statMappings[stat]}: ${ship.baseStats[stat]}`;

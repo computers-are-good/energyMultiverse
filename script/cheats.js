@@ -1,5 +1,6 @@
 import research from "./data/researchData.js";
-import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchPoints } from "./pageUpdates.js";
+import generateAllSystems from "./map/newSolarSystem.js";
+import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons, updateResearchPoints } from "./pageUpdates.js";
 
 const enableCheats = true;
 
@@ -27,14 +28,30 @@ function addCheats(userData) {
                         updateIridiumCounter(userData);
                         break;
                     case "IAMSMORT":
-                        for (const item in research) research[item].complete(userData);
+                        for (const item in research) {
+                            currentMultiverse.researchCompleted.push(item);
+                            research[item].complete(userData);
+                        }
+                        currentMultiverse.researchUnlocked = [];
+                        updateResearchButtons(userData);
                         break;
+                    case "IAMDUMB":
+                        for (const item of currentMultiverse.researchCompleted) {
+                            currentMultiverse.researchUnlocked.push(item);
+                        }
+                        currentMultiverse.researchCompleted = [];
+                        updateResearchButtons(userData);
+                        break;    
                     case "IAMTHERESEARCH":
                         currentMultiverse.researchPoints = 999999;
                         updateResearchPoints(userData);
                         break;
                     case "PEWPEW":
                         currentMultiverse.ships = [];
+                        break;
+                    case "CTRL+N":
+                        currentMultiverse.solarSystems = [];
+                        generateAllSystems(userData);
                         break;
                 }
             }

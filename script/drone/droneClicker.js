@@ -74,7 +74,7 @@ function drawDronesDivs(userData) {
         const droneObj = currentMultiverse.drones[drone];
         const newDiv = document.createElement("div");
         const ticks = document.createElement("p");
-        ticks.textContent = "New energy in: ";
+        ticks.textContent = "Time: ";
 
         const upgradeTicks = document.createElement("button");
         upgradeTicks.classList.add("upgradeTicks");

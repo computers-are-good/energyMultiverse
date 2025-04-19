@@ -17,11 +17,13 @@ const starNames = [
     "Solabs",
     "Huatrs",
     "Trasbes"
-]
+];
 function generateAllSystems(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    let solarSystemsMade = 0;
     for (let i = 1; i < 8; i++) {
         for (let j = 1; j < 6; j++) {
+            solarSystemsMade++;
             let x = i * 100 - 100 + Math.floor(Math.random() * 200);
             let y = j * 100 - 100 + Math.floor(Math.random() * 200);
             for (const system of currentMultiverse.solarSystems) {
@@ -48,7 +50,7 @@ function generateAllSystems(userData) {
                 while (newID in solarSystem.objects) {
                     newID = Math.floor(Math.random() * 10000);
                 }
-                solarSystem.objects[newID] = newPlanet(planetCount, systemTier);
+                solarSystem.objects[newID] = newPlanet(planetCount, systemTier, solarSystemsMade);
                 planetCount++
             }
             solarSystem.objects.player = {
@@ -102,7 +104,13 @@ const tieredPlanets = {
     5: ["Intrarelativistic", "Exotic"],
     6: ["White"]
 }
-function newPlanet(planetCount, solarSystemTier) {
+function newPlanet(planetCount, solarSystemTier, solarSystemsMade) {
+    const uniqueEvents = [];
+    if (planetCount === 0 && solarSystemsMade === 1) {
+        uniqueEvents.push("Warp Drive");
+    }
+    const biomeSpecificEventsAvailable = 2;
+
     const availablePlanetTypes = [];
     for (let i = 1; i <= solarSystemTier; i++) {
         tieredPlanets[i].forEach(e => availablePlanetTypes.push(e));
@@ -123,12 +131,16 @@ function newPlanet(planetCount, solarSystemTier) {
     planetPity[planetType] = 0;
     const newPlanet = {
         type: "planet",
-        planetType: planetType,
+        planetType,
         color: planetColours[planetType],
         name: choice(planetNames),
         radius: Math.floor(Math.random() * 5) + 8,
         theta: Math.PI * Math.random(),
-        orbitalRadius: 40 * planetCount + 80
+        orbitalRadius: 40 * planetCount + 80,
+        uniqueEvents,
+        totalUniqueEvents: uniqueEvents.length,
+        biomeSpecificEventsAvailable,
+        totalBiomeSpecificEventsAvailable: biomeSpecificEventsAvailable
     }
     return newPlanet;
 }

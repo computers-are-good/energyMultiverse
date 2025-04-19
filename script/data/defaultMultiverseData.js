@@ -29,6 +29,21 @@ const defaultMultiverseData = {
         energyUntilResearchPoint: 0,
         ticksPerResearchAdvancement: 0
     },
+    biomeSpecificEventsDone: {
+        "Desert": [],
+        "Temperate": [],
+        "Ocean": [],
+        "Warm": [],
+        "Paradise": [],
+        "Ice": [],
+        "Gas": [],
+        "Volcanic": [],
+        "Diamond": [],
+        "Barren": [],
+        "Intrarelativistic": [],
+        "Exotic": [],
+        "Black": [],
+    },
     uniqueNotifsDone: [],
     eventsDone: [],
     statistics: {

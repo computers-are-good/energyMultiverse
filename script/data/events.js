@@ -18,17 +18,17 @@ const events = {
                 ]
             },
             {
-                text: "You took apart the wind turbine and gained 30 dust.",
+                text: "You took apart the wind turbine and gained 10 dust.",
                 item: {
-                    dust: 30,
+                    dust: 10,
                 },
                 endEvent: true,
                 eventResolved: true,
             },
             {
-                text: "You let the turbine generate energy for a while. You gain 200 energy.",
+                text: "You let the turbine generate energy for a while. You gain 100 energy.",
                 item: {
-                    energy: 200,
+                    energy: 100,
                 },
                 endEvent: true,
                 eventResolved: true,
@@ -106,6 +106,23 @@ const events = {
                 text: "You leave the station for another day.",
                 endEvent: true,
                 eventResolved: false,
+            }
+        ]
+    },
+    "Harvest Sand": {
+        script: [
+            {
+                text: "Your ship flies over vast sand dunes reflecting the glimmer of starlight, before landing."
+            },
+            {
+                text: "Mixed in the vast sand dunes are some bits of dust. You gained 50 dust.",
+                item: {
+                    dust: 50
+                }
+            },
+            {
+                text: "You wonder who left the bits of dust there for you.",
+                eventResolved: true
             }
         ]
     }

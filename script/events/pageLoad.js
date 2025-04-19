@@ -85,8 +85,6 @@ async function pageLoad(userData) {
     
     addCheats(userData);
     updateWarpDriveButton(userData);
-/*     currentMultiverse.solarSystems = [];
-    generateAllSystems(userData); */
     addUIDescriptions();
     updateResearchRate(userData);
     updateResearchBar(userData);

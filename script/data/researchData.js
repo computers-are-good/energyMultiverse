@@ -1,4 +1,5 @@
 import { updateResearchRate } from "../pageUpdates.js";
+import { drawBuildShipsDiv } from "../ship/buildShip.js";
 import {unlockUIElement} from "../toggleUIElement.js";
 
 const research = {
@@ -41,7 +42,8 @@ const research = {
         description: "Learn to build sunscoops to harvest energy from a star",
         complete: function(userData) {
             userData.multiverses[userData.currentMultiverse].shipAccessoriesUnlocked.push("Sunscoop");
-            unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "dispatchToSun");   
+            unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "dispatchToSun");
+            drawBuildShipsDiv(userData);
         }
     },
     "repairKit": {
