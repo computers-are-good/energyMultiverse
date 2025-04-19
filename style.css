@@ -352,3 +352,9 @@ button {
 #debrisInfo li {
     text-align: center;
 }
+#solarPanel {
+    width: 30%;
+    margin: 12px auto;
+    padding: 12px;
+    border: 1px solid white;
+}

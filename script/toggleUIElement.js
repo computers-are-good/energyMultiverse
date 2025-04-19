@@ -1,4 +1,5 @@
 import fadeIn from "./animations/fadeIn.js"
+import { updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
 
 const hideableIDs = [
     "dust",

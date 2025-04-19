@@ -106,9 +106,6 @@ const tieredPlanets = {
 }
 function newPlanet(planetCount, solarSystemTier, solarSystemsMade) {
     const uniqueEvents = [];
-    if (planetCount === 0 && solarSystemsMade === 1) {
-        uniqueEvents.push("Warp Drive");
-    }
     const biomeSpecificEventsAvailable = 2;
 
     const availablePlanetTypes = [];
@@ -129,6 +126,14 @@ function newPlanet(planetCount, solarSystemTier, solarSystemsMade) {
     }
     if (solarSystemTier === 6) planetType = "White";
     planetPity[planetType] = 0;
+
+    if (planetCount === 0 && solarSystemsMade === 1) {
+        uniqueEvents.push("Warp Drive");
+    }
+    if (planetCount === 2 && solarSystemsMade === 1) {
+        uniqueEvents.push("solarPanels1");
+        planetType = "Paradise";
+    }
     const newPlanet = {
         type: "planet",
         planetType,

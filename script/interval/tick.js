@@ -6,6 +6,7 @@ import notify from "../notifs/notify.js";
 import { buildShip } from "../ship/shipEvents.js";
 import { updateSolarSystem, updateSolarSystemPositions } from "../map/solarSystem.js";
 import { currentScreenDisplayed } from "../toggleUIElement.js";
+import {solarPanelTick} from "../resources/solarPanel.js";
 
 let tickCount = 0;
 function tick(userData) {
@@ -45,10 +46,12 @@ function tick(userData) {
             }
         }
     }
-    if (tickCount % 10 === 0)
+    if (tickCount % 10 === 0){ //events that happen every second
+        solarPanelTick(userData);
         buildShip(userData);
+    }
 
-   if (tickCount % 20 === 0) {
+   if (tickCount % 20 === 0) { //events that happen every 2 seconds
        updateSolarSystemPositions(userData);
         if (currentScreenDisplayed === "Map") updateSolarSystem(userData);
     }

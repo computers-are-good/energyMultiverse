@@ -3,6 +3,7 @@ const defaultMultiverseData = {
     energy: 0,
     dust: 0,
     metal: 0,
+    solarPanel: 0,
     repairKit: 0,
     iridium: 0,
     missiles: 0,

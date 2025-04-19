@@ -53,6 +53,8 @@ function addCheats(userData) {
                         currentMultiverse.solarSystems = [];
                         generateAllSystems(userData);
                         break;
+                    case "BETTERTHANGAS":
+                        currentMultiverse.solarPanel = 10;
                 }
             }
         })
