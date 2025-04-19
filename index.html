@@ -128,6 +128,7 @@
                     <div id="encounterInfo">
                         <div id="planetInfo" class="sidebarScreen">
                             <p id="planetName"></p>
+                            <p>Planet type: <span id="planetTypeDisplay"></p>
                             <button id="Dispatch">Dispatch</button>
                         </div>
                         <div id="hostileInfo" class="sidebarScreen">
@@ -188,6 +189,7 @@
                             <p>Using <span id="thrustSpeed"></span> energy a second</p>
                             <button id="increaseShipThrust">+</button>
                         </div>
+                        <button id="buildWarpDrive">Build warp drive</button>
                         <button id="galaxyView">Galaxy Map</button>
                     </div>
                 </div>
@@ -220,10 +222,11 @@
                     <div id="systemInfo">
                         <h2 id="systemName"></h2>
                         <p>System tier: <span id="systemTierDisplayGalaxy"></span></p>
+                        <p>Danger Level: <span id="dangerLevelDisplay"></span></p>
                         <p>Number of planets: <span id="numberOfPlanetsDisplay"></span></p>
                         <p>Energy required for jump: <span id="energyRequired"></span></p>
+                        <button id="jumpToSystem">Jump to system</button>
                     </div>
-                    <button id="jumpToSystem">Jump to system</button>
                     <p id="cannotJump">Cannot jump; one or more ships are in the solar system.</p>
                 </div>
             </div>

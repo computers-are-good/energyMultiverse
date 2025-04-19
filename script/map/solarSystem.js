@@ -1,4 +1,4 @@
-import { addDescriptionEvent, removeDescription } from "../addUIDescriptions.js";
+import { addDescriptionEvent, removeDescription, currentDescription } from "../addUIDescriptions.js";
 import dispatchShip from "../ship/dispatchShip.js";
 import { openHangar } from "../ship/hangar.js";
 import { addNavigationAttention, currentScreenDisplayed } from "../toggleUIElement.js";
@@ -17,7 +17,6 @@ let cursorX = 0;
 let cursorY = 0;
 let selected;
 let shipSelected;
-//I FUCKING HATE CSS SO MUCH
 
 function updateVisibleDivs() {
     document.querySelectorAll(".sidebarScreen").forEach(e => {
@@ -30,7 +29,9 @@ function updateVisibleDivs() {
 }
 function updateSolarSystem(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    removeDescription();
+    if (currentMultiverse.allowSolarSystemUpdates && currentDescription !== "buildWarpDrive") {
+        removeDescription();
+    }
     updateVisibleDivs();
     let cumulativeOffsetY = 0;
 
@@ -82,6 +83,7 @@ function updateSolarSystem(userData) {
                             selected = id;
                             updateVisibleDivs();
                             document.getElementById("planetName").textContent = thing.name;
+                            document.getElementById("planetTypeDisplay").textContent = thing.planetType;
                         }
                     });
                     systemObject.style.backgroundColor = thing.color;
@@ -510,10 +512,10 @@ async function updateSolarSystemPositions(userData) {
                 }
             }
         }
-        if (hostileCount < 3) {
+        if (hostileCount < Math.max(currentSystem.dangerLevel / 2, 3)) {
             currentSystem.timeUntilHostileSpawn--;
             if (currentSystem.timeUntilHostileSpawn <= 0) {
-                currentSystem.timeUntilHostileSpawn = Math.random() * 700 + 200;
+                currentSystem.timeUntilHostileSpawn = Math.random() * 50 + 250 - currentSystem.dangerLevel * 15;
                 let key = Math.floor(Math.random() * 10000);
                 while (key in currentSystem.objects) {
                     key = Math.floor(Math.random() * 10000);
@@ -564,7 +566,7 @@ async function initCombat(ship, enemy, userData) {
         currentMultiverse.allowSolarSystemUpdates = false;
         activeScreen = "attacked";
         updateVisibleDivs();
-        for (const stat in ship.baseStats) {
+        for (const stat in ship.baseStats) {A
             const newLi = document.createElement("li");
             newLi.classList.add("center");
             newLi.textContent = `${statMappings[stat]}: ${ship.baseStats[stat]}`;

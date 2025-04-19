@@ -11,7 +11,8 @@ const hideableIDs = [
     "dustbotDiv",
     "dustBot",
     "makeRepairKit",
-    "dispatchToSun"
+    "dispatchToSun",
+    "buildWarpDrive",
 ];
 const screens = [
     "Energy",

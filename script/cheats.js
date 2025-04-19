@@ -1,5 +1,5 @@
 import research from "./data/researchData.js";
-import { updateDustCounter, updateEnergyCounter, updateMetalCounter } from "./pageUpdates.js";
+import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchPoints } from "./pageUpdates.js";
 
 const enableCheats = true;
 
@@ -22,9 +22,16 @@ function addCheats(userData) {
                         currentMultiverse.metal = 99999;
                         updateMetalCounter(userData);
                         break;
+                    case "SAYYESTOIRIDIUM":
+                        currentMultiverse.iridium = 99999;
+                        updateIridiumCounter(userData);
+                        break;
                     case "IAMSMORT":
                         for (const item in research) research[item].complete(userData);
-                        
+                        break;
+                    case "IAMTHERESEARCH":
+                        currentMultiverse.researchPoints = 999999;
+                        updateResearchPoints(userData);
                         break;
                     case "PEWPEW":
                         currentMultiverse.ships = [];

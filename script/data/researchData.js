@@ -53,6 +53,16 @@ const research = {
         complete: function (userData) {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "makeRepairKit");
         }
+    },
+    "Warp Drive": {
+        cost: {
+            points: 25
+        },
+        name: "Warp Drive",
+        description: "Use this to jump between star systems.",
+        complete: function (userData) {
+            unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "buildWarpDrive");
+        }
     }
 }
 

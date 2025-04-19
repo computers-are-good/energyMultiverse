@@ -20,6 +20,7 @@ const defaultMultiverseData = {
     dustbotTicksElapsed: 0,
     energyUntilResearchPoint: 150,
     progressUntilResearchPoint: 0,
+    warpDriveBuilt: false,
     researchRate: 0,
     maxResearchRate: 3,
     ticksPerResearchAdvancement: 30,

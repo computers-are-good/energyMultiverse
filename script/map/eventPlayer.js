@@ -1,9 +1,17 @@
+import { addDescriptionEvent } from "../addUIDescriptions.js";
 import events from "../data/events.js";
+import notify from "../notifs/notify.js";
+import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons } from "../pageUpdates.js";
+import { addNavigationAttention } from "../toggleUIElement.js";
 import { updateSolarSystem } from "./solarSystem.js";
 
 function eventPlayer(shipData, userData, eventId) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     return new Promise(res => {
         const eventScript = events[eventId].script;
+        const itemsToSubtract = {};
+        const shipCargo = {};
+        const researchToUnlock = [];
 
         let currentIndex = 0;
 
@@ -16,12 +24,37 @@ function eventPlayer(shipData, userData, eventId) {
         endButton.textContent = "End";
 
         function endEvent() {
-            res();
+            const successfulResolution = eventScript[currentIndex].eventResolved;
+
             endButton.remove();
             eventNext.remove();
+            if (successfulResolution) {
+                for (const item in shipCargo) {
+                    if (item in shipData.cargo) {
+                        shipData.cargo[item] += shipCargo[item];
+                    } else {
+                        shipData.cargo[item] = shipCargo[item];
+                    }
+                }
+                if (Object.keys(itemsToSubtract).length > 0) {
+                    for (const item in itemsToSubtract) {
+                        currentMultiverse[item] -= itemsToSubtract[item];
+                    }
+                    updateDustCounter(userData);
+                    updateIridiumCounter(userData);
+                    updateEnergyCounter(userData);
+                    updateMetalCounter(userData);
+                }
+                if (researchToUnlock.length > 0) {
+                    researchToUnlock.forEach(e => currentMultiverse.researchUnlocked.push(e));
+                    updateResearchButtons(userData);
+                    addNavigationAttention("research", "pageResearch");
+                }
+            }
+            res(successfulResolution);
         }
 
-        endButton.addEventListener("click", endEvent)
+        endButton.addEventListener("click", endEvent);
         document.getElementById("scriptPlayer").appendChild(endButton);
 
         function readEvent(index) {
@@ -39,12 +72,15 @@ function eventPlayer(shipData, userData, eventId) {
 
             document.getElementById("eventText").textContent = eventScript[index].text;
 
+            if (eventScript[index].researchUnlocked) 
+                eventScript[index].researchUnlocked.forEach(e => researchToUnlock.push(e));
+
             if (eventScript[index].item) {
                 for (const item in eventScript[index].item) {
-                    if (shipData.cargo[item]) {
-                        shipData.cargo[item] += eventScript[index].item[item];
+                    if (shipCargo[item]) {
+                        shipCargo[item] += eventScript[index].item[item];
                     } else {
-                        shipData.cargo[item] = eventScript[index].item[item];
+                        shipCargo[item] = eventScript[index].item[item];
                     }
                 }
             }
@@ -54,11 +90,7 @@ function eventPlayer(shipData, userData, eventId) {
                 eventNext.style.display = "none";
                 endButton.style.display = "block";
             } else {
-                if (!eventScript[index].choice) {
-                    eventNext.style.display = "block";
-                    eventChoices.style.display = "none";
-                    endButton.style.display = "none";
-                } else {
+                if (eventScript[index].choice) {
                     eventNext.style.display = "none";
                     eventChoices.innerHTML = "";
                     eventChoices.style.display = "block";
@@ -68,13 +100,51 @@ function eventPlayer(shipData, userData, eventId) {
                         const button = document.createElement("button");
                         button.textContent = choice.text;
 
+                        if (choice.cost) {
+                            let costString = ""
+                            for (const cost in choice.cost) {
+                                costString += `${choice.cost[cost]} ${cost}`;
+                            }
+                            addDescriptionEvent(button, {
+                                cost: costString
+                            });
+                        }
+
                         button.addEventListener("click", _ => {
-                            currentIndex = choice.goto;
-                            readEvent(currentIndex);
+                            let canAffordCost = true;
+                            if (choice.cost) {
+                                let insufficentItems = [];
+                                for (const cost in choice.cost) {
+                                    if (currentMultiverse[cost] - itemsToSubtract[cost] ?? 0 < choice.cost[cost]) {
+                                        canAffordCost = false;
+                                        insufficentItems.push(cost);
+                                    }
+                                }
+                                if (canAffordCost) {
+                                    for (const cost in choice.cost) {
+                                        if (cost in itemsToSubtract) {
+                                            itemsToSubtract[cost] += choice.cost[cost];
+                                        } else {
+                                            itemsToSubtract[cost] = choice.cost[cost];
+                                        }
+                                    }
+                                    currentIndex = choice.goto;
+                                    readEvent(currentIndex);
+                                } else {
+                                    notify(`You don't have enough ${insufficentItems.join(", ")}`);
+                                }
+                            } else {
+                                currentIndex = choice.goto;
+                                readEvent(currentIndex);
+                            }
                         });
 
                         eventChoices.appendChild(button);
                     }
+                } else {
+                    eventNext.style.display = "block";
+                    eventChoices.style.display = "none";
+                    endButton.style.display = "none";
                 }
             }
         }

@@ -16,7 +16,7 @@ function arriveAtTarget(shipInfo, userData) { //for use with player ships arrivi
         addNavigationAttention("Map", "pageMap");
         notify(`A ship has arrived at ${targetObject.name}.`);
         shipInfo.targetObjectId = "player";
-        await eventPlayer(shipInfo, userData, choice(genericEvents));
+        await eventPlayer(shipInfo, userData, "Warp Drive"/* choice(genericEvents) */);
         res();
     });
 }

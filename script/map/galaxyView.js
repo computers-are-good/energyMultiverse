@@ -43,6 +43,7 @@ function galaxyView(userData) {
                 document.getElementById("energyRequired").textContent = calculateEnergyRequired(userData, i);
                 document.getElementById("numberOfPlanetsDisplay").textContent = Object.keys(system.objects).filter(e => system.objects[e].type === "planet").length;
                 document.getElementById("systemTierDisplayGalaxy").textContent = system.tier;
+                document.getElementById("dangerLevelDisplay").textContent = system.dangerLevel;
                 document.getElementById("systemName").textContent = system.name;
                 selectedIndex = i;
             });

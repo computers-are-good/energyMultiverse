@@ -23,13 +23,15 @@ const events = {
                     dust: 30,
                 },
                 endEvent: true,
+                eventResolved: true,
             },
             {
                 text: "You let the turbine generate energy for a while. You gain 200 energy.",
                 item: {
                     energy: 200,
                 },
-                endEvent: true
+                endEvent: true,
+                eventResolved: true,
             }
             ]
     },
@@ -49,7 +51,61 @@ const events = {
                 text: "You also found the station's energy supplies, and gain 100 energy.",
                 item: {
                     energy: 100
-                }
+                },
+            },
+            {
+                text: "You leave the research station",
+                eventResolved: true,
+            }
+        ]
+    },
+    "Warp Drive": {
+        script: [
+            {
+                text: "You arrive at the planet, but before landing, a large orbital station glimmering in the white starlight catches your attention."
+            },
+            {
+                text: "You pull up next to the station, but the landing bay is broken and requires 5 iridium to fix.",
+                choice: [
+                    {
+                        text: "Fix it",
+                        cost: {
+                            iridium: 5
+                        },
+                        goto: 2,
+                    },
+                    {
+                        text: "Leave",
+                        goto: 4
+                    }
+                ]
+            },
+            {
+                text: "You fixed the station, but you still need energy to get the station doors to open.",
+                choice: [
+                    {
+                        text: "Supply energy",
+                        cost: {
+                            energy: 100
+                        },
+                        goto: 3
+                    },
+                    {
+                        text: "Leave",
+                        goto: 4
+                    }
+                ]
+            },
+            {
+                text: "Success! You manage to enter the research station, and inside, you find the blueprints for a warp drive. Perhaps you can jump between star systems with this?",
+                researchUnlocked: ["Warp Drive"],
+                endEvent: true,
+                eventResolved: true
+            },
+            {
+                text: "You leave the station for another day.",
+                endEvent: true,
+                eventResolved: false,
             }
         ]
     }

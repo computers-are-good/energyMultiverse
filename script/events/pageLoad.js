@@ -21,6 +21,7 @@ import metalClicker from "../resources/metal.js";
 import addCheats from "../cheats.js";
 import { closeGalaxyView, galaxyView, jumpButtonClicked } from "../map/galaxyView.js";
 import generateAllSystems from "../map/newSolarSystem.js";
+import { buildWarpDrive, updateWarpDriveButton } from "../map/warpDriveEvents.js";
 
 async function pageLoad(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -80,9 +81,11 @@ async function pageLoad(userData) {
     document.getElementById("recallShip").addEventListener("click", recallButton);
     document.getElementById("dispatchToDebris").addEventListener("click", _ => sendShipToDebris(userData));
     document.getElementById("jumpToSystem").addEventListener("click", _ => jumpButtonClicked(userData));
+    document.getElementById("buildWarpDrive").addEventListener("click", _ => buildWarpDrive(userData));
     
     addCheats(userData);
-   /*  currentMultiverse.solarSystems = [];
+    updateWarpDriveButton(userData);
+/*     currentMultiverse.solarSystems = [];
     generateAllSystems(userData); */
     addUIDescriptions();
     updateResearchRate(userData);

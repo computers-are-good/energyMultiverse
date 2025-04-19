@@ -37,6 +37,10 @@ const mouseoverDescriptions = {
     },
     "dispatchToSun": {
         content: "Sends a ship to harvest energy from the star. The ship must have a sunscoop. The sunscoop will be destroyed."
+    },
+    "buildWarpDrive": {
+        content: "Build a warp drive, which allows you to jump between systems.",
+        cost: "10 metal 5 iridium"
     }
 }
 let currentDescription = "";
@@ -80,7 +84,7 @@ function addUIDescriptions() {
     for (let id in mouseoverDescriptions) {
         const description = mouseoverDescriptions[id];
         const element = document.getElementById(id);
-        addDescriptionEvent(element, description)
+        addDescriptionEvent(element, description, id);
     }
 }
 function manualDescriptionUpdate(description, x, y, screen) {
@@ -91,8 +95,8 @@ function changeDescriptionText(description) {
     populateDescription(description)
 }
 function addDescriptionEvent(element, description, screen) {
-    currentDescription = screen;
     element.addEventListener("mouseover", e => {
+        currentDescription = screen;
         updateDescription(description, e.x, e.y);
     });
     element.addEventListener("mouseout", removeDescription);
