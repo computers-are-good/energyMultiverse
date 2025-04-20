@@ -36,6 +36,8 @@ function animateDrones() {
         if (e.theta > Math.PI * 2) {
             e.theta -= Math.PI * 2
         }
+        e.div.style.width = `${e.droneInfo.energyProduced / 2 + 5}px`
+        e.div.style.height = `${e.droneInfo.energyProduced / 2 + 5}px`
         const posX = e.radius * Math.cos(e.theta);
         const posY = e.radius * Math.sin(e.theta);
         e.div.style.left = `${posX + centerX}px`;

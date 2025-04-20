@@ -1,5 +1,5 @@
 import { spawnDrone } from "./drones.js";
-import {deepClone} from "../../utils.js"
+import { deepClone } from "../../utils.js"
 import { manualDescriptionUpdate, mouseoverDescriptions, removeDescription } from "../../addUIDescriptions.js";
 import { updateDustCounter } from "../../pageUpdates.js";
 import notify from "../../notifs/notify.js";
@@ -43,26 +43,54 @@ function deleteDroneDivs() {
 function upgradeDroneTicksCost(level) {
     return level * 3 + 2;
 }
+function upgradeDroneEnergyCost(level) {
+    return level * 5 + 4;
+}
 function upgradeDroneTicks(droneData, userData) {
-    const dustRequired = upgradeDroneTicksCost(droneData.energyUpgradedTimes);
-    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    if (currentMultiverse.dust > dustRequired) {
-        currentMultiverse.dust -= dustRequired;
-        droneData.ticksUpgradedTimes++;
-        droneData.ticksTilEnergy -= 5;
-        notify(`Upgraded drone.`);
-        updateMouseoverDescription(droneData);
-    } else {
-        notify(`Not enough dust.`);
+    if (droneData.ticksTilEnergy > 10) {
+        const dustRequired = upgradeDroneTicksCost(droneData.energyUpgradedTimes);
+        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+        if (currentMultiverse.dust > dustRequired) {
+            currentMultiverse.dust -= dustRequired;
+            droneData.ticksUpgradedTimes++;
+            droneData.ticksTilEnergy -= 5;
+            notify(`Upgraded drone.`);
+            updateMouseoverDescriptionTicks(droneData);
+        } else {
+            notify(`Not enough dust.`);
+        }
+    }
+}
+
+function upgradeDroneEnergy(droneData, userData) {
+    if (droneData.energyProduced < 10) {
+        const dustRequired = upgradeDroneEnergyCost(droneData.energyUpgradedTimes);
+        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+        if (checkCosts(userData, {
+            dust: dustRequired
+        })) {
+            currentMultiverse.dust -= dustRequired;
+            droneData.energyUpgradedTimes++;
+            droneData.energyProduced++;
+            notify(`Upgraded drone.`);
+            updateMouseoverDescriptionEnergy(droneData);
+        }
     }
 }
 let lastMouseX;
 let lastMouseY;
-function updateMouseoverDescription(droneObj) {
+function updateMouseoverDescriptionTicks(droneObj) {
     manualDescriptionUpdate({
         content: `Reduce the time needed for this drone to create energy.`,
         upgradePreview: `${droneObj.ticksTilEnergy / 10}s -> ${(droneObj.ticksTilEnergy - 5) / 10}s`,
         cost: `${upgradeDroneTicksCost(droneObj.ticksUpgradedTimes)} dust`
+    }, lastMouseX, lastMouseY)
+}
+function updateMouseoverDescriptionEnergy(droneObj) {
+    manualDescriptionUpdate({
+        content: `Increases the amount of energy gained fom this drone.`,
+        upgradePreview: `${droneObj.energyProduced} energy -> ${droneObj.energyProduced + 1} energy`,
+        cost: `${upgradeDroneEnergyCost(droneObj.energyUpgradedTimes)} dust`
     }, lastMouseX, lastMouseY)
 }
 function drawDronesDivs(userData) {
@@ -79,17 +107,21 @@ function drawDronesDivs(userData) {
         const upgradeTicks = document.createElement("button");
         upgradeTicks.classList.add("upgradeTicks");
         upgradeTicks.textContent = "+";
-        ticks.insertBefore(upgradeTicks, ticks.firstChild);
+        if (droneObj.ticksTilEnergy > 10) ticks.insertBefore(upgradeTicks, ticks.firstChild);
 
         upgradeTicks.addEventListener("mouseover", e => {
             lastMouseX = e.x;
             lastMouseY = e.y;
-            updateMouseoverDescription(droneObj);
+            updateMouseoverDescriptionTicks(droneObj);
         });
 
         upgradeTicks.addEventListener("click", _ => {
             upgradeDroneTicks(droneObj, userData);
-        })
+            if (droneObj.ticksTilEnergy <= 10) {
+                upgradeTicks.remove();
+                removeDescription();
+            }
+        });
 
         upgradeTicks.addEventListener("mouseout", removeDescription);
 
@@ -98,16 +130,44 @@ function drawDronesDivs(userData) {
 
         newDiv.appendChild(ticks);
 
+        const energyWrapper = document.createElement("p");
+        energyWrapper.textContent = "Energy: "
 
-        const energyGained = document.createElement("span");
-        newDiv.appendChild(energyGained);
-        newDiv.classList.add("dronesDisplayElement")
+        const energy = document.createElement("span");
+        energyWrapper.appendChild(energy);
+
+        const upgradeEnergy = document.createElement("button");
+        upgradeEnergy.textContent = "+";
+
+        upgradeEnergy.addEventListener("click", _ => {
+            upgradeDroneEnergy(droneObj, userData);
+            if (droneObj.energyProduced >= 10) {
+                upgradeEnergy.remove();
+                removeDescription();
+            }
+        });
+
+        upgradeEnergy.addEventListener("mouseover", e => {
+            lastMouseX = e.x;
+            lastMouseY = e.y;
+            updateMouseoverDescriptionEnergy(droneObj);
+        });
+
+        upgradeEnergy.addEventListener("mouseout", removeDescription);
+
+        upgradeEnergy.classList.add("upgradeTicks");
+
+        if (droneObj.energyProduced < 10) energyWrapper.insertBefore(upgradeEnergy, energyWrapper.firstChild);
+
+        newDiv.appendChild(energyWrapper);
+
+        newDiv.classList.add("dronesDisplayElement");
         droneDivs.push({
             ticksRemaining: ticksRemaining,
-            energyGained: energyGained,
+            energyGained: energy,
             bigDiv: newDiv,
             droneData: currentMultiverse.drones[drone]
-        })
+        });
         dronesDisplay.appendChild(newDiv);
     }
 }
@@ -116,7 +176,7 @@ function updateDroneDivs(userData) {
         const ticksRemaining = e.droneData.ticksTilEnergy - e.droneData.ticksElapsed;
         const energyGained = e.droneData.energyProduced;
         e.ticksRemaining.textContent = `${ticksRemaining / 10}s`;
-        e.energyGained.textContent = `Energy: ${energyGained}`
+        e.energyGained.textContent = energyGained;
     });
 }
-export {droneClicker, droneCost, drawDronesDivs, updateDroneDivs}
+export { droneClicker, droneCost, drawDronesDivs, updateDroneDivs }
