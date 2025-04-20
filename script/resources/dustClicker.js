@@ -14,7 +14,7 @@ function makeDust(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
     if (checkCosts(userData, {energy: 10})) {
-        gainDust(userData);
+        gainDust(userData, 1);
         subtractCosts(userData, {energy: 10})
         if (currentMultiverse.dust >= 5 && !currentMultiverse.eventsDone.includes("unlockDust")) {
             notifyUnique("dustUseful");

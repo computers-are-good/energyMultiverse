@@ -1,5 +1,4 @@
 import notifyUnique from "../notifs/notifyUnique.js";
-import { updateEnergyCounter } from "../pageUpdates.js";
 import {unlockUIElement} from "../toggleUIElement.js";
 import { updateResearchButtons } from "../pageUpdates.js";
 import { gainEnergy } from "./gainResources.js";
@@ -7,7 +6,10 @@ import { gainEnergy } from "./gainResources.js";
 function energyClicker(userData) {
    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
-   gainEnergy(userData, 1 + currentMultiverse.upgradeTimes.energyClicker ?? 0);
+   gainEnergy(userData, 1 + (currentMultiverse.upgradeTimes.energyClicker ?? 0));
+   document.getElementById("energyClicker").style.transform = "scale(0.7)";
+   setTimeout(_ => document.getElementById("energyClicker").style.transform = "scale(1)", 50);
+
     if (currentMultiverse.energy > 5 && !currentMultiverse.eventsDone.includes("firstEnergy")) {
         notifyUnique("gettingEnergy");
         unlockUIElement(currentMultiverse.UIElementsUnlocked, "sidebar");

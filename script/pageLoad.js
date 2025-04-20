@@ -23,13 +23,25 @@ import { closeGalaxyView, galaxyView, jumpButtonClicked } from "./map/galaxyView
 import { buildWarpDrive, updateWarpDriveButton } from "./map/warpDriveEvents.js";
 import { updateSolarPanels } from "./resources/solarPanel.js";
 import { drawUpgradeButtons } from "./upgrades.js";
+import particles from "./animations/particles.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
     document.getElementById("drone").addEventListener("mousedown", _ => droneClicker(userData));
     document.getElementById("dust").addEventListener("mousedown", _ => dustClicker(userData));
-    document.getElementById("energyClicker").addEventListener("mouseup", _ => energyClicker(userData));
+    document.getElementById("energyClicker").addEventListener("mousedown", e => {
+        particles({
+            particleX: e.pageX,
+            particleY: e.pageY,
+            particleColor: "White",
+            particleLifetime: 250,
+            particleNumber: 5,
+            particleSize: 3,
+            particleSpeed: 0.1
+        });
+        energyClicker(userData)
+    });
     document.querySelectorAll("#pageSelector li").forEach(e => e.addEventListener("click", _ => {
         e.classList.remove("navigationAttention");
         toggleScreen(e.textContent);
