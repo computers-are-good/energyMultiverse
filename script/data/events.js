@@ -138,13 +138,14 @@ const events = {
                 text: "The scenery offers a pleasing and transquil view, but you wonder if that's all the planet has in store for you. Then, out of the corner of your eye, a fleeting reflection of sunlight catches your attention."
             },
             {
-                text: "You steer your ship towards the light. It leads you to an island like many others, except for one small detail: a large solar panel feeding power to a small white circular building. You don't know what the building is used for, but you do know: you can use the solar panel to power your ship.",
+                text: "You steer your ship towards the light. It leads you to an island like many others, except for one small detail: a large solar panel feeding power to a small white lab. You don't know what the building is used for, but you do know: you can use the solar panel to power your ship.",
                 item: {
                     solarPanel: 1
                 }
             },
             {
-                text: "Solar panels are difficult to come by in this universe. Better look after this one; it will serve you well."
+                text: "Solar panels are difficult to come by in this universe. Better look after this one; it will serve you well.",
+                eventResolved: true
             }
         ]
     }

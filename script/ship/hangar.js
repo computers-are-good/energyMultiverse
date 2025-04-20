@@ -1,5 +1,3 @@
-import { addDescriptionEvent } from "../addUIDescriptions.js";
-import { updateDroneDivs } from "../drone/droneClicker.js";
 import threatLevel from "../map/threatLevel.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter } from "../pageUpdates.js";
 

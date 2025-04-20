@@ -34,8 +34,9 @@ function newMultiverse(userData) {
     const chosenName = choice(multiverseNames);
     const multiverse = deepClone(defaultMultiverseData);
     multiverse.name = chosenName;
-    generateAllSystems(userData);
+    generateAllSystems(multiverse);
     userData.multiverses.push(multiverse);
+    return multiverse;
 }
 function storeUserData(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -46,4 +47,4 @@ function storeUserData(userData) {
     window.localStorage.setItem("saveData", JSON.stringify(userData));
     notify("Data saved.");
 }
-export {getUserData, storeUserData}
+export {getUserData, storeUserData, newMultiverse}

@@ -111,11 +111,11 @@ function eventPlayer(shipData, userData, eventId) {
                         }
 
                         button.addEventListener("click", _ => {
-                            let canAffordCost = true;
                             if (choice.cost) {
                                 let insufficentItems = [];
+                                let canAffordCost = true;
                                 for (const cost in choice.cost) {
-                                    if (currentMultiverse[cost] - itemsToSubtract[cost] ?? 0 < choice.cost[cost]) {
+                                    if (currentMultiverse[cost] - (itemsToSubtract[cost] ?? 0) < choice.cost[cost]) {
                                         canAffordCost = false;
                                         insufficentItems.push(cost);
                                     }

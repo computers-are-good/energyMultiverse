@@ -1,6 +1,7 @@
 import { shipAccessories } from "../data/shipData.js";
 import notify from "../notifs/notify.js";
 import { updateEnergyCounter, updateShipConstruction, updateShipConstructionBar } from "../pageUpdates.js";
+import { useEnergy } from "../resources/useResources.js";
 import { addNavigationAttention } from "../toggleUIElement.js";
 
 function buildShip(userData) {
@@ -8,7 +9,7 @@ function buildShip(userData) {
     const currentShip = currentMultiverse.shipInProgress;
     if (Object.keys(currentShip).length > 0) {
         const progress = Math.min(currentMultiverse.currentShipBuildingRate, currentMultiverse.energy);
-        currentMultiverse.energy -= progress;
+        useEnergy(userData, progress);
         currentShip.energySpent += progress;
     
         if (currentShip.energySpent >= currentShip.energyCostTotal) {

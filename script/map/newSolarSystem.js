@@ -18,15 +18,14 @@ const starNames = [
     "Huatrs",
     "Trasbes"
 ];
-function generateAllSystems(userData) {
-    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+function generateAllSystems(multiverse) {
     let solarSystemsMade = 0;
     for (let i = 1; i < 8; i++) {
         for (let j = 1; j < 6; j++) {
             solarSystemsMade++;
             let x = i * 100 - 100 + Math.floor(Math.random() * 200);
             let y = j * 100 - 100 + Math.floor(Math.random() * 200);
-            for (const system of currentMultiverse.solarSystems) {
+            for (const system of multiverse.solarSystems) {
                 while (Math.abs(system.galaxyX - x) + Math.abs(system.galaxyY - y) < 50) {
                     x = i * 100 - 100 + Math.floor(Math.random() * 250);
                     y = j * 100 - 100 + Math.floor(Math.random() * 250);
@@ -59,7 +58,7 @@ function generateAllSystems(userData) {
                 posX: Math.random() * 400 - 200 + 375,
                 posY: Math.random() * 400 - 200 + 375
             }
-            currentMultiverse.solarSystems.push(solarSystem);
+            multiverse.solarSystems.push(solarSystem);
         }
     }
 

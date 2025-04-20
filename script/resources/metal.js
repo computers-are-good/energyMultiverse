@@ -1,7 +1,7 @@
-import { updateEnergyCounter, updateDustCounter, updateResearchButtons, updateMetalCounter } from "../pageUpdates.js";
 import { unlockUIElement } from "../toggleUIElement.js";
 import notifyUnique from "../notifs/notifyUnique.js"
 import { checkCosts, subtractCosts } from "../itemCosts.js";
+import { gainMetal } from "./gainResources.js";
 
 function metalClicker(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -12,13 +12,9 @@ function metalClicker(userData) {
 function makeMetal(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     if (checkCosts(userData, {energy: 30, dust: 5})) {
-        currentMultiverse.metal++;
-        currentMultiverse.statistics.metalMade++;
+        gainMetal(userData, 1);
         subtractCosts(userData, {energy: 30, dust: 5});
     }
-    updateDustCounter(userData);
-    updateEnergyCounter(userData);
-    updateMetalCounter(userData);
 }
 
 export default metalClicker

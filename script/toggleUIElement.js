@@ -23,7 +23,8 @@ const screens = [
     "dustbotView",
     "Shipyard",
     "playerShips",
-    "Map"
+    "Map",
+    "Universe"
 ]
 let currentScreenDisplayed = "";
 
@@ -41,6 +42,9 @@ function hideLockedElements(elementsArray) {
     hideableIDs.forEach(e => {
         if (!elementsArray.includes(e)) {
             document.getElementById(e).style.display = "none";
+        } else {
+            document.getElementById(e).style.display = inlineBlockElements.includes(e) ? "inline-block": 
+            (flexElements.includes(e) ? "flex" : "block");
         }
     });
 }
@@ -48,9 +52,9 @@ function hideLockedElements(elementsArray) {
 function unlockUIElement(elementsArray, elementName) {
     if (!elementsArray.includes(elementName)) {
         elementsArray.push(elementName);
-        const element = document.getElementById(elementName)
+        const element = document.getElementById(elementName);
         element.style.display = inlineBlockElements.includes(elementName) ? "inline-block": 
-            (flexElements.includes(elementName) ? "flex" :"block");
+            (flexElements.includes(elementName) ? "flex" : "block");
         fadeIn(element, 2);
     }
 }

@@ -1,4 +1,4 @@
-import fadeIn from "../animations/fadeIn.js"
+import fadeIn from "../../animations/fadeIn.js"
 let drones = [];
 const targetNode = document.getElementById("energyClicker");
 let centerX = targetNode.offsetLeft + targetNode.offsetWidth / 2;

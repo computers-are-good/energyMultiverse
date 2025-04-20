@@ -10,6 +10,8 @@ import notifyUnique from "../notifs/notifyUnique.js";
 import { choice, deepClone, removeFromArray } from "../utils.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons } from "../pageUpdates.js";
 import hostileTiers from "../data/hostileTiers.js";
+import { useEnergy } from "../resources/useResources.js";
+import { resourceMappings } from "../resources/gainResources.js";
 const planetVelocity = 8.8;
 
 let activeScreen = "";
@@ -194,7 +196,7 @@ function recallButton() {
 }
 
 document.getElementById("systemMap").addEventListener("click", e => {
-    if (e.target.id == "systemMap" && activeScreen !== "scriptPlayer") {
+    if (e.target.id == "systemMap" && activeScreen !== "scriptPlayer" && activeScreen !== "attacked") {
         activeScreen = "emptySpaceInfo";
         updateVisibleDivs();
 
@@ -232,7 +234,7 @@ function moveMothership(userData) {
 }
 
 document.body.addEventListener("click", e => {
-    if (activeScreen !== "scriptPlayer") {
+    if (activeScreen !== "scriptPlayer" && activeScreen !== "attacked") {
         //Did we click outside the system map?
         let clickedOutside = true;
         let node = e.target;
@@ -379,8 +381,10 @@ async function updateSolarSystemPositions(userData) {
                                 ship.inSolarSystem = false;
                                 let cargoText = ""
                                 for (let item in ship.cargo) {
-                                    currentMultiverse[item] += ship.cargo[item];
-                                    cargoText += `${ship.cargo[item]} ${item} `;
+                                    const oldAmount = currentMultiverse[item];
+                                    resourceMappings[item](userData, ship.cargo[item]);
+                                    const newAmount = currentMultiverse[item]
+                                    cargoText += `${newAmount - oldAmount} ${item} `;
                                     delete ship.cargo[item];
                                 }
                                 updateEnergyCounter(userData);
@@ -425,8 +429,8 @@ async function updateSolarSystemPositions(userData) {
                         }
                     }
                 }
-                if (closestShip && closestDistance < 50) {
-                    moveTowards(thing, closestShip, thing.baseStats.baseSpeed * 0.2);
+                if (closestShip && closestDistance < 100) {
+                    moveTowards(thing, closestShip, thing.baseStats.baseSpeed * 1.2);
                     if (closestDistance < 10) {
                         const loot = generateShipLoot(thing);
                         addNavigationAttention("Map", "pageMap");
@@ -453,7 +457,7 @@ async function updateSolarSystemPositions(userData) {
                     moveTowards(thing, {
                         posX: targetX,
                         posY: targetY
-                    }, thing.baseStats.baseSpeed * 0.2);
+                    }, thing.baseStats.baseSpeed * 0.6);
 
                     const distanceToTarget = Math.sqrt(Math.pow(hostileX - targetX, 2) + Math.pow(hostileY - targetY, 2));
                     if (distanceToTarget < 10) {
@@ -502,7 +506,7 @@ async function updateSolarSystemPositions(userData) {
                             delete thing.targetX;
                             delete thing.targetY;
                         }
-                        currentMultiverse.energy -= energyUsed;
+                        useEnergy(userData, energyUsed);
                     }
                 }
 

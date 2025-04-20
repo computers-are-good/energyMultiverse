@@ -1,4 +1,5 @@
 import notify from "./notifs/notify.js";
+import { useDust, useEnergy, useIridium, useMetal } from "./resources/useResources.js";
 
 function checkCosts(userData, cost, notifyUser = true) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -10,12 +11,34 @@ function checkCosts(userData, cost, notifyUser = true) {
     }
     return true;
 }
-
+const functionMappings = {
+    "energy": useEnergy,
+    "dust": useDust,
+    "metal": useMetal,
+    "iridium": useIridium
+}
 function subtractCosts(userData, cost) {
-    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    for (let item in cost) {
-        currentMultiverse[item] -= cost[item];
+    for (let item in cost) functionMappings[item](userData, cost[item]);
+}
+
+const costTextMappings = {
+    energy: "Energy",
+    dust: "Dust",
+    metal: "Metal",
+    iridium: "Iridium",
+    researchPoints: "Research Point(s)"
+}
+function writeCostsReadable(costs) {
+    const keys = Object.keys(costs);
+    if (keys.length === 1) {
+        return `${costs[keys[0]]} ${costTextMappings[keys[0]]}`;
+    } else if (keys.length === 2) {
+        return `${costs[keys[0]]} ${costTextMappings[keys[0]]} and ${costs[keys[1]]} ${costTextMappings[keys[1]]}`;
+    } else {
+        let arr = [];
+        keys.forEach((e, i) => arr.push(`${i === keys.length - 1 ? "and ": ""}${costs[e]} ${costTextMappings[e]}`));
+        return arr.join(", ");
     }
 }
 
-export {checkCosts, subtractCosts};
+export {checkCosts, subtractCosts, writeCostsReadable};

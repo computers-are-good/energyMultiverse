@@ -1,5 +1,5 @@
 import {getUserData, storeUserData} from "./userdata.js";
-import pageLoad from "./events/pageLoad.js";
+import {firstLoadFunctions, applyEvents} from "./pageLoad.js";
 import { updateSolarSystem } from "./map/solarSystem.js";
 
 const userData = getUserData();
@@ -10,4 +10,5 @@ document.body.addEventListener("keydown", e => {
         storeUserData(userData);
     }
 })
-pageLoad(userData);
+firstLoadFunctions(userData);
+applyEvents(userData);

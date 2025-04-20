@@ -1,6 +1,7 @@
 import fadeIn from "../animations/fadeIn.js";
 import notify from "../notifs/notify.js";
 import { updateEnergyCounter } from "../pageUpdates.js";
+import { useEnergy } from "../resources/useResources.js";
 import { updateSolarSystem, updateSolarSystemPositions } from "./solarSystem.js";
 
 const bigGalaxyMap = document.getElementById("bigGalaxyMap");
@@ -57,7 +58,7 @@ function jumpButtonClicked(userData) {
     const energyReq = calculateEnergyRequired(userData, selectedIndex);
     if (currentMultiverse.energy > energyReq) {
         jumpToSystem(userData, selectedIndex);
-        currentMultiverse.energy -= energyReq;
+        useEnergy(userData, energyReq);
         updateEnergyCounter(userData);
     }
 }

@@ -25,10 +25,15 @@ const defaultMultiverseData = {
     researchRate: 0,
     maxResearchRate: 3,
     ticksPerResearchAdvancement: 30,
-    upgradesCount: {
-        maxResearchRate: 0,
-        energyUntilResearchPoint: 0,
-        ticksPerResearchAdvancement: 0
+    upgradeTimes: {},
+    maxUpgradeTimes: {
+        energyClicker: 5
+    },
+    multipliers: {
+        energyGained: 1,
+        dustGained: 1,
+        metalGained: 1,
+        iridiumGained: 1
     },
     biomeSpecificEventsDone: {
         "Desert": [],
@@ -48,9 +53,10 @@ const defaultMultiverseData = {
     uniqueNotifsDone: [],
     eventsDone: [],
     statistics: {
-        energyClicked: 0,
-        dustClicked: 0,
-        metalMade: 0,
+        energyGained: 0,
+        dustGained: 0,
+        metalGained: 0,
+        iridiumGained: 0,
         totalTicksPassed: 0
     },
     ships: [],

@@ -2,6 +2,7 @@ import { updateEnergyCounter, updateDustCounter, updateResearchButtons } from ".
 import { unlockUIElement } from "../toggleUIElement.js";
 import notifyUnique from "../notifs/notifyUnique.js"
 import { checkCosts, subtractCosts } from "../itemCosts.js";
+import { gainDust } from "./gainResources.js";
 
 function dustClicker(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -13,8 +14,7 @@ function makeDust(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
     if (checkCosts(userData, {energy: 10})) {
-        currentMultiverse.dust++;
-        currentMultiverse.statistics.dustClicked++
+        gainDust(userData);
         subtractCosts(userData, {energy: 10})
         if (currentMultiverse.dust >= 5 && !currentMultiverse.eventsDone.includes("unlockDust")) {
             notifyUnique("dustUseful");
@@ -35,8 +35,6 @@ function makeDust(userData) {
             currentMultiverse.eventsDone.push("unlockMetal");
         }
     }
-    updateDustCounter(userData);
-    updateEnergyCounter(userData);
 }
 
 export default dustClicker

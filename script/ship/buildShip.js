@@ -24,6 +24,7 @@ function drawBuildShipsDiv(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     document.getElementById("totalEnergyCost").style.display = "none";
     document.getElementById("chooseShipAccessories").style.display = "none";
+    document.getElementById("chooseShipAccessories").innerHTML = "";
     document.getElementById("chooseShipClass").innerHTML = "";
     document.getElementById("selectAccessoriesText").style.display = "none";
 

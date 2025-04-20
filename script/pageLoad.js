@@ -1,41 +1,31 @@
-import energyClicker from "../resources/energyClicker.js";
-import dustClicker from "../resources/dustClicker.js";
-import { hideLockedElements, toggleScreen } from "../toggleUIElement.js";
-import { spawnDrone, animateDrones } from "../drone/drones.js";
-import tick from "../interval/tick.js"
-import { addUIDescriptions, mouseoverDescriptions, removeDescription } from "../addUIDescriptions.js";
-import { updateEnergyCounter, updateDustCounter, updateResearchPoints, updateResearchRate, updateResearchBar, updateResearchButtons, updateDustbot, updateShipConstruction, updateShipConstructionBar, updateMetalCounter, updateIridiumCounter } from "../pageUpdates.js";
-import { droneClicker, droneCost, drawDronesDivs } from "../drone/droneClicker.js";
-import { decreaseResearchRate, increaseResearchRate, showResearchProgress } from "../research/researchClicker.js";
-import notifyUnique from "../notifs/notifyUnique.js";
-import { wait } from "../utils.js";
-import fadeIn from "../animations/fadeIn.js";
-import { buildDustbotEvent, dustbotSlider } from "../resources/dustbotClicker.js";
-import { buildShip, drawBuildShipsDiv, showShipbuildingProgress } from "../ship/buildShip.js";
-import { decreaseBuildRate, increaseBuildRate } from "../ship/shipEvents.js";
-import { closeHangar, openHangar } from "../ship/hangar.js";
-import { dispatchShipEvent, goToHostile, launchMissile, moveMothership, recallButton, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "../map/solarSystem.js";
-import { makeMissile, makeRepairKit } from "../ship/manufactory.js";
-import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "../map/thrust.js";
-import metalClicker from "../resources/metal.js";
-import addCheats from "../cheats.js";
-import { closeGalaxyView, galaxyView, jumpButtonClicked } from "../map/galaxyView.js";
-import { buildWarpDrive, updateWarpDriveButton } from "../map/warpDriveEvents.js";
-import { updateSolarPanels } from "../resources/solarPanel.js";
+import energyClicker from "./resources/energyClicker.js";
+import dustClicker from "./resources/dustClicker.js";
+import { hideLockedElements, toggleScreen } from "./toggleUIElement.js";
+import { spawnDrone, animateDrones } from "./resources/drone/drones.js";
+import tick from "./tick.js"
+import { addUIDescriptions, mouseoverDescriptions, removeDescription } from "./addUIDescriptions.js";
+import { updateEnergyCounter, updateDustCounter, updateResearchPoints, updateResearchRate, updateResearchBar, updateResearchButtons, updateDustbot, updateShipConstruction, updateShipConstructionBar, updateMetalCounter, updateIridiumCounter } from "./pageUpdates.js";
+import { droneClicker, droneCost, drawDronesDivs } from "./resources/drone/droneClicker.js";
+import { decreaseResearchRate, increaseResearchRate, showResearchProgress } from "./research/researchClicker.js";
+import notifyUnique from "./notifs/notifyUnique.js";
+import { wait } from "./utils.js";
+import fadeIn from "./animations/fadeIn.js";
+import { buildDustbotEvent, dustbotSlider } from "./resources/dustbotClicker.js";
+import { buildShip, drawBuildShipsDiv, showShipbuildingProgress } from "./ship/buildShip.js";
+import { decreaseBuildRate, increaseBuildRate } from "./ship/shipEvents.js";
+import { closeHangar, openHangar } from "./ship/hangar.js";
+import { dispatchShipEvent, goToHostile, launchMissile, moveMothership, recallButton, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
+import { makeMissile, makeRepairKit } from "./ship/manufactory.js";
+import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "./map/thrust.js";
+import metalClicker from "./resources/metal.js";
+import addCheats from "./cheats.js";
+import { closeGalaxyView, galaxyView, jumpButtonClicked } from "./map/galaxyView.js";
+import { buildWarpDrive, updateWarpDriveButton } from "./map/warpDriveEvents.js";
+import { updateSolarPanels } from "./resources/solarPanel.js";
+import { drawUpgradeButtons } from "./upgrades.js";
 
-async function pageLoad(userData) {
+function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-
-    hideLockedElements(currentMultiverse.UIElementsUnlocked);
-
-    for (let i = 0; i < currentMultiverse.drones.length; i++) {
-        spawnDrone(currentMultiverse.drones[i]);
-    }
-
-    mouseoverDescriptions.drone.cost = `${droneCost(currentMultiverse.drones.length)} dust`;
-
-    toggleScreen(currentMultiverse.lastScreen || "Energy");
-    if (currentMultiverse.lastScreen === "Map") updateSolarSystem(userData);
 
     document.getElementById("drone").addEventListener("mousedown", _ => droneClicker(userData));
     document.getElementById("dust").addEventListener("mousedown", _ => dustClicker(userData));
@@ -86,8 +76,24 @@ async function pageLoad(userData) {
     document.getElementById("dispatchToDebris").addEventListener("click", _ => sendShipToDebris(userData));
     document.getElementById("jumpToSystem").addEventListener("click", _ => jumpButtonClicked(userData));
     document.getElementById("buildWarpDrive").addEventListener("click", _ => buildWarpDrive(userData));
-
     addCheats(userData);
+
+    setInterval(_ => tick(userData), 10);
+}
+async function firstLoadFunctions(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+
+    hideLockedElements(currentMultiverse.UIElementsUnlocked);
+
+    for (let i = 0; i < currentMultiverse.drones.length; i++) {
+        spawnDrone(currentMultiverse.drones[i]);
+    }
+
+    mouseoverDescriptions.drone.cost = `${droneCost(currentMultiverse.drones.length)} dust`;
+
+    toggleScreen(currentMultiverse.lastScreen || "Energy");
+    if (currentMultiverse.lastScreen === "Map") updateSolarSystem(userData);
+   
     updateWarpDriveButton(userData);
     addUIDescriptions();
     updateResearchRate(userData);
@@ -104,10 +110,7 @@ async function pageLoad(userData) {
     updateDustCounter(userData);
     updateResearchButtons(userData);
     updateSolarPanels(userData);
-
-    setInterval(_ => {
-        tick(userData);
-    }, 10);
+    drawUpgradeButtons(userData);
 
     animateDrones();
 
@@ -126,4 +129,7 @@ async function pageLoad(userData) {
         currentMultiverse.eventsDone.push("awake");
     }
 }
-export default pageLoad;
+export {
+    applyEvents,
+    firstLoadFunctions,
+};

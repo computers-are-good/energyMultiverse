@@ -1,17 +1,19 @@
-import { updateDroneDivs } from "../drone/droneClicker.js"
-import { updateDustCounter, updateEnergyCounter } from "../pageUpdates.js";
-import updateResearch from "../research/research.js";
-import { checkCosts, subtractCosts } from "../itemCosts.js";
-import notify from "../notifs/notify.js";
-import { buildShip } from "../ship/shipEvents.js";
-import { updateSolarSystem, updateSolarSystemPositions } from "../map/solarSystem.js";
-import { currentScreenDisplayed } from "../toggleUIElement.js";
-import {solarPanelTick} from "../resources/solarPanel.js";
+import { updateDroneDivs } from "./resources/drone/droneClicker.js"
+import { updateDustCounter, updateEnergyCounter } from "./pageUpdates.js";
+import updateResearch from "./research/research.js";
+import { checkCosts, subtractCosts } from "./itemCosts.js";
+import notify from "./notifs/notify.js";
+import { buildShip } from "./ship/shipEvents.js";
+import { updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
+import { currentScreenDisplayed } from "./toggleUIElement.js";
+import {solarPanelTick} from "./resources/solarPanel.js";
+import { gainEnergy } from "./resources/gainResources.js";
 
 let tickCount = 0;
 function tick(userData) {
     tickCount++;
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+
     if (tickCount % 1000 === 0) {
         // storeUserData(userData);
     }
@@ -21,7 +23,7 @@ function tick(userData) {
         if (e.ticksElapsed >= e.ticksTilEnergy) {
             e.ticksElapsed = 0;
             energyChanged = true;
-            currentMultiverse.energy += e.energyProduced;
+            gainEnergy(userData, e.energyProduced);
         }
     });
     if (energyChanged) updateEnergyCounter(userData);

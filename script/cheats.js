@@ -1,15 +1,19 @@
 import research from "./data/researchData.js";
 import generateAllSystems from "./map/newSolarSystem.js";
+import { createNewMultiverse, multiverseTravel } from "./multiverse.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons, updateResearchPoints } from "./pageUpdates.js";
+import { updateSolarPanels } from "./resources/solarPanel.js";
+import { getUserData } from "./userdata.js";
 
 const enableCheats = true;
 
 function addCheats(userData) {
     if (enableCheats) {
-        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
         document.body.addEventListener("keypress", e => {
+            const currentMultiverse = userData.multiverses[userData.currentMultiverse];
             if (e.key === "\\") {
                 const code = prompt("Confess, young child, and speak thy soul.");
+                let targetMultiverse;
                 switch (code) {
                     case "ENERGYFORDAYS":
                         currentMultiverse.energy = 99999;
@@ -41,7 +45,7 @@ function addCheats(userData) {
                         }
                         currentMultiverse.researchCompleted = [];
                         updateResearchButtons(userData);
-                        break;    
+                        break;
                     case "IAMTHERESEARCH":
                         currentMultiverse.researchPoints = 999999;
                         updateResearchPoints(userData);
@@ -55,6 +59,39 @@ function addCheats(userData) {
                         break;
                     case "BETTERTHANGAS":
                         currentMultiverse.solarPanel = 10;
+                        updateSolarPanels(userData);
+                        break;
+                    case "GODVERSE":
+                        createNewMultiverse(userData, {
+                            energyGained: 9999,
+                            dustGained: 9999,
+                            metalGained: 9999,
+                            iridiumGained: 9999
+                        });
+                        break;
+                    case "DELETETHEMULTIVERSE":
+                        targetMultiverse = userData.currentMultiverse;
+                        userData.multiverses.splice(targetMultiverse , 1);
+                        break;
+                    case "NEXT":
+                        targetMultiverse = userData.currentMultiverse + 1;
+                        if (userData.multiverses[targetMultiverse])
+                            multiverseTravel(userData, targetMultiverse)
+                        break;
+                    case "BACK":
+                        targetMultiverse = userData.currentMultiverse - 1;
+                        if (userData.multiverses[targetMultiverse])
+                            multiverseTravel(userData, targetMultiverse)
+                        break;
+                    case "GIMMEMYDATA":
+                        console.log(JSON.stringify(userData));
+                        break;
+                    case "GOODBYEWORLD":
+                        localStorage.clear();
+                        userData = getUserData();
+                        multiverseTravel(userData, 0);
+                        break;
+
                 }
             }
         })
