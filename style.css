@@ -116,7 +116,7 @@ button {
     padding: 15px;
     display: block;
     position: relative;
-    margin: 30px auto 0px auto;
+    margin: 15px auto 0px auto;
     cursor: pointer;
 }
 .dronesDisplayElement {
@@ -357,4 +357,7 @@ button {
     margin: 12px auto;
     padding: 12px;
     border: 1px solid white;
+}
+#clickOnPlanetOrHostile {
+    display: none;
 }

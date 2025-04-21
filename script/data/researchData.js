@@ -41,7 +41,8 @@ const research = {
         name: "Sunscoop",
         description: "Learn to build sunscoops to harvest energy from a star",
         complete: function(userData) {
-            userData.multiverses[userData.currentMultiverse].shipAccessoriesUnlocked.push("Sunscoop");
+            if(!userData.multiverses[userData.currentMultiverse].shipAccessoriesUnlocked.includes("Sunscoop"))
+                userData.multiverses[userData.currentMultiverse].shipAccessoriesUnlocked.push("Sunscoop");
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "dispatchToSun");
             drawBuildShipsDiv(userData);
         }
@@ -73,7 +74,6 @@ const research = {
         name: "Deflection Drive",
         description: "A deflection drive will protect your ship during system jumps, allowing you to jump to tier 3 systems.",
         complete: function (userData) {
-            console.log(userData.multiverses[userData.currentMultiverse])
             userData.multiverses[userData.currentMultiverse].maxJumpTier = 3;
         }
     },
@@ -82,7 +82,10 @@ const research = {
             points: 5,
         },
         name: "Radar",
-        description: "After you research the radar, you can recall a ship midway to a destination."
+        description: "After you research the radar, you can recall a ship midway to a destination.",
+        complete: function (userData) {
+            unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "recallShip");
+        }
     }
 }
 

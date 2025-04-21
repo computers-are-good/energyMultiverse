@@ -14,7 +14,7 @@ import { buildDustbotEvent, dustbotSlider } from "./resources/dustbotClicker.js"
 import { buildShip, drawBuildShipsDiv, showShipbuildingProgress } from "./ship/buildShip.js";
 import { decreaseBuildRate, increaseBuildRate } from "./ship/shipEvents.js";
 import { closeHangar, openHangar } from "./ship/hangar.js";
-import { dispatchShipEvent, goToHostile, launchMissile, moveMothership, recallButton, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
+import { dispatchShipEvent, goToHostile, launchMissile, moveMothership, newTargetButton, recallButton, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
 import { makeMissile, makeRepairKit } from "./ship/manufactory.js";
 import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "./map/thrust.js";
 import metalClicker from "./resources/metal.js";
@@ -88,6 +88,7 @@ function applyEvents(userData) {
     document.getElementById("dispatchToDebris").addEventListener("click", _ => sendShipToDebris(userData));
     document.getElementById("jumpToSystem").addEventListener("click", _ => jumpButtonClicked(userData));
     document.getElementById("buildWarpDrive").addEventListener("click", _ => buildWarpDrive(userData));
+    document.getElementById("redirectShip").addEventListener("click", _ => newTargetButton(userData));
     addCheats(userData);
 
     setInterval(_ => tick(userData), 10);

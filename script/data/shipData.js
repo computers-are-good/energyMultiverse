@@ -89,6 +89,7 @@ const shipAccessories = {
         baseCost: {
             dust: 15
         },
+        accessorySlots: 1,
         energyCost: 100
     }
 

@@ -14,6 +14,7 @@ import { useEnergy } from "../resources/useResources.js";
 import { resourceMappings } from "../resources/gainResources.js";
 import { getPlanetExplorationLevel } from "./planetEvents.js";
 import { writeCostsReadable } from "../itemCosts.js";
+import fadeIn from "../animations/fadeIn.js";
 const planetVelocity = 8.8;
 
 let activeScreen = "";
@@ -21,6 +22,8 @@ let cursorX = 0;
 let cursorY = 0;
 let selected;
 let shipSelected;
+let redirectionInProgress = false;
+let redirectTarget;
 
 function updateVisibleDivs() {
     document.querySelectorAll(".sidebarScreen").forEach(e => {
@@ -37,12 +40,6 @@ function updateSolarSystem(userData) {
         removeDescription();
     }
 
-    if (currentMultiverse.researchUnlocked.includes("radar")) {
-        document.getElementById("recallShip").style.display = "block";
-    } else {
-        document.getElementById("recallShip").style.display = "none";
-    }
-    
     updateVisibleDivs();
     let cumulativeOffsetY = 0;
 
@@ -67,7 +64,7 @@ function updateSolarSystem(userData) {
                 document.getElementById("systemTierDisplay").textContent = currentSystem.tier;
                 document.getElementById("threatLevelDisplay").textContent = currentSystem.dangerLevel;
                 document.getElementById("explorationLevelDisplay").textContent = getSolarSystemExplorationLevel(userData, currentSystem);
-                
+
             }
         });
 
@@ -80,16 +77,35 @@ function updateSolarSystem(userData) {
 
             let posX = 0;
             let posY = 0;
+
+            const selectTargetButton = document.createElement("button");
             switch (thing.type) {
                 case "planet":
                     posX = thing.posX;
                     posY = thing.posY;
                     const radius = thing.radius;
                     const systemObject = drawNewElement(posX - radius, posY - cumulativeOffsetY - radius);
+                    systemObject.attributes.id = id;
 
                     addDescriptionEvent(systemObject, {
                         content: `Planet ${thing.name} (${getPlanetExplorationLevel(userData, thing)} % explored)`
                     });
+
+                    selectTargetButton.classList.add("selectTargetButton");
+
+                    if (redirectionInProgress) {
+                        selectTargetButton.textContent = "Choose target";
+
+                        selectTargetButton.addEventListener("click", _ => {
+                            shipSelected.targetObjectId = id;
+                            redirectionInProgress = false;
+                            currentMultiverse.allowSolarSystemUpdates = true;
+                            selectTargetButton.remove();
+                        });
+                        document.getElementById("Dispatch").style.display = "none";
+                    } else {
+                        document.getElementById("Dispatch").style.display = "block";
+                    }
 
                     systemObject.addEventListener("mousedown", _ => {
                         if (activeScreen !== "scriptPlayer") {
@@ -98,6 +114,8 @@ function updateSolarSystem(userData) {
                             updateVisibleDivs();
                             document.getElementById("planetName").textContent = thing.name;
                             document.getElementById("planetTypeDisplay").textContent = thing.planetType;
+                            document.querySelectorAll(".selectTargetButton").forEach(e => e.remove());
+                            if (redirectionInProgress) document.getElementById("planetInfo").appendChild(selectTargetButton);
                         }
                     });
                     systemObject.style.backgroundColor = thing.color;
@@ -118,17 +136,39 @@ function updateSolarSystem(userData) {
                     break;
                 case "hostile":
                     const enemy = drawNewElement(thing.posX - 7.5, thing.posY - cumulativeOffsetY - 7.5);
+                    enemy.attributes.id = id;
 
                     addDescriptionEvent(enemy, {
                         content: `Hostile: threat level ${threatLevel(thing)}`
                     });
+
+                    selectTargetButton.classList.add("selectTargetButton");
+
+                    if (redirectionInProgress) {
+                        selectTargetButton.textContent = "Choose target";
+
+                        selectTargetButton.addEventListener("click", _ => {
+                            shipSelected.targetObjectId = id;
+                            redirectionInProgress = false;
+                            currentMultiverse.allowSolarSystemUpdates = true;
+                            selectTargetButton.remove();
+                        });
+                        document.getElementById("hostileAttack").style.display = "none";
+                        document.getElementById("launchMissile").style.display = "none";
+                    } else {
+                        document.getElementById("hostileAttack").style.display = "block";
+                        document.getElementById("launchMissile").style.display = currentMultiverse.missiles > 0 ? "block" : "none";
+                    }
 
                     enemy.addEventListener("mousedown", _ => {
                         if (activeScreen !== "scriptPlayer") {
                             selected = id;
                             activeScreen = "hostileInfo";
                             document.getElementById("missileCount").textContent = currentMultiverse.missiles;
+                            document.getElementById("launchMissile").style.display = currentMultiverse.missiles > 0 ? "block" : "none";
                             updateVisibleDivs();
+                            document.querySelectorAll(".selectTargetButton").forEach(e => e.remove());
+                            if (redirectionInProgress) document.getElementById("hostileInfo").appendChild(selectTargetButton);
                         }
                     });
                     cumulativeOffsetY += 15;
@@ -193,7 +233,8 @@ function updateSolarSystem(userData) {
                         shipSelected = ship;
                         activeScreen = "shipInfo";
                         updateVisibleDivs();
-                        document.getElementById("destinationSpan").textContent = ship.targetObjectId === "player" ? "Mothership" : currentSystem.objects[ship.targetObjectId].name;
+                        document.getElementById("destinationSpan").textContent = ship.targetObjectId === "player" ? "Mothership" : 
+                            (currentSystem.objects[ship.targetObjectId].type === "hostile" ? "Enemy ship" : currentSystem.objects[ship.targetObjectId].name);
                     }
                 });
             }
@@ -205,6 +246,21 @@ function recallButton() {
     shipSelected.targetObjectId = "player";
     activeScreen = "";
     updateVisibleDivs();
+}
+
+const clickOnPlanetOrHostile = document.getElementById("clickOnPlanetOrHostile");
+async function newTargetButton(userData) {
+    if (!redirectionInProgress) {
+        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+
+        redirectionInProgress = true;
+        updateSolarSystem(userData);
+        currentMultiverse.allowSolarSystemUpdates = false;
+        clickOnPlanetOrHostile.style.display = "block";
+        fadeIn(clickOnPlanetOrHostile, 1.5);
+        setTimeout(_ => clickOnPlanetOrHostile.style.display = "none", 3000);
+    }
+
 }
 
 document.getElementById("systemMap").addEventListener("click", e => {
@@ -222,7 +278,7 @@ document.getElementById("systemMap").addEventListener("click", e => {
 
 async function sendShipToSun(userData) {
     const callback = e => {
-        return e.accessories.includes("Sunscoop");
+        return e.accessories?.includes("Sunscoop");
     }
     openHangar(userData, true, callback).then(ship => {
         dispatchShip(ship, "sun", userData);
@@ -327,14 +383,14 @@ async function updateSolarSystemPositions(userData) {
         for (const ship of currentMultiverse.ships) {
             if (ship.inSolarSystem && ship.targetObjectId) {
                 if (ship.targetObjectId === "sun") {
-                    moveTowards(ship, {
-                        posX: 375,
-                        posY: 375
-                    }, Math.min(ship.baseStats.baseSpeed * 0.5, distanceToTarget));
                     const distanceToTarget = getDistanceTo(ship, {
                         posX: 375,
                         posY: 375
                     });
+                    moveTowards(ship, {
+                        posX: 375,
+                        posY: 375
+                    }, Math.min(ship.baseStats.baseSpeed * 0.5, distanceToTarget));
 
                     if (distanceToTarget < 20) {
                         const energyGained = Math.ceil(Math.random() * 5000) + 5000;
@@ -343,6 +399,7 @@ async function updateSolarSystemPositions(userData) {
                         } else {
                             ship.cargo.energy = energyGained;
                         }
+                        ship.targetObjectId = "player";
                         removeFromArray(ship.accessories, "Sunscoop");
                     }
 
@@ -406,7 +463,7 @@ async function updateSolarSystemPositions(userData) {
                                 updateDustCounter(userData);
                                 updateMetalCounter(userData);
                                 updateIridiumCounter(userData);
-                    
+
                                 if (ship.currentHealth < ship.baseStats.baseHealth && !currentMultiverse.eventsDone.includes("unlockRepairKit")) {
                                     notifyUnique("unlockRepairKit");
                                     addNavigationAttention("Research", "pageResearch");
@@ -414,9 +471,13 @@ async function updateSolarSystemPositions(userData) {
                                     updateResearchButtons(userData);
                                     currentMultiverse.eventsDone.push("unlockRepairKit");
                                 }
-                    
+
                                 const cargoText = writeCostsReadable(cargoProcessed);
                                 notify(`A ship has returned ${Object.keys(cargoProcessed).length > 0 ? `carrying ${cargoText}` : ""}`);
+                                if (activeScreen === "shipInfo") {
+                                    activeScreen = "";
+                                    updateVisibleDivs();
+                                }
                                 break;
                         }
                     } else {
@@ -660,5 +721,6 @@ export {
     moveMothership,
     sendShipToSun,
     recallButton,
-    sendShipToDebris
+    sendShipToDebris,
+    newTargetButton
 };
