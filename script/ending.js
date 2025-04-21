@@ -146,7 +146,7 @@ await createText("You have saved the universe.");
     await typerText(`await createText(\`Of course, trusty old \${getBrowser()} played a pretty important part as well.\`);`);
     await createText(`Of course, trusty old ${getBrowser()} played a pretty important part as well.`);
 
-    await typerText(`await createText("And so did you. No, not you. YOU. Through the screen. You know who you are.");`);
+    await typerText(`await createText("And so did you. No, not you. YOU. Through the screen. YOU know who YOU are.");`);
     await createText(`And so did you. No, not you. YOU. Through the screen. YOU know who YOU are.`);
 
     await typerText(`await createText("You feel yourself slowly disappearing. In its place, only YOU remain.");`);
@@ -164,8 +164,8 @@ await createText("You have saved the universe.");
     await wait(1500);
     bigDiv.innerHTML = '';
 
-    await typerText(`await createText("That's a bit better")`);
-    await createText("That's a bit better");
+    await typerText(`await createText("That's a bit better.")`);
+    await createText("That's a bit better.");
 
     await typerText(`await createText("It's a bit tedious making YOU type this out yourself.");`);
     await createText("It's a bit tedious making YOU type this out yourself.");
@@ -302,7 +302,8 @@ await createText("You have saved the universe.");
     await wait(5000);
     bigDiv.innerHTML = '';
 
-    await createText("Thank you for playing Energy Multiverse");
+    await createText("Thank you for playing Energy Multiverse.");
+    await createText("No artifical intelligence (AI) technology was utilised in the creation of any proportion of this program.");
     await createText("THE END");
 }
 
