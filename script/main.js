@@ -12,3 +12,7 @@ document.body.addEventListener("keydown", e => {
 })
 firstLoadFunctions(userData);
 applyEvents(userData);
+
+/* import { ending } from "./ending.js";
+
+ending(); */
