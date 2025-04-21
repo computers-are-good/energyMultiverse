@@ -5,11 +5,12 @@ import { addNavigationAttention } from "../toggleUIElement.js";
 import notifyUnique from "../notifs/notifyUnique.js";
 const genericEvents = [
     "Research Station",
-    "Batteries"
+    "Asteroid",
+    "Battery"
 ]
 const biomeSpecificEvents = {
     "Desert": ["Harvest Sand"],
-    "Temperate": [],
+    "Temperate": ["Batteries"],
     "Ocean": [],
     "Warm": [],
     "Paradise": [],

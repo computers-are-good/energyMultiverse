@@ -2,7 +2,7 @@ const events = {
     "Batteries": {
         script:[
             {
-                text: "You land in the middle of a vast plain."
+                text: "With the familiar sound of landing in the middle of a vast plain, you land in the middle of a vast plain."
             },
             {
                 text: "You come across a small abandoned building in a vast plain. There is a model wind turbine outside the building. You can take the wind turbine apart for dust, or let it generate energy. What do you do?",
@@ -35,10 +35,62 @@ const events = {
             }
             ]
     },
+    "Asteroid": {
+        script: [
+            {
+                text: "Before you even reach the planet, you find an asteroid floating around in space."
+            },
+            {
+                text: "Although the asteroid seems boring, consider this: it also has a very funny shape. In fact, its shape is so funny it cannot be descrbied here. Just trust that it is very funny."
+            },
+            {
+                text: "You spent so long looking at the asteroid you forgot something: you're running out of fuel. Better go back.",
+                eventResolved: true,
+            }
+        ]
+    },
+    "Battery": {
+        script: [
+            {
+                text: "You are flying around in your spaceship as one does. You land as one does. You're pretty used to doing this by now."
+            }, 
+            {
+                text: "As you land, you find a battery. It says 'AA'. The letters seem to remind you of a familiar yet distant reality."
+            },
+            {
+                text: "You quickly snap out of the delusion. No, there is no distant reality. This is what you have always been doing. Flying around in your spaceship and collecting energy."
+            },
+            {
+                text: "You can gain 50 energy from this battery. Better focus on that instead of whatever else you are thinking.",
+                item: {
+                    energy: 50
+                },
+                eventResolved: true
+            }
+        ]
+    },
     "Research Station": {
         script: [
             {
-                text: "The ship flies over a research station."
+                text: "Your ship flies over a research station."
+            },
+            {
+                text: "Do you want to go and land at the research station? It might have something useful lying around.",
+                choice: [
+                    {
+                        text: "Yes",
+                        goto: 3
+                    },
+                    {
+                        text: "No",
+                        goto: 2
+                    }
+                ]
+            },
+            {
+                text: "You flew over the research station and literally nothing else happened.",
+                eventResolved: true,
+                endEvent: true,
             },
             {
                 text: "You found a hard drive lying around and gained a research point.",
