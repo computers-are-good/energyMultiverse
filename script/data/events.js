@@ -148,6 +148,39 @@ const events = {
                 eventResolved: true
             }
         ]
+    },
+    "deflectionDriveUnlock": {
+        script: [
+            {
+                text: "Again your ship descends into the atmosphere and flies over the distant land. You've done this quite a few times now."
+            },
+            {
+                text: "You've been to quite a few planets, maybe even jumped to a new system. However, you ponder if it's possible to go to... more solar systems. You know, those your drive can't yet seem to reach."
+            },
+            {
+                text: "And, as if the heavens are answering your calls, a large ship clearly wounded from battle falls limpedly out of the sky."
+            },
+            {
+                text: "Its body covered in ablazing flames, a large hole shows the sky hiding behind its wings, you follow the intense trail of red."
+            },
+            {
+                text: "By the time the ship fell to the ground, the flames were extingushed. You search for signs of life but don't find any."
+            },
+            {
+                text: "However, you were able to discover something interesting among the wreckage. A strange device which appears to protect the ship it's attached to. Researching it should let you go to more places.",
+            },
+            {
+                text: "You also managed to scavenge some metal from the wreckage.",
+                item: {
+                    metal: 5
+                }
+            },
+            {
+                text: "You fly back to your ship with metal and the strange device. You think the situation is almost too convenient for you, but you don't complain.",
+                researchUnlocked: ["deflectionDrive"],
+                eventResolved: true
+            }
+        ]
     }
 }
 

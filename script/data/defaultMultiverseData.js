@@ -9,6 +9,7 @@ const defaultMultiverseData = {
     missiles: 0,
     lastScreen: "",
     maxHangarShips: 5,
+    maxJumpTier: 2,
     items: [],
     drones: [],
     UIElementsUnlocked: [],
@@ -57,7 +58,8 @@ const defaultMultiverseData = {
         dustGained: 0,
         metalGained: 0,
         iridiumGained: 0,
-        totalTicksPassed: 0
+        totalTicksPassed: 0,
+        planetsVisited: 0,
     },
     ships: [],
     shipInProgress: {},

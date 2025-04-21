@@ -32,6 +32,9 @@ function getBiomeEvents(userData, planetInfo) {
 
     return availableEvents;
 }
+const globalEventsMilestones = {
+    5: "deflectionDriveUnlock"
+}
 function arriveAtTarget(shipInfo, userData) { //for use with player ships arriving on planets only
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
@@ -43,7 +46,9 @@ function arriveAtTarget(shipInfo, userData) { //for use with player ships arrivi
         notify(`A ship has arrived at ${targetObject.name}.`);
         shipInfo.targetObjectId = "player";
         let eventToDo = choice(genericEvents);
-        if (targetObject.uniqueEvents.length > 0) {
+        if (currentMultiverse.statistics.planetsVisited in globalEventsMilestones) {
+            eventToDo = globalEventsMilestones[currentMultiverse.statistics.planetsVisited]
+        } else if (targetObject.uniqueEvents.length > 0) {
             eventToDo = choice(targetObject.uniqueEvents);
         } else if (targetObject.biomeSpecificEventsAvailable > 0) {
             const availableEvents = getBiomeEvents(userData, targetObject);
@@ -53,12 +58,15 @@ function arriveAtTarget(shipInfo, userData) { //for use with player ships arrivi
         }
         const eventResolved = await eventPlayer(shipInfo, userData, eventToDo);
         if (eventResolved) {
-            if (targetObject.uniqueEvents.length > 0) {
-                removeFromArray(targetObject.uniqueEvents, eventToDo);
-            } else if (targetObject.biomeSpecificEventsAvailable > 0) {
-                targetObject.biomeSpecificEventsAvailable--
-                currentMultiverse.biomeSpecificEventsDone[targetObject.planetType].push(eventToDo);
+            if (!(currentMultiverse.statistics.planetsVisited in globalEventsMilestones)) {
+                if (targetObject.uniqueEvents.length > 0) {
+                    removeFromArray(targetObject.uniqueEvents, eventToDo);
+                } else if (targetObject.biomeSpecificEventsAvailable > 0) {
+                    targetObject.biomeSpecificEventsAvailable--
+                    currentMultiverse.biomeSpecificEventsDone[targetObject.planetType].push(eventToDo);
+                }
             }
+            currentMultiverse.statistics.planetsVisited++;
         }
         res();
     });

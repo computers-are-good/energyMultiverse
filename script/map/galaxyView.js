@@ -39,7 +39,6 @@ function galaxyView(userData) {
             }
 
             systemDiv.addEventListener("click", _ => {
-
                 document.getElementById("systemInfo").style.display = "block";
                 document.getElementById("energyRequired").textContent = calculateEnergyRequired(userData, i);
                 document.getElementById("numberOfPlanetsDisplay").textContent = Object.keys(system.objects).filter(e => system.objects[e].type === "planet").length;
@@ -63,6 +62,7 @@ function jumpButtonClicked(userData) {
     }
 }
 const cannotJump = document.getElementById("cannotJump");
+const cannotJumpTier = document.getElementById("cannotJumpTier");
 function jumpToSystem(userData, systemId) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
@@ -76,6 +76,15 @@ function jumpToSystem(userData, systemId) {
             setTimeout(_ => cannotJump.style.display = "none", 3000);
             break;
         }
+    }
+
+    if (currentMultiverse.solarSystems[systemId].tier > currentMultiverse.maxJumpTier) {
+        canMakeJump = false;
+        cannotJumpTier.style.display = "block";
+        document.getElementById("maxJumpTier").textContent = currentMultiverse.maxJumpTier;
+        fadeIn(cannotJumpTier, 0.2);
+        setTimeout(_ => cannotJumpTier.style.display = "none", 3000);
+
     }
     if (canMakeJump) {
         currentMultiverse.currentSolarSystem = systemId;

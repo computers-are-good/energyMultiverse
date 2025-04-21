@@ -344,7 +344,7 @@ button {
     border: 1px solid white;
     width: 300px;
 }
-#cannotJump {
+#cannotJump, #cannotJumpTier {
     display: none;
     width: 80%;
     margin: 30px auto;

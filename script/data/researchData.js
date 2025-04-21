@@ -65,6 +65,17 @@ const research = {
         complete: function (userData) {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "buildWarpDrive");
         }
+    },
+    "deflectionDrive": {
+        cost: {
+            points: 15
+        },
+        name: "Deflection Drive",
+        description: "A deflection drive will protect your ship during system jumps, allowing you to jump to tier 3 systems.",
+        complete: function (userData) {
+            console.log(userData.multiverses[userData.currentMultiverse])
+            userData.multiverses[userData.currentMultiverse].maxJumpTier = 3;
+        }
     }
 }
 
