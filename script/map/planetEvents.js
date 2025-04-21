@@ -21,7 +21,7 @@ const biomeSpecificEvents = {
     "Barren": [],
     "Intrarelativistic": [],
     "Exotic": [],
-    "Black": [],
+    "White": [],
 }
 
 function getBiomeEvents(userData, planetInfo) {

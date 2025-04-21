@@ -2,6 +2,7 @@ import fadeIn from "../animations/fadeIn.js";
 import notify from "../notifs/notify.js";
 import { updateEnergyCounter } from "../pageUpdates.js";
 import { useEnergy } from "../resources/useResources.js";
+import { getSolarSystemExplorationLevel } from "./planetEvents.js";
 import { updateSolarSystem, updateSolarSystemPositions } from "./solarSystem.js";
 
 const bigGalaxyMap = document.getElementById("bigGalaxyMap");
@@ -32,11 +33,15 @@ function galaxyView(userData) {
             const system = currentMultiverse.solarSystems[i];
             const systemDiv = drawSystem(system.galaxyX, system.galaxyY);
 
+            const explorationPercent = getSolarSystemExplorationLevel(userData, system);
+
             if (i == currentMultiverse.currentSolarSystem) {
                 systemDiv.style.backgroundColor = "white";
             } else {
                 systemDiv.style.backgroundColor = tierColours[system.tier];
             }
+
+            if (explorationPercent === 100) systemDiv.style.opacity = 0.3;
 
             systemDiv.addEventListener("click", _ => {
                 document.getElementById("systemInfo").style.display = "block";
@@ -45,6 +50,7 @@ function galaxyView(userData) {
                 document.getElementById("systemTierDisplayGalaxy").textContent = system.tier;
                 document.getElementById("dangerLevelDisplay").textContent = system.dangerLevel;
                 document.getElementById("systemName").textContent = system.name;
+                document.getElementById("explorationPercentageDisplay").textContent = explorationPercent;
                 selectedIndex = i;
             });
         }
