@@ -127,7 +127,7 @@ button {
     width: 100px;
     margin: 5px;
 }
-.dronesDisplayElement p, button {
+.dronesDisplayElement p, .dronesDisplayElement button {
     margin-top: 0px;
 }
 .dronesDisplayElement p {

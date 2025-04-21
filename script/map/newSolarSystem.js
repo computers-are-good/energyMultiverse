@@ -133,6 +133,9 @@ function newPlanet(planetCount, solarSystemTier, solarSystemsMade) {
         uniqueEvents.push("solarPanels1");
         planetType = "Paradise";
     }
+    if (planetCount === 2 && solarSystemsMade === 2) {
+        uniqueEvents.push("unlockRadar");
+    }
     const newPlanet = {
         type: "planet",
         planetType,

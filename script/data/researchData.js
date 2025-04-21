@@ -76,6 +76,13 @@ const research = {
             console.log(userData.multiverses[userData.currentMultiverse])
             userData.multiverses[userData.currentMultiverse].maxJumpTier = 3;
         }
+    },
+    "radar": {
+        cost: {
+            points: 5,
+        },
+        name: "Radar",
+        description: "After you research the radar, you can recall a ship midway to a destination."
     }
 }
 

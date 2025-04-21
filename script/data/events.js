@@ -233,6 +233,21 @@ const events = {
                 eventResolved: true
             }
         ]
+    },
+    "unlockRadar": {
+        script: [
+            {
+                text: "As you fly down towards the ground, you see a large radar station pointed towards your ship. Of course it's gathering intel about your ship."
+            },
+            {
+                text: "You decide to quickly get out before they send swarms of enemies your way. Not today!"
+            },
+            {
+                text: "However, you do remember what the radar looks like, and you wonder if you can make your own...",
+                researchUnlocked: ["radar"],
+                eventResolved: true
+            }
+        ]
     }
 }
 

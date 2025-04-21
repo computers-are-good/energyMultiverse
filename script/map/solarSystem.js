@@ -36,6 +36,13 @@ function updateSolarSystem(userData) {
     if (currentMultiverse.allowSolarSystemUpdates && currentDescription !== "buildWarpDrive") {
         removeDescription();
     }
+
+    if (currentMultiverse.researchUnlocked.includes("radar")) {
+        document.getElementById("recallShip").style.display = "block";
+    } else {
+        document.getElementById("recallShip").style.display = "none";
+    }
+    
     updateVisibleDivs();
     let cumulativeOffsetY = 0;
 
