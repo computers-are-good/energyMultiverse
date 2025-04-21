@@ -1,3 +1,4 @@
+import { writeCostsReadable } from "../itemCosts.js";
 import threatLevel from "../map/threatLevel.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter } from "../pageUpdates.js";
 
@@ -52,6 +53,14 @@ function openHangar(userData, askForShipSelection, f) {
         const powerLevel = document.createElement("p");
         powerLevel.textContent = `Power level: ${threatLevel(ship)}`;
         newDiv.appendChild(powerLevel);
+
+        if (ship.accessories?.length > 0) {
+            const shipAccessories = document.createElement("p");
+            const accessoriesString = ship.accessories?.join(", ")
+            shipAccessories.textContent = `Accessories: ${accessoriesString}`;
+            newDiv.appendChild(shipAccessories);
+        }
+
         if (askForShipSelection && !ship.isBusy) {
             newDiv.addEventListener("click", e => {
                 if (e.target.classList.contains("repairButton") || e.target.classList.contains("scrapButton")) return;
@@ -91,7 +100,7 @@ function openHangar(userData, askForShipSelection, f) {
             buttonsDiv.appendChild(scrapButton);
 
             scrapButton.addEventListener("click", _ => {
-                const confirmed = confirm(`Scrap ship? You will obtain ${JSON.stringify(ship.cost)}`);
+                const confirmed = confirm(`Scrap ship? You will obtain ${writeCostsReadable(ship.cost)}`);
                 if (confirmed) {
                     for (const cost in ship.cost) currentMultiverse[cost] += ship.cost[cost];
                     updateEnergyCounter(userData);

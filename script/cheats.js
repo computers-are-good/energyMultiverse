@@ -101,6 +101,7 @@ function addCheats(userData) {
                                 posY: 0,
                                 inSolarSystem: false,
                                 isBusy: false,
+                                accessories: [],
                                 targetObjectId: 0,
                                 cargo: {},
                                 baseStats: {

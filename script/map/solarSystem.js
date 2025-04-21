@@ -393,7 +393,7 @@ async function updateSolarSystemPositions(userData) {
                     }, Math.min(ship.baseStats.baseSpeed * 0.5, distanceToTarget));
 
                     if (distanceToTarget < 20) {
-                        const energyGained = Math.ceil(Math.random() * 5000) + 5000;
+                        const energyGained = currentSystem.tier * (Math.ceil(Math.random() * 1000) + 1000);
                         if (ship.cargo.energy) {
                             ship.cargo.energy += energyGained;
                         } else {
