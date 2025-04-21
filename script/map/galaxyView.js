@@ -32,7 +32,7 @@ function galaxyView(userData) {
             const system = currentMultiverse.solarSystems[i];
             const systemDiv = drawSystem(system.galaxyX, system.galaxyY);
 
-            if (i === currentMultiverse.currentSolarSystem) {
+            if (i == currentMultiverse.currentSolarSystem) {
                 systemDiv.style.backgroundColor = "white";
             } else {
                 systemDiv.style.backgroundColor = tierColours[system.tier];

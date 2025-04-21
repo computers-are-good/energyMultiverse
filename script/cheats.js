@@ -4,6 +4,7 @@ import { createNewMultiverse, multiverseTravel } from "./multiverse.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons, updateResearchPoints } from "./pageUpdates.js";
 import { updateSolarPanels } from "./resources/solarPanel.js";
 import { getUserData } from "./userdata.js";
+import { deepClone } from "./utils.js";
 
 const enableCheats = true;
 
@@ -55,7 +56,7 @@ function addCheats(userData) {
                         break;
                     case "CTRL+N":
                         currentMultiverse.solarSystems = [];
-                        generateAllSystems(userData);
+                        generateAllSystems(currentMultiverse);
                         break;
                     case "BETTERTHANGAS":
                         currentMultiverse.solarPanel = 10;
@@ -90,6 +91,26 @@ function addCheats(userData) {
                         localStorage.clear();
                         userData = getUserData();
                         multiverseTravel(userData, 0);
+                        break;
+                    case "DANIEL":
+                        currentMultiverse.ships.push(deepClone(
+                            {
+                                class: "D A N I E L",
+                                currentHealth: 9999,
+                                posX: 0,
+                                posY: 0,
+                                inSolarSystem: false,
+                                isBusy: false,
+                                targetObjectId: 0,
+                                cargo: {},
+                                baseStats: {
+                                    baseHealth: 9999,
+                                    baseAttack: 9999,
+                                    baseShield: 9999,
+                                    baseSpeed: 150
+                                }
+                            }
+                        ));
                         break;
 
                 }

@@ -3,7 +3,7 @@ import dispatchShip from "../ship/dispatchShip.js";
 import { openHangar } from "../ship/hangar.js";
 import { addNavigationAttention, currentScreenDisplayed } from "../toggleUIElement.js";
 import notify from "../notifs/notify.js";
-import { arriveAtTarget } from "./arriveAtTarget.js";
+import { arriveAtTarget, getSolarSystemExplorationLevel } from "./planetEvents.js";
 import { combat } from "./combat.js";
 import threatLevel from "./threatLevel.js";
 import notifyUnique from "../notifs/notifyUnique.js";
@@ -12,6 +12,8 @@ import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMet
 import hostileTiers from "../data/hostileTiers.js";
 import { useEnergy } from "../resources/useResources.js";
 import { resourceMappings } from "../resources/gainResources.js";
+import { getPlanetExplorationLevel } from "./planetEvents.js";
+import { writeCostsReadable } from "../itemCosts.js";
 const planetVelocity = 8.8;
 
 let activeScreen = "";
@@ -50,12 +52,15 @@ function updateSolarSystem(userData) {
         cumulativeOffsetY += 20;
         star.style.borderRadius = `15px`;
 
-        star.addEventListener("click", _ => {
+        star.addEventListener("mousedown", _ => {
             if (activeScreen !== "scriptPlayer") {
                 activeScreen = "sunInfo";
                 updateVisibleDivs();
                 document.getElementById("solarSystemName").textContent = currentSystem.name;
                 document.getElementById("systemTierDisplay").textContent = currentSystem.tier;
+                document.getElementById("threatLevelDisplay").textContent = currentSystem.dangerLevel;
+                document.getElementById("explorationLevelDisplay").textContent = getSolarSystemExplorationLevel(userData, currentSystem);
+                
             }
         });
 
@@ -76,7 +81,7 @@ function updateSolarSystem(userData) {
                     const systemObject = drawNewElement(posX - radius, posY - cumulativeOffsetY - radius);
 
                     addDescriptionEvent(systemObject, {
-                        content: `Planet ${thing.name}`
+                        content: `Planet ${thing.name} (${getPlanetExplorationLevel(userData, thing)} % explored)`
                     });
 
                     systemObject.addEventListener("mousedown", _ => {
@@ -318,7 +323,7 @@ async function updateSolarSystemPositions(userData) {
                     moveTowards(ship, {
                         posX: 375,
                         posY: 375
-                    }, ship.baseStats.baseSpeed * 0.5);
+                    }, Math.min(ship.baseStats.baseSpeed * 0.5, distanceToTarget));
                     const distanceToTarget = getDistanceTo(ship, {
                         posX: 375,
                         posY: 375
@@ -342,7 +347,6 @@ async function updateSolarSystemPositions(userData) {
                         ship.targetObjectId = "player";
                     }
 
-                    moveTowards(ship, target, ship.baseStats.baseSpeed * 0.5);
                     const deltaX = ship.posX - target.posX;
                     const deltaY = ship.posY - target.posY;
                     const distToTarget = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -379,12 +383,16 @@ async function updateSolarSystemPositions(userData) {
                             case "player":
                                 ship.isBusy = false;
                                 ship.inSolarSystem = false;
-                                let cargoText = ""
+                                let cargoProcessed = {}
                                 for (let item in ship.cargo) {
                                     const oldAmount = currentMultiverse[item];
-                                    resourceMappings[item](userData, ship.cargo[item]);
+                                    if (item in resourceMappings) {
+                                        resourceMappings[item](userData, ship.cargo[item]);
+                                    } else {
+                                        currentMultiverse[item] += ship.cargo[item];
+                                    }
                                     const newAmount = currentMultiverse[item]
-                                    cargoText += `${newAmount - oldAmount} ${item} `;
+                                    cargoProcessed[item] = newAmount - oldAmount;
                                     delete ship.cargo[item];
                                 }
                                 updateEnergyCounter(userData);
@@ -400,9 +408,12 @@ async function updateSolarSystemPositions(userData) {
                                     currentMultiverse.eventsDone.push("unlockRepairKit");
                                 }
                     
-                                notify(`A ship has returned ${cargoText ? `carrying ${cargoText}` : ""}`);
+                                const cargoText = writeCostsReadable(cargoProcessed);
+                                notify(`A ship has returned ${Object.keys(cargoProcessed).length > 0 ? `carrying ${cargoText}` : ""}`);
                                 break;
                         }
+                    } else {
+                        moveTowards(ship, target, Math.min(ship.baseStats.baseSpeed * 0.5, distToTarget));
                     }
                 }
             }

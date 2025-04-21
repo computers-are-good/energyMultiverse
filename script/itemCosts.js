@@ -26,7 +26,8 @@ const costTextMappings = {
     dust: "Dust",
     metal: "Metal",
     iridium: "Iridium",
-    researchPoints: "Research Point(s)"
+    researchPoints: "Research Point(s)",
+    solarPanel: "Solar panel"
 }
 function writeCostsReadable(costs) {
     const keys = Object.keys(costs);

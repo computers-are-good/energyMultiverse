@@ -23,6 +23,15 @@ const biomeSpecificEvents = {
     "Black": [],
 }
 
+function getBiomeEvents(userData, planetInfo) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    const availableEvents = [];
+    biomeSpecificEvents[planetInfo.planetType].forEach(e => {
+        if (!currentMultiverse.biomeSpecificEventsDone[planetInfo.planetType].includes(e)) availableEvents.push(e);
+    });
+
+    return availableEvents;
+}
 function arriveAtTarget(shipInfo, userData) { //for use with player ships arriving on planets only
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
@@ -37,10 +46,7 @@ function arriveAtTarget(shipInfo, userData) { //for use with player ships arrivi
         if (targetObject.uniqueEvents.length > 0) {
             eventToDo = choice(targetObject.uniqueEvents);
         } else if (targetObject.biomeSpecificEventsAvailable > 0) {
-            const availableEvents = [];
-            biomeSpecificEvents[targetObject.planetType].forEach(e => {
-                if (!currentMultiverse.biomeSpecificEventsDone[targetObject.planetType].includes(e)) availableEvents.push(e);
-            });
+            const availableEvents = getBiomeEvents(userData, targetObject);
             if (availableEvents.length > 0) {
                 eventToDo = choice(availableEvents);
             }
@@ -52,10 +58,32 @@ function arriveAtTarget(shipInfo, userData) { //for use with player ships arrivi
             } else if (targetObject.biomeSpecificEventsAvailable > 0) {
                 targetObject.biomeSpecificEventsAvailable--
                 currentMultiverse.biomeSpecificEventsDone[targetObject.planetType].push(eventToDo);
-            }   
+            }
         }
         res();
     });
 }
 
-export { arriveAtTarget }
+
+function getPlanetExplorationLevel(userData, planetInfo) {
+        let totalEvents = planetInfo.totalUniqueEvents + planetInfo.totalBiomeSpecificEventsAvailable;
+        let eventsDone = planetInfo.totalUniqueEvents - planetInfo.uniqueEvents.length;
+        const availableBiomeEvents = getBiomeEvents(userData, planetInfo);
+        if (availableBiomeEvents.length < planetInfo.totalBiomeSpecificEventsAvailable) {
+            eventsDone += planetInfo.totalBiomeSpecificEventsAvailable - availableBiomeEvents.length;
+        }
+        return Math.floor((eventsDone / totalEvents) * 100);
+}
+
+function getSolarSystemExplorationLevel(userData, systemInfo) {
+    let explorationLevels = [];
+    const objects = Object.keys(systemInfo.objects);
+    for (const object of objects) {
+        if (systemInfo.objects[object].type === "planet") {
+            explorationLevels.push(getPlanetExplorationLevel(userData, systemInfo.objects[object]));
+        }
+    }
+    return Math.floor(explorationLevels.reduce((a, b) => a + b) / explorationLevels.length);
+}
+
+export { arriveAtTarget, getPlanetExplorationLevel, getSolarSystemExplorationLevel }
