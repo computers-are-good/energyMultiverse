@@ -48,10 +48,13 @@ function upgradeDroneEnergyCost(level) {
 }
 function upgradeDroneTicks(droneData, userData) {
     if (droneData.ticksTilEnergy > 10) {
-        const dustRequired = upgradeDroneTicksCost(droneData.energyUpgradedTimes);
-        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-        if (currentMultiverse.dust > dustRequired) {
-            currentMultiverse.dust -= dustRequired;
+        const dustRequired = upgradeDroneTicksCost(droneData.ticksUpgradedTimes);
+        if (checkCosts(userData, {
+            dust: dustRequired
+        })) {
+            subtractCosts(userData, {
+                dust: dustRequired
+            });
             droneData.ticksUpgradedTimes++;
             droneData.ticksTilEnergy -= 5;
             notify(`Upgraded drone.`);
@@ -69,7 +72,9 @@ function upgradeDroneEnergy(droneData, userData) {
         if (checkCosts(userData, {
             dust: dustRequired
         })) {
-            currentMultiverse.dust -= dustRequired;
+            subtractCosts(userData, {
+                dust: dustRequired
+            });
             droneData.energyUpgradedTimes++;
             droneData.energyProduced++;
             notify(`Upgraded drone.`);
