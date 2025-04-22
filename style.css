@@ -363,7 +363,7 @@ button {
     padding: 12px;
     border: 1px solid white;
 }
-#clickOnPlanetOrHostile {
+#clickOnPlanetOrHostile, #redirectCancel {
     display: none;
 }
 #energyRequiredWrapper, #energyRequiredProgress {

@@ -90,6 +90,19 @@ function updateSolarSystem(userData) {
             let posY = 0;
 
             const selectTargetButton = document.createElement("button");
+
+            selectTargetButton.addEventListener("click", _ => {
+                shipSelected.targetObjectId = id;
+                redirectionInProgress = false;
+                currentMultiverse.allowSolarSystemUpdates = true;
+                document.getElementById("redirectCancel").style.display = "none";
+                document.getElementById("redirectShip").style.display = "block";
+                selectTargetButton.remove();
+            });
+
+            selectTargetButton.classList.add("selectTargetButton");
+            selectTargetButton.textContent = "Choose target";
+
             switch (thing.type) {
                 case "planet":
                     posX = thing.posX;
@@ -102,17 +115,7 @@ function updateSolarSystem(userData) {
                         content: `Planet ${thing.name} (${getPlanetExplorationLevel(userData, thing)} % explored)`
                     });
 
-                    selectTargetButton.classList.add("selectTargetButton");
-
                     if (redirectionInProgress) {
-                        selectTargetButton.textContent = "Choose target";
-
-                        selectTargetButton.addEventListener("click", _ => {
-                            shipSelected.targetObjectId = id;
-                            redirectionInProgress = false;
-                            currentMultiverse.allowSolarSystemUpdates = true;
-                            selectTargetButton.remove();
-                        });
                         document.getElementById("Dispatch").style.display = "none";
                     } else {
                         document.getElementById("Dispatch").style.display = "block";
@@ -153,17 +156,8 @@ function updateSolarSystem(userData) {
                         content: `Hostile: threat level ${threatLevel(thing)}`
                     });
 
-                    selectTargetButton.classList.add("selectTargetButton");
-
                     if (redirectionInProgress) {
                         selectTargetButton.textContent = "Choose target";
-
-                        selectTargetButton.addEventListener("click", _ => {
-                            shipSelected.targetObjectId = id;
-                            redirectionInProgress = false;
-                            currentMultiverse.allowSolarSystemUpdates = true;
-                            selectTargetButton.remove();
-                        });
                         document.getElementById("hostileAttack").style.display = "none";
                         document.getElementById("launchMissile").style.display = "none";
                     } else {
@@ -221,6 +215,13 @@ function updateSolarSystem(userData) {
 
                             activeScreen = "debrisInfo";
                             updateVisibleDivs();
+
+                            if (redirectionInProgress) {
+                                debrisDiv.appendChild(selectTargetButton);
+                                document.getElementById("dispatchToDebris").style.display = "none";
+                            } else {
+                                document.getElementById("dispatchToDebris").style.display = "block";
+                            }
                         }
                     });
                     break;
@@ -264,6 +265,8 @@ async function newTargetButton(userData) {
     if (!redirectionInProgress) {
         const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
+        document.getElementById("redirectCancel").style.display = "block";
+        document.getElementById("redirectShip").style.display = "none";
         redirectionInProgress = true;
         updateSolarSystem(userData);
         currentMultiverse.allowSolarSystemUpdates = false;
@@ -271,7 +274,16 @@ async function newTargetButton(userData) {
         fadeIn(clickOnPlanetOrHostile, 1.5);
         setTimeout(_ => clickOnPlanetOrHostile.style.display = "none", 3000);
     }
+}
 
+function cancelRedirect(userData) {
+    if (redirectionInProgress) {
+        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+        redirectionInProgress = false;
+        currentMultiverse.allowSolarSystemUpdates = true;
+        document.getElementById("redirectCancel").style.display = "none";
+        document.getElementById("redirectShip").style.display = "block";
+    }
 }
 
 document.getElementById("systemMap").addEventListener("click", e => {
@@ -755,5 +767,6 @@ export {
     sendShipToSun,
     recallButton,
     sendShipToDebris,
-    newTargetButton
+    newTargetButton,
+    cancelRedirect
 };
