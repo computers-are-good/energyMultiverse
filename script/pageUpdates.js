@@ -1,10 +1,23 @@
 import { addDescriptionEvent, changeDescriptionText, currentDescription, manualDescriptionUpdate } from "./addUIDescriptions.js";
+import fadeIn from "./animations/fadeIn.js";
 import research from "./data/researchData.js";
 import { addResearchDescription, doResearch } from "./research/researchScripts.js";
+
+const energyRequiredRestore = 10000000;
+let fadedIn = false;
+const THEEND = document.getElementById("ending");
 
 function updateEnergyCounter(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     document.getElementById("energyAmount").textContent = currentMultiverse.energy;
+    document.getElementById("energyRequiredRestore").textContent = energyRequiredRestore;
+    document.getElementById("eneryProducedTotal").textContent = userData.lifetimeEnergyGained;
+    document.getElementById("energyRequiredProgress").style.transform = `scale(${Math.min(userData.lifetimeEnergyGained / energyRequiredRestore, 1)})`;
+    if (userData.lifetimeEnergyGained > energyRequiredRestore && !fadedIn) {
+        THEEND.style.display = "block";
+        fadedIn = true;
+        fadeIn(THEEND, 5);
+    }
 }
 function updateDustCounter(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];

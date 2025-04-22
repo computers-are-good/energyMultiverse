@@ -23,7 +23,8 @@ import { closeGalaxyView, galaxyView, jumpButtonClicked } from "./map/galaxyView
 import { buildWarpDrive, updateWarpDriveButton } from "./map/warpDriveEvents.js";
 import { updateSolarPanels } from "./resources/solarPanel.js";
 import { drawUpgradeButtons } from "./upgrades.js";
-import particles from "./animations/particles.js";
+import { particles } from "./animations/particles.js";
+import { ending } from "./ending.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -89,9 +90,13 @@ function applyEvents(userData) {
     document.getElementById("jumpToSystem").addEventListener("click", _ => jumpButtonClicked(userData));
     document.getElementById("buildWarpDrive").addEventListener("click", _ => buildWarpDrive(userData));
     document.getElementById("redirectShip").addEventListener("click", _ => newTargetButton(userData));
+    document.getElementById("ending").addEventListener("click", _ => {
+        ending();
+        document.getElementById("ending").blur();
+    });
     addCheats(userData);
 
-    setInterval(_ => tick(userData), 10);
+    setInterval(_ => tick(userData), 100);
 }
 async function firstLoadFunctions(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -106,7 +111,7 @@ async function firstLoadFunctions(userData) {
 
     toggleScreen(currentMultiverse.lastScreen || "Energy");
     if (currentMultiverse.lastScreen === "Map") updateSolarSystem(userData);
-   
+
     updateWarpDriveButton(userData);
     addUIDescriptions();
     updateResearchRate(userData);

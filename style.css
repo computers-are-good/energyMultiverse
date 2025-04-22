@@ -194,6 +194,9 @@ button {
 }
 #systemMap {
     background-color: black;
+    position: absolute;
+    top: 90px;
+    left: 30px;
     width: 750px;
     height: 750px;
     display: inline-block;
@@ -209,11 +212,11 @@ button {
 }
 #thrusterSettings {
     position: relative;
-    height: 190px;
+    height: 180px;
     display: inline-block;
     border: 1px solid white;
     position: absolute;
-    top: 653px;
+    top: 563px;
     margin-left: 11px;
     width: 350px;
 }
@@ -234,6 +237,8 @@ button {
 #mapSide {
     width: 600px;
     display: flex;
+    left: 400px;
+    position: relative;
 }
 #systemMap div {
     position: relative;
@@ -359,5 +364,23 @@ button {
     border: 1px solid white;
 }
 #clickOnPlanetOrHostile {
+    display: none;
+}
+#energyRequiredWrapper, #energyRequiredProgress {
+    width: 250px;
+    height: 250px;
+    border-radius: 250px;
+    margin: auto;
+}
+#energyRequiredWrapper {
+    background-color: black;
+}
+#energyRequiredProgress {
+    position: absolute;
+    background-color: white;
+}
+#ending {
+    background-color: white;
+    color: black;
     display: none;
 }

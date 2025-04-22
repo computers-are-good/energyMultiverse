@@ -8,10 +8,11 @@
     particleSpeed
 } */
 
-let allParticles = [];
-let animateParticlesLoopActive = false;
+import fadeOut from "./fadeOut.js";
 
-function particles(particleConfig) {
+let allParticles = [];
+
+function particles(particleConfig, divToAppendTo) {
     for (let i = 0; i < particleConfig.particleNumber; i++) {
         const newParticleDiv = document.createElement("div");
         const newParticle = {
@@ -19,6 +20,7 @@ function particles(particleConfig) {
             particleX: particleConfig.particleX - 5 + Math.random() * 10,
             particleY: particleConfig.particleY - 5 + Math.random() * 10,
             lifeLeft: particleConfig.particleLifetime,
+            totalLife: particleConfig.particleLifetime,
             speed: particleConfig.particleSpeed,
             div: newParticleDiv
         }
@@ -29,7 +31,11 @@ function particles(particleConfig) {
         newParticleDiv.style.width = `${particleConfig.particleSize}px`;
         newParticleDiv.style.left = `${particleConfig.particleX}px`;
         newParticleDiv.style.top = `${particleConfig.particleY}px`;
-        document.body.appendChild(newParticleDiv);
+        if (divToAppendTo) {
+            divToAppendTo.appendChild(newParticleDiv);
+        } else {
+            document.body.appendChild(newParticleDiv);
+        }
         allParticles.push(newParticle);
     }
 }
@@ -47,6 +53,8 @@ function animateParticles() {
 
         e.div.style.left = `${e.particleX}px`;
         e.div.style.top = `${e.particleY}px`;
+        e.div.style.opacity = e.lifeLeft / e.totalLife;
+
         if (e.lifeLeft < 0) {
             e.div.remove();
             return false;
@@ -57,4 +65,4 @@ function animateParticles() {
     requestAnimationFrame(animateParticles);
 }
 animateParticles();
-export default particles;
+export {particles};

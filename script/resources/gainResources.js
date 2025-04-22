@@ -9,8 +9,10 @@ const resourceMappings = {
 
 function gainEnergy(userData, energy) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    currentMultiverse.energy += energy * currentMultiverse.multipliers.energyGained;
-    currentMultiverse.statistics.energyGained += energy * currentMultiverse.multipliers.energyGained;
+    const energyGained = energy * currentMultiverse.multipliers.energyGained
+    currentMultiverse.energy += energyGained;
+    currentMultiverse.statistics.energyGained += energyGained;
+    userData.lifetimeEnergyGained += energyGained;
     updateEnergyCounter(userData);
 }
 function gainDust(userData, dust) {

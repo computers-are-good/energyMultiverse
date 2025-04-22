@@ -15,6 +15,7 @@ import { resourceMappings } from "../resources/gainResources.js";
 import { getPlanetExplorationLevel } from "./planetEvents.js";
 import { writeCostsReadable } from "../itemCosts.js";
 import fadeIn from "../animations/fadeIn.js";
+import { particles } from "../animations/particles.js";
 const planetVelocity = 8.8;
 
 let activeScreen = "";
@@ -23,7 +24,7 @@ let cursorY = 0;
 let selected;
 let shipSelected;
 let redirectionInProgress = false;
-let redirectTarget;
+const map = document.getElementById("Map");
 
 function updateVisibleDivs() {
     document.querySelectorAll(".sidebarScreen").forEach(e => {
@@ -55,6 +56,16 @@ function updateSolarSystem(userData) {
         star.style.width = "20px";
         cumulativeOffsetY += 20;
         star.style.borderRadius = `15px`;
+
+        particles({
+            particleX: 375 + 40,
+            particleY: 375 + 100,
+            particleColor: "#f7f29e",
+            particleLifetime: 9000,
+            particleNumber: 3,
+            particleSize: 1,
+            particleSpeed: 0.006
+        }, map);
 
         star.addEventListener("mousedown", _ => {
             if (activeScreen !== "scriptPlayer") {
@@ -181,7 +192,7 @@ function updateSolarSystem(userData) {
                     cumulativeOffsetY += 5;
                     missile.style.width = "5px";
                     missile.style.height = "5px";
-                    missile.style.backgroundColor = "purple";
+                    missile.style.backgroundColor = "#e87474";
                     break;
                 case "debris":
                     const debris = drawNewElement(thing.posX - 5, thing.posY - 5 - cumulativeOffsetY);
@@ -338,6 +349,9 @@ function launchMissile(userData) {
         }
     }
     document.getElementById("missileCount").textContent = currentMultiverse.missiles;
+    if (currentMultiverse.missiles <= 0) {
+        document.getElementById("launchMissile").style.display = "none";
+    }
 }
 
 async function goToHostile(userData) {
@@ -562,9 +576,27 @@ async function updateSolarSystemPositions(userData) {
                         if (target.currentHealth < 0) {
                             delete currentSystem.objects[thing.targetObjectId];
                             notify(`A missile detonated and destroyed an enemy.`);
+                            particles({
+                                particleX: thing.posX + 30,
+                                particleY: thing.posY + 90,
+                                particleColor: "red",
+                                particleLifetime: 5000,
+                                particleNumber: 15,
+                                particleSize: 1,
+                                particleSpeed: 0.05
+                            }, map);
                             generateDebris(userData, target);
                         } else {
                             notify(`A missile detonated and dealt 5 damage to an enemy (their hull: ${target.currentHealth}).`);
+                            particles({
+                                particleX: thing.posX + 30,
+                                particleY: thing.posY + 90,
+                                particleColor: "red",
+                                particleLifetime: 3000,
+                                particleNumber: 5,
+                                particleSize: 1,
+                                particleSpeed: 0.05
+                            }, map);
                         }
                         delete currentSystem.objects[object];
                     }
@@ -612,6 +644,7 @@ async function updateSolarSystemPositions(userData) {
         }
     }
 }
+
 const getDistanceTo = (obj1, obj2) => Math.sqrt(Math.pow(obj1.posX - obj2.posX, 2) + Math.pow(obj1.posY - obj2.posY, 2));
 const statMappings = {
     baseAttack: "Attack",

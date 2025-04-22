@@ -303,7 +303,7 @@ await createText("You have saved the universe.");
     bigDiv.innerHTML = '';
 
     await createText("Thank you for playing Energy Multiverse.");
-    await createText("No artifical intelligence (AI) technology was utilised in the creation of any proportion of this program.");
+    await createText("No artifical intelligence (AI) technology were utilised in the creation of any portion of this program.");
     await createText("THE END");
 }
 

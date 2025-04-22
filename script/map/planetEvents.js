@@ -34,7 +34,10 @@ function getBiomeEvents(userData, planetInfo) {
     return availableEvents;
 }
 const globalEventsMilestones = {
-    5: "deflectionDriveUnlock"
+    5: "deflectionDriveUnlock",
+    10: "story1",
+    15: "story2",
+    18: "story3",
 }
 function arriveAtTarget(shipInfo, userData) { //for use with player ships arriving on planets only
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
