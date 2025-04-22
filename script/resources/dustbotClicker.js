@@ -1,6 +1,7 @@
 import { checkCosts, subtractCosts } from "../itemCosts.js";
 import { updateDustbot } from "../pageUpdates.js";
-import { unlockUIElement } from "../toggleUIElement.js";
+import { addNavigationAttention, unlockUIElement } from "../toggleUIElement.js";
+import { drawUpgradeButtons } from "../upgrades.js";
 
 const dustbotCost = {
     energy: 200,
@@ -15,6 +16,9 @@ function buildDustbotEvent(userData) {
         currentMultiverse.dustbotUnlocked = true;
         unlockUIElement(currentMultiverse.UIElementsUnlocked, "dustbotDiv");
         updateDustbot(userData);
+        currentMultiverse.maxUpgradeTimes.dustbotSpeed = 20;
+        addNavigationAttention("Upgrades", "pageUpgrades");
+        drawUpgradeButtons(userData);
     }
 }
 

@@ -2,6 +2,7 @@ import { addDescriptionEvent, currentDescription, removeDescription } from "./ad
 import upgrades from "./data/upgrades.js";
 import { checkCosts, subtractCosts, writeCostsReadable } from "./itemCosts.js";
 const container = document.getElementById("upgradeButtonsContainer");
+
 function drawUpgradeButtons(userData) {
     container.innerHTML = "";
     if (currentDescription === "upgrade") removeDescription();

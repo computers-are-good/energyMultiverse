@@ -7,7 +7,7 @@ import { buildShip } from "./ship/shipEvents.js";
 import { updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
 import { currentScreenDisplayed } from "./toggleUIElement.js";
 import { solarPanelTick } from "./resources/solarPanel.js";
-import { gainEnergy } from "./resources/gainResources.js";
+import { gainDust, gainEnergy } from "./resources/gainResources.js";
 
 let tickCount = 0;
 function tick(userData) {
@@ -40,9 +40,7 @@ function tick(userData) {
             currentMultiverse.dustbotTicksElapsed = 0;
             if (checkCosts(userData, { energy: 10 }, false)) {
                 subtractCosts(userData, { energy: 10 });
-                currentMultiverse.dust++;
-                updateDustCounter(userData);
-                updateEnergyCounter(userData);
+                gainDust(userData, 1);
             } else {
                 notify("[Dustbot] Not enough energy.");
             }
