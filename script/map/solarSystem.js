@@ -552,7 +552,7 @@ async function updateSolarSystemPositions(userData) {
                         posY: targetY
                     }, thing.baseStats.baseSpeed * 0.6);
 
-                    const distanceToTarget = Math.sqrt(Math.pow(hostileX - targetX, 2) + Math.pow(hostileY - targetY, 2));
+                    const distanceToTarget = Math.sqrt((hostileX - targetX) ** 2 + (hostileY - targetY) ** 2);
                     if (distanceToTarget < 10) {
                         thing.targetX = Math.random() * 750;
                         thing.targetY = Math.random() * 750;
@@ -645,7 +645,7 @@ async function updateSolarSystemPositions(userData) {
     }
 }
 
-const getDistanceTo = (obj1, obj2) => Math.sqrt(Math.pow(obj1.posX - obj2.posX, 2) + Math.pow(obj1.posY - obj2.posY, 2));
+const getDistanceTo = (obj1, obj2) => Math.sqrt((obj1.posX - obj2.posX) ** 2 + (obj1.posY - obj2.posY) ** 2);
 const statMappings = {
     baseAttack: "Attack",
     baseHealth: "Hull",

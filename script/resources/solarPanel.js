@@ -4,7 +4,7 @@ import { gainEnergy } from "./gainResources.js";
 function getDistanceToStar(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
-    return Math.floor(Math.sqrt(Math.pow(currentSystem.objects.player.posX - 375, 2) + Math.pow(currentSystem.objects.player.posY - 375, 2)));
+    return Math.floor(Math.sqrt((currentSystem.objects.player.posX - 375) ** 2 + (currentSystem.objects.player.posY - 375) ** 2));
 }
 function getEnergyPerSecond(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];

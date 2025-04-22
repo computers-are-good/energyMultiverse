@@ -19,7 +19,7 @@ function calculateEnergyRequired(userData, targetSystemId) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
     const targetSystem = currentMultiverse.solarSystems[targetSystemId];
-    return Math.floor(Math.sqrt(Math.pow(currentSystem.galaxyX - targetSystem.galaxyX, 2) + Math.pow(currentSystem.galaxyY - targetSystem.galaxyY, 2)) * 15);
+    return Math.floor(Math.sqrt((currentSystem.galaxyX - targetSystem.galaxyX) ** 2 + (currentSystem.galaxyY - targetSystem.galaxyY) ** 2) * 15);
 }
 function galaxyView(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
