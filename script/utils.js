@@ -40,4 +40,5 @@ function wait(ms) {
 function removeFromArray(array, element) {
     array.splice(array.indexOf(element), 1);
 }
+
 export { choice, deepClone, wait , removeFromArray}

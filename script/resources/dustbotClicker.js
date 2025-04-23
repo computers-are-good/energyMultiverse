@@ -25,7 +25,8 @@ function buildDustbotEvent(userData) {
 function dustbotSlider(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const slider = document.getElementById("dustbotSlider");
-    currentMultiverse.dustbotSpeed = parseInt(slider.value);
+    currentMultiverse.dustbotSpeed = slider.valueAsNumber;
+
     updateDustbot(userData);
 }
 

@@ -3,7 +3,7 @@ import defaultMultiverseData from "./data/defaultMultiverseData.js";
 import generateAllSystems from "./map/newSolarSystem.js";
 import newSolarSystem from "./map/newSolarSystem.js";
 import notify from "./notifs/notify.js";
-import {choice, deepClone} from "./utils.js";
+import { choice, deepClone } from "./utils.js";
 
 function addMissingEntries(dataToFix, dataReference) {
     for (let data in dataReference) {
@@ -11,7 +11,7 @@ function addMissingEntries(dataToFix, dataReference) {
             if (!(data in dataToFix))
                 dataToFix[data] = deepClone(dataReference[data]);
         } else {
-            if (!(data in dataToFix)) 
+            if (!(data in dataToFix))
                 dataToFix[data] = dataReference[data];
         }
     }
@@ -29,10 +29,11 @@ function getUserData() {
 
     return dataToReturn;
 }
+
 const multiverseNames = ["Ytare", "Baela", "Starwater"];
 function newMultiverse(userData) {
     const chosenName = choice(multiverseNames);
-    const multiverse = deepClone(defaultMultiverseData);
+    const multiverse = structuredClone(defaultMultiverseData);
     multiverse.name = chosenName;
     generateAllSystems(multiverse);
     userData.multiverses.push(multiverse);
@@ -47,4 +48,4 @@ function storeUserData(userData) {
     window.localStorage.setItem("saveData", JSON.stringify(userData));
     notify("Data saved.");
 }
-export {getUserData, storeUserData, newMultiverse}
+export { getUserData, storeUserData, newMultiverse }

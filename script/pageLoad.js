@@ -25,6 +25,7 @@ import { updateSolarPanels } from "./resources/solarPanel.js";
 import { drawUpgradeButtons } from "./upgrades.js";
 import { particles } from "./animations/particles.js";
 import { ending } from "./ending.js";
+import { fabriBotSlider, updateFabriBot } from "./resources/fabribotClicker.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -58,9 +59,12 @@ function applyEvents(userData) {
     });
     document.getElementById("viewDronesBack").addEventListener("mousedown", _ => toggleScreen("Energy"));
     document.getElementById("dustBot").addEventListener("mousedown", _ => toggleScreen("dustbotView"));
+    document.getElementById("fabriBot").addEventListener("mousedown", _ => toggleScreen("fabriBotView"));
     document.getElementById("viewDustbotBack").addEventListener("mousedown", _ => toggleScreen("Energy"));
+    document.getElementById("viewFabriBotBack").addEventListener("mousedown", _ => toggleScreen("Energy"));
     document.getElementById("buildDustbot").addEventListener("mousedown", _ => buildDustbotEvent(userData));
-    document.getElementById("dustbotSlider").addEventListener("input", _ => dustbotSlider(userData))
+    document.getElementById("dustbotSlider").addEventListener("input", _ => dustbotSlider(userData));
+    document.getElementById("fabriBotSlider").addEventListener("input", _ => fabriBotSlider(userData));
     document.getElementById("decreaseResearchRate").addEventListener("mousedown", _ => decreaseResearchRate(userData));
     document.getElementById("increaseResearchRate").addEventListener("mousedown", _ => increaseResearchRate(userData));
     document.getElementById("buildShip").addEventListener("click", _ => buildShip(userData));
@@ -119,6 +123,7 @@ async function firstLoadFunctions(userData) {
     updateResearchBar(userData);
     updateMetalCounter(userData);
     updateDustbot(userData);
+    updateFabriBot(userData);
     drawBuildShipsDiv(userData);
     updateShipConstruction(userData);
     updateShipThrust(userData);

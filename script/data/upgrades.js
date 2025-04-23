@@ -1,3 +1,5 @@
+import { updateDustbot } from "../pageUpdates.js";
+
 const upgrades = {
     "energyClicker": {
         name: "Advanced energy extraction",
@@ -19,6 +21,7 @@ const upgrades = {
             const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
             currentMultiverse.dustbotMaxSpeed += 2;
+            updateDustbot(userData);
         },
         description: "Increases dustbot's maximum fabrication speed."
     }

@@ -52,11 +52,13 @@ function generateAllSystems(multiverse) {
                 solarSystem.objects[newID] = newPlanet(planetCount, systemTier, solarSystemsMade);
                 planetCount++
             }
+            const distanceToStar = Math.random() * 150 + 100;
+            const theta = Math.random() * Math.PI * 2;
             solarSystem.objects.player = {
                 type: "player",
                 color: "white",
-                posX: Math.random() * 400 - 200 + 375,
-                posY: Math.random() * 400 - 200 + 375
+                posX: distanceToStar * Math.cos(theta),
+                posY: distanceToStar * Math.sin(theta)
             }
             multiverse.solarSystems.push(solarSystem);
         }

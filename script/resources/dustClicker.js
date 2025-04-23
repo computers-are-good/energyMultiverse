@@ -1,5 +1,5 @@
 import { updateEnergyCounter, updateDustCounter, updateResearchButtons } from "../pageUpdates.js";
-import { unlockUIElement } from "../toggleUIElement.js";
+import { addNavigationAttention, unlockUIElement } from "../toggleUIElement.js";
 import notifyUnique from "../notifs/notifyUnique.js"
 import { checkCosts, subtractCosts } from "../itemCosts.js";
 import { gainDust } from "./gainResources.js";
@@ -22,8 +22,9 @@ function makeDust(userData) {
             currentMultiverse.eventsDone.push("unlockDust");
         }
 
-        if (currentMultiverse.dust > 10 && currentMultiverse.eventsDone.includes("unlockDustbot")) {
+        if (currentMultiverse.dust > 10 && !currentMultiverse.eventsDone.includes("unlockDustbot")) {
             notifyUnique("unlockDustbot");
+            addNavigationAttention("Research", "pageResearch");
             currentMultiverse.researchUnlocked.push("dustbot");
             updateResearchButtons(userData);
             currentMultiverse.eventsDone.push("unlockDustbot");

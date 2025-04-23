@@ -5,14 +5,16 @@ import { checkCosts, subtractCosts } from "./itemCosts.js";
 import notify from "./notifs/notify.js";
 import { buildShip } from "./ship/shipEvents.js";
 import { updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
-import { currentScreenDisplayed } from "./toggleUIElement.js";
+import { addNavigationAttention, currentScreenDisplayed } from "./toggleUIElement.js";
 import { solarPanelTick } from "./resources/solarPanel.js";
-import { gainDust, gainEnergy } from "./resources/gainResources.js";
+import { gainDust, gainEnergy, gainMetal } from "./resources/gainResources.js";
+import notifyUnique from "./notifs/notifyUnique.js";
 
 let tickCount = 0;
 function tick(userData) {
-    tickCount++;
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    tickCount++;
+    currentMultiverse.statistics.totalTicksPassed++;
 
     if (tickCount % 1000 === 0) {
         // storeUserData(userData);
@@ -46,6 +48,25 @@ function tick(userData) {
             }
         }
     }
+    if (currentMultiverse.fabriBotSpeed > 0) {
+        currentMultiverse.fabriBotTicksElapsed++;
+        document.getElementById("fabriBotNextMetal").textContent = (101 - currentMultiverse.fabriBotSpeed * 2 - currentMultiverse.fabriBotTicksElapsed) / 10;
+        if (currentMultiverse.fabriBotTicksElapsed > 100 - currentMultiverse.fabriBotSpeed * 2) {
+            currentMultiverse.fabriBotTicksElapsed = 0;
+            if (checkCosts(userData, { energy: 30, dust: 5 }, false)) {
+                subtractCosts(userData, { energy: 30, dust: 5 });
+                gainMetal(userData, 1);
+            } else {
+                if (currentMultiverse.energy < 30) {
+                    notify("[fabriBot] Not enough energy.");
+                }
+                if (currentMultiverse.dust < 5) {
+                    notify("[fabriBot] Not enough dust.");
+                }
+            }
+        }
+    }
+
     if (tickCount % 10 === 0) { //events that happen every second
         solarPanelTick(userData);
         buildShip(userData);
@@ -56,7 +77,6 @@ function tick(userData) {
     if (tickCount % 20 === 0) { //events that happen every 2 seconds
 
     }
-    currentMultiverse.statistics.totalTicksPassed++;
 }
 
 export default tick;

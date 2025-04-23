@@ -1,6 +1,6 @@
 import { updateResearchRate } from "../pageUpdates.js";
 import { drawBuildShipsDiv } from "../ship/buildShip.js";
-import {unlockUIElement} from "../toggleUIElement.js";
+import {addNavigationAttention, unlockUIElement} from "../toggleUIElement.js";
 
 const research = {
     "Upgrades" : {
@@ -32,6 +32,7 @@ const research = {
         description: "Tired of creating dust by hand? Dustbot will help you!",
         complete: function(userData) {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "dustBot");
+            addNavigationAttention("Energy", "pageEnergy");
         }
     },
     "Sunscoop": {

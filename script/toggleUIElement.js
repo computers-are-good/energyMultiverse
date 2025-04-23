@@ -25,7 +25,8 @@ const screens = [
     "Shipyard",
     "playerShips",
     "Map",
-    "Universe"
+    "Universe",
+    "fabriBotView"
 ]
 let currentScreenDisplayed = "";
 

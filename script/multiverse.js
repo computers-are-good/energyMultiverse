@@ -10,7 +10,8 @@ function multiverseTravel(userData, targetMultiverse) {
     userData.currentMultiverse = targetMultiverse;
     document.querySelectorAll(".drone").forEach(e => {
         e.remove();
-    })
+    });
+    document.getElementById("notifications").innerHTML = "";
     firstLoadFunctions(userData);
 }
 export {createNewMultiverse, multiverseTravel}

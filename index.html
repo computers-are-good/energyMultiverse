@@ -123,9 +123,21 @@
                     <p>Dustbot speed:</p>
                     <input id="dustbotSlider" type="range" min="0" max="100" step="1">
                 </div>
-                <p id="dustbotSliderInfo">Dustbot will make dust once every <span id="dustbotSliderSeconds"></span>s (next dust in <span id="dustbotNextDust"></span>s)</p>
+                <p id="dustbotSliderInfo">Dustbot will make dust once every <span id="dustbotSliderSeconds"></span>s
+                    (next dust in <span id="dustbotNextDust"></span>s)</p>
                 <p id="dustbotInactive">Dustbot is inactive</p>
             </div>
+        </div>
+        <div id="fabriBotView">
+            <h2>fabriBot</h2>
+            <button id="viewFabriBotBack">←</button>
+            <div id="fabriBotSliderContainer" class="flexCenter">
+                <p>fabriBot speed:</p>
+                <input id="fabriBotSlider" type="range" min="0" max="100" step="1">
+            </div>
+            <p id="fabriBotSliderInfo">fabriBot will make metal once every <span id="fabriBotSliderSeconds"></span>s (next
+                metal in <span id="fabriBotNextMetal"></span>s)</p>
+            <p id="fabriBotInactive">fabriBot is inactive</p>
         </div>
         <div id="Energy">
             <h2 id="energyTitle">Energy</h2>
@@ -136,13 +148,14 @@
                 <p>Number of solar panels: <span id="numberOfSolarPanels"></span></p>
                 <p>Distance to star: <span id="solarPanelDistanceToStar"></span></p>
                 <p>Energy per second: <span id="solarPanelEPS"></span></p>
-            </div>  
+            </div>
             <div id="dusts">
                 <button id="dust">Make Dust</button>
                 <button id="dustBot">→</button>
             </div>
             <div id="metals">
                 <button id="metal">Make Metal</button>
+                <button id="fabriBot">→</button>
             </div>
             <div id="drones">
                 <button id="drone">Make drone</button>
@@ -154,7 +167,8 @@
             <div id="chooseShipToBuild">
                 <p>Select a class:</p>
                 <div id="chooseShipClass" class="flexCenter list"></div>
-                <p id="selectAccessoriesText">Select accessories (<span id="accessoriesCostUsed"></span>/<span id="accessoriesCostTotal"></span>):</p>
+                <p id="selectAccessoriesText">Select accessories (<span id="accessoriesCostUsed"></span>/<span
+                        id="accessoriesCostTotal"></span>):</p>
                 <div id="chooseShipAccessories" class="flexCenter list"></div>
 
                 <p id="totalEnergyCost">Energy cost: <span id="totalEnergyCostSpan"></span></p>
@@ -180,7 +194,7 @@
         </div>
         <div id="playerShips">
             <h2>Your ships</h2>
-            <div id="playerShipsDisplay"class="flexCenter list"></div>
+            <div id="playerShipsDisplay" class="flexCenter list"></div>
             <p>Repair kits: <span id="repairKitCount"></span></p>
             <p>Capacity: <span id="hangarCapacityUsed"></span> / <span id="hangarCapacityTotal"></span></p>
             <button id="closeHangar">←</button>
@@ -203,7 +217,8 @@
                 <button id="increaseResearchRate">+</button>
             </div>
             <div id="researchInfo">
-                <p>Research rate: <span id="researchRateDisplay"></span> energy / <span id="ticksPerResearchAdvancementDisplay"></span></p>
+                <p>Research rate: <span id="researchRateDisplay"></span> energy / <span
+                        id="ticksPerResearchAdvancementDisplay"></span></p>
             </div>
             <div id="researchButtons"></div>
         </div>
@@ -257,7 +272,8 @@
                         <button id="jumpToSystem">Jump to system</button>
                     </div>
                     <p id="cannotJump">Cannot jump; one or more ships are in the solar system.</p>
-                    <p id="cannotJumpTier">Cannot jump; you can only jump to tier <span id="maxJumpTier"></span> systems or below.</p>
+                    <p id="cannotJumpTier">Cannot jump; you can only jump to tier <span id="maxJumpTier"></span> systems
+                        or below.</p>
                 </div>
             </div>
             <button id="galaxyMapBack">←</button>
