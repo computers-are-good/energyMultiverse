@@ -26,12 +26,23 @@ const research = {
     },
     "dustbot": {
         cost: {
-            points: 10
+            points: 5
         },
         name: "Dustbot",
         description: "Tired of creating dust by hand? Dustbot will help you!",
         complete: function(userData) {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "dustBot");
+            addNavigationAttention("Energy", "pageEnergy");
+        }
+    },
+    "fabriBot": {
+        cost: {
+            points: 15
+        },
+        name: "fabriBot",
+        description: "You found this robot on an industrial planet. Now you just have to figure out how to operate it...",
+        complete: function(userData) {
+            unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "fabriBot");
             addNavigationAttention("Energy", "pageEnergy");
         }
     },

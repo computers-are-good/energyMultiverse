@@ -10,6 +10,7 @@ const hideableIDs = [
     "drones",
     "energyTitle",
     "dustbotDiv",
+    "fabriBot",
     "dustBot",
     "makeRepairKit",
     "dispatchToSun",

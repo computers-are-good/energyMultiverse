@@ -249,6 +249,53 @@ const events = {
             }
         ]
     },
+    "unlockFabribot": {
+        script: [
+            {
+                text: "As you fly towards the planet, you see a sea of silver reflected in the sunlight. Large interconnected steel buildings cover half of the planet's surface."
+            },
+            {
+                text: "You emerge from the clouds after a short well. You expect this to be a busy industrial planet with ships and people bustling about, but there is nothing. Only machines carrying out the commands of a civilisation long left behind."
+            },
+            {
+                text: "You land on top of such building. It looks exactly the same as the ones stretching on for miles on end. You walk inside and discover a robot using a large compressor plate to turn dust into metal."
+            },
+            {
+                text: "No one responded to your radio calls, so there is clearly no one there. Such a machine could certainly prove useful for your base, if you could understand how to use it."
+            },
+            {
+                text: "It is very tight, but the robot just looks like it would fit inside your spaceship. You'll just have to get your research computer to figure out how to send instructions to this thing.",
+                researchUnlocked: ["fabriBot"]
+            },
+            {
+                text: "There are some metal and dust lying around the factory. If you've already taken the big robot, then you might as well as take them."
+            },
+            {
+                text: "Take the metal and dust?",
+                choice: [
+                    {
+                        text: "Yes",
+                        goto: 8
+                    },
+                    {
+                        text: "No",
+                        goto: 9
+                    }
+                ]
+            },
+            {
+                text: "Well, no one will miss them, or even notice that they're missing.",
+                item: {
+                    dust: 15,
+                    metal: 5
+                }
+            },
+            {
+                text: "You leave the planet.",
+                eventResolved: true
+            }
+        ]
+    },
     "story1": {
         script: [
             {

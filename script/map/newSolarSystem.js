@@ -52,6 +52,13 @@ function generateAllSystems(multiverse) {
                 solarSystem.objects[newID] = newPlanet(planetCount, systemTier, solarSystemsMade);
                 planetCount++
             }
+
+            if (j === 2 && i === 1) {
+                const chosenPlanet = solarSystem.objects[choice(Object.keys(solarSystem.objects))]
+                chosenPlanet.uniqueEvents.push("unlockFabribot");
+                chosenPlanet.totalUniqueEvents++;
+            }
+
             const distanceToStar = Math.random() * 150 + 100;
             const theta = Math.random() * Math.PI * 2;
             solarSystem.objects.player = {
