@@ -384,3 +384,16 @@ button {
     color: black;
     display: none;
 }
+#allCategories {
+    display: flex;
+    justify-content: center;
+}
+#allCategories div {
+    margin: 12px;
+    border: 1px solid white;
+    padding: 12px;
+    width: 250px;
+}
+#Statistics {
+    text-align: center;
+}

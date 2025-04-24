@@ -46,6 +46,17 @@ const research = {
             addNavigationAttention("Energy", "pageEnergy");
         }
     },
+    "statistics": {
+        cost: {
+            points: 1
+        },
+        name: "Statistics",
+        description: "Unlock the statics tab",
+        complete: function(userData) {
+            unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "pageStatistics");
+            addNavigationAttention("Statistics", "pageStatistics");
+        }
+    },
     "Sunscoop": {
         cost: {
             points: 5

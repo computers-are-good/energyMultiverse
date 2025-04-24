@@ -35,4 +35,4 @@ function updateSolarPanels(userData) {
     solarPanelDiv.style.backgroundColor = `rgb(${bgColor}, ${bgColor}, ${bgColor})`
 }
 
-export { solarPanelTick, updateSolarPanels }
+export { solarPanelTick, updateSolarPanels, getEnergyPerSecond }

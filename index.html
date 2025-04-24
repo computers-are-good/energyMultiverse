@@ -27,6 +27,7 @@
                 <li id="pageShipyard">Shipyard</li>
                 <li id="pageMap">Map</li>
                 <li id="pageUniverse">Universe</li>
+                <li id="pageStatistics">Statistics</li>
             </ul>
         </div>
         <div id="Map">
@@ -277,6 +278,39 @@
                 </div>
             </div>
             <button id="galaxyMapBack">←</button>
+        </div>
+        <div id="Statistics">
+            <h2>Statistics</h2>
+            <div id="allCategories">
+                <div>
+                    <h3>Resources</h3>
+                    <ul>
+                        <li>Total energy obtained: <span id="totalEnergyMade"></li>
+                        <li>Total dust made: <span id="totalDustMade"></li>
+                        <li>Total metal made: <span id="totalMetalMade"></li>
+                        <li>Total iridium obtained: <span id="totalIridiumMade"></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Map</h3>
+                    <ul>
+                        <li>Planet Explorations Completed: <span id="planetsVisited"></span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Others</h3>
+                    <ul>
+                        <li>Playtime: <span id="statisticsPlaytime"></span></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="energyStatistics">
+                <h3 id="totalEnergyConsummption">Energy</h3>
+                <p>Consumption per second</p>
+                <ul id="energyConsumptionList"></ul>
+                <p>Production per second</p>
+                <ul id="energyProductionList"></ul>
+            </div>
         </div>
     </main>
     <div id="sidecontent">

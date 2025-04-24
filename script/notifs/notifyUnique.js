@@ -9,7 +9,8 @@ const messages = {
     researchTooSlow: "This rate of research is too slow. Maybe you can do research into researching?",
     unlockSunscoop: "Flying this close to a star makes you wonder... what if you could scoop up its energy?",
     unlockRepairKit: "That ship looks like it could use some patching up. Maybe you can research how?",
-    unlockDustbot: "Tired of making dust by hand? Maybe something can help you."
+    unlockDustbot: "Tired of making dust by hand? Maybe something can help you.",
+    statistics: "Perhaps it's useful to check out some information about your world?"
 }
 
 function notifyUnique(messageId) {

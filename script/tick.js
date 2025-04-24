@@ -1,5 +1,5 @@
 import { updateDroneDivs } from "./resources/drone/droneClicker.js"
-import { updateDustCounter, updateEnergyCounter } from "./pageUpdates.js";
+import { updateDustCounter, updateEnergyCounter, updateResearchButtons } from "./pageUpdates.js";
 import updateResearch from "./research/research.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
 import notify from "./notifs/notify.js";
@@ -9,6 +9,7 @@ import { addNavigationAttention, currentScreenDisplayed } from "./toggleUIElemen
 import { solarPanelTick } from "./resources/solarPanel.js";
 import { gainDust, gainEnergy, gainMetal } from "./resources/gainResources.js";
 import notifyUnique from "./notifs/notifyUnique.js";
+import updateStatistics from "./statistics.js";
 
 let tickCount = 0;
 function tick(userData) {
@@ -65,6 +66,19 @@ function tick(userData) {
                 }
             }
         }
+    }
+
+    if (currentMultiverse.statistics.totalTicksPassed > 600 && !currentMultiverse.eventsDone.includes("statistics")) {
+        notifyUnique("statistics");
+        addNavigationAttention("research", "pageResearch");
+        currentMultiverse.researchUnlocked.push("statistics");
+        updateResearchButtons(userData);
+        currentMultiverse.eventsDone.push("statistics");
+
+    }
+
+    if (tickCount % 5 === 0) { //events that happen twice every second
+        if (currentScreenDisplayed === "Statistics") updateStatistics(userData);
     }
 
     if (tickCount % 10 === 0) { //events that happen every second

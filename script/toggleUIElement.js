@@ -15,7 +15,8 @@ const hideableIDs = [
     "makeRepairKit",
     "dispatchToSun",
     "buildWarpDrive",
-    "recallShip"
+    "recallShip",
+    "pageStatistics"
 ];
 const screens = [
     "Energy",
@@ -27,6 +28,7 @@ const screens = [
     "playerShips",
     "Map",
     "Universe",
+    "Statistics",
     "fabriBotView"
 ]
 let currentScreenDisplayed = "";
