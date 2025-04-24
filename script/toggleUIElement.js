@@ -16,7 +16,8 @@ const hideableIDs = [
     "dispatchToSun",
     "buildWarpDrive",
     "recallShip",
-    "pageStatistics"
+    "pageStatistics",
+    "energyStatistics"
 ];
 const screens = [
     "Energy",

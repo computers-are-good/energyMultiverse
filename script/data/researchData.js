@@ -57,6 +57,17 @@ const research = {
             addNavigationAttention("Statistics", "pageStatistics");
         }
     },
+    "energyStatistics": {
+        cost: {
+            points: 4
+        },
+        name: "Energy Statistics",
+        description: "Tired of tracking your energy usage by hand? Let YOUR computer do it for you!",
+        complete(userData) {
+            unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "energyStatistics");
+            addNavigationAttention("Statistics", "pageStatistics");
+        }
+    },
     "Sunscoop": {
         cost: {
             points: 5
