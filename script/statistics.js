@@ -43,7 +43,11 @@ function updateStatistics(userData) {
     energyProducedLi.textContent = `Total production: ${totalEnergyProduced}`;
     document.getElementById("energyProductionList").appendChild(energyProducedLi);
 
-    if (totalEnergyProduced + totalEnergyProduced > 3 && !currentMultiverse.eventsDone.includes("energyStatistics")) {
+    document.getElementById("deficencyOrSurplus").textContent = totalEnergyProduced > totalEnergyUsed ? "surplus" : "deficency";
+    document.getElementById("energyChange").textContent = Math.round(Math.abs(totalEnergyProduced - totalEnergyUsed) * 1000) / 1000;
+    document.getElementById("energyChange").style.color = totalEnergyProduced > totalEnergyUsed ? "green" : "red";
+
+    if (totalEnergyProduced + totalEnergyUsed > 3 && !currentMultiverse.eventsDone.includes("energyStatistics")) {
         unlockResearchForElement(userData, "energyStatistics");
     }
 }
