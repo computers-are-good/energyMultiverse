@@ -16,6 +16,7 @@ import { getPlanetExplorationLevel } from "./planetEvents.js";
 import { writeCostsReadable } from "../itemCosts.js";
 import fadeIn from "../animations/fadeIn.js";
 import { particles } from "../animations/particles.js";
+import unlockResearchForElement from "../unlockResearch.js";
 const planetVelocity = 8.8;
 
 let activeScreen = "";
@@ -490,12 +491,8 @@ async function updateSolarSystemPositions(userData) {
                                 updateMetalCounter(userData);
                                 updateIridiumCounter(userData);
 
-                                if (ship.currentHealth < ship.baseStats.baseHealth && !currentMultiverse.eventsDone.includes("unlockRepairKit")) {
-                                    notifyUnique("unlockRepairKit");
-                                    addNavigationAttention("Research", "pageResearch");
-                                    currentMultiverse.researchUnlocked.push("repairKit");
-                                    updateResearchButtons(userData);
-                                    currentMultiverse.eventsDone.push("unlockRepairKit");
+                                if (ship.currentHealth < ship.baseStats.baseHealth && !currentMultiverse.eventsDone.includes("repairKit")) {
+                                    unlockResearchForElement(userData, "repairKit");
                                 }
 
                                 const cargoText = writeCostsReadable(cargoProcessed);
@@ -634,12 +631,8 @@ async function updateSolarSystemPositions(userData) {
                 }
 
                 const distanceToSun = getDistanceTo(thing, { posX: 375, posY: 375 });
-                if (distanceToSun < 50 && !currentMultiverse.eventsDone.includes("unlockSunscoop")) {
-                    addNavigationAttention("Research", "pageResearch");
-                    notifyUnique("unlockSunscoop");
-                    currentMultiverse.researchUnlocked.push("Sunscoop");
-                    updateResearchButtons(userData);
-                    currentMultiverse.eventsDone.push("unlockSunscoop");
+                if (distanceToSun < 50 && !currentMultiverse.eventsDone.includes("Sunscoop")) {
+                    unlockResearchForElement(userData, "Sunscoop");
                 }
             }
         }

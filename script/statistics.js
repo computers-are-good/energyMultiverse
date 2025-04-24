@@ -1,7 +1,5 @@
-import notifyUnique from "./notifs/notifyUnique.js";
-import { updateResearchButtons } from "./pageUpdates.js";
+import unlockResearchForElement from "./unlockResearch.js";
 import { getEnergyPerSecond } from "./resources/solarPanel.js";
-import { addNavigationAttention } from "./toggleUIElement.js";
 
 function updateStatistics(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -46,11 +44,7 @@ function updateStatistics(userData) {
     document.getElementById("energyProductionList").appendChild(energyProducedLi);
 
     if (totalEnergyProduced + totalEnergyProduced > 3 && !currentMultiverse.eventsDone.includes("energyStatistics")) {
-        notifyUnique("energyStatistics");
-        currentMultiverse.researchUnlocked.push("energyStatistics");
-        updateResearchButtons(userData);
-        addNavigationAttention("research", "pageResearch");
-        currentMultiverse.eventsDone.push("energyStatistics");
+        unlockResearchForElement(userData, "energyStatistics");
     }
 }
 
