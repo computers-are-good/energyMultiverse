@@ -9,7 +9,7 @@ function updateStatistics(userData) {
     document.getElementById("totalMetalMade").textContent = currentMultiverse.statistics.metalGained;
     document.getElementById("totalIridiumMade").textContent = currentMultiverse.statistics.iridiumGained;
     document.getElementById("planetsVisited").textContent = currentMultiverse.statistics.planetsVisited;
-    document.getElementById("statisticsPlaytime").textContent = `${Math.floor(currentMultiverse.statistics.totalTicksPassed / 20)}s`;
+    document.getElementById("statisticsPlaytime").textContent = `${Math.floor(currentMultiverse.statistics.totalTicksPassed / 10)}s`;
 
     document.getElementById("energyConsumptionList").innerHTML = "";
     const energyConsumed = calculateEnergyConsumptionPerSec(userData);
