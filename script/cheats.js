@@ -113,6 +113,9 @@ function addCheats(userData) {
                             }
                         ));
                         break;
+                    case "HURRYUP":
+                        currentMultiverse.shipInProgress.energySpent = currentMultiverse.shipInProgress.energyCostTotal;
+                        break;
 
                 }
             }

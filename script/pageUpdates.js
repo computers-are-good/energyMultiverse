@@ -36,6 +36,8 @@ function updateIridiumCounter(userData) {
     document.getElementById("iridiumAmount").textContent = currentMultiverse.iridium;
     if (currentMultiverse.iridium === 0) {
         document.getElementById("iridiumCounter").style.display = "none";
+    } else {
+        document.getElementById("iridiumCounter").style.display = "block";
     }
 }
 function updateResearchBar(userData) {

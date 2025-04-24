@@ -25,7 +25,11 @@ let cursorY = 0;
 let selected;
 let shipSelected;
 let redirectionInProgress = false;
+
 const map = document.getElementById("Map");
+const systemMap = document.getElementById("systemMap");
+let mapTop;
+let mapLeft;
 
 function updateVisibleDivs() {
     document.querySelectorAll(".sidebarScreen").forEach(e => {
@@ -43,24 +47,24 @@ function updateSolarSystem(userData) {
     }
 
     updateVisibleDivs();
-    let cumulativeOffsetY = 0;
-
     if (currentScreenDisplayed === "Map") {
-
         document.getElementById("systemMap").innerHTML = "";
         const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
+
+        const mapRect = systemMap.getBoundingClientRect();
+        mapTop = mapRect.top;
+        mapLeft = mapRect.left;
 
         //Draw the star
         const star = drawNewElement(375, 375);
         star.style.backgroundColor = "Yellow";
         star.style.height = "20px";
         star.style.width = "20px";
-        cumulativeOffsetY += 20;
         star.style.borderRadius = `15px`;
 
         particles({
-            particleX: 375 + 40,
-            particleY: 375 + 100,
+            particleX: 385 + mapLeft,
+            particleY: 385 + mapTop,
             particleColor: "#f7f29e",
             particleLifetime: 9000,
             particleNumber: 3,
@@ -109,7 +113,7 @@ function updateSolarSystem(userData) {
                     posX = thing.posX;
                     posY = thing.posY;
                     const radius = thing.radius;
-                    const systemObject = drawNewElement(posX - radius, posY - cumulativeOffsetY - radius);
+                    const systemObject = drawNewElement(posX - radius, posY - radius);
                     systemObject.attributes.id = id;
 
                     addDescriptionEvent(systemObject, {
@@ -136,21 +140,19 @@ function updateSolarSystem(userData) {
                     systemObject.style.backgroundColor = thing.color;
                     systemObject.style.borderRadius = "500px";
                     systemObject.style.height = `${thing.radius * 2}px`;
-                    cumulativeOffsetY += thing.radius * 2;
                     systemObject.style.width = `${thing.radius * 2}px`;
                     break;
                 case "player":
-                    const you = drawNewElement(thing.posX - 10, thing.posY - cumulativeOffsetY - 10);
+                    const you = drawNewElement(thing.posX - 10, thing.posY - 10);
                     you.style.width = "20px";
                     you.style.height = "20px";
-                    cumulativeOffsetY += 20;
                     you.style.backgroundColor = "white";
                     addDescriptionEvent(you, {
                         content: "You"
                     });
                     break;
                 case "hostile":
-                    const enemy = drawNewElement(thing.posX - 7.5, thing.posY - cumulativeOffsetY - 7.5);
+                    const enemy = drawNewElement(thing.posX - 7.5, thing.posY - 7.5);
                     enemy.attributes.id = id;
 
                     addDescriptionEvent(enemy, {
@@ -177,21 +179,18 @@ function updateSolarSystem(userData) {
                             if (redirectionInProgress) document.getElementById("hostileInfo").appendChild(selectTargetButton);
                         }
                     });
-                    cumulativeOffsetY += 15;
                     enemy.style.backgroundColor = "red";
                     enemy.style.width = "15px";
                     enemy.style.height = "15px";
                     break;
                 case "missile":
-                    const missile = drawNewElement(thing.posX - 2.5, thing.posY - 2.5 - cumulativeOffsetY);
-                    cumulativeOffsetY += 5;
+                    const missile = drawNewElement(thing.posX - 2.5, thing.posY - 2.5);
                     missile.style.width = "5px";
                     missile.style.height = "5px";
                     missile.style.backgroundColor = "#e87474";
                     break;
                 case "debris":
-                    const debris = drawNewElement(thing.posX - 5, thing.posY - 5 - cumulativeOffsetY);
-                    cumulativeOffsetY += 10;
+                    const debris = drawNewElement(thing.posX - 5, thing.posY - 5);
                     debris.style.width = "10px";
                     debris.style.height = "10px";
                     debris.style.backgroundColor = "grey";
@@ -233,12 +232,11 @@ function updateSolarSystem(userData) {
                 const shipX = ship.posX;
                 const shipY = ship.posY;
 
-                const shipDiv = drawNewElement(shipX - 2.5, shipY - cumulativeOffsetY - 2.5);
+                const shipDiv = drawNewElement(shipX - 2.5, shipY - 2.5);
 
                 shipDiv.style.height = "10px";
                 shipDiv.style.width = "10px";
                 shipDiv.style.borderRadius = "10px";
-                cumulativeOffsetY += 10;
                 shipDiv.style.backgroundColor = "green";
 
                 shipDiv.addEventListener("mousedown", _ => {

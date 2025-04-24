@@ -195,8 +195,6 @@ button {
 #systemMap {
     background-color: black;
     position: absolute;
-    top: 90px;
-    left: 30px;
     width: 750px;
     height: 750px;
     display: inline-block;
@@ -237,11 +235,11 @@ button {
 #mapSide {
     width: 600px;
     display: flex;
-    left: 400px;
+    left: 700px;
     position: relative;
 }
 #systemMap div {
-    position: relative;
+    position: absolute;
     height: 10px;
     width: 10px;
     z-index: 50;
@@ -396,4 +394,12 @@ button {
 }
 #Statistics {
     text-align: center;
+}
+#actionButtons button{
+    margin: 12px;
+    display: inline-block;
+}
+#actionButtons {
+    display: flex;
+    justify-content: center;
 }

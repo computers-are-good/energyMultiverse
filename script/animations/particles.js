@@ -8,8 +8,6 @@
     particleSpeed
 } */
 
-import fadeOut from "./fadeOut.js";
-
 let allParticles = [];
 
 function particles(particleConfig, divToAppendTo) {
@@ -24,6 +22,8 @@ function particles(particleConfig, divToAppendTo) {
             speed: particleConfig.particleSpeed,
             div: newParticleDiv
         }
+        newParticleDiv.classList.add("particle");
+        newParticleDiv.style.zIndex = particleConfig.zIndex ?? 10;
         newParticleDiv.style.display = "block";
         newParticleDiv.style.position = "absolute";
         newParticleDiv.style.backgroundColor = particleConfig.particleColor;

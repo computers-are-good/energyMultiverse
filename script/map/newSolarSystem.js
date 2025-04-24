@@ -59,13 +59,13 @@ function generateAllSystems(multiverse) {
                 chosenPlanet.totalUniqueEvents++;
             }
 
-            const distanceToStar = Math.random() * 150 + 100;
+            const distanceToStar = Math.random() * 100 + 259;
             const theta = Math.random() * Math.PI * 2;
             solarSystem.objects.player = {
                 type: "player",
                 color: "white",
-                posX: distanceToStar * Math.cos(theta),
-                posY: distanceToStar * Math.sin(theta)
+                posX: distanceToStar * Math.cos(theta) + 375,
+                posY: distanceToStar * Math.sin(theta) + 375
             }
             multiverse.solarSystems.push(solarSystem);
         }
