@@ -244,7 +244,7 @@ function updateSolarSystem(userData) {
                         shipSelected = ship;
                         activeScreen = "shipInfo";
                         updateVisibleDivs();
-                        document.getElementById("destinationSpan").textContent = ship.targetObjectId === "player" ? "Mothership" : 
+                        document.getElementById("destinationSpan").textContent = ship.targetObjectId === "player" ? "Mothership" :
                             (currentSystem.objects[ship.targetObjectId].type === "hostile" ? "Enemy ship" : currentSystem.objects[ship.targetObjectId].name);
                     }
                 });
@@ -392,6 +392,8 @@ function moveTowards(ship, target, speed) {
         ship.posY += changeY;
     }
 }
+
+const turretStatus = document.getElementById("turretStatus");
 async function updateSolarSystemPositions(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
@@ -594,7 +596,7 @@ async function updateSolarSystemPositions(userData) {
                             }, map);
                             generateDebris(userData, target);
                         } else {
-                            notify(`A missile detonated and dealt 5 damage to an enemy (their hull: ${target.currentHealth}).`);
+                            notify(`A missile detonated and dealt ${thing.damage} damage to an enemy.`);
                             particles({
                                 particleX: thing.posX + 30,
                                 particleY: thing.posY + 90,
@@ -643,6 +645,41 @@ async function updateSolarSystemPositions(userData) {
                     key = Math.floor(Math.random() * 10000);
                 }
                 currentSystem.objects[key] = newHostile(userData);
+            }
+        }
+
+        //Turrets
+        if (currentMultiverse.turret.enabled) {
+            if (currentMultiverse.turret.currentCharge < currentMultiverse.turret.chargeToFire) {
+                turretStatus.textContent = `Charging ${Math.round(currentMultiverse.turret.currentCharge / currentMultiverse.turret.chargeToFire * 100)}%`;
+                if (currentMultiverse.energy > 0) {
+                    useEnergy(userData, 1);
+                    currentMultiverse.turret.currentCharge++;
+                }
+            } else {
+                turretStatus.textContent = "Waiting for target";
+                const hostiles = [];
+                for (const thing in currentSystem.objects) {
+                    if (currentSystem.objects[thing].type === "hostile") hostiles.push(thing);
+                }
+                const target = choice(hostiles);
+                if (hostiles.length > 0) {
+                    turretStatus.textContent = "Firing";
+                    let key = Math.floor(Math.random() * 10000);
+                    while (key in currentSystem.objects) {
+                        key = Math.floor(Math.random() * 10000);
+                    }
+                    currentSystem.objects[key] = {
+                        type: "missile",
+                        posX: currentSystem.objects.player.posX,
+                        posY: currentSystem.objects.player.posY,
+                        targetObjectId: target,
+                        damage: 1
+                    }
+
+                    currentMultiverse.turret.currentCharge = 0;
+                }
+
             }
         }
     }

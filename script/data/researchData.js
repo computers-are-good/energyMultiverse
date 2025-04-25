@@ -1,3 +1,4 @@
+import { updateTurret } from "../../turret.js";
 import { updateResearchRate } from "../pageUpdates.js";
 import { drawBuildShipsDiv } from "../ship/buildShip.js";
 import {addNavigationAttention, unlockUIElement} from "../toggleUIElement.js";
@@ -119,6 +120,19 @@ const research = {
         description: "After you research the radar, you can recall a ship midway to a destination.",
         complete: function (userData) {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "recallShip");
+        }
+    },
+    "turret": {
+        cost: {
+            points: 20
+        },
+        name: 'Turret',
+        description: "A turret will automatically shoot at enemies for you.",
+        complete(userData) {
+            const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+            currentMultiverse.turret.unlocked = true;
+            unlockUIElement(currentMultiverse.UIElementsUnlocked, "turret");
+            updateTurret(userData);
         }
     }
 }

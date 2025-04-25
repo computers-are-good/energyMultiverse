@@ -41,6 +41,10 @@ const mouseoverDescriptions = {
     "buildWarpDrive": {
         content: "Build a warp drive, which allows you to jump between systems.",
         cost: "10 metal 5 iridium"
+    },
+    "buildTurret": {
+        content: "Build a turret that will automatically fire at enemies.",
+        cost: "500 Energy, 50 Dust, 10 Metal, and 10 Iridium"
     }
 }
 let currentDescription = "";

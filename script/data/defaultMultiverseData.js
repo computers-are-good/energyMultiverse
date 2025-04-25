@@ -64,6 +64,13 @@ const defaultMultiverseData = {
         totalTicksPassed: 0,
         planetsVisited: 0,
     },
+    turret: {
+        unlocked: false,
+        built: false,
+        enabled: false,
+        currentCharge: 0,
+        chargeToFire: 200
+    },
     ships: [],
     shipInProgress: {},
     currentShipBuildingRate: 0,

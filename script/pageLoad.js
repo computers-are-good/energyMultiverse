@@ -26,6 +26,7 @@ import { drawUpgradeButtons } from "./upgrades.js";
 import { particles } from "./animations/particles.js";
 import { ending } from "./ending.js";
 import { fabriBotSlider, updateFabriBot } from "./resources/fabribotClicker.js";
+import { buildTurret, toggleTurret, updateTurret } from "../turret.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -95,6 +96,8 @@ function applyEvents(userData) {
     document.getElementById("buildWarpDrive").addEventListener("click", _ => buildWarpDrive(userData));
     document.getElementById("redirectShip").addEventListener("click", _ => newTargetButton(userData));
     document.getElementById("redirectCancel").addEventListener("click", _ => cancelRedirect(userData));
+    document.getElementById("toggleTurret").addEventListener("click", _ => toggleTurret(userData));
+    document.getElementById("buildTurret").addEventListener("click", _ => buildTurret(userData));
     document.getElementById("ending").addEventListener("click", _ => {
         ending();
         document.getElementById("ending").blur();
@@ -119,6 +122,7 @@ async function firstLoadFunctions(userData) {
 
     updateWarpDriveButton(userData);
     addUIDescriptions();
+    updateTurret(userData);
     updateResearchRate(userData);
     updateResearchBar(userData);
     updateMetalCounter(userData);

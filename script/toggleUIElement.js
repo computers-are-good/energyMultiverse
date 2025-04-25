@@ -12,6 +12,7 @@ const hideableIDs = [
     "dustbotDiv",
     "fabriBot",
     "dustBot",
+    "turret",
     "makeRepairKit",
     "metals",
     "metalCounter",
@@ -77,4 +78,4 @@ function toggleScreen(screenName) {
     document.getElementById(screenName).style.display = "block";
     currentScreenDisplayed = screenName;
 }
-export {hideLockedElements, unlockUIElement, toggleScreen, currentScreenDisplayed, addNavigationAttention}
+export {hideLockedElements, unlockUIElement, toggleScreen, currentScreenDisplayed, addNavigationAttention, hideableIDs}

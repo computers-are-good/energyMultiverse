@@ -3,6 +3,7 @@ import generateAllSystems from "./map/newSolarSystem.js";
 import { createNewMultiverse, multiverseTravel } from "./multiverse.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons, updateResearchPoints } from "./pageUpdates.js";
 import { updateSolarPanels } from "./resources/solarPanel.js";
+import { hideableIDs, unlockUIElement } from "./toggleUIElement.js";
 import { getUserData } from "./userdata.js";
 import { deepClone } from "./utils.js";
 
@@ -37,6 +38,7 @@ function addCheats(userData) {
                             currentMultiverse.researchCompleted.push(item);
                             research[item].complete(userData);
                         }
+                        for (const item of hideableIDs) unlockUIElement(currentMultiverse.UIElementsUnlocked, item);
                         currentMultiverse.researchUnlocked = [];
                         updateResearchButtons(userData);
                         break;

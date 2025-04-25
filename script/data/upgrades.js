@@ -24,6 +24,23 @@ const upgrades = {
             updateDustbot(userData);
         },
         description: "Increases dustbot's maximum fabrication speed."
+    },
+    "turretCharge" : {
+        name: "Turret Charge",
+        description: "Reduces the charge needed for a turret to fire.",
+        cost: function (upgradedTimes) {
+            return {
+                iridium: upgradedTimes + 1,
+                dust: upgradedTimes * 2 + 5
+            }
+        },
+        upgradeDone(userData) {
+            const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+
+            currentMultiverse.turret.chargeToFire -= 10;
+            currentMultiverse.turret.charge -= 10;
+            if (currentMultiverse.turret.charge < 0) currentMultiverse.turret.charge = 0;
+        }
     }
 }
 

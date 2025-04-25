@@ -62,6 +62,10 @@ function calculateEnergyConsumptionPerSec(userData) {
     energyUsed["Research"] = currentMultiverse.researchRate * (currentMultiverse.ticksPerResearchAdvancement / 10);
     energyUsed["Shipyard"] = currentMultiverse.currentShipBuildingRate;
 
+    if (currentMultiverse.turret.enabled && currentMultiverse.turret.currentCharge < currentMultiverse.turret.chargeToFire) {
+        energyUsed["Turret"] = 1;
+    }
+
     return energyUsed;
 }
 

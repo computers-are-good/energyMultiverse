@@ -15,7 +15,7 @@ const biomeSpecificEvents = {
     "Warm": [],
     "Paradise": [],
     "Ice": [],
-    "Gas": [],
+    "Gas": ["turret"],
     "Volcanic": [],
     "Diamond": [],
     "Barren": [],

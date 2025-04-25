@@ -178,6 +178,22 @@ const events = {
             }
         ]
     },
+    "unlockTurrets" : {
+        script: [
+            {
+                text: "You emerge from the clouds looking down the barrel of a gun. A big gun, at that."
+            },
+            {
+                text: "Fortunately, you don't see any other living thing around, and the gun has certainly seen better days."
+            },
+            {
+                text: "Still, you wonder if you can make your own... It could help deal with hostiles in your area.",
+                endEvent: true,
+                eventResolved: true,
+                researchUnlocked: ["turret"]
+            }
+        ]
+    },
     "solarPanels1": {
         script: [
             {
