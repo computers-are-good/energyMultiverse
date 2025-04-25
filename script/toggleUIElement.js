@@ -13,6 +13,10 @@ const hideableIDs = [
     "fabriBot",
     "dustBot",
     "makeRepairKit",
+    "metals",
+    "metalCounter",
+    "pageShipyard",
+    "pageMap",
     "dispatchToSun",
     "buildWarpDrive",
     "recallShip",
@@ -37,7 +41,8 @@ let currentScreenDisplayed = "";
 const inlineBlockElements = [
 ]
 const flexElements = [
-    "drones"
+    "drones",
+    "metals"
 ]
 
 function addNavigationAttention(screenName, elementID) {

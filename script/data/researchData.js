@@ -51,7 +51,7 @@ const research = {
             points: 1
         },
         name: "Statistics",
-        description: "Unlock the statics tab",
+        description: "Unlock the statistics tab",
         complete: function(userData) {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "pageStatistics");
             addNavigationAttention("Statistics", "pageStatistics");

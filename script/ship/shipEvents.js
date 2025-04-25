@@ -1,8 +1,9 @@
 import { shipAccessories } from "../data/shipData.js";
 import notify from "../notifs/notify.js";
+import notifyUnique from "../notifs/notifyUnique.js";
 import { updateEnergyCounter, updateShipConstruction, updateShipConstructionBar } from "../pageUpdates.js";
 import { useEnergy } from "../resources/useResources.js";
-import { addNavigationAttention } from "../toggleUIElement.js";
+import { addNavigationAttention, unlockUIElement } from "../toggleUIElement.js";
 
 function buildShip(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -31,7 +32,14 @@ function buildShip(userData) {
                     shipAccessories[e].onComplete(userData, currentShip.shipInfo);
                 }
             });
-            notify(`Finsihed building ${currentShip.shipInfo.class}.`);
+
+            if (!currentMultiverse.eventsDone.includes("firstShip")){
+                notifyUnique("firstShip");
+                unlockUIElement(currentMultiverse.UIElementsUnlocked, "pageMap");
+                currentMultiverse.eventsDone.push("firstShip");
+            } else {
+                notify(`Finsihed building ${currentShip.shipInfo.class}.`);
+            }
             updateShipConstruction(userData);
         }
         updateShipConstructionBar(userData);

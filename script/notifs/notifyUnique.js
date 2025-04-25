@@ -11,7 +11,10 @@ const messages = {
     repairKit: "That ship looks like it could use some patching up. Maybe you can research how?",
     dustbot: "Tired of making dust by hand? Maybe something can help you.",
     statistics: "Perhaps it's useful to check out some information about your world?",
-    energyStatistics: "There's more statistics to unlock..."
+    energyStatistics: "There's more statistics to unlock...",
+    unlockMetal: "The dust you've been making could be made into something more...",
+    makeShip: "And when you have metal, you can make spaceships. Venture forwards into the unknown.",
+    firstShip: "Go forward, and explore the unknown. This little ship will keep you safe."
 }
 
 function notifyUnique(messageId) {

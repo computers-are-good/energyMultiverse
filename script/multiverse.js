@@ -7,11 +7,11 @@ function createNewMultiverse(userData, multipliers) {
 }
 
 function multiverseTravel(userData, targetMultiverse) {
+    document.getElementById("notifications").innerHTML = "";
     userData.currentMultiverse = targetMultiverse;
     document.querySelectorAll(".drone").forEach(e => {
         e.remove();
     });
-    document.getElementById("notifications").innerHTML = "";
     firstLoadFunctions(userData);
 }
 export {createNewMultiverse, multiverseTravel}

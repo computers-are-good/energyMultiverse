@@ -27,7 +27,7 @@ function makeDust(userData) {
             unlockResearchForElement(userData, "dustbot");
         }
 
-        if (currentMultiverse.statistics.metalMade > 10 && !currentMultiverse.eventsDone.includes("unlockMetal")) {
+        if (currentMultiverse.statistics.dustGained > 10 && !currentMultiverse.eventsDone.includes("unlockMetal")) {
             notifyUnique("unlockMetal");
             unlockUIElement(currentMultiverse.UIElementsUnlocked, "metals");
             currentMultiverse.eventsDone.push("unlockMetal");
