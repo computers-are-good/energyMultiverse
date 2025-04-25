@@ -415,7 +415,7 @@ async function updateSolarSystemPositions(userData) {
                     moveTowards(ship, {
                         posX: 375,
                         posY: 375
-                    }, Math.min(ship.baseStats.baseSpeed * 0.5, distanceToTarget));
+                    }, Math.min(ship.baseStats.baseSpeed * 1.5, distanceToTarget));
 
                     if (distanceToTarget < 20) {
                         const energyGained = currentSystem.tier * (Math.ceil(Math.random() * 1000) + 1000);
@@ -502,7 +502,7 @@ async function updateSolarSystemPositions(userData) {
                                 break;
                         }
                     } else {
-                        moveTowards(ship, target, Math.min(ship.baseStats.baseSpeed * 0.5, distToTarget));
+                        moveTowards(ship, target, Math.min(ship.baseStats.baseSpeed * 1.5, distToTarget));
                     }
                 }
             }
@@ -530,7 +530,7 @@ async function updateSolarSystemPositions(userData) {
                     }
                 }
                 if (closestShip && closestDistance < 100) {
-                    moveTowards(thing, closestShip, thing.baseStats.baseSpeed * 1.2);
+                    moveTowards(thing, closestShip, thing.baseStats.baseSpeed * 1.6);
                     if (closestDistance < 10) {
                         const loot = generateShipLoot(thing);
                         addNavigationAttention("Map", "pageMap");
@@ -571,7 +571,7 @@ async function updateSolarSystemPositions(userData) {
                     target = currentSystem.objects.player;
                     thing.targetObjectId = "player";
                 }
-                moveTowards(thing, target, 5);
+                moveTowards(thing, target, 12);
                 const distance = getDistanceTo(thing, target);
                 if (distance < 10) {
                     if (thing.targetObjectId === "player") {
@@ -580,7 +580,7 @@ async function updateSolarSystemPositions(userData) {
                         delete currentSystem.objects[object];
                     } else {
                         target.currentHealth -= thing.damage;
-                        if (target.currentHealth < 0) {
+                        if (target.currentHealth <= 0) {
                             delete currentSystem.objects[thing.targetObjectId];
                             notify(`A missile detonated and destroyed an enemy.`);
                             particles({
@@ -616,7 +616,7 @@ async function updateSolarSystemPositions(userData) {
                         moveTowards(thing, {
                             posX: thing.targetX,
                             posY: thing.targetY
-                        }, energyUsed * 0.5);
+                        }, energyUsed * 1.5);
                         if (getDistanceTo(thing, {
                             posX: thing.targetX,
                             posY: thing.targetY
@@ -725,12 +725,21 @@ function newHostile(userData) {
 
     const selectedHostileStats = choice(hostileTiers[currentSystem.tier]);
 
+    let posX = playerX - 100 + Math.random() * 200;
+    let posY = playerY - 100 + Math.random() * 200;
+
+    while (posX < 0 || posX > 750) {
+        posX = playerX - 100 + Math.random() * 200;
+    }
+    while (posY < 0 || posY > 750) {
+        posY = playerY - 100 + Math.random() * 200;
+    }
     return {
         type: "hostile",
         currentHealth: selectedHostileStats.baseStats.baseHealth,
         baseStats: deepClone(selectedHostileStats.baseStats),
-        posX: playerX - 100 + Math.random() * 200,
-        posY: playerY - 100 + Math.random() * 200,
+        posX,
+        posY,
         targetX: Math.random() * 750,
         targetY: Math.random() * 750,
     }

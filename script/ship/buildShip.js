@@ -1,5 +1,6 @@
 import { addDescriptionEvent, changeDescriptionText, manualDescriptionUpdate } from "../addUIDescriptions.js";
 import { shipClasses, shipAccessories } from "../data/shipData.js";
+import { checkCosts, subtractCosts, writeCostsReadable } from "../itemCosts.js";
 import notify from "../notifs/notify.js";
 import { updateEnergyCounter, updateShipConstruction } from "../pageUpdates.js";
 import { deepClone } from "../utils.js";
@@ -45,7 +46,7 @@ function drawBuildShipsDiv(userData) {
 
         addDescriptionEvent(newDiv, {
             content: shipObj.description,
-            cost: JSON.stringify(shipObj.baseCost)
+            cost: writeCostsReadable(shipObj.baseCost)
         });
 
         newDiv.addEventListener("click", _ => {
@@ -95,7 +96,7 @@ function drawBuildShipsDiv(userData) {
 
         addDescriptionEvent(newDiv, {
             content: accessoryInfo.description,
-            cost: JSON.stringify(accessoryInfo.baseCost)
+            cost: writeCostsReadable(accessoryInfo.baseCost),
         });
 
         newDiv.addEventListener("click", _ => {
@@ -179,23 +180,26 @@ function buildShip(userData) {
         return;
     }
     calculateShipCost();
-    const shipObj = {
-        shipInfo: {
-            class: selectedShipType,
-            baseStats: deepClone(shipClasses[selectedShipType].baseStats),
-            cost: deepClone(totalShipCost),
-            accessories: []
-        },
-        energyCostTotal: totalEnergyCost,
-        energySpent: 0
+    if (checkCosts(userData, totalShipCost)) {
+        const shipObj = {
+            shipInfo: {
+                class: selectedShipType,
+                baseStats: deepClone(shipClasses[selectedShipType].baseStats),
+                cost: deepClone(totalShipCost),
+                accessories: []
+            },
+            energyCostTotal: totalEnergyCost,
+            energySpent: 0
+        }
+        subtractCosts(userData, totalShipCost);
+        for (let accessory of accessoriesSelected) {
+            shipObj.shipInfo.accessories.push(accessory.name);
+        }
+    
+        currentMultiverse.shipInProgress = shipObj;
+        updateShipConstruction(userData);
+        updateEnergyCounter(userData);
     }
-    for (let accessory of accessoriesSelected) {
-        shipObj.shipInfo.accessories.push(accessory.name);
-    }
-
-    currentMultiverse.shipInProgress = shipObj;
-    updateShipConstruction(userData);
-    updateEnergyCounter(userData);
 
 }
 
