@@ -9,9 +9,18 @@ const genericEvents = [
     "Battery"
 ]
 const biomeSpecificEvents = {
-    "Desert": ["Harvest Sand"],
-    "Temperate": ["Batteries"],
-    "Ocean": [],
+    "Desert": [
+        "Harvest Sand",
+        "solarPanels2"
+    ],
+    "Temperate": [
+        "Batteries",
+        "palmTree",
+        "literallyJustGetMetal"
+    ],
+    "Ocean": [
+        "ancientPonderer"
+    ],
     "Warm": [],
     "Paradise": [],
     "Ice": [],
@@ -78,13 +87,13 @@ function arriveAtTarget(shipInfo, userData) { //for use with player ships arrivi
 
 
 function getPlanetExplorationLevel(userData, planetInfo) {
-        let totalEvents = planetInfo.totalUniqueEvents + planetInfo.totalBiomeSpecificEventsAvailable;
-        let eventsDone = planetInfo.totalUniqueEvents - planetInfo.uniqueEvents.length;
-        const availableBiomeEvents = getBiomeEvents(userData, planetInfo);
-        if (availableBiomeEvents.length < planetInfo.totalBiomeSpecificEventsAvailable) {
-            eventsDone += planetInfo.totalBiomeSpecificEventsAvailable - availableBiomeEvents.length;
-        }
-        return Math.floor((eventsDone / totalEvents) * 100);
+    let totalEvents = planetInfo.totalUniqueEvents + planetInfo.totalBiomeSpecificEventsAvailable;
+    let eventsDone = planetInfo.totalUniqueEvents - planetInfo.uniqueEvents.length;
+    const availableBiomeEvents = getBiomeEvents(userData, planetInfo);
+    if (availableBiomeEvents.length < planetInfo.totalBiomeSpecificEventsAvailable) {
+        eventsDone += planetInfo.totalBiomeSpecificEventsAvailable - availableBiomeEvents.length;
+    }
+    return Math.floor((eventsDone / totalEvents) * 100);
 }
 
 function getSolarSystemExplorationLevel(userData, systemInfo) {

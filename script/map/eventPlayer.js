@@ -7,6 +7,8 @@ import { updateSolarSystem } from "./solarSystem.js";
 
 function eventPlayer(shipData, userData, eventId) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
+
     return new Promise(res => {
         const eventScript = events[eventId].script;
         const itemsToSubtract = {};
@@ -70,7 +72,18 @@ function eventPlayer(shipData, userData, eventId) {
                 }
             }
 
-            document.getElementById("eventText").textContent = eventScript[index].text;
+            const replacementKeys = {
+                "{STARNAME}" : currentSystem.name,
+                "{SHIPCLASS}": shipData.class
+            }
+
+            let text = eventScript[index].text;
+
+            for (const key in replacementKeys) {
+                text = text.replaceAll(key, replacementKeys[key]);
+            }
+
+            document.getElementById("eventText").textContent = text;
 
             if (eventScript[index].researchUnlocked) 
                 eventScript[index].researchUnlocked.forEach(e => researchToUnlock.push(e));
@@ -83,6 +96,10 @@ function eventPlayer(shipData, userData, eventId) {
                         shipCargo[item] = eventScript[index].item[item];
                     }
                 }
+            }
+
+            if (eventScript[index].script) {
+                eventScript[index].script(shipData, userData);
             }
 
             if (eventScript[index].endEvent || index >= eventScript.length - 1) {

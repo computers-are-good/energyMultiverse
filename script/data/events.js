@@ -1,3 +1,5 @@
+import { addNavigationAttention } from "../toggleUIElement.js";
+
 const events = {
     "Batteries": {
         script: [
@@ -106,8 +108,19 @@ const events = {
                 },
             },
             {
-                text: "You leave the research station",
+                text: "You leave the research station.",
                 eventResolved: true,
+            }
+        ]
+    },
+    "literallyJustGetMetal": {
+        script: [
+            {
+                text: "You flew down to the planet you gained 5 metal. That's literally it. Nothing else happened. Who put the metal there? No one cares. All you care about is that you gained 5 metal.",
+                item: {
+                    metal: 5
+                },
+                eventResolved: true
             }
         ]
     },
@@ -173,7 +186,7 @@ const events = {
                 }
             },
             {
-                text: "You wonder who left the bits of dust there for you.",
+                text: "You wonder who left the bits of dust there for you. Perhaps a traveller from a distant land?",
                 eventResolved: true
             }
         ]
@@ -181,10 +194,10 @@ const events = {
     "unlockTurrets" : {
         script: [
             {
-                text: "You emerge from the clouds looking down the barrel of a gun. A big gun, at that."
+                text: "You emerge from the clouds looking down the barrel of a gun. A big gun, at that. One big enough that you can fly your ship through it."
             },
             {
-                text: "Fortunately, you don't see any other living thing around, and the gun has certainly seen better days."
+                text: "Fortunately, you don't see any other living being around, and the gun has certainly seen better days."
             },
             {
                 text: "Still, you wonder if you can make your own... It could help deal with hostiles in your area.",
@@ -213,6 +226,32 @@ const events = {
             },
             {
                 text: "Solar panels are difficult to come by in this universe. Better look after this one; it will serve you well.",
+                eventResolved: true
+            }
+        ]
+    },
+    "solarPanels2": {
+        script: [
+            {
+                text: "The golden sands of this planet sang ancient melodies lost to time. Of course, you're not here to listen."
+            },
+            {
+                text: "Your goal is kind of to plunder anything that could be remotely of use to you on this planet."
+            },
+            {
+                text: "..."
+            },
+            {
+                text: "And it appears the heavens has answered your calls to gluttony, greed, and selfishness! For in the distance, you find the familar glow of a solar panel."
+            },
+            {
+                text: "Of course, since you're here to plunder, and there is an object to be plundered in the distance, you decide to just go for it."
+            },
+            {
+                text: "That's the story of how you added another solar panel to your collection. 100% Legal Piracy!",
+                item: {
+                    solarPanel: 1
+                },
                 eventResolved: true
             }
         ]
@@ -253,7 +292,7 @@ const events = {
     "unlockRadar": {
         script: [
             {
-                text: "As you fly down towards the ground, you see a large radar station pointed towards your ship. Of course it's gathering intel about your ship."
+                text: "As you fly down towards the ground, you see a large radar station pointed towards your ship. Of course it's gathering literally every bit of information about your ship."
             },
             {
                 text: "You decide to quickly get out before they send swarms of enemies your way. Not today!"
@@ -271,13 +310,13 @@ const events = {
                 text: "As you fly towards the planet, you see a sea of silver reflected in the sunlight. Large interconnected steel buildings cover half of the planet's surface."
             },
             {
-                text: "You emerge from the clouds after a short well. You expect this to be a busy industrial planet with ships and people bustling about, but there is nothing. Only machines carrying out the commands of a civilisation long left behind."
+                text: "You emerge from the clouds after a short while. You expect this to be a busy industrial planet with ships and people bustling about, but there is nothing. Only machines carrying out the commands of a civilisation long left behind."
             },
             {
                 text: "You land on top of such building. It looks exactly the same as the ones stretching on for miles on end. You walk inside and discover a robot using a large compressor plate to turn dust into metal."
             },
             {
-                text: "No one responded to your radio calls, so there is clearly no one there. Such a machine could certainly prove useful for your base, if you could understand how to use it."
+                text: "No one responded to your radio calls, so will anyone miss it when it's gone?. Such a machine could certainly prove useful for your base, if you could understand how to use it."
             },
             {
                 text: "It is very tight, but the robot just looks like it would fit inside your spaceship. You'll just have to get your research computer to figure out how to send instructions to this thing.",
@@ -312,13 +351,76 @@ const events = {
             }
         ]
     },
+    "palmTree" : {
+        script: [
+            {
+                text: "{STARNAME} hangs suspended in the post-noon sky, coating the planet in a shiny golden glow."
+            },
+            {
+                text: "Endless grass and hills stretch on as far as your gaze can follow, but a single tree hangs alone in the distance."
+            },
+            {
+                text: "It is a palm tree standing high and proud against the tide of photons, its leaves ornate in the wind."
+            },
+            {
+                text: "Carefully, you land your {SHIPCLASS} beside the tree. The leaves shake with your throttle."
+            },
+            {
+                text: "The clouds are clear on this special day. You and your ship feel just like the palm tree: a force of rebellion against the otherwise serene landscape."
+            },
+            {
+                text: "The audacity of the tree gives you inspiration. You gained some research points.",
+                item: {
+                    researchPoints: 3
+                },
+                eventResolved: true
+            }
+        ],
+    },
+    "ancientPonderer": {
+        script: [
+            {
+                text: "The boundless oceans of the planet cover up the secrets that lie below, their waters a mirror of the skies above."
+            },
+            {
+                text: "However, you found a secret the oceans do not cover up. It's a massive monolith reaching up to the sky directly in front of you."
+            },
+            {
+                text: "So far, everything you have encountered on your adventure has been abandoned, and this monolith is no exception."
+            },
+            {
+                text: "Scans from your {SHIPCLASS} indicate the monolith is an computer bestowed with the name Ancient Ponderer."
+            },
+            {
+                text: "The secrets contained within could be of use to you, and you have a lot to learn from Ancient Ponderer."
+            },
+            {
+                text: "You connect your {SHIPCLASS} to the mainframe. Surprisingly, everything went smoothly; the makers of Ancient Ponderer should at least know better than to put no firewall on their supercomputer."
+            },
+            {
+                text: "But, still, it's convinent for you. You don't complain."
+            },
+            {
+                text: "You gained 3 research points and learnt the art of efficent pondering! Your computer will generate research points faster.",
+                script(shipData, userData) {
+                    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+                    currentMultiverse.ticksPerResearchAdvancement -= 5;
+                    addNavigationAttention("Research", "pageResearch");
+                },
+                item: {
+                    researchPoints: 3
+                },
+                eventResolved: true
+            }
+        ]
+    },
     "story1": {
         script: [
             {
                 text: "This is your tenth descent down into a planet. You've hit double digits already. You again feel the familar vibrations of the ship as it hurls into the depths of the atmosphere."
             },
             {
-                text: "You appreciate the sublimity of the clouds coated in the golden glow of the sun. In between the glowing streaks from your ship, the horizon is coated in the goal of its distant star."
+                text: "You appreciate the sublimity of the clouds coated in the golden glow of {STARNAME}. In between the glowing streaks from your ship, the horizon is coated in the goal of its distant star."
             },
             {
                 text: "The scenery envelop you in transquility, and, as your ship slowly floats down towards the surface, you mind begins to drift to far away places."
@@ -336,7 +438,8 @@ const events = {
                 text: "As you pull up, you again take your mind to the distant world, a world hidden behind the shrouds of darkened glass in your mind. You picture yourself standing in the centre, where vast systems formed into galaxies whirl past you, leaving behind naught but a memory."
             },
             {
-                text: "But does that place ever exist? You consider as you fly away."
+                text: "But does that place ever exist? You consider as you fly away.",
+                eventResolved: true
             }
         ]
     },
@@ -355,7 +458,8 @@ const events = {
                 text: "What could those words mean? You keep searching your mind for clues but nothing comes up. Then, out of the depths of darkness, you find three words staring you in the face."
             },
             {
-                text: "\"Impending Energy Calamity.\""
+                text: "\"Impending Energy Calamity.\"",
+                eventResolved: true
             }
         ]
     },
@@ -380,7 +484,8 @@ const events = {
                 text: "It keeps going. Soon, you are greeted by nothing but a pitch black sky with nothing in the sky. The vibrant night sky was reduced to darkness."
             },
             {
-                text: "You snap back to reality. You gaze at the skies above, and are fortunate to see the faint glow of stars in the sky. There are not as many stars as in your mind, but you are glad their light can still reach you."
+                text: "You snap back to reality. You gaze at the skies above, and are fortunate to see the faint glow of stars in the sky. There are not as many stars as in your mind, but you are glad their light can still reach you.",
+                eventResolved: true
             }
         ]
     }

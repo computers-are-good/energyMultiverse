@@ -598,8 +598,8 @@ async function updateSolarSystemPositions(userData) {
                         } else {
                             notify(`A missile detonated and dealt ${thing.damage} damage to an enemy.`);
                             particles({
-                                particleX: thing.posX + 30,
-                                particleY: thing.posY + 90,
+                                particleX: thing.posX + mapLeft,
+                                particleY: thing.posY + mapTop,
                                 particleColor: "red",
                                 particleLifetime: 3000,
                                 particleNumber: 5,
