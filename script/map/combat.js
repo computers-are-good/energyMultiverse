@@ -71,6 +71,7 @@ function blasterAnimation(fromPlayerToEnemy) {
 function combat(playerShip, enemyShip) { //resolve with true if the player has won
     playerShip.currentShield = 0;
     enemyShip.currentShield = 0;
+    document.getElementById("combatLog").innerHTML = "";
     return new Promise(res => {
         updateStatsDisplay(playerShip, enemyShip);
 

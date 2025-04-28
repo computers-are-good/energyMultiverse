@@ -17,6 +17,7 @@ import { writeCostsReadable } from "../itemCosts.js";
 import fadeIn from "../animations/fadeIn.js";
 import { particles } from "../animations/particles.js";
 import unlockResearchForElement from "../unlockResearch.js";
+const blockingScreens = ["attacked", "scriptPlayer"]
 const planetVelocity = 8.8;
 
 let activeScreen = "";
@@ -42,7 +43,7 @@ function updateVisibleDivs() {
 }
 function updateSolarSystem(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    if (currentMultiverse.allowSolarSystemUpdates && currentDescription !== "buildWarpDrive") {
+    if (currentMultiverse.allowSolarSystemUpdates && currentDescription !== "buildWarpDrive" && currentDescription !== "dispatchToSun") {
         removeDescription();
     }
 
@@ -73,7 +74,7 @@ function updateSolarSystem(userData) {
         }, map);
 
         star.addEventListener("mousedown", _ => {
-            if (activeScreen !== "scriptPlayer") {
+            if (!blockingScreens.includes(activeScreen)) {
                 activeScreen = "sunInfo";
                 updateVisibleDivs();
                 document.getElementById("solarSystemName").textContent = currentSystem.name;
@@ -127,7 +128,7 @@ function updateSolarSystem(userData) {
                     }
 
                     systemObject.addEventListener("mousedown", _ => {
-                        if (activeScreen !== "scriptPlayer") {
+                        if (!blockingScreens.includes(activeScreen)) {
                             activeScreen = "planetInfo";
                             selected = id;
                             updateVisibleDivs();
@@ -169,7 +170,7 @@ function updateSolarSystem(userData) {
                     }
 
                     enemy.addEventListener("mousedown", _ => {
-                        if (activeScreen !== "scriptPlayer") {
+                        if (!blockingScreens.includes(activeScreen)) {
                             selected = id;
                             activeScreen = "hostileInfo";
                             document.getElementById("missileCount").textContent = currentMultiverse.missiles;
@@ -202,7 +203,7 @@ function updateSolarSystem(userData) {
                     debris.addEventListener("mousedown", _ => {
                         selected = id;
 
-                        if (activeScreen !== "scriptPlayer") {
+                        if (!blockingScreens.includes(activeScreen)) {
 
                             const debrisDiv = document.getElementById("debrisContent");
                             debrisDiv.innerHTML = "";
@@ -240,7 +241,7 @@ function updateSolarSystem(userData) {
                 shipDiv.style.backgroundColor = "green";
 
                 shipDiv.addEventListener("mousedown", _ => {
-                    if (activeScreen !== "scriptPlayer") {
+                    if (!blockingScreens.includes(activeScreen)) {
                         shipSelected = ship;
                         activeScreen = "shipInfo";
                         updateVisibleDivs();
@@ -286,7 +287,7 @@ function cancelRedirect(userData) {
 }
 
 document.getElementById("systemMap").addEventListener("click", e => {
-    if (e.target.id == "systemMap" && activeScreen !== "scriptPlayer" && activeScreen !== "attacked") {
+    if (e.target.id == "systemMap" && !blockingScreens.includes(activeScreen)) {
         activeScreen = "emptySpaceInfo";
         updateVisibleDivs();
 
@@ -324,7 +325,7 @@ function moveMothership(userData) {
 }
 
 document.body.addEventListener("click", e => {
-    if (activeScreen !== "scriptPlayer" && activeScreen !== "attacked") {
+    if (!blockingScreens.includes(activeScreen)) {
         //Did we click outside the system map?
         let clickedOutside = true;
         let node = e.target;

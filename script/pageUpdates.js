@@ -64,7 +64,7 @@ function updateResearchButtons(userData) {
         const researchObject = research[researchItem];
         button.textContent = researchObject.name;
         document.getElementById("researchButtons").appendChild(button);
-        addResearchDescription(button, researchItem);
+        addResearchDescription(button, researchItem, userData);
         button.addEventListener("click", _ => {
             doResearch(userData, researchItem);
         });

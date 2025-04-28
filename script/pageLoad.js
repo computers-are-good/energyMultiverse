@@ -38,7 +38,7 @@ function applyEvents(userData) {
             particleX: e.pageX,
             particleY: e.pageY,
             particleColor: "White",
-            particleLifetime: 250,
+            particleLifetime: 500,
             particleNumber: 5,
             particleSize: 3,
             particleSpeed: 0.1
@@ -115,13 +115,13 @@ async function firstLoadFunctions(userData) {
         spawnDrone(currentMultiverse.drones[i]);
     }
 
-    mouseoverDescriptions.drone.cost = `${droneCost(currentMultiverse.drones.length)} dust`;
+    mouseoverDescriptions.drone.cost = {dust: droneCost(currentMultiverse.drones.length)};
 
     toggleScreen(currentMultiverse.lastScreen || "Energy");
     if (currentMultiverse.lastScreen === "Map") updateSolarSystem(userData);
 
     updateWarpDriveButton(userData);
-    addUIDescriptions();
+    addUIDescriptions(userData);
     updateTurret(userData);
     updateResearchRate(userData);
     updateResearchBar(userData);

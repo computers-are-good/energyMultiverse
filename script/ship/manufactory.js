@@ -1,4 +1,5 @@
 import { checkCosts, subtractCosts } from "../itemCosts.js";
+import notify from "../notifs/notify.js";
 import { updateEnergyCounter, updateMetalCounter } from "../pageUpdates.js";
 
 const costs = {
@@ -14,6 +15,7 @@ const costs = {
 function makeMissile(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     if (checkCosts(userData, costs.missile)) {
+        notify("Created missile.");
         currentMultiverse.missiles++;
         subtractCosts(userData, costs.missile);
         updateMetalCounter(userData);

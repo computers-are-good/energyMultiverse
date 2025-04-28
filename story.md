@@ -3,6 +3,14 @@ Obviously this is going to spoil the entire story of the game; this is the draft
 
 Who cares about the "don't start a sentence with a preposition" rule lol what is that?
 
+If cost can be afforded, highlight it in green. Else highlight it in red.
+
+Make drone energy upgrade more expensive
+
+Display play time in hours minutes and seconds
+
+
+
 ## story1
 
 This is your tenth descent below the blanket of clouds. You've hit double digits already. You again feel the familar vibrations of your ship as it hurls into the depths of the unknown.

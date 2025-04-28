@@ -19,8 +19,8 @@ function drawUpgradeButtons(userData) {
         button.textContent = `${upgradeInfo.name} ${upgradeTimes} / ${maxUpgradeTimes}`;
         addDescriptionEvent(button, {
             content: upgradeInfo.description,
-            cost: writeCostsReadable(upgradeCost)   
-        }, "upgrade");
+            cost: upgradeCost  
+        }, userData, "upgrade");
         button.addEventListener("click", _ => {
             if (checkCosts(userData, upgradeCost)) {
                 subtractCosts(userData, upgradeCost);

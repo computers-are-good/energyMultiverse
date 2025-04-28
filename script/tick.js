@@ -10,6 +10,7 @@ import { solarPanelTick } from "./resources/solarPanel.js";
 import { gainDust, gainEnergy, gainMetal } from "./resources/gainResources.js";
 import updateStatistics from "./statistics.js";
 import unlockResearchForElement from "./unlockResearch.js";
+import { storeUserData } from "./userdata.js";
 
 let tickCount = 0;
 function tick(userData) {
@@ -17,8 +18,8 @@ function tick(userData) {
     tickCount++;
     currentMultiverse.statistics.totalTicksPassed++;
 
-    if (tickCount % 1000 === 0) {
-        // storeUserData(userData);
+    if (currentMultiverse.allowSolarSystemUpdates && tickCount % 600 === 0) {
+        storeUserData(userData);
     }
     let energyChanged = false;
     currentMultiverse.drones.forEach(e => {
@@ -68,7 +69,7 @@ function tick(userData) {
         }
     }
 
-    if (currentMultiverse.statistics.totalTicksPassed > 600 && !currentMultiverse.eventsDone.includes("statistics")) {
+    if (currentMultiverse.statistics.totalTicksPassed > 3000 && !currentMultiverse.eventsDone.includes("statistics")) {
         unlockResearchForElement(userData, "statistics");
     }
 

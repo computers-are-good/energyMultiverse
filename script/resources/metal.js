@@ -7,18 +7,18 @@ function metalClicker(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     makeMetal(userData);
     unlockUIElement(currentMultiverse.UIElementsUnlocked, "metalCounter");
-
-    if (!currentMultiverse.eventsDone.includes("unlockShipyard")) {
-        unlockUIElement(currentMultiverse.UIElementsUnlocked, "pageShipyard");
-        notifyUnique("makeShip");
-        currentMultiverse.eventsDone.push("unlockShipyard");
-    }
 }
 
 function makeMetal(userData) {
     if (checkCosts(userData, {energy: 30, dust: 5})) {
         gainMetal(userData, 1);
         subtractCosts(userData, {energy: 30, dust: 5});
+        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+        if (!currentMultiverse.eventsDone.includes("unlockShipyard")) {
+            unlockUIElement(currentMultiverse.UIElementsUnlocked, "pageShipyard");
+            notifyUnique("makeShip");
+            currentMultiverse.eventsDone.push("unlockShipyard");
+        }
     }
 }
 

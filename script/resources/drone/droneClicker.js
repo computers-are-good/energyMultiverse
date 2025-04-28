@@ -24,7 +24,7 @@ function droneClicker(userData) {
         subtractCosts(userData, cost);
         makeDrone(userData);
     }
-    mouseoverDescriptions.drone.cost = `${droneCost(currentMultiverse.drones.length)} dust`;
+    mouseoverDescriptions.drone.cost = cost;
     updateDustCounter(userData);
 }
 function makeDrone(userData) {
@@ -88,16 +88,17 @@ function updateMouseoverDescriptionTicks(droneObj) {
     manualDescriptionUpdate({
         content: `Reduce the time needed for this drone to create energy.`,
         upgradePreview: `${droneObj.ticksTilEnergy / 10}s -> ${(droneObj.ticksTilEnergy - 5) / 10}s`,
-        cost: `${upgradeDroneTicksCost(droneObj.ticksUpgradedTimes)} dust`
+        cost: {dust: upgradeDroneTicksCost(droneObj.ticksUpgradedTimes)}
     }, lastMouseX, lastMouseY)
 }
 function updateMouseoverDescriptionEnergy(droneObj) {
     manualDescriptionUpdate({
         content: `Increases the amount of energy gained fom this drone.`,
         upgradePreview: `${droneObj.energyProduced} energy -> ${droneObj.energyProduced + 1} energy`,
-        cost: `${upgradeDroneEnergyCost(droneObj.energyUpgradedTimes)} dust`
+        cost: {dust: upgradeDroneTicksCost(droneObj.ticksUpgradedTimes)}
     }, lastMouseX, lastMouseY)
 }
+
 function drawDronesDivs(userData) {
     deleteDroneDivs();
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];

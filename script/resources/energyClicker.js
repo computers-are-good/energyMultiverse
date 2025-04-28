@@ -8,7 +8,7 @@ function energyClicker(userData) {
 
    gainEnergy(userData, 1 + (currentMultiverse.upgradeTimes.energyClicker ?? 0));
    document.getElementById("energyClicker").style.transform = "scale(0.7)";
-   setTimeout(_ => document.getElementById("energyClicker").style.transform = "scale(1)", 50);
+   setTimeout(_ => document.getElementById("energyClicker").style.transform = "scale(1)", 100);
 
     if (currentMultiverse.energy > 5 && !currentMultiverse.eventsDone.includes("firstEnergy")) {
         notifyUnique("gettingEnergy");

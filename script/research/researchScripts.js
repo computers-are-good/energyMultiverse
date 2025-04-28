@@ -4,11 +4,11 @@ import notify from "../notifs/notify.js";
 import { updateResearchButtons, updateResearchPoints } from "../pageUpdates.js";
 import { removeFromArray } from "../utils.js";
 
-function addResearchDescription(element, researchId) {
+function addResearchDescription(element, researchId, userData) {
     addDescriptionEvent(element, {
-        cost: `${research[researchId].cost.points} research points`,
+        cost: {researchPoints: research[researchId].cost.points},
         content: `${research[researchId].description}`
-    });
+    }, userData);
 }
 function doResearch(userData, researchId) {
     const researchInfo = research[researchId];

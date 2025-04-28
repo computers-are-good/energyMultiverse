@@ -11,6 +11,7 @@ let totalEnergyCost = 0;
 const accessoriesSelected = [];
 let accessorySlotsUsed = 0;
 let accessorySlotsAvailable = 0;
+let userDataBig;
 
 const statMappings = {
     baseHealth: "Hull",
@@ -22,6 +23,7 @@ let totalShipCost = {
     dust: 0
 }
 function drawBuildShipsDiv(userData) {
+    userDataBig = userData;
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     document.getElementById("totalEnergyCost").style.display = "none";
     document.getElementById("chooseShipAccessories").style.display = "none";
@@ -46,8 +48,8 @@ function drawBuildShipsDiv(userData) {
 
         addDescriptionEvent(newDiv, {
             content: shipObj.description,
-            cost: writeCostsReadable(shipObj.baseCost)
-        });
+            cost: shipObj.baseCost
+        }, userData);
 
         newDiv.addEventListener("click", _ => {
             document.getElementById("chooseShipAccessories").style.display = "flex";
@@ -96,8 +98,8 @@ function drawBuildShipsDiv(userData) {
 
         addDescriptionEvent(newDiv, {
             content: accessoryInfo.description,
-            cost: writeCostsReadable(accessoryInfo.baseCost),
-        });
+            cost: accessoryInfo.baseCost,
+        }, userData);
 
         newDiv.addEventListener("click", _ => {
             if ((_ => {
@@ -151,15 +153,12 @@ function calculateShipCost() {
     }
 }
 document.getElementById("buildShip").addEventListener("mouseover", e => {
-    let text = "";
-    for (let item in totalShipCost) {
-        text += `${totalShipCost[item]} ${item} `;
-    }
-    changeDescriptionText({
+    const obj = {
         content: "Start building your ship. You will pay the material costs, but the energy costs are paid as you go.",
-        cost: text
-    })
-})
+    }
+    if (Object.keys(totalShipCost).length > 0) obj.cost = totalShipCost;
+    changeDescriptionText(obj, userDataBig);
+});
 
 function updateShipCost() {
     document.getElementById("totalEnergyCost").style.display = "block";
@@ -174,7 +173,10 @@ function updateAccessoriesCost() {
 function buildShip(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
-    if (!selectedShipType) return;
+    if (!selectedShipType) {
+        notify("Please select a ship class.");
+        return;
+    }
     if (currentMultiverse.ships.length >= currentMultiverse.maxHangarShips) {
         notify("You have reached the maximum number of ships in your hangar.");
         return;

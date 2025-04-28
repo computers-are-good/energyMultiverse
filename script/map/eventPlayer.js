@@ -10,7 +10,7 @@ function eventPlayer(shipData, userData, eventId, planetName) {
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
 
     return new Promise(res => {
-        const eventScript = events.fasterShips.script/* events[eventId].script */;
+        const eventScript = events[eventId].script;
         const itemsToSubtract = {};
         const shipCargo = {};
         const researchToUnlock = [];
@@ -119,13 +119,13 @@ function eventPlayer(shipData, userData, eventId, planetName) {
                         button.textContent = choice.text;
 
                         if (choice.cost) {
-                            let costString = ""
+                            let costObj = {};
                             for (const cost in choice.cost) {
-                                costString += `${choice.cost[cost]} ${cost}`;
+                                costObj[cost] = choice.cost[cost];
                             }
                             addDescriptionEvent(button, {
-                                cost: costString
-                            });
+                                cost: costObj
+                            }, userData);
                         }
 
                         button.addEventListener("click", _ => {
