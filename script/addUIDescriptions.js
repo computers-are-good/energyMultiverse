@@ -1,4 +1,4 @@
-import { checkCosts, writeCostsReadable } from "./itemCosts.js";
+import { checkCosts, costTextMappings, writeCostsReadable } from "./itemCosts.js";
 
 const mouseoverDescriptions = {
     "dust": {
@@ -89,12 +89,18 @@ function updateDescription(description, x, y, userData) {
 function populateDescription(description, userData) {
     descriptionText.textContent = description.content;
     if (description.cost) {
-        cost.textContent = `Cost: ${writeCostsReadable(description.cost)}`;
+        cost.innerHTML = "Cost: ";
         if (userData) {
-            if (checkCosts(userData, description.cost, false)) {
-                cost.style.color = "green";
-            } else {
-                cost.style.color = "red";
+            const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+            for (const thing in description.cost) {
+                const newSpan = document.createElement("span");
+                newSpan.textContent = `${description.cost[thing]} ${costTextMappings[thing]} `;
+                cost.appendChild(newSpan);
+                if (description.cost[thing] > currentMultiverse[thing]) {
+                    newSpan.style.color = "red";
+                } else {
+                    newSpan.style.color = "green";
+                }
             }
         } else {
             cost.style.color = "white";
@@ -137,6 +143,11 @@ function addDescriptionEvent(element, description, userData, screen) {
         currentDescription = screen;
         updateDescription(description, e.x, e.y, userData);
     });
+    element.addEventListener("mousedown", e => {
+        setTimeout(_ => {
+            if (screen === currentDescription) updateDescription(description, e.x, e.y, userData)
+        }, 10);
+    })
     element.addEventListener("mouseout", removeDescription);
 }
 export {

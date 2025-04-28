@@ -42,4 +42,4 @@ function writeCostsReadable(costs) {
     }
 }
 
-export {checkCosts, subtractCosts, writeCostsReadable};
+export {checkCosts, subtractCosts, writeCostsReadable, costTextMappings};

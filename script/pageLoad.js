@@ -57,6 +57,7 @@ function applyEvents(userData) {
     document.getElementById("viewDrones").addEventListener("mousedown", _ => {
         drawDronesDivs(userData);
         toggleScreen("droneView");
+        removeDescription();
     });
     document.getElementById("viewDronesBack").addEventListener("mousedown", _ => toggleScreen("Energy"));
     document.getElementById("dustBot").addEventListener("mousedown", _ => toggleScreen("dustbotView"));
