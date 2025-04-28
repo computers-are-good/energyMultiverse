@@ -44,6 +44,7 @@ function getBiomeEvents(userData, planetInfo) {
 }
 const globalEventsMilestones = {
     5: "deflectionDriveUnlock",
+    8: "fasterShips",
     10: "story1",
     15: "story2",
     18: "story3",
@@ -57,7 +58,6 @@ function arriveAtTarget(shipInfo, userData) { //for use with player ships arrivi
     return new Promise(async res => {
         addNavigationAttention("Map", "pageMap");
         notify(`A ship has arrived at ${targetObject.name}.`);
-        shipInfo.targetObjectId = "player";
         let eventToDo = choice(genericEvents);
         if (currentMultiverse.statistics.planetsVisited in globalEventsMilestones) {
             eventToDo = globalEventsMilestones[currentMultiverse.statistics.planetsVisited]
@@ -70,6 +70,7 @@ function arriveAtTarget(shipInfo, userData) { //for use with player ships arrivi
             }
         }
         const eventResolved = await eventPlayer(shipInfo, userData, eventToDo);
+        shipInfo.targetObjectId = "player";
         if (eventResolved) {
             if (!(currentMultiverse.statistics.planetsVisited in globalEventsMilestones)) {
                 if (targetObject.uniqueEvents.length > 0) {

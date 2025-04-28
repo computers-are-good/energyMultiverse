@@ -1,16 +1,17 @@
 import { updateTurret } from "../../turret.js";
 import { updateResearchRate } from "../pageUpdates.js";
 import { drawBuildShipsDiv } from "../ship/buildShip.js";
-import {addNavigationAttention, unlockUIElement} from "../toggleUIElement.js";
+import { addNavigationAttention, unlockUIElement } from "../toggleUIElement.js";
+import { drawUpgradeButtons } from "../upgrades.js";
 
 const research = {
-    "Upgrades" : {
+    "Upgrades": {
         cost: {
             points: 5
         },
         name: "Unlock upgrades",
         description: "Unlocks the upgrades tab",
-        complete: function(userData) {
+        complete: function (userData) {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "pageUpgrades");
         }
     },
@@ -20,7 +21,7 @@ const research = {
         },
         name: "Faster Research",
         description: "Research points accumulating too slow? Try researching about research!",
-        complete: function(userData) {
+        complete: function (userData) {
             userData.multiverses[userData.currentMultiverse].ticksPerResearchAdvancement -= 10;
             updateResearchRate(userData);
         }
@@ -31,7 +32,7 @@ const research = {
         },
         name: "Dustbot",
         description: "Tired of creating dust by hand? Dustbot will help you!",
-        complete: function(userData) {
+        complete: function (userData) {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "dustBot");
             addNavigationAttention("Energy", "pageEnergy");
         }
@@ -42,7 +43,7 @@ const research = {
         },
         name: "fabriBot",
         description: "You found this robot on an industrial planet. Now you just have to figure out how to operate it...",
-        complete: function(userData) {
+        complete: function (userData) {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "fabriBot");
             addNavigationAttention("Energy", "pageEnergy");
         }
@@ -53,7 +54,7 @@ const research = {
         },
         name: "Statistics",
         description: "Unlock the statistics tab",
-        complete: function(userData) {
+        complete: function (userData) {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "pageStatistics");
             addNavigationAttention("Statistics", "pageStatistics");
         }
@@ -75,8 +76,8 @@ const research = {
         },
         name: "Sunscoop",
         description: "Learn to build sunscoops to harvest energy from a star",
-        complete: function(userData) {
-            if(!userData.multiverses[userData.currentMultiverse].shipAccessoriesUnlocked.includes("Sunscoop"))
+        complete: function (userData) {
+            if (!userData.multiverses[userData.currentMultiverse].shipAccessoriesUnlocked.includes("Sunscoop"))
                 userData.multiverses[userData.currentMultiverse].shipAccessoriesUnlocked.push("Sunscoop");
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "dispatchToSun");
             drawBuildShipsDiv(userData);
@@ -133,6 +134,23 @@ const research = {
             currentMultiverse.turret.unlocked = true;
             unlockUIElement(currentMultiverse.UIElementsUnlocked, "turret");
             updateTurret(userData);
+        }
+    },
+    "engineUpgrades": {
+        cost: {
+            points: 10
+        },
+        name: "Unlock Engine Upgrades",
+        description: "Allows you to upgrade the engine of all your spaceships so they are faster.",
+        complete(userData) {
+            const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+            if (!currentMultiverse.maxUpgradeTimes.engineSpeed) {
+                currentMultiverse.maxUpgradeTimes.engineSpeed = 5;
+            } else {
+                currentMultiverse.maxUpgradeTimes.engineSpeed += 5;
+            }
+            addNavigationAttention("Upgrades", "pageUpgrades");
+            drawUpgradeButtons(userData);
         }
     }
 }

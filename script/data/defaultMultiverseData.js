@@ -29,6 +29,7 @@ const defaultMultiverseData = {
     researchRate: 0,
     maxResearchRate: 3,
     ticksPerResearchAdvancement: 30,
+    shipSpeedMultiplier: 1.5,
     upgradeTimes: {},
     maxUpgradeTimes: {
         energyClicker: 5

@@ -417,7 +417,7 @@ async function updateSolarSystemPositions(userData) {
                     moveTowards(ship, {
                         posX: 375,
                         posY: 375
-                    }, Math.min(ship.baseStats.baseSpeed * 1.5, distanceToTarget));
+                    }, Math.min(ship.baseStats.baseSpeed * currentMultiverse.shipSpeedMultiplier, distanceToTarget));
 
                     if (distanceToTarget < 20) {
                         const energyGained = currentSystem.tier * (Math.ceil(Math.random() * 1000) + 1000);
@@ -504,7 +504,7 @@ async function updateSolarSystemPositions(userData) {
                                 break;
                         }
                     } else {
-                        moveTowards(ship, target, Math.min(ship.baseStats.baseSpeed * 1.5, distToTarget));
+                        moveTowards(ship, target, Math.min(ship.baseStats.baseSpeed * currentMultiverse.shipSpeedMultiplier, distToTarget));
                     }
                 }
             }

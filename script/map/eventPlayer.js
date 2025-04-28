@@ -5,12 +5,12 @@ import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMet
 import { addNavigationAttention } from "../toggleUIElement.js";
 import { updateSolarSystem } from "./solarSystem.js";
 
-function eventPlayer(shipData, userData, eventId) {
+function eventPlayer(shipData, userData, eventId, planetName) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
 
     return new Promise(res => {
-        const eventScript = events[eventId].script;
+        const eventScript = events.fasterShips.script/* events[eventId].script */;
         const itemsToSubtract = {};
         const shipCargo = {};
         const researchToUnlock = [];
@@ -74,7 +74,8 @@ function eventPlayer(shipData, userData, eventId) {
 
             const replacementKeys = {
                 "{STARNAME}" : currentSystem.name,
-                "{SHIPCLASS}": shipData.class
+                "{SHIPCLASS}": shipData.class,
+                "{PLANETNAME}": currentSystem.objects[shipData.targetObjectId].name
             }
 
             let text = eventScript[index].text;

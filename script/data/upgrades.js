@@ -41,6 +41,20 @@ const upgrades = {
             currentMultiverse.turret.charge -= 10;
             if (currentMultiverse.turret.charge < 0) currentMultiverse.turret.charge = 0;
         }
+    },
+    "engineSpeed": {
+        name: "Engine Speed",
+        description: "Makes all your ships faster.",
+        cost: function (upgradedTimes) {
+            return {
+                iridium: upgradedTimes + 1,
+                energy: upgradedTimes * 100 + 150
+            }
+        },
+        upgradeDone(userData) {
+            const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+            currentMultiverse.shipSpeedMultiplier += 0.3;
+        }
     }
 }
 
