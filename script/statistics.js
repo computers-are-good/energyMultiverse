@@ -1,6 +1,14 @@
 import unlockResearchForElement from "./unlockResearch.js";
 import { getEnergyPerSecond } from "./resources/solarPanel.js";
 
+function formatPlaytime(seconds) {
+    let hours = (seconds - (seconds % 3600)) / 3600;
+    seconds -= hours * 3600;
+    let minutes = (seconds - (seconds % 60)) / 60;
+    seconds -= minutes * 60;
+    return `${hours}H ${minutes}M ${seconds}s`
+}
+
 function updateStatistics(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
@@ -9,7 +17,7 @@ function updateStatistics(userData) {
     document.getElementById("totalMetalMade").textContent = currentMultiverse.statistics.metalGained;
     document.getElementById("totalIridiumMade").textContent = currentMultiverse.statistics.iridiumGained;
     document.getElementById("planetsVisited").textContent = currentMultiverse.statistics.planetsVisited;
-    document.getElementById("statisticsPlaytime").textContent = `${Math.floor(currentMultiverse.statistics.totalTicksPassed / 10)}s`;
+    document.getElementById("statisticsPlaytime").textContent = formatPlaytime(Math.floor(currentMultiverse.statistics.totalTicksPassed / 10));
 
     document.getElementById("energyConsumptionList").innerHTML = "";
     const energyConsumed = calculateEnergyConsumptionPerSec(userData);
