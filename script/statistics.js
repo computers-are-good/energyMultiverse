@@ -17,6 +17,7 @@ function updateStatistics(userData) {
     document.getElementById("totalMetalMade").textContent = currentMultiverse.statistics.metalGained;
     document.getElementById("totalIridiumMade").textContent = currentMultiverse.statistics.iridiumGained;
     document.getElementById("planetsVisited").textContent = currentMultiverse.statistics.planetsVisited;
+    document.getElementById("shipsMade").textContent = currentMultiverse.statistics.shipsMade;
     document.getElementById("statisticsPlaytime").textContent = formatPlaytime(Math.floor(currentMultiverse.statistics.totalTicksPassed / 10));
 
     document.getElementById("energyConsumptionList").innerHTML = "";

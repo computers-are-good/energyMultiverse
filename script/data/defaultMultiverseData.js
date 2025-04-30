@@ -65,6 +65,7 @@ const defaultMultiverseData = {
         iridiumGained: 0,
         totalTicksPassed: 0,
         planetsVisited: 0,
+        shipsBuilt: 0
     },
     turret: {
         unlocked: false,

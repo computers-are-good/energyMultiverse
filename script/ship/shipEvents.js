@@ -33,6 +33,8 @@ function buildShip(userData) {
                 }
             });
 
+            currentMultiverse.statistics.shipsBuilt++;
+
             if (accessories.includes("Cloaking Device")) {
                 shipInfo.makeDivDim = false;
             }
