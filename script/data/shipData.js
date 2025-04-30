@@ -91,6 +91,15 @@ const shipAccessories = {
         },
         accessorySlots: 1,
         energyCost: 100
+    },
+    "Cloaking Device": {
+        description: "A cloaking device decrease the range in which enemy ships can detect your ship.",
+        baseCost: {
+            iridium: 10,
+            metal: 10
+        },
+        accessorySlots: 1,
+        energyCost: 1500
     }
 
 }

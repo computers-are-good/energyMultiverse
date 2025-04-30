@@ -366,6 +366,48 @@ const events = {
             }
         ]
     },
+    "cloakingDevice": {
+        script: [
+            {
+                text: "As you break through the clouds, you are confronted with a tower reaching for the skies. You barely managed to weave around it."
+            },
+            {
+                text: "You bring your ship to land right outside the tower, right next to a small black door barely visible on the outside."
+            },
+            {
+                text: "The tower look like it has been inactive for as long as the time flows. You need to supply energy to get the door to open.",
+                choice: [
+                    {
+                        text: "Supply energy",
+                        cost: {
+                            energy: 500
+                        },
+                        goto: 4
+                    },
+                    {
+                        text: "Leave",
+                        goto: 3
+                    }
+                ]
+            },
+            {
+                text: "You leave the tower for another day.",
+                eventResolved: false,
+                endEvent: true,
+            },
+            {
+                text: "The doors open to reveal a bright white room. The moment you walk through the doors, you suddenly run into an invisible wall."
+            },
+            {
+                text: "The little amount of power you supplied appear to be used up. The lights suddenly dim and, in front of you, you see a massive mechanical contraption."
+            },
+            {
+                text: "It must be a cloaking device. You decide to take it with you back to your mothership. It would be useful in evading hostiles.",
+                eventResolved: true,
+                researchUnlocked: ["cloakingDevice"]
+            }
+        ]
+    },
     "palmTree": {
         script: [
             {

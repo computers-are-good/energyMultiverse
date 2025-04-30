@@ -33,6 +33,10 @@ function buildShip(userData) {
                 }
             });
 
+            if (accessories.includes("Cloaking Device")) {
+                shipInfo.makeDivDim = false;
+            }
+
             if (!currentMultiverse.eventsDone.includes("firstShip")){
                 notifyUnique("firstShip");
                 unlockUIElement(currentMultiverse.UIElementsUnlocked, "pageMap");

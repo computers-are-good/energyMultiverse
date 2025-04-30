@@ -240,6 +240,11 @@ function updateSolarSystem(userData) {
                 shipDiv.style.borderRadius = "10px";
                 shipDiv.style.backgroundColor = "green";
 
+                if (ship.accessories.includes("Cloaking Device")) {
+                    shipDiv.style.opacity = ship.makeDivDim ? "0.5" : 1;
+                    ship.makeDivDim = !ship.makeDivDim;
+                }
+
                 shipDiv.addEventListener("mousedown", _ => {
                     if (!blockingScreens.includes(activeScreen)) {
                         shipSelected = ship;
@@ -525,6 +530,10 @@ async function updateSolarSystemPositions(userData) {
                     const ship = currentMultiverse.ships[i];
                     if (ship.inSolarSystem) {
                         const distToShip = getDistanceTo(thing, ship);
+                        if (ship.accessories.includes("Cloaking Device")) {
+                            if (distToShip > 30) continue;
+                        }
+
                         if (distToShip < closestDistance) {
                             closestShip = ship;
                             closestShipIndex = i;
@@ -532,7 +541,7 @@ async function updateSolarSystemPositions(userData) {
                         }
                     }
                 }
-                if (closestShip && closestDistance < 100) {
+                if (closestShip && closestDistance < 150) {
                     moveTowards(thing, closestShip, thing.baseStats.baseSpeed * 1.6);
                     if (closestDistance < 10) {
                         const loot = generateShipLoot(thing);

@@ -152,6 +152,18 @@ const research = {
             addNavigationAttention("Upgrades", "pageUpgrades");
             drawUpgradeButtons(userData);
         }
+    },
+    "cloakingDevice": {
+        cost: {
+            points: 30
+        },
+        name: "Accessory: Cloaking Device",
+        description: "The research dedicated to cloaking devices is not in figuring how they work; it's in remembering where you placed it.",
+        complete(userData) {
+            const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+            currentMultiverse.shipAccessoriesUnlocked.push("Cloaking Device");
+            drawBuildShipsDiv(userData);
+        }
     }
 }
 

@@ -19,9 +19,11 @@ const biomeSpecificEvents = {
         "literallyJustGetMetal"
     ],
     "Ocean": [
-        "ancientPonderer"
+        "ancientPonderer",
     ],
-    "Warm": [],
+    "Warm": [
+        "cloakingDevice"
+    ],
     "Paradise": [],
     "Ice": [],
     "Gas": ["turret"],
@@ -69,7 +71,7 @@ function arriveAtTarget(shipInfo, userData) { //for use with player ships arrivi
                 eventToDo = choice(availableEvents);
             }
         }
-        const eventResolved = await eventPlayer(shipInfo, userData, eventToDo);
+        const eventResolved = await eventPlayer(shipInfo, userData, "cloakingDevice");
         shipInfo.targetObjectId = "player";
         if (eventResolved) {
             if (!(currentMultiverse.statistics.planetsVisited in globalEventsMilestones)) {

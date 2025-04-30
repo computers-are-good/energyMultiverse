@@ -137,7 +137,8 @@ function drawBuildShipsDiv(userData) {
 function calculateShipCost() {
     totalShipCost = {
         dust: 0,
-        metal: 0
+        metal: 0,
+        iridium: 0
     }
     for (let cost in shipClasses[selectedShipType].baseCost) {
         totalShipCost[cost] += shipClasses[selectedShipType].baseCost[cost];
