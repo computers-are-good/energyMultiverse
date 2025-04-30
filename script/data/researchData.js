@@ -164,6 +164,13 @@ const research = {
             currentMultiverse.shipAccessoriesUnlocked.push("Cloaking Device");
             drawBuildShipsDiv(userData);
         }
+    },
+    "scanner": {
+        cost: {
+            points: 5
+        },
+        name: "Scanner",
+        description: "Scan enemy ships to know their stats."
     }
 }
 

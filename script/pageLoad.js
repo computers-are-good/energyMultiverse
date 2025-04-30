@@ -14,7 +14,7 @@ import { buildDustbotEvent, dustbotSlider } from "./resources/dustbotClicker.js"
 import { buildShip, drawBuildShipsDiv, showShipbuildingProgress } from "./ship/buildShip.js";
 import { decreaseBuildRate, increaseBuildRate } from "./ship/shipEvents.js";
 import { closeHangar, openHangar } from "./ship/hangar.js";
-import { cancelRedirect, dispatchShipEvent, goToHostile, launchMissile, moveMothership, newTargetButton, recallButton, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
+import { buildScanner, cancelRedirect, dispatchShipEvent, goToHostile, launchMissile, moveMothership, newTargetButton, recallButton, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
 import { makeMissile, makeRepairKit } from "./ship/manufactory.js";
 import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "./map/thrust.js";
 import metalClicker from "./resources/metal.js";
@@ -99,6 +99,7 @@ function applyEvents(userData) {
     document.getElementById("redirectCancel").addEventListener("click", _ => cancelRedirect(userData));
     document.getElementById("toggleTurret").addEventListener("click", _ => toggleTurret(userData));
     document.getElementById("buildTurret").addEventListener("click", _ => buildTurret(userData));
+    document.getElementById("buildScanner").addEventListener("click", _ => buildScanner(userData));
     document.getElementById("ending").addEventListener("click", _ => {
         ending();
         document.getElementById("ending").blur();

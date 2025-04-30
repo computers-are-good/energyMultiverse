@@ -219,6 +219,12 @@ button {
     margin-left: 11px;
     width: 350px;
 }
+#scanResults li {
+    text-align: center;
+}
+#buildScanner {
+    margin-bottom: 18px;
+}
 #thrusterSettings p {
     margin: 10px auto;
 }

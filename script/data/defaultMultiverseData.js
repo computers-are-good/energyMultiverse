@@ -7,6 +7,7 @@ const defaultMultiverseData = {
     repairKit: 0,
     iridium: 0,
     missiles: 0,
+    scannerBuilt: false,
     lastScreen: "",
     maxHangarShips: 5,
     maxJumpTier: 2,

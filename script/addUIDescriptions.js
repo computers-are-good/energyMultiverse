@@ -52,6 +52,13 @@ const mouseoverDescriptions = {
             metal: 3
         }
     },
+    "buildScanner": {
+        content: "Builds a scanner so you can see enemy ship stats.",
+        cost: {
+            iridium: 3,
+            metal: 5
+        }
+    },
     "dispatchToSun": {
         content: "Sends a ship to harvest energy from the star. The ship must have a sunscoop. The sunscoop will be destroyed."
     },

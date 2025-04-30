@@ -13,7 +13,7 @@ import hostileTiers from "../data/hostileTiers.js";
 import { useEnergy } from "../resources/useResources.js";
 import { resourceMappings } from "../resources/gainResources.js";
 import { getPlanetExplorationLevel } from "./planetEvents.js";
-import { writeCostsReadable } from "../itemCosts.js";
+import { checkCosts, subtractCosts, writeCostsReadable } from "../itemCosts.js";
 import fadeIn from "../animations/fadeIn.js";
 import { particles } from "../animations/particles.js";
 import unlockResearchForElement from "../unlockResearch.js";
@@ -178,6 +178,23 @@ function updateSolarSystem(userData) {
                             updateVisibleDivs();
                             document.querySelectorAll(".selectTargetButton").forEach(e => e.remove());
                             if (redirectionInProgress) document.getElementById("hostileInfo").appendChild(selectTargetButton);
+
+                            if (currentMultiverse.researchCompleted.includes("scanner")) {
+                                document.getElementById("scanner").style.display = "block";
+
+                                if (currentMultiverse.scannerBuilt) {
+                                    document.getElementById("buildScanner").style.display = "none";
+                                    document.getElementById("scanResults").style.display = "block";
+                                } else {
+                                    document.getElementById("buildScanner").style.display = "block";
+                                    document.getElementById("scanResults").style.display = "none";
+                                }
+
+                                updateScannerResults(thing);
+
+                            } else {
+                                document.getElementById("scanner").style.display = "none";
+                            }
                         }
                     });
                     enemy.style.backgroundColor = "red";
@@ -263,6 +280,22 @@ function recallButton() {
     shipSelected.targetObjectId = "player";
     activeScreen = "";
     updateVisibleDivs();
+}
+
+function updateScannerResults(enemy) {
+    document.getElementById("enemyInfoAttack").textContent = enemy.baseStats.baseAttack;
+    document.getElementById("enemyInfoShield").textContent = enemy.baseStats.baseShield;
+    document.getElementById("enemyInfoHull").textContent = `${enemy.currentHealth} / ${enemy.baseStats.baseHealth}`;
+}
+
+function buildScanner(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    if (checkCosts(userData, {iridium: 3, metal: 5})) {
+        subtractCosts(userData, {iridium: 3, metal: 5});
+        currentMultiverse.scannerBuilt = true;
+        document.getElementById("buildScanner").style.display = "none";
+        document.getElementById("scanResults").style.display = "block";
+    }
 }
 
 const clickOnPlanetOrHostile = document.getElementById("clickOnPlanetOrHostile");
@@ -815,5 +848,6 @@ export {
     recallButton,
     sendShipToDebris,
     newTargetButton,
-    cancelRedirect
+    cancelRedirect,
+    buildScanner
 };

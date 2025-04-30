@@ -16,7 +16,8 @@ const biomeSpecificEvents = {
     "Temperate": [
         "Batteries",
         "palmTree",
-        "literallyJustGetMetal"
+        "literallyJustGetMetal",
+        "scanner"
     ],
     "Ocean": [
         "ancientPonderer",
@@ -71,7 +72,7 @@ function arriveAtTarget(shipInfo, userData) { //for use with player ships arrivi
                 eventToDo = choice(availableEvents);
             }
         }
-        const eventResolved = await eventPlayer(shipInfo, userData, "cloakingDevice");
+        const eventResolved = await eventPlayer(shipInfo, userData, eventToDo);
         shipInfo.targetObjectId = "player";
         if (eventResolved) {
             if (!(currentMultiverse.statistics.planetsVisited in globalEventsMilestones)) {

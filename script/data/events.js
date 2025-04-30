@@ -408,6 +408,42 @@ const events = {
             }
         ]
     },
+    "scanner": {
+        script: [
+            {
+                text: "Beep. Boop. Beep. Boop. As your ship flies closer and closer towards the surface, you listen to the rhythmic repeats of a strange sound."
+            },
+            {
+                text: "You found the source: a very large scanner visible beyond the cockpit of your ship."
+            },
+            {
+                text: "The scanner doesn't seem to be do anything. But strangely, you continue to hear the rhythmic beeping and booping as if your ship was a blip picked up by the scanner."
+            },
+            {
+                text: "As you get closer to the source, you can make out a large sign: \"ScannerCon: Who Can Make The Best Scanners?\"."
+            },
+            {
+                text: "And, underneath the sign, you find two large pairs of speakers alternating between making beeping and booping sounds."
+            },
+            {
+                text: "Well, those speakers are just wasting their energy. You decide to take their batteries.",
+                item: {
+                    energy: 750
+                }
+            },
+            {
+                text: "Next to the speakers, you find a blueprint of the scanner. Better take that as well.",
+                researchUnlocked: ["scanner"]
+            },
+            {
+                text: "You leave the planet with newfound energy and knowledge on how to scan enemy ships."
+            },
+            {
+                text: "Once you research and build the scanner, you will finally be able to gain more insight on enemy ships.",
+                eventResolved: true
+            }
+        ]
+    },
     "palmTree": {
         script: [
             {
