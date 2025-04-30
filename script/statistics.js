@@ -67,7 +67,7 @@ function calculateEnergyConsumptionPerSec(userData) {
     if (currentMultiverse.dustbotSpeed > 0) energyUsed["Dustbot"] = Math.floor(10 / ((100 - currentMultiverse.dustbotSpeed * 2) / 10) * 1000) / 1000 //Energy used by DustBot
     if (currentMultiverse.fabriBotSpeed > 0) energyUsed["fabriBot"] = Math.floor(30 / ((100 - currentMultiverse.fabriBotSpeed * 2) / 10) * 1000) / 1000
     energyUsed["Propulsion"] = currentMultiverse.mothershipCurrentThrust;
-    energyUsed["Research"] = currentMultiverse.researchRate * (currentMultiverse.ticksPerResearchAdvancement / 10);
+    energyUsed["Research"] = Math.floor(currentMultiverse.researchRate / (currentMultiverse.ticksPerResearchAdvancement / 10) * 10) / 10;
     energyUsed["Shipyard"] = currentMultiverse.currentShipBuildingRate;
 
     if (currentMultiverse.turret.enabled && currentMultiverse.turret.currentCharge < currentMultiverse.turret.chargeToFire) {
