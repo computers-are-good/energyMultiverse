@@ -154,7 +154,7 @@ function updateSolarSystem(userData) {
                             buildFactory.addEventListener("click", _ => {
                                 openHangar(userData, true, e => e.class === "Factory Ship").then(ship => {
                                     dispatchShip(ship, selected, userData);
-                                });
+                                }, _ =>{});
                             });
 
                             updateFactory(userData);
@@ -429,7 +429,7 @@ function launchMissile(userData) {
 async function goToHostile(userData) {
     openHangar(userData, true).then(ship => {
         dispatchShip(ship, selected, userData);
-    });
+    }, _ =>{});
 }
 
 function moveTowards(ship, target, speed) {
@@ -867,7 +867,7 @@ function newHostile(userData) {
 async function dispatchShipEvent(userData) {
     openHangar(userData, true).then(ship => {
         dispatchShip(ship, selected, userData);
-    });
+    }, _ =>{});
 }
 function drawNewElement(x, y) {
     const newDiv = document.createElement("div");
