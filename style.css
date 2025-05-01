@@ -235,6 +235,18 @@ button {
     border: 1px solid white;
     padding: 12px;
 }
+#factoryNotBuilt li {
+    text-align: center;
+}
+#factorySwitchProduction {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    margin: auto;
+}
+#factorySwitchProduction button {
+    margin-top: 0;
+}
 #galaxyView {
     margin: 10px auto;
     display: block;

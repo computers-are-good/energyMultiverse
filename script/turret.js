@@ -1,6 +1,6 @@
-import { checkCosts, subtractCosts } from "./script/itemCosts.js";
-import { addNavigationAttention } from "./script/toggleUIElement.js";
-import { drawUpgradeButtons } from "./script/upgrades.js";
+import { checkCosts, subtractCosts } from "./itemCosts.js";
+import { addNavigationAttention } from "./toggleUIElement.js";
+import { drawUpgradeButtons } from "./upgrades.js";
 
 const turretCost = {
     energy: 500,

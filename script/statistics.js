@@ -89,6 +89,21 @@ function calculateEnergyProductionPerSec(userData) {
     energyProduced.Drones = Math.round(energyFromDrones * 1000) / 1000;
     if (currentMultiverse.solarPanel > 0) energyProduced["Solar Panels"] = getEnergyPerSecond(userData);
 
+    let energyFromFactory = 0;
+    for (const system of currentMultiverse.solarSystems) {
+        for (const id in system.objects) {
+            if (system.objects[id].factory) {
+                const factoryInfo = system.objects[id].factory;
+                const making = factoryInfo.making;
+               if (making === "energy") {
+                    energyFromFactory += 20 * (system.objects[id].factoryMultipliers[making] / factoryInfo.progressRequired);
+               }
+            }
+        }
+    }
+    energyFromFactory = Math.floor(energyFromFactory * 10) / 10;
+    energyProduced.Factory = energyFromFactory;
+
     return energyProduced;
 }
 export default updateStatistics;

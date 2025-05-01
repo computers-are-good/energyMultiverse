@@ -1,4 +1,5 @@
-import { updateTurret } from "../../turret.js";
+import { updateTurret } from "../turret.js";
+import notify from "../notifs/notify.js";
 import { updateResearchRate } from "../pageUpdates.js";
 import { drawBuildShipsDiv } from "../ship/buildShip.js";
 import { addNavigationAttention, unlockUIElement } from "../toggleUIElement.js";
@@ -171,6 +172,19 @@ const research = {
         },
         name: "Scanner",
         description: "Scan enemy ships to know their stats."
+    },
+    "factoryShip": {
+        cost: {
+            points: 30
+        },
+        name: "Factories",
+        description: "Factories can automatically produce resources on planets you have already explored.",
+        complete(userData) {
+            const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+            currentMultiverse.shipClassesUnlocked.push("Factory Ship");
+            drawBuildShipsDiv(userData);
+            notify("A factory ship will help you start a factory; you just have to build it first.");
+        }
     }
 }
 

@@ -129,6 +129,8 @@ function updateSolarSystem(userData) {
 
                     systemObject.addEventListener("mousedown", _ => {
                         if (!blockingScreens.includes(activeScreen)) {
+                            document.getElementById("buildFactoryButton").innerHTML = "";
+
                             activeScreen = "planetInfo";
                             selected = id;
                             updateVisibleDivs();
@@ -136,6 +138,26 @@ function updateSolarSystem(userData) {
                             document.getElementById("planetTypeDisplay").textContent = thing.planetType;
                             document.querySelectorAll(".selectTargetButton").forEach(e => e.remove());
                             if (redirectionInProgress) document.getElementById("planetInfo").appendChild(selectTargetButton);
+
+                            document.getElementById("factory").style.display = (currentMultiverse.researchCompleted.includes("factoryShip") && getPlanetExplorationLevel(userData, thing) >= 100) ? "block" : "none";
+                            const factoryBuilt = "factory" in thing;
+                            document.getElementById("factoryNotBuilt").style.display = factoryBuilt ? "none" : "block";
+                            document.getElementById("factoryBuilt").style.display = factoryBuilt ? "block" : "none";
+                            document.getElementById("energyEfficency").textContent = thing.factoryMultipliers.energy;
+                            document.getElementById("dustEfficency").textContent = thing.factoryMultipliers.dust;
+                            document.getElementById("metalEfficency").textContent = thing.factoryMultipliers.metal;
+
+                            const buildFactory = document.createElement("button");
+                            buildFactory.textContent = "Build Factory";
+                            document.getElementById("buildFactoryButton").appendChild(buildFactory);
+
+                            buildFactory.addEventListener("click", _ => {
+                                openHangar(userData, true, e => e.class === "Factory Ship").then(ship => {
+                                    dispatchShip(ship, selected, userData);
+                                });
+                            });
+
+                            updateFactory(userData);
                         }
                     });
                     systemObject.style.backgroundColor = thing.color;
@@ -290,8 +312,8 @@ function updateScannerResults(enemy) {
 
 function buildScanner(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    if (checkCosts(userData, {iridium: 3, metal: 5})) {
-        subtractCosts(userData, {iridium: 3, metal: 5});
+    if (checkCosts(userData, { iridium: 3, metal: 5 })) {
+        subtractCosts(userData, { iridium: 3, metal: 5 });
         currentMultiverse.scannerBuilt = true;
         document.getElementById("buildScanner").style.display = "none";
         document.getElementById("scanResults").style.display = "block";
@@ -368,7 +390,7 @@ document.body.addEventListener("click", e => {
         let clickedOutside = true;
         let node = e.target;
         while (node) {
-            if (node.id === "systemMap" || node.id === "encounterInfo") {
+            if (node.id === "systemMap" || node.id === "encounterInfo" || node.classList?.contains("factoryButton")) {
                 clickedOutside = false;
                 break;
             }
@@ -446,7 +468,8 @@ async function updateSolarSystemPositions(userData) {
                 if (thing.theta >= 2 * Math.PI) thing.theta -= 2 * Math.PI;
             }
         }
-        for (const ship of currentMultiverse.ships) {
+        for (const index in currentMultiverse.ships) {
+            const ship = currentMultiverse.ships[index];
             if (ship.inSolarSystem && ship.targetObjectId) {
                 if (ship.targetObjectId === "sun") {
                     const distanceToTarget = getDistanceTo(ship, {
@@ -485,12 +508,28 @@ async function updateSolarSystemPositions(userData) {
                         switch (currentSystem.objects[ship.targetObjectId].type) {
                             case "planet":
                                 if (ship.targetObjectId !== "player") {
-                                    activeScreen = "scriptPlayer";
-                                    currentMultiverse.allowSolarSystemUpdates = false;
-                                    arriveAtTarget(ship, userData).then(res => {
-                                        activeScreen = "";
-                                        currentMultiverse.allowSolarSystemUpdates = true;
-                                    });
+                                    const targetPlanet = currentSystem.objects[ship.targetObjectId];
+                                    if (ship.class === "Factory Ship" && !("factory" in targetPlanet)) {
+                                        targetPlanet.factory = {
+                                            currentProgress: 0,
+                                            progressRequired: 100,
+                                            making: "dust"
+                                        }
+                                        currentMultiverse.ships.splice(index, 1);
+                                        notify(`A factory ship arrived at ${targetPlanet.name} and established a factory.`);
+                                    } else {
+                                        activeScreen = "scriptPlayer";
+                                        currentMultiverse.allowSolarSystemUpdates = false;
+                                        arriveAtTarget(ship, userData).then(res => {
+                                            activeScreen = "";
+                                            currentMultiverse.allowSolarSystemUpdates = true;
+                                            if (getPlanetExplorationLevel(userData, targetPlanet) >= 100) {
+                                                if (!currentMultiverse.eventsDone.includes("factoryShip")) {
+                                                    unlockResearchForElement(userData, "factoryShip");
+                                                }
+                                            }
+                                        });
+                                    }
                                 } else {
                                     arriveAtTarget(ship, userData);
                                 }
@@ -828,7 +867,7 @@ function newHostile(userData) {
 async function dispatchShipEvent(userData) {
     openHangar(userData, true).then(ship => {
         dispatchShip(ship, selected, userData);
-    }, _ => { });
+    });
 }
 function drawNewElement(x, y) {
     const newDiv = document.createElement("div");
@@ -837,6 +876,37 @@ function drawNewElement(x, y) {
     document.getElementById("systemMap").appendChild(newDiv);
     return newDiv;
 }
+
+function updateFactory(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
+    document.getElementById("factorySwitchProduction").innerHTML = "";
+
+    const targetPlanet = currentSystem.objects[selected];
+    if (selected && "factory" in targetPlanet) {
+        if (activeScreen === "planetInfo") {
+            const factoryInfo = targetPlanet.factory;
+            document.getElementById("factoryCurrentProduction").textContent = factoryInfo.making;
+            document.getElementById("factoryManufacturingProgress").textContent = `${factoryInfo.currentProgress} / ${factoryInfo.progressRequired}`;
+            for (const element of ["energy", "dust", "metal"]) {
+                if (element === factoryInfo.making) continue;
+                const newButton = document.createElement("button");
+                newButton.classList.add("factoryButton");
+                newButton.textContent = element;
+                newButton.addEventListener("click", _ => {
+                    if (element === "energy") factoryInfo.progressRequired = 100;
+                    if (element === "dust") factoryInfo.progressRequired = 200;
+                    if (element === "metal") factoryInfo.progressRequired = 400;
+                    factoryInfo.making = element;
+                    updateFactory(userData);
+                })
+                document.getElementById("factorySwitchProduction").appendChild(newButton);
+            }
+        }
+
+    }
+}
+
 export {
     updateSolarSystem,
     dispatchShipEvent,
@@ -849,5 +919,6 @@ export {
     sendShipToDebris,
     newTargetButton,
     cancelRedirect,
-    buildScanner
+    buildScanner,
+    updateFactory
 };

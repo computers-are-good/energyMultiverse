@@ -43,7 +43,22 @@ const shipClasses = {
             metal: 15
         },
         energyCost: 2500
-    }, "Titan": {
+    }, 
+    "Factory Ship": {
+        baseStats: {
+            baseHealth: 50,
+            baseAttack: 1,
+            baseShield: 1,
+            baseSpeed: 3
+        },
+        description: "The factory ship will become a factory! Just fly it to a planet to start.",
+        baseCost: {
+            metal: 30,
+            iridium: 10
+        },
+        energyCost: 5000
+    },
+    "Titan": {
         baseStats: {
             baseHealth: 150,
             baseAttack: 10,

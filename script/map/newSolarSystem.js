@@ -145,6 +145,11 @@ function newPlanet(planetCount, solarSystemTier, solarSystemsMade) {
     if (planetCount === 2 && solarSystemsMade === 2) {
         uniqueEvents.push("unlockRadar");
     }
+    const factoryMultipliers = {
+        energy: Math.floor(Math.random() * 15) + 1,
+        dust: Math.floor(Math.random() * 10) + 1,
+        metal: Math.floor(Math.random() * 8) + 1
+    }
     const newPlanet = {
         type: "planet",
         planetType,
@@ -156,7 +161,8 @@ function newPlanet(planetCount, solarSystemTier, solarSystemsMade) {
         uniqueEvents,
         totalUniqueEvents: uniqueEvents.length,
         biomeSpecificEventsAvailable,
-        totalBiomeSpecificEventsAvailable: biomeSpecificEventsAvailable
+        totalBiomeSpecificEventsAvailable: biomeSpecificEventsAvailable,
+        factoryMultipliers,
     }
     return newPlanet;
 }

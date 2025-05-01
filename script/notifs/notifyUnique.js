@@ -14,7 +14,8 @@ const messages = {
     energyStatistics: "There's more statistics to unlock...",
     unlockMetal: "The dust you've been making could be made into something more...",
     makeShip: "And when you have metal, you can make spaceships. Venture forwards into the unknown.",
-    firstShip: "Go forward, and explore the unknown. This little ship will keep you safe."
+    firstShip: "Go forward, and explore the unknown. This little ship will keep you safe.",
+    factoryShip: "You have explored the whole planet. Go forth and build a factory here. Let your reach grow."
 }
 
 function notifyUnique(messageId) {

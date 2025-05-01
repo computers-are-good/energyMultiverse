@@ -26,7 +26,7 @@ import { drawUpgradeButtons } from "./upgrades.js";
 import { particles } from "./animations/particles.js";
 import { ending } from "./ending.js";
 import { fabriBotSlider, updateFabriBot } from "./resources/fabribotClicker.js";
-import { buildTurret, toggleTurret, updateTurret } from "../turret.js";
+import { buildTurret, toggleTurret, updateTurret } from "./turret.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];

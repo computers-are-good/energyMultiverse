@@ -4,7 +4,7 @@ import updateResearch from "./research/research.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
 import notify from "./notifs/notify.js";
 import { buildShip } from "./ship/shipEvents.js";
-import { updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
+import { updateFactory, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
 import { currentScreenDisplayed } from "./toggleUIElement.js";
 import { solarPanelTick } from "./resources/solarPanel.js";
 import { gainDust, gainEnergy, gainMetal } from "./resources/gainResources.js";
@@ -82,6 +82,24 @@ function tick(userData) {
         buildShip(userData);
         updateSolarSystemPositions(userData);
         if (currentScreenDisplayed === "Map") updateSolarSystem(userData);
+
+
+        for (const system of currentMultiverse.solarSystems) {
+            for (const id in system.objects) {
+                if (system.objects[id].factory) {
+                    const factoryInfo = system.objects[id].factory;
+                    const making = factoryInfo.making;
+                    factoryInfo.currentProgress += system.objects[id].factoryMultipliers[making];
+                    if (factoryInfo.currentProgress > factoryInfo.progressRequired) {
+                        factoryInfo.currentProgress = 0;
+                        if (making === "energy") gainEnergy(userData, 20);
+                        if (making === "dust") gainDust(userData, 2);
+                        if (making === "metal") gainMetal(userData, 1);
+                    }
+                    updateFactory(userData);
+                }
+            }
+        }
     }
 
     if (tickCount % 20 === 0) { //events that happen every 2 seconds
