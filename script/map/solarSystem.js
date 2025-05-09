@@ -17,6 +17,7 @@ import { checkCosts, subtractCosts, writeCostsReadable } from "../itemCosts.js";
 import fadeIn from "../animations/fadeIn.js";
 import { particles } from "../animations/particles.js";
 import unlockResearchForElement from "../unlockResearch.js";
+import { drawUpgradeButtons } from "../upgrades.js";
 const blockingScreens = ["attacked", "scriptPlayer"]
 const planetVelocity = 8.8;
 
@@ -43,7 +44,7 @@ function updateVisibleDivs() {
 }
 function updateSolarSystem(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    if (currentMultiverse.allowSolarSystemUpdates && currentDescription !== "buildWarpDrive" && currentDescription !== "dispatchToSun") {
+    if (currentMultiverse.allowSolarSystemUpdates && !["buildWarpDrive", "dispatchToSun", "buildScanner"].includes(currentDescription)) {
         removeDescription();
     }
 
@@ -154,7 +155,7 @@ function updateSolarSystem(userData) {
                             buildFactory.addEventListener("click", _ => {
                                 openHangar(userData, true, e => e.class === "Factory Ship").then(ship => {
                                     dispatchShip(ship, selected, userData);
-                                }, _ =>{});
+                                }, _ => { });
                             });
 
                             updateFactory(userData);
@@ -212,7 +213,7 @@ function updateSolarSystem(userData) {
                                     document.getElementById("scanResults").style.display = "none";
                                 }
 
-                                updateScannerResults(thing);
+                                updateScannerResults(thing, currentMultiverse.scannerError);
 
                             } else {
                                 document.getElementById("scanner").style.display = "none";
@@ -304,10 +305,41 @@ function recallButton() {
     updateVisibleDivs();
 }
 
-function updateScannerResults(enemy) {
-    document.getElementById("enemyInfoAttack").textContent = enemy.baseStats.baseAttack;
-    document.getElementById("enemyInfoShield").textContent = enemy.baseStats.baseShield;
-    document.getElementById("enemyInfoHull").textContent = `${enemy.currentHealth} / ${enemy.baseStats.baseHealth}`;
+function updateScannerResults(enemy, scannerError) {
+    const attackError = enemy.baseStats.baseAttack * (scannerError / 100);
+    const attackShift = Math.floor(enemy.baseStats.baseAttack * (scannerError / 100) * 0.4);
+    const attackLow = Math.floor(Math.max((enemy.baseStats.baseAttack - attackError), 0));
+    const attackHigh = Math.floor((enemy.baseStats.baseAttack + attackError));
+    if (attackError === 0 || attackError < 1) {
+        document.getElementById("enemyInfoAttack").textContent = enemy.baseStats.baseAttack;
+    } else {
+        document.getElementById("enemyInfoAttack").textContent = `${attackLow + attackShift} - ${attackHigh + attackShift}`;
+    }
+
+    if (scannerError <= 80) {
+        document.getElementById("shieldDisplay").style.display = "block";
+        const shieldError = enemy.baseStats.baseShield * (scannerError / 100);
+        const shieldShift = Math.floor(enemy.baseStats.baseShield * (scannerError / 100) * 0.7);
+        const shieldLow = Math.floor(Math.max((enemy.baseStats.baseShield - shieldError), 0));
+        const shieldHigh = Math.floor((enemy.baseStats.baseShield + shieldError));
+
+        if (shieldError === 0 || shieldError < 1) {
+            document.getElementById("enemyInfoShield").textContent = enemy.baseStats.baseShield;
+        } else {
+            document.getElementById("enemyInfoShield").textContent = `${shieldLow + shieldShift} - ${shieldHigh + shieldShift}`;
+        }
+    } else {
+        document.getElementById("shieldDisplay").style.display = "none";
+    }
+    
+    if (scannerError <= 50) {
+        document.getElementById("hullDisplay").style.display = "block";
+        document.getElementById("enemyInfoHull").textContent = scannerError < 50 ?
+            `${enemy.currentHealth} / ${enemy.baseStats.baseHealth}` :
+            `${Math.ceil(enemy.currentHealth / enemy.baseStats.baseHealth * 100)}%`;
+    } else {
+        document.getElementById("hullDisplay").style.display = "none";
+    }
 }
 
 function buildScanner(userData) {
@@ -317,6 +349,10 @@ function buildScanner(userData) {
         currentMultiverse.scannerBuilt = true;
         document.getElementById("buildScanner").style.display = "none";
         document.getElementById("scanResults").style.display = "block";
+
+        notifyUnique("scannerAccuracy");
+        currentMultiverse.maxUpgradeTimes.scannerAccuracy = 10;
+        drawUpgradeButtons(userData);
     }
 }
 
@@ -429,7 +465,7 @@ function launchMissile(userData) {
 async function goToHostile(userData) {
     openHangar(userData, true).then(ship => {
         dispatchShip(ship, selected, userData);
-    }, _ =>{});
+    }, _ => { });
 }
 
 function moveTowards(ship, target, speed) {
@@ -867,7 +903,7 @@ function newHostile(userData) {
 async function dispatchShipEvent(userData) {
     openHangar(userData, true).then(ship => {
         dispatchShip(ship, selected, userData);
-    }, _ =>{});
+    }, _ => { });
 }
 function drawNewElement(x, y) {
     const newDiv = document.createElement("div");
@@ -916,6 +952,7 @@ export {
     moveMothership,
     sendShipToSun,
     recallButton,
+    newHostile,
     sendShipToDebris,
     newTargetButton,
     cancelRedirect,

@@ -29,6 +29,7 @@ const defaultMultiverseData = {
     progressUntilResearchPoint: 0,
     warpDriveBuilt: false,
     researchRate: 0,
+    scannerError: 100,
     maxResearchRate: 3,
     ticksPerResearchAdvancement: 30,
     shipSpeedMultiplier: 1.5,

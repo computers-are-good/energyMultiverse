@@ -1,5 +1,6 @@
 import research from "./data/researchData.js";
 import generateAllSystems from "./map/newSolarSystem.js";
+import { newHostile, updateSolarSystem } from "./map/solarSystem.js";
 import { createNewMultiverse, multiverseTravel } from "./multiverse.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons, updateResearchPoints } from "./pageUpdates.js";
 import { updateSolarPanels } from "./resources/solarPanel.js";
@@ -13,6 +14,7 @@ function addCheats(userData) {
     if (enableCheats) {
         document.body.addEventListener("keypress", e => {
             const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+            const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
             if (e.key === "\\") {
                 const code = prompt("Confess, young child, and speak thy soul.");
                 let targetMultiverse;
@@ -74,7 +76,7 @@ function addCheats(userData) {
                         break;
                     case "DELETETHEMULTIVERSE":
                         targetMultiverse = userData.currentMultiverse;
-                        userData.multiverses.splice(targetMultiverse , 1);
+                        userData.multiverses.splice(targetMultiverse, 1);
                         break;
                     case "NEXT":
                         targetMultiverse = userData.currentMultiverse + 1;
@@ -117,6 +119,14 @@ function addCheats(userData) {
                         break;
                     case "HURRYUP":
                         currentMultiverse.shipInProgress.energySpent = currentMultiverse.shipInProgress.energyCostTotal;
+                        break;
+                    case "ENEMYABOUND":
+                        let key = Math.floor(Math.random() * 10000);
+                        while (key in currentSystem.objects) {
+                            key = Math.floor(Math.random() * 10000);
+                        }
+                        currentSystem.objects[key] = newHostile(userData);
+                        updateSolarSystem(userData);
                         break;
 
                 }

@@ -68,6 +68,19 @@ const upgrades = {
             const currentMultiverse = userData.multiverses[userData.currentMultiverse];
             currentMultiverse.missileDamage++;
         }
+    },
+    "scannerAccuracy": {
+        name: "Scanner Accuracy",
+        description: "Improves your scanner so you can gather more information about enemies.",
+        cost: function (upgradedTimes) {
+            return {
+                metal: upgradedTimes + 2
+            }
+        },
+        upgradeDone(userData) {
+            const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+            currentMultiverse.scannerError -= 10;
+        }
     }
 }
 

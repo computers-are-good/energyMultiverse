@@ -27,7 +27,7 @@ function makeMissile(userData) {
                 addNavigationAttention("upgrades", "pageUpgrades");
                 drawUpgradeButtons(userData);
                 currentMultiverse.eventsDone.push("missileUpgrades");
-                notifyUnique("missileDamage")
+                notifyUnique("missileDamage");
             }
         }
     }
