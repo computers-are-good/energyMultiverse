@@ -7,6 +7,7 @@ const defaultMultiverseData = {
     repairKit: 0,
     iridium: 0,
     missiles: 0,
+    missileDamage: 5,
     scannerBuilt: false,
     lastScreen: "",
     maxHangarShips: 5,
@@ -65,7 +66,8 @@ const defaultMultiverseData = {
         iridiumGained: 0,
         totalTicksPassed: 0,
         planetsVisited: 0,
-        shipsBuilt: 0
+        shipsBuilt: 0,
+        missilesBuilt: 0,
     },
     turret: {
         unlocked: false,

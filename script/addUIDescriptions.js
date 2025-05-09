@@ -33,7 +33,7 @@ const mouseoverDescriptions = {
         content: "Start building your ship. You will pay the material costs, but the energy costs are paid as you go."
     },
     "makeMissile": {
-        content: "A missile will deal 5 damage to any enemy ship's hull when it hits them.",
+        content: "A missile will deal a base of 5 damage to any enemy ship's hull when it hits them.",
         cost: {
             energy: 50,
             metal: 5

@@ -36,7 +36,7 @@ function addCheats(userData) {
                     case "IAMSMORT":
                         for (const item in research) {
                             currentMultiverse.researchCompleted.push(item);
-                            research[item].complete(userData);
+                            if ("complete" in research[item]) research[item].complete(userData);
                         }
                         for (const item of hideableIDs) unlockUIElement(currentMultiverse.UIElementsUnlocked, item);
                         currentMultiverse.researchUnlocked = [];

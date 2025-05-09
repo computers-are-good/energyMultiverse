@@ -1,6 +1,8 @@
 import { checkCosts, subtractCosts } from "../itemCosts.js";
 import notify from "../notifs/notify.js";
-import { updateEnergyCounter, updateMetalCounter } from "../pageUpdates.js";
+import notifyUnique from "../notifs/notifyUnique.js";
+import { addNavigationAttention } from "../toggleUIElement.js";
+import { drawUpgradeButtons } from "../upgrades.js";
 
 const costs = {
     missile: {
@@ -17,9 +19,17 @@ function makeMissile(userData) {
     if (checkCosts(userData, costs.missile)) {
         notify("Created missile.");
         currentMultiverse.missiles++;
+        currentMultiverse.statistics.missilesBuilt++;
         subtractCosts(userData, costs.missile);
-        updateMetalCounter(userData);
-        updateEnergyCounter(userData);
+        if (currentMultiverse.statistics.missilesBuilt > 5) {
+            if (!currentMultiverse.eventsDone.includes("missileUpgrades")) {
+                currentMultiverse.maxUpgradeTimes.missileDamage = 10;
+                addNavigationAttention("upgrades", "pageUpgrades");
+                drawUpgradeButtons(userData);
+                currentMultiverse.eventsDone.push("missileUpgrades");
+                notifyUnique("missileDamage")
+            }
+        }
     }
 }
 
@@ -29,7 +39,6 @@ function makeRepairKit(userData) {
     if (checkCosts(userData, costs.repairKit)) {
         currentMultiverse.repairKit++;
         subtractCosts(userData, costs.repairKit);
-        updateMetalCounter(userData);
     }
 }
 

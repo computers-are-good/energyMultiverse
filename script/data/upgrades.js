@@ -55,6 +55,19 @@ const upgrades = {
             const currentMultiverse = userData.multiverses[userData.currentMultiverse];
             currentMultiverse.shipSpeedMultiplier += 0.3;
         }
+    },
+    "missileDamage": {
+        name: "Missile Damage",
+        description: "Increase the damage your missile deals to enemy ships.",
+        cost: function(upgradedTimes) {
+            return {
+                iridium: upgradedTimes * 5 + 10,
+            }
+        },
+        upgradeDone(userData) {
+            const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+            currentMultiverse.missileDamage++;
+        }
     }
 }
 

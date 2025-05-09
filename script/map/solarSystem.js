@@ -417,7 +417,7 @@ function launchMissile(userData) {
             posX: currentSystem.objects.player.posX,
             posY: currentSystem.objects.player.posY,
             targetObjectId: selected,
-            damage: 5
+            damage: currentMultiverse.missileDamage ?? 5,
         }
     }
     document.getElementById("missileCount").textContent = currentMultiverse.missiles;

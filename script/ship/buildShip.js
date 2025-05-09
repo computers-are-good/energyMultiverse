@@ -20,7 +20,6 @@ const statMappings = {
     baseSpeed: "Speed"
 }
 let totalShipCost = {
-    dust: 0
 }
 function drawBuildShipsDiv(userData) {
     userDataBig = userData;
@@ -151,6 +150,10 @@ function calculateShipCost() {
         for (let cost in accessoryInfo.baseCost) {
             totalShipCost[cost] += accessoryInfo.baseCost[cost];
         }
+    }
+
+    for (let key in totalShipCost) {
+        if (totalShipCost[key] === 0) delete totalShipCost[key];
     }
 }
 document.getElementById("buildShip").addEventListener("mouseover", e => {
