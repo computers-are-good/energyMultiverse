@@ -77,7 +77,7 @@
                                 <hr>
                             </div>
                             <button id="hostileAttack">Attack</button>
-                            <p>Missiles: <span id="missileCount"></span></p>
+                            <p id="missileCount"></p>
                             <button id="launchMissile">Launch Missile</button>
                         </div>
                         <div id="spaceInfo" class="sidebarScreen">
@@ -348,10 +348,16 @@
             </div>
             <div id="energyStatistics">
                 <h3 id="totalEnergyConsummption">Energy</h3>
-                <p>Production per second</p>
-                <ul id="energyProductionList"></ul>
-                <p>Consumption per second</p>
-                <ul id="energyConsumptionList"></ul>
+                <div id="energyStatsInfo">
+                    <div>
+                        <p>Production per second</p>
+                        <ul id="energyProductionList"></ul>
+                    </div>
+                    <div>
+                        <p>Consumption per second</p>
+                        <ul id="energyConsumptionList"></ul>
+                    </div>
+                </div>
                 <p>Energy <span id="deficencyOrSurplus"></span>: <span id="energyChange"></span></p>
             </div>
         </div>

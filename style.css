@@ -438,3 +438,23 @@ button {
     position: relative;
     display: flex;
 }
+#upgradeButtonsContainer button {
+    margin: 12px;
+    display: inline-block;
+}
+#upgradeButtonsContainer {
+    display: flex;
+    justify-content: center;
+}
+#notifications p {
+    transition: filter 0.8s
+}
+#energyStatsInfo {
+    display: flex;
+    justify-content: center;
+}
+#energyStatsInfo div {
+    border: 1px solid white;
+    margin: 15px;
+    padding: 12px;
+}

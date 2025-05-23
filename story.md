@@ -12,13 +12,13 @@ This is your tenth descent below the blanket of clouds. You've hit double digits
 
 You appreciate the sublimity of the clouds coated in the golden glow of the sun. In between the glowing streaks from your ship, the horizon is coated in the gold of its distant star.
 
-The scenery envelop you in transquility, and, as your ship slowly floats down towards the surface, you mind begins to drift to far away places.
+The scenery envelop you in transquility, and, as your ship slowly floats down towards the surface, your mind begins to drift to far away places.
 
 Your mind's eye sees a universe far larger, a place where there are not hundreds of stars, but billions. And it in, you are on a blue marble around a star. It's your star.
 
 And, of course, there are more like you. A place where billions of individuals like you move about from place to place in their day to day work, the hustle and bustle of their conversations whispering to you as they pass by. Must be wonderful being caught in the moment.
 
-At this moment, a sudden alarm takes you out of your thoughts. LANDING GEAR FAILURE. Looks like this expedition has to end early.
+You look towards the seas below. There's nothing there. No point in landing; better leave now.
 
 As you pull up, you again take your mind to the distant world, a world hidden behind the shrouds of darkened glass in your mind. You picture yourself standing in the centre, where vast systems formed into galaxies whirl past you, leaving behind naught but a memory.
 
@@ -66,8 +66,22 @@ We would turn them on and off to recreate the eternal cycle of day and night. We
 
 We reached for the night sky. The most brilliant scientists gathered to solve the puzzle of the darkness. We sent out probes; we sent out spaceships. Even then, the collective intelligence cannot solve the story of the stars.
 
-Even then, we would live on in our new fake reality, our days marked by the little suns above. It is as if the old God was always there.
+We would live on in our new fake reality, our days marked by the little suns above. It is as if the old God was always there.
 
 But, in the back of everyone's minds lies a lingering monster no one wishes to confront, a monster reminding us we will run out of hydrogen. We will run out of energy. And when that happens, the world will again return to darkness.
 
-## Story6
+## story6
+
+As with all affairs human, the initial warning signs fell onto deaf ears and apatheic minds. It started when the Sun over Britain started dimming, its hunger consuming the world. We ignored it; we thought we could reach out to the Moon again, to seek its resources.
+
+In theory it should be like any other lunar expedition, but our spaceship never made it. The Maiden of Deception an elusive white orb mocking our futile attempts, perpetually out of reach. The more we travelled, the further she became. We never closed the gap. Our ship came back, its hydrogen fuel cells empty as a void.
+
+We soon realised we were on our own. All we had was all we had left; there was no getting more. We started dimming the suns to save hydrogen, but that was only a temporary solution. The world slowly dimmed, the previously bright skies the colours of dusk. Soon, it will be an echo of midnight.
+
+And, in the last dying moments of dusk, is where you come in.
+
+## story7
+
+You awake from the daydreams of the past to stare at the void of the present. There is naught but an empty sky. Refractions of starlight on the planet's atmosphere adds a glimmer to your world, but the world is at peace. It is truly you and that vast nothingness.
+
+Scientists in Canada ran the numbers and solved the integrals. Everyone knows energy conservation: you cannot create energy from nothing. But that rule only applies within the borders of our realm. We can go outside the realm.

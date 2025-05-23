@@ -196,7 +196,7 @@ function updateSolarSystem(userData) {
                         if (!blockingScreens.includes(activeScreen)) {
                             selected = id;
                             activeScreen = "hostileInfo";
-                            document.getElementById("missileCount").textContent = currentMultiverse.missiles;
+                            document.getElementById("missileCount").textContent = currentMultiverse.missiles > 0 ? `Missiles: ${currentMultiverse.missiles}` : "";
                             document.getElementById("launchMissile").style.display = currentMultiverse.missiles > 0 ? "block" : "none";
                             updateVisibleDivs();
                             document.querySelectorAll(".selectTargetButton").forEach(e => e.remove());
@@ -331,7 +331,7 @@ function updateScannerResults(enemy, scannerError) {
     } else {
         document.getElementById("shieldDisplay").style.display = "none";
     }
-    
+
     if (scannerError <= 50) {
         document.getElementById("hullDisplay").style.display = "block";
         document.getElementById("enemyInfoHull").textContent = scannerError < 50 ?
@@ -456,7 +456,7 @@ function launchMissile(userData) {
             damage: currentMultiverse.missileDamage ?? 5,
         }
     }
-    document.getElementById("missileCount").textContent = currentMultiverse.missiles;
+    document.getElementById("missileCount").textContent = currentMultiverse.missiles > 0 ? `Missiles: ${currentMultiverse.missiles}` : "";
     if (currentMultiverse.missiles <= 0) {
         document.getElementById("launchMissile").style.display = "none";
     }
@@ -696,7 +696,7 @@ async function updateSolarSystemPositions(userData) {
                 if (distance < 10) {
                     if (thing.targetObjectId === "player") {
                         currentMultiverse.missiles++;
-                        document.getElementById("missileCount").textContent = currentMultiverse.missiles;
+                        document.getElementById("missileCount").textContent = currentMultiverse.missiles > 0 ? `Missiles: ${currentMultiverse.missiles}` : "";
                         delete currentSystem.objects[object];
                     } else {
                         target.currentHealth -= thing.damage;
