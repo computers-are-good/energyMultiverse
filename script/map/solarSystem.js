@@ -800,6 +800,32 @@ async function updateSolarSystemPositions(userData) {
 
             }
         }
+
+        let debrisCount = 0;
+        for (const object in currentSystem.objects) {
+            const currentObject = currentSystem.objects[object];
+            if (currentObject.type === "debris") debrisCount++;
+        }
+        
+        //Randomly spawn some debris that can give you iridium
+        if (debrisCount < 3) {
+            if (Math.random() < .005) {
+                let key = Math.floor(Math.random() * 10000);
+                while (key in currentSystem.objects) {
+                    key = Math.floor(Math.random() * 10000);
+                }
+                currentSystem.objects[key] = {
+                    type: "debris",
+                    posX: Math.ceil(Math.random() * 750),
+                    posY: Math.ceil(Math.random() * 750),
+                    cargo: {
+                        iridium: 1,
+                        dust: Math.ceil(currentSystem.tier * Math.random() * 2),
+                        metal: Math.ceil(currentSystem.tier * Math.random())
+                    }
+                }
+            }
+        }
     }
 }
 
