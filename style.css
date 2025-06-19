@@ -458,3 +458,24 @@ button {
     margin: 15px;
     padding: 12px;
 }
+#tutorialTexts {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    backdrop-filter: brightness(25%);
+}
+.tutorialBrightArea {
+    backdrop-filter: brightness(400%);
+    position: absolute;
+    border: solid white 3px;
+    box-sizing: border-box;
+}
+.tutorialText {
+    position: absolute;
+    text-align: center;
+    user-select: none;
+}

@@ -1,5 +1,6 @@
 import fadeIn from "./animations/fadeIn.js"
 import { updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
+import displayTutorialText from "./notifs/tutorialText.js";
 
 const hideableIDs = [
     "dust",
@@ -71,10 +72,16 @@ function unlockUIElement(elementsArray, elementName) {
     }
 }
 
-function toggleScreen(screenName) {
+function toggleScreen(userData, screenName) {
     screens.forEach(e => {
         document.getElementById(e).style.display = "none";
-    })
+    });
+    if (screenName === "Research") {
+        if (!userData.multiverses[userData.currentMultiverse].eventsDone.includes("researchTutorial")) {
+            displayTutorialText("research");
+            userData.multiverses[userData.currentMultiverse].eventsDone.push("researchTutorial")
+        }
+    }
     document.getElementById(screenName).style.display = "block";
     currentScreenDisplayed = screenName;
 }

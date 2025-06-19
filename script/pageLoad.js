@@ -27,6 +27,7 @@ import { particles } from "./animations/particles.js";
 import { ending } from "./ending.js";
 import { fabriBotSlider, updateFabriBot } from "./resources/fabribotClicker.js";
 import { buildTurret, toggleTurret, updateTurret } from "./turret.js";
+import displayTutorialText from "./notifs/tutorialText.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -47,7 +48,7 @@ function applyEvents(userData) {
     });
     document.querySelectorAll("#pageSelector li").forEach(e => e.addEventListener("click", _ => {
         e.classList.remove("navigationAttention");
-        toggleScreen(e.textContent);
+        toggleScreen(userData, e.textContent);
         if (e.textContent === "Map" && currentMultiverse.lastScreen !== "Map") {
             updateSolarSystemPositions(userData);
             updateSolarSystem(userData);
@@ -56,14 +57,14 @@ function applyEvents(userData) {
     }));
     document.getElementById("viewDrones").addEventListener("mousedown", _ => {
         drawDronesDivs(userData);
-        toggleScreen("droneView");
+        toggleScreen(userData, "droneView");
         removeDescription();
     });
-    document.getElementById("viewDronesBack").addEventListener("mousedown", _ => toggleScreen("Energy"));
-    document.getElementById("dustBot").addEventListener("mousedown", _ => toggleScreen("dustbotView"));
-    document.getElementById("fabriBot").addEventListener("mousedown", _ => toggleScreen("fabriBotView"));
-    document.getElementById("viewDustbotBack").addEventListener("mousedown", _ => toggleScreen("Energy"));
-    document.getElementById("viewFabriBotBack").addEventListener("mousedown", _ => toggleScreen("Energy"));
+    document.getElementById("viewDronesBack").addEventListener("mousedown", _ => toggleScreen(userData, "Energy"));
+    document.getElementById("dustBot").addEventListener("mousedown", _ => toggleScreen(userData, "dustbotView"));
+    document.getElementById("fabriBot").addEventListener("mousedown", _ => toggleScreen(userData, "fabriBotView"));
+    document.getElementById("viewDustbotBack").addEventListener("mousedown", _ => toggleScreen(userData, "Energy"));
+    document.getElementById("viewFabriBotBack").addEventListener("mousedown", _ => toggleScreen(userData, "Energy"));
     document.getElementById("buildDustbot").addEventListener("mousedown", _ => buildDustbotEvent(userData));
     document.getElementById("dustbotSlider").addEventListener("input", _ => dustbotSlider(userData));
     document.getElementById("fabriBotSlider").addEventListener("input", _ => fabriBotSlider(userData));
@@ -119,7 +120,7 @@ async function firstLoadFunctions(userData) {
 
     mouseoverDescriptions.drone.cost = {dust: droneCost(currentMultiverse.drones.length)};
 
-    toggleScreen(currentMultiverse.lastScreen || "Energy");
+    toggleScreen(userData, currentMultiverse.lastScreen || "Energy");
     if (currentMultiverse.lastScreen === "Map") updateSolarSystem(userData);
 
     updateWarpDriveButton(userData);
@@ -157,6 +158,14 @@ async function firstLoadFunctions(userData) {
         fadeIn(elementMain, 1)
 
         currentMultiverse.eventsDone.push("awake");
+
+        let tutorialPrompt = setTimeout(_ => displayTutorialText("clickEnergy"), 3000);
+        const el = document.getElementById("Energy");
+        function eventHandler() {
+            clearTimeout(tutorialPrompt);
+            el.removeEventListener("mousedown", eventHandler)
+        }
+        el.addEventListener("mousedown", eventHandler);
     }
 }
 export {
