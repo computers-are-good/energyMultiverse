@@ -108,6 +108,31 @@ function applyEvents(userData) {
     addCheats(userData);
 
     setInterval(_ => tick(userData), 100);
+
+    //Double tapping and holding right shift speeds up game
+    let quickInterval;
+    let intervalSet = false;
+    let lastShiftTime = 0;
+    document.body.addEventListener("keydown", e => {
+        let currentTime = performance.now();
+        if (e.key === "Shift") {
+            if (currentTime - lastShiftTime < 500) {
+                lastShiftTime = 0;
+                if (userData.speedModeEnabled) {
+                    quickInterval = setInterval(_ => tick(userData), 10);
+                    intervalSet = true;
+                }
+            } else {
+                lastShiftTime = currentTime;
+            }
+        }
+    });
+    document.addEventListener("keyup", e => {
+        if (e.key === "Shift") {
+            clearInterval(quickInterval);
+            intervalSet = false;
+        }
+    });
 }
 async function firstLoadFunctions(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -118,7 +143,7 @@ async function firstLoadFunctions(userData) {
         spawnDrone(currentMultiverse.drones[i]);
     }
 
-    mouseoverDescriptions.drone.cost = {dust: droneCost(currentMultiverse.drones.length)};
+    mouseoverDescriptions.drone.cost = { dust: droneCost(currentMultiverse.drones.length) };
 
     toggleScreen(userData, currentMultiverse.lastScreen || "Energy");
     if (currentMultiverse.lastScreen === "Map") updateSolarSystem(userData);

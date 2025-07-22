@@ -128,6 +128,9 @@ function addCheats(userData) {
                         currentSystem.objects[key] = newHostile(userData);
                         updateSolarSystem(userData);
                         break;
+                    case "HEHESPED":
+                        userData.speedModeEnabled = !userData.speedModeEnabled;
+                        break;
 
                 }
             }

@@ -56,7 +56,8 @@ const shipClasses = {
             metal: 30,
             iridium: 10
         },
-        energyCost: 5000
+        energyCost: 5000,
+        accessorySlots: 0,
     },
     "Titan": {
         baseStats: {

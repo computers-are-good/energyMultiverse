@@ -27,7 +27,7 @@ const upgrades = {
     },
     "turretCharge" : {
         name: "Turret Charge",
-        description: "Reduces the charge needed for a turret to fire.",
+        description: "Increases the turret charging speed.",
         cost: function (upgradedTimes) {
             return {
                 iridium: upgradedTimes + 1,

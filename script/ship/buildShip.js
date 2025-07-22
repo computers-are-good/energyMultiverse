@@ -8,7 +8,7 @@ import { deepClone } from "../utils.js";
 let selectedShipType = "";
 let selectedShipDiv;
 let totalEnergyCost = 0;
-const accessoriesSelected = [];
+let accessoriesSelected = [];
 let accessorySlotsUsed = 0;
 let accessorySlotsAvailable = 0;
 let userDataBig;
@@ -62,11 +62,12 @@ function drawBuildShipsDiv(userData) {
                     const accessory = accessoriesSelected[index];
                     accessory.associatedDiv.classList.remove("shipSelected");
                     accessorySlotsUsed -= shipAccessories[accessory.name].accessorySlots;
-                    accessoriesSelected.splice(index, 1);
-                    if (accessorySlotsUsed >= shipObj.accessorySlots) {
+                    accessoriesSelected[index] = 0;
+                    if (accessorySlotsUsed <= shipObj.accessorySlots) {
                         break;
                     }
                 }
+                accessoriesSelected = accessoriesSelected.filter(e => e !== 0);
             }
             accessorySlotsAvailable = shipObj.accessorySlots;
             selectedShipDiv = newDiv;
@@ -201,7 +202,7 @@ function buildShip(userData) {
         for (let accessory of accessoriesSelected) {
             shipObj.shipInfo.accessories.push(accessory.name);
         }
-    
+
         currentMultiverse.shipInProgress = shipObj;
         updateShipConstruction(userData);
         updateEnergyCounter(userData);

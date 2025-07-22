@@ -76,10 +76,11 @@ function toggleScreen(userData, screenName) {
     screens.forEach(e => {
         document.getElementById(e).style.display = "none";
     });
-    if (screenName === "Research") {
-        if (!userData.multiverses[userData.currentMultiverse].eventsDone.includes("researchTutorial")) {
-            displayTutorialText("research");
-            userData.multiverses[userData.currentMultiverse].eventsDone.push("researchTutorial")
+    const screensWithTutorials = ["Research", "Upgrades"];
+    if (screensWithTutorials.includes(screenName)) {
+        if (!userData.multiverses[userData.currentMultiverse].eventsDone.includes(`${screenName}Tutorial`)) {
+            displayTutorialText(screenName);
+            userData.multiverses[userData.currentMultiverse].eventsDone.push(`${screenName}Tutorial`);
         }
     }
     document.getElementById(screenName).style.display = "block";

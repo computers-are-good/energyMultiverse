@@ -84,4 +84,4 @@ And, in the last dying moments of dusk, is where you come in.
 
 You awake from the daydreams of the past to stare at the void of the present. There is naught but an empty sky. Refractions of starlight on the planet's atmosphere adds a glimmer to your world, but the world is at peace. It is truly you and that vast nothingness.
 
-Scientists in Canada ran the numbers and solved the integrals. Everyone knows energy conservation: you cannot create energy from nothing. But that rule only applies within the borders of our realm. We can go outside the realm.
+Scientists ran the numbers. Everyone knows energy conservation: you cannot create energy from nothing. But that rule only applies within the borders of our universe. What about outside the universe?
