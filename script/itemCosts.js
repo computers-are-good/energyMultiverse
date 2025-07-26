@@ -1,5 +1,5 @@
 import notify from "./notifs/notify.js";
-import { useDust, useEnergy, useIridium, useMetal } from "./resources/useResources.js";
+import { useAntimatter, useDust, useEnergy, useIridium, useMetal } from "./resources/useResources.js";
 
 function checkCosts(userData, cost, notifyUser = true) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -15,7 +15,8 @@ const functionMappings = {
     "energy": useEnergy,
     "dust": useDust,
     "metal": useMetal,
-    "iridium": useIridium
+    "iridium": useIridium,
+    "antimatter": useAntimatter
 }
 function subtractCosts(userData, cost) {
     for (let item in cost) functionMappings[item](userData, cost[item]);
@@ -27,7 +28,8 @@ const costTextMappings = {
     metal: "Metal",
     iridium: "Iridium",
     researchPoints: "Research Point(s)",
-    solarPanel: "Solar panel"
+    solarPanel: "Solar panel",
+    antimatter: "Antimatter"
 }
 function writeCostsReadable(costs) {
     const keys = Object.keys(costs);

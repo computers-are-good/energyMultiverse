@@ -63,6 +63,27 @@ ul {
     float: right;
     margin-right: 30px;
 }
+#newMultiverseMultipliers {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+#newMultiverseMultipliers p {
+    border: 1px solid white;
+    margin: 12px;
+    box-sizing:content-box;
+}
+.increaseMultiplier {
+    margin: 0;
+    margin-left: 12px;
+}
+.decreaseMultiplier {
+    margin: 0;
+    margin-right: 12px;
+}
+#newMultiverseMultipliers button {
+    display: inline-block;
+}
 .side {
     width: 100%;
     padding: 10px;

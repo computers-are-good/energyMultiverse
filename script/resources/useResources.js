@@ -1,4 +1,4 @@
-import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter } from "../pageUpdates.js";
+import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateAntimatterCounter} from "../pageUpdates.js";
 
 function useEnergy(userData, energy) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];

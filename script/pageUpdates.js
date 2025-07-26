@@ -43,7 +43,7 @@ function updateIridiumCounter(userData) {
 function updateAntimatterCounter(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     document.getElementById("antimatterAmount").textContent = currentMultiverse.antimatter;
-    if (currentMultiverse.iridium === 0) {
+    if (currentMultiverse.antimatter === 0) {
         document.getElementById("antimatterCounter").style.display = "none";
     } else {
         document.getElementById("antimatterCounter").style.display = "block";

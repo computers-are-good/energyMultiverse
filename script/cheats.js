@@ -2,7 +2,7 @@ import research from "./data/researchData.js";
 import generateAllSystems from "./map/newSolarSystem.js";
 import { newHostile, updateSolarSystem } from "./map/solarSystem.js";
 import { createNewMultiverse, multiverseTravel } from "./multiverse.js";
-import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons, updateResearchPoints } from "./pageUpdates.js";
+import { updateAntimatterCounter, updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons, updateResearchPoints } from "./pageUpdates.js";
 import { updateSolarPanels } from "./resources/solarPanel.js";
 import { hideableIDs, unlockUIElement } from "./toggleUIElement.js";
 import { getUserData } from "./userdata.js";
@@ -34,6 +34,10 @@ function addCheats(userData) {
                     case "SAYYESTOIRIDIUM":
                         currentMultiverse.iridium = 99999;
                         updateIridiumCounter(userData);
+                        break;
+                    case "MATTERN'T":
+                        currentMultiverse.antimatter = 99999;
+                        updateAntimatterCounter(userData);
                         break;
                     case "IAMSMORT":
                         for (const item in research) {

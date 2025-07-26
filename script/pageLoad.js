@@ -28,6 +28,7 @@ import { ending } from "./ending.js";
 import { fabriBotSlider, updateFabriBot } from "./resources/fabribotClicker.js";
 import { buildTurret, toggleTurret, updateTurret } from "./turret.js";
 import displayTutorialText from "./notifs/tutorialText.js";
+import { callCreateFunction, decreaseMultiplier, increaseMultiplier, matchMultipliers, updateMultiverseMultipliers } from "./multiverse.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -101,6 +102,15 @@ function applyEvents(userData) {
     document.getElementById("toggleTurret").addEventListener("click", _ => toggleTurret(userData));
     document.getElementById("buildTurret").addEventListener("click", _ => buildTurret(userData));
     document.getElementById("buildScanner").addEventListener("click", _ => buildScanner(userData));
+    document.getElementById("decreaseEnergyMultiplier").addEventListener("click", _ => decreaseMultiplier("energyGained", userData));
+    document.getElementById("decreaseDustMultiplier").addEventListener("click", _ => decreaseMultiplier("dustGained", userData));
+    document.getElementById("decreaseMetalMultiplier").addEventListener("click", _ => decreaseMultiplier("metalGained", userData));
+    document.getElementById("decreaseIridiumMultiplier").addEventListener("click", _ => decreaseMultiplier("iridiumGained", userData));
+    document.getElementById("increaseEnergyMultiplier").addEventListener("click", _ => increaseMultiplier("energyGained", userData));
+    document.getElementById("increaseDustMultiplier").addEventListener("click", _ => increaseMultiplier("dustGained", userData));
+    document.getElementById("increaseMetalMultiplier").addEventListener("click", _ => increaseMultiplier("metalGained", userData));
+    document.getElementById("increaseIridiumMultiplier").addEventListener("click", _ => increaseMultiplier("iridiumGained", userData));
+    document.getElementById("newMultiverse").addEventListener("click", _ => callCreateFunction(userData));
     document.getElementById("ending").addEventListener("click", _ => {
         ending();
         document.getElementById("ending").blur();
@@ -171,6 +181,13 @@ async function firstLoadFunctions(userData) {
     updateResearchButtons(userData);
     updateSolarPanels(userData);
     drawUpgradeButtons(userData);
+    updateMultiverseMultipliers(userData);
+
+    if (userData.multiverses.length > 1) {
+        document.getElementById("multiverseTravel").style.display = "block";
+    } else {
+        document.getElementById("multiverseTravel").style.display = "none";
+    }
 
     animateDrones();
 

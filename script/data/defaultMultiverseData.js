@@ -42,7 +42,8 @@ const defaultMultiverseData = {
         energyGained: 1,
         dustGained: 1,
         metalGained: 1,
-        iridiumGained: 1
+        iridiumGained: 1,
+        antimatterGained: 1,
     },
     biomeSpecificEventsDone: {
         "Desert": [],

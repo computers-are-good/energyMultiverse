@@ -17,6 +17,7 @@
         <div id="descriptionBox" class="side">
             <p id="description"></p>
             <p id="cost"></p>
+            <p id="refund"></p>
             <p id="upgradePreview"></p>
         </div>
         <div id="tutorialTexts"></div>
@@ -276,9 +277,16 @@
                 <button id="ending">RESTORE THE UNIVERSE</button>
             </div>
             <div>
-                <p>New Multiverse</p>
-                <div id="newMultiverseMultipliers"></div>
+                <h2>New Multiverse</h2>
+                <p>Perhaps a new multiverse contains more resources...</p>
+                <div id="newMultiverseMultipliers">
+                    <p><button id="decreaseEnergyMultiplier" class="decreaseMultiplier">-</button>Energy:<span id="energyMultiplier"></span>x<button id="increaseEnergyMultiplier" class="increaseMultiplier">+</button></p>
+                    <p><button id="decreaseDustMultiplier" class="decreaseMultiplier">-</button>Dust:<span id="dustMultiplier"></span>x<button id="increaseDustMultiplier" class="increaseMultiplier">+</button></p>
+                    <p><button id="decreaseMetalMultiplier" class="decreaseMultiplier">-</button>Metal:<span id="metalMultiplier"></span>x<button id="increaseMetalMultiplier" class="increaseMultiplier">+</button></p>
+                    <p><button id="decreaseIridiumMultiplier" class="decreaseMultiplier">-</button>Iridium:<span id="iridiumMultiplier"></span>x<button id="increaseIridiumMultiplier" class="increaseMultiplier">+</button></p>
+                </div>
                 <button id="newMultiverse">Create a new multiverse</button>
+                <button id="multiverseTravel">Multiverse Travel</button>
             </div>
         </div>
         <div id="combat">

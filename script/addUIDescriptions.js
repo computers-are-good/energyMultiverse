@@ -77,10 +77,59 @@ const mouseoverDescriptions = {
             metal: 10,
             iridium: 10
         }
-    }
+    },
+    "increaseEnergyMultiplier": {
+        content: "Increases how much energy the new multiverse can produce.",
+        cost: {
+            antimatter: 6
+        }
+    },
+    "increaseDustMultiplier": {
+        content: "Increases how much dust the new multiverse can produce.",
+        cost: {
+            antimatter: 15
+        }
+    },
+    "increaseMetalMultiplier": {
+        content: "Increases how much metal the new multiverse can produce.",
+        cost: {
+            antimatter: 20
+        }
+    },
+    "increaseIridiumMultiplier": {
+        content: "Increases how much metal the new multiverse can produce.",
+        cost: {
+            antimatter: 28
+        }
+    },
+    "decreaseEnergyMultiplier": {
+        content: "Decreases how much energy the new multiverse can produce.",
+        refund: {
+            antimatter: 1
+        }
+    },
+    "decreaseDustMultiplier": {
+        content: "Decreases how much dust the new multiverse can produce.",
+        refund: {
+            antimatter: 1
+        }
+    },
+    "decreaseMetalMultiplier": {
+        content: "Decreases how much metal the new multiverse can produce.",
+        refund: {
+            antimatter: 1
+        }
+    },
+    "decreaseIridiumMultiplier": {
+        content: "Decreases how much iridium the new multiverse can produce.",
+        refund: {
+            antimatter: 1
+        }
+    },
 }
 let currentDescription = "";
 const cost = document.getElementById("cost");
+const refund = document.getElementById("refund");
 const upgradePreview = document.getElementById("upgradePreview");
 const descriptionText = document.getElementById("description");
 const descriptionBox = document.getElementById("descriptionBox");
@@ -118,6 +167,18 @@ function populateDescription(description, userData) {
             }
         }
     }
+    if (description.refund) {
+        refund.style.display = "block";
+        refund.innerHTML = "Refund: ";
+        refund.style.color = "white";
+        for (const thing in description.refund) {
+            const newSpan = document.createElement("span");
+            newSpan.textContent = `${description.refund[thing]} ${costTextMappings[thing]} `;
+            refund.appendChild(newSpan);
+        }
+    } else {
+        refund.style.display = "none";
+    }
     if (description.upgradePreview) {
         upgradePreview.textContent = description.upgradePreview;
     }
@@ -143,6 +204,17 @@ function addUIDescriptions(userData) {
         addDescriptionEvent(element, description, userData, id);
     }
 }
+let activeDescription;
+let lastX;
+let lastY;
+let activeUserdata;
+document.body.addEventListener("mousemove", e => {
+    lastX = e.lastX;
+    lastY = e.lastY;
+})
+function rewriteDescription() {
+    if (showingDescription) updateDescription(activeDescription, lastX, lastY, activeUserdata);
+}
 function manualDescriptionUpdate(description, x, y, screen) {
     currentDescription = screen;
     updateDescription(description, x, y);
@@ -153,7 +225,9 @@ function changeDescriptionText(description, userData) {
 function addDescriptionEvent(element, description, userData, screen) {
     element.addEventListener("mouseover", e => {
         currentDescription = screen;
-        updateDescription(description, e.x, e.y, userData);
+        activeDescription = description;
+        activeUserdata = userData
+        updateDescription(description, lastX, lastY, userData);
     });
     element.addEventListener("mousedown", e => {
         setTimeout(_ => {
@@ -170,4 +244,5 @@ export {
     currentDescription,
     changeDescriptionText,
     addDescriptionEvent,
+    rewriteDescription
 }
