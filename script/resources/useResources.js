@@ -24,4 +24,10 @@ function useIridium(userData, iridium) {
     updateIridiumCounter(userData);
 }
 
-export {useEnergy, useDust, useMetal, useIridium}
+function useAntimatter(userData, antimatter) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    currentMultiverse.antimatter -= antimatter;
+    updateAntimatterCounter(userData);
+}
+
+export {useEnergy, useDust, useMetal, useIridium, useAntimatter}

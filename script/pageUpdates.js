@@ -40,6 +40,15 @@ function updateIridiumCounter(userData) {
         document.getElementById("iridiumCounter").style.display = "block";
     }
 }
+function updateAntimatterCounter(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    document.getElementById("antimatterAmount").textContent = currentMultiverse.antimatter;
+    if (currentMultiverse.iridium === 0) {
+        document.getElementById("antimatterCounter").style.display = "none";
+    } else {
+        document.getElementById("antimatterCounter").style.display = "block";
+    }
+}
 function updateResearchBar(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const width = 750 * (currentMultiverse.progressUntilResearchPoint / currentMultiverse.energyUntilResearchPoint);
@@ -125,5 +134,6 @@ export {
     updateShipConstruction,
     updateShipConstructionBar,
     updateMetalCounter,
-    updateIridiumCounter
+    updateIridiumCounter,
+    updateAntimatterCounter
 }

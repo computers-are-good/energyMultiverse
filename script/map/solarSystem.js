@@ -675,8 +675,16 @@ async function updateSolarSystemPositions(userData) {
                                     closestShip.cargo[material] = loot[material];
                                 }
                             }
-                        } else {
+                            notify(`You gained ${writeCostsReadable(loot)}`);
+                        } else { //if player lost
                             currentMultiverse.ships.splice(closestShipIndex, 1);
+                            for (const cost in closestShip.cost) {
+                                if (cost in thing.cargo) {
+                                    thing.cargo[cost] += closestShip.cost[cost];
+                                } else {
+                                    thing.cargo[cost] = closestShip.cost[cost];
+                                }
+                            }
                         }
                         updateSolarSystem(userData);
                     }
@@ -850,11 +858,20 @@ function generateShipLoot(enemyShip) {
     const evaluatedThreatLevel = threatLevel(enemyShip);
     const iridiumGained = Math.ceil(evaluatedThreatLevel / 2);
     const metalGained = Math.ceil(evaluatedThreatLevel * Math.random());
-
-    return {
+    const loot = {
         iridium: iridiumGained,
         metal: metalGained
     }
+
+    for (let item in enemyShip.cargo) {
+        if (item in loot) {
+            loot[item] += enemyShip.cargo[item];
+        } else {
+            loot[item] = enemyShip.cargo[item];2
+        }
+    }
+
+    return loot
 }
 
 function generateDebris(userData, enemyShip) {
@@ -929,6 +946,7 @@ function newHostile(userData) {
         currentHealth: selectedHostileStats.baseStats.baseHealth,
         baseStats: deepClone(selectedHostileStats.baseStats),
         posX,
+        cargo: {},
         posY,
         targetX: Math.random() * 750,
         targetY: Math.random() * 750,

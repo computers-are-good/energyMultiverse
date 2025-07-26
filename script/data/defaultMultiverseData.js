@@ -6,6 +6,7 @@ const defaultMultiverseData = {
     solarPanel: 0,
     repairKit: 0,
     iridium: 0,
+    antimatter: 0,
     missiles: 0,
     missileDamage: 5,
     scannerBuilt: false,

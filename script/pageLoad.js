@@ -4,7 +4,7 @@ import { hideLockedElements, toggleScreen } from "./toggleUIElement.js";
 import { spawnDrone, animateDrones } from "./resources/drone/drones.js";
 import tick from "./tick.js"
 import { addUIDescriptions, mouseoverDescriptions, removeDescription } from "./addUIDescriptions.js";
-import { updateEnergyCounter, updateDustCounter, updateResearchPoints, updateResearchRate, updateResearchBar, updateResearchButtons, updateDustbot, updateShipConstruction, updateShipConstructionBar, updateMetalCounter, updateIridiumCounter } from "./pageUpdates.js";
+import { updateEnergyCounter, updateDustCounter, updateResearchPoints, updateResearchRate, updateResearchBar, updateResearchButtons, updateDustbot, updateShipConstruction, updateShipConstructionBar, updateMetalCounter, updateIridiumCounter, updateAntimatterCounter } from "./pageUpdates.js";
 import { droneClicker, droneCost, drawDronesDivs } from "./resources/drone/droneClicker.js";
 import { decreaseResearchRate, increaseResearchRate, showResearchProgress } from "./research/researchClicker.js";
 import notifyUnique from "./notifs/notifyUnique.js";
@@ -110,7 +110,8 @@ function applyEvents(userData) {
     setInterval(_ => tick(userData), 100);
 
     //Double tapping and holding right shift speeds up game
-    let quickInterval;
+    let quickInterval1;
+    let quickInterval2;
     let intervalSet = false;
     let lastShiftTime = 0;
     document.body.addEventListener("keydown", e => {
@@ -119,7 +120,8 @@ function applyEvents(userData) {
             if (currentTime - lastShiftTime < 500) {
                 lastShiftTime = 0;
                 if (userData.speedModeEnabled) {
-                    quickInterval = setInterval(_ => tick(userData), 10);
+                    quickInterval1 = setInterval(_ => tick(userData), 10);
+                    quickInterval2 = setInterval(_ => tick(userData), 10);
                     intervalSet = true;
                 }
             } else {
@@ -129,7 +131,8 @@ function applyEvents(userData) {
     });
     document.addEventListener("keyup", e => {
         if (e.key === "Shift") {
-            clearInterval(quickInterval);
+            clearInterval(quickInterval1);
+            clearInterval(quickInterval2);
             intervalSet = false;
         }
     });
@@ -162,6 +165,7 @@ async function firstLoadFunctions(userData) {
     updateShipConstructionBar(userData);
     updateResearchPoints(userData);
     updateIridiumCounter(userData);
+    updateAntimatterCounter(userData);
     updateEnergyCounter(userData);
     updateDustCounter(userData);
     updateResearchButtons(userData);

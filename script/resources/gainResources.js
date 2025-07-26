@@ -1,4 +1,4 @@
-import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter } from "../pageUpdates.js";
+import { updateAntimatterCounter, updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter } from "../pageUpdates.js";
 
 const resourceMappings = {
     "energy": gainEnergy,
@@ -35,4 +35,9 @@ function gainIridium(userData, iridium) {
     updateIridiumCounter(userData);
 }
 
-export { gainEnergy, gainDust, gainMetal, gainIridium, resourceMappings }
+function gainAntimatter(userData, antimatter) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    currentMultiverse.antimatter += antimatter * currentMultiverse.multipliers.antimatterGained;
+    updateAntimatterCounter(userData);
+}
+export { gainEnergy, gainDust, gainMetal, gainIridium, gainAntimatter, resourceMappings}
