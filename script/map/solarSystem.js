@@ -290,8 +290,17 @@ function updateSolarSystem(userData) {
                         shipSelected = ship;
                         activeScreen = "shipInfo";
                         updateVisibleDivs();
-                        document.getElementById("destinationSpan").textContent = ship.targetObjectId === "player" ? "Mothership" :
-                            (currentSystem.objects[ship.targetObjectId].type === "hostile" ? "Enemy ship" : currentSystem.objects[ship.targetObjectId].name);
+                        let destinationText;
+                        if (ship.targetObjectId === "player") {
+                            destinationText = "Mothership";
+                        } else if (currentSystem.objects[ship.targetObjectId].type === "hostile" ) {
+                            destinationText = "Enemy Ship";
+                        } else if (currentSystem.objects[ship.targetObjectId].type == "debris") {
+                            destinationText = "Debris";
+                        } else {
+                            destinationText = currentSystem.objects[ship.targetObjectId].name
+                        }
+                        document.getElementById("destinationSpan").textContent = destinationText;
                     }
                 });
             }

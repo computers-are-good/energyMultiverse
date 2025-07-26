@@ -17,7 +17,7 @@ function updateStatistics(userData) {
     document.getElementById("totalMetalMade").textContent = currentMultiverse.statistics.metalGained;
     document.getElementById("totalIridiumMade").textContent = currentMultiverse.statistics.iridiumGained;
     document.getElementById("planetsVisited").textContent = currentMultiverse.statistics.planetsVisited;
-    document.getElementById("shipsMade").textContent = currentMultiverse.statistics.shipsMade;
+    document.getElementById("shipsMade").textContent = currentMultiverse.statistics.shipsBuilt;
     document.getElementById("statisticsPlaytime").textContent = formatPlaytime(Math.floor(currentMultiverse.statistics.totalTicksPassed / 10));
 
     document.getElementById("energyConsumptionList").innerHTML = "";
@@ -61,15 +61,37 @@ function updateStatistics(userData) {
     }
 }
 
+const getDistanceTo = (obj1, obj2) => Math.sqrt((obj1.posX - obj2.posX) ** 2 + (obj1.posY - obj2.posY) ** 2);
+
 function calculateEnergyConsumptionPerSec(userData) {
     let energyUsed = {};
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
     if (currentMultiverse.dustbotSpeed > 0) energyUsed["Dustbot"] = Math.floor(10 / ((100 - currentMultiverse.dustbotSpeed * 2) / 10) * 1000) / 1000 //Energy used by DustBot
     if (currentMultiverse.fabriBotSpeed > 0) energyUsed["fabriBot"] = Math.floor(30 / ((100 - currentMultiverse.fabriBotSpeed * 2) / 10) * 1000) / 1000
-    energyUsed["Propulsion"] = currentMultiverse.mothershipCurrentThrust;
+    
+    //high quality code
+    let mothershipIsMoving = false;
+    const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
+    for (const id in currentSystem.objects) {
+        const thing = currentSystem.objects[id];
+        if (currentSystem.objects[id].type === "player") {
+            if ("targetX" in currentSystem.objects[id] && "targetY" in currentSystem.objects[id]) {
+                if (currentMultiverse.energy > 0) {
+                    if (getDistanceTo(thing, {
+                        posX: thing.targetX,
+                        posY: thing.targetY
+                    }) >= 10) {
+                        mothershipIsMoving = true;
+                    }
+                }
+            }
+        }
+    }
+    
+    energyUsed["Propulsion"] = mothershipIsMoving ? currentMultiverse.mothershipCurrentThrust : 0;
     energyUsed["Research"] = Math.floor(currentMultiverse.researchRate / (currentMultiverse.ticksPerResearchAdvancement / 10) * 10) / 10;
-    energyUsed["Shipyard"] = currentMultiverse.currentShipBuildingRate;
+    energyUsed["Shipyard"] = Object.keys(currentMultiverse.shipInProgress).length === 0 ? 0 : currentMultiverse.currentShipBuildingRate;
 
     if (currentMultiverse.turret.enabled && currentMultiverse.turret.currentCharge < currentMultiverse.turret.chargeToFire) {
         energyUsed["Turret"] = 1;
@@ -95,9 +117,9 @@ function calculateEnergyProductionPerSec(userData) {
             if (system.objects[id].factory) {
                 const factoryInfo = system.objects[id].factory;
                 const making = factoryInfo.making;
-               if (making === "energy") {
+                if (making === "energy") {
                     energyFromFactory += 20 * (system.objects[id].factoryMultipliers[making] / factoryInfo.progressRequired);
-               }
+                }
             }
         }
     }

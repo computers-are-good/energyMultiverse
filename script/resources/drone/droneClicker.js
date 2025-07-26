@@ -68,7 +68,6 @@ function upgradeDroneTicks(droneData, userData) {
 function upgradeDroneEnergy(droneData, userData) {
     if (droneData.energyProduced < 10) {
         const dustRequired = upgradeDroneEnergyCost(droneData.energyUpgradedTimes);
-        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
         if (checkCosts(userData, {
             dust: dustRequired
         })) {
@@ -95,7 +94,7 @@ function updateMouseoverDescriptionEnergy(droneObj) {
     manualDescriptionUpdate({
         content: `Increases the amount of energy gained fom this drone.`,
         upgradePreview: `${droneObj.energyProduced} energy -> ${droneObj.energyProduced + 1} energy`,
-        cost: {dust: upgradeDroneTicksCost(droneObj.ticksUpgradedTimes)}
+        cost: {dust: upgradeDroneEnergyCost(droneObj.energyUpgradedTimes)}
     }, lastMouseX, lastMouseY)
 }
 

@@ -47,6 +47,7 @@ main p {
 }
 main {
     width: 80%;
+    user-select: none;
     display: inline-block;
 }
 main div h2 {

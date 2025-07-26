@@ -33,9 +33,9 @@ tutorialTextData.Research.push(researchDescription);
 const researchBox = document.createElement("div");
 researchBox.classList.add("tutorialBrightArea");
 let researchBounding = document.getElementById("Research").getBoundingClientRect();
-researchBox.style.width = `${researchBounding.width}px`;
+researchBox.style.width = `${researchBounding.width <= 0 ? 1000 : researchBounding.width}px`;
 researchBox.style.height = `300px`;
-researchBox.style.left = `${researchBounding.x}px`;
+researchBox.style.left = `${researchBounding.x <= 0 ? 0 : researchBounding.x}px`;
 researchBox.style.top = `45px`;
 tutorialTextData.Research.push(researchBox);
 

@@ -111,6 +111,11 @@ function populateDescription(description, userData) {
             }
         } else {
             cost.style.color = "white";
+            for (const thing in description.cost) {
+                const newSpan = document.createElement("span");
+                newSpan.textContent = `${description.cost[thing]} ${costTextMappings[thing]} `;
+                cost.appendChild(newSpan);
+            }
         }
     }
     if (description.upgradePreview) {
