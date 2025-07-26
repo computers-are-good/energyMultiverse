@@ -43,6 +43,7 @@ function updateVisibleDivs() {
     });
 }
 function updateSolarSystem(userData) {
+    newHostile(userData);
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     if (currentMultiverse.allowSolarSystemUpdates && !["buildWarpDrive", "dispatchToSun", "buildScanner"].includes(currentDescription)) {
         removeDescription();
@@ -293,7 +294,7 @@ function updateSolarSystem(userData) {
                         let destinationText;
                         if (ship.targetObjectId === "player") {
                             destinationText = "Mothership";
-                        } else if (currentSystem.objects[ship.targetObjectId].type === "hostile" ) {
+                        } else if (currentSystem.objects[ship.targetObjectId].type === "hostile") {
                             destinationText = "Enemy Ship";
                         } else if (currentSystem.objects[ship.targetObjectId].type == "debris") {
                             destinationText = "Debris";
@@ -823,7 +824,7 @@ async function updateSolarSystemPositions(userData) {
             const currentObject = currentSystem.objects[object];
             if (currentObject.type === "debris") debrisCount++;
         }
-        
+
         //Randomly spawn some debris that can give you iridium
         if (debrisCount < 3) {
             if (Math.random() < .005) {
@@ -867,7 +868,7 @@ function generateShipLoot(enemyShip) {
         if (item in loot) {
             loot[item] += enemyShip.cargo[item];
         } else {
-            loot[item] = enemyShip.cargo[item];2
+            loot[item] = enemyShip.cargo[item]; 2
         }
     }
 
@@ -931,7 +932,6 @@ function newHostile(userData) {
     const playerY = currentSystem.objects.player.posY;
 
     const selectedHostileStats = choice(hostileTiers[currentSystem.tier]);
-
     let posX = playerX - 100 + Math.random() * 200;
     let posY = playerY - 100 + Math.random() * 200;
 
@@ -951,6 +951,7 @@ function newHostile(userData) {
         targetX: Math.random() * 750,
         targetY: Math.random() * 750,
     }
+
 }
 
 async function dispatchShipEvent(userData) {

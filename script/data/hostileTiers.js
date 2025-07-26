@@ -43,7 +43,7 @@ const hostileTiers = {
             }
         },
         {
-            basestats: {
+            baseStats: {
                 baseHealth: 30,
                 baseAttack: 30,
                 baseShield: 3,

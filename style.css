@@ -450,8 +450,7 @@ button {
     margin: 12px;
     display: inline-block;
 }
-#actionButtons {
-    display: flex;
+#actionButtons div {
     justify-content: center;
 }
 #systemMapContainer {

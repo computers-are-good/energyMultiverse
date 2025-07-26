@@ -9,50 +9,65 @@ let playerX;
 let enemyShipX;
 let combatVisualisationX;
 let combatVisualisationY;
-function drawPlayerAndEnemy(playerShip, enemyShip) {
+let combatVisualisationWidth;
+let playerShipDiv;
+let enemyShipDiv;
+let offset;
+
+function drawPlayerAndEnemy() {
 
     const combatVisualisationRect = combatVisualisation.getBoundingClientRect();
-    const playerShipDiv = document.createElement("div");
-    playerShipDiv.style.height = "20px";
-    playerShipDiv.style.width = "20px";
+    combatVisualisationWidth = combatVisualisationRect.width;
+    offset = combatVisualisationRect.left;
+
+    playerShipDiv = document.createElement("div");
+    playerShipDiv.style.height = "30px";
+    playerShipDiv.style.width = "30px";
     playerShipDiv.style.position = "absolute";
     playerShipDiv.style.top = `${shipPosY + combatVisualisationRect.top}px`;
-    playerShipDiv.style.left = `${playerX + combatVisualisationRect.left}px`;
+    playerShipDiv.style.left = `${playerX / battlefieldSize * combatVisualisationWidth + offset}px`;
     playerShipDiv.style.backgroundColor = "green";
 
     combatVisualisation.appendChild(playerShipDiv);
 
-    const enemyShipDiv = document.createElement("div");
-    enemyShipDiv.style.height = "20px";
-    enemyShipDiv.style.width = "20px";
+    enemyShipDiv = document.createElement("div");
+    enemyShipDiv.style.height = "30px";
+    enemyShipDiv.style.width = "30px";
     enemyShipDiv.style.position = "absolute";
     enemyShipDiv.style.top = `${shipPosY + combatVisualisationRect.top}px`;
-    enemyShipDiv.style.left = `${enemyShipX + combatVisualisationRect.left}px`;
+    enemyShipDiv.style.left = `${enemyShipX / battlefieldSize * combatVisualisationWidth + offset - 30}px`;
     enemyShipDiv.style.backgroundColor = "red";
 
     combatVisualisation.appendChild(enemyShipDiv);
 }
-function blasterAnimation(fromPlayerToEnemy) {
-    const speed = 1;
-    const originX = fromPlayerToEnemy ? playerX : enemyShipX;
-    const targetX = fromPlayerToEnemy ? enemyShipX : playerX;
+function blasterAnimation(fromPlayerToEnemy, size) {
+    function accelerate(time) {
+        return (time / 10) ** 4
+    }
+    const speed = 0.00000001;
+    const originX = fromPlayerToEnemy ? playerX + 1 : enemyShipX - 5;
     return new Promise(res => {
         const blaster = document.createElement("div");
-        blaster.style.height = "5px";
-        blaster.style.width = "5px";
+        blaster.style.height = `${size}px`;
+        blaster.style.width = `${size}px`;
         blaster.style.position = "absolute";
+        blaster.style.transform = "scale(0)";
         blaster.style.backgroundColor = "white";
-        blaster.style.top = `${shipPosY + combatVisualisationY + 7.5}px`;
+        blaster.style.borderRadius = "20px";
+        blaster.style.top = `${shipPosY + combatVisualisationY + size - 7.5}px`;
         let blasterX = originX;
 
         document.getElementById("combatVisualisation").appendChild(blaster);
         let t0 = performance.now();
+        let cumulativeTime = 0;
         function animationFrame() {
             let t1 = performance.now();
             let deltaT = t1 - t0;
             t0 = t1;
-            blasterX += deltaT * speed * (fromPlayerToEnemy ? 1 : -1);
-            blaster.style.left = `${blasterX + combatVisualisationX}px`;
+            cumulativeTime += deltaT;
+            blasterX += deltaT * speed * (fromPlayerToEnemy ? 1 : -1) * accelerate(cumulativeTime);
+            blaster.style.left = `${blasterX / battlefieldSize * combatVisualisationWidth + combatVisualisationX}px`;
+            blaster.style.transform = `scale(${Math.min(cumulativeTime / 200, 1)})`;
 
             let endAnimation = false;
             if (fromPlayerToEnemy && blasterX > enemyShipX) endAnimation = true;
@@ -68,6 +83,30 @@ function blasterAnimation(fromPlayerToEnemy) {
     })
 }
 
+function moveForwardAnimation(amount, div, divCurrentOffset) {
+    const speed = 0.05;
+    return new Promise(res => {
+        let amountMoved = 0;
+        let t0 = performance.now();
+        function animationFrame() {
+            let t1 = performance.now();
+            let deltaT = t1 - t0;
+            t0 = t1;
+            amountMoved += speed * deltaT * (amount > 0 ? 1 : -1);
+            console.log(divCurrentOffset);
+            div.style.left = `${(amountMoved + divCurrentOffset) / battlefieldSize * combatVisualisationWidth + offset}px`;
+                if (amount > 0 ? amountMoved >= amount : amountMoved <= amount) {
+                    amountMoved = amount;
+                    res();
+                } else {
+                    requestAnimationFrame(animationFrame);
+                }
+        }
+        animationFrame();
+    })
+}
+const battlefieldSize = 200;
+
 function combat(playerShip, enemyShip) { //resolve with true if the player has won
     playerShip.currentShield = 0;
     enemyShip.currentShield = 0;
@@ -78,8 +117,8 @@ function combat(playerShip, enemyShip) { //resolve with true if the player has w
         document.getElementById("combat").style.display = "block";
 
         const combatVisualisationBounding = combatVisualisation.getBoundingClientRect();
-        enemyShipX = combatVisualisationBounding.width * 0.9;
-        playerX = combatVisualisationBounding.width * 0.1;
+        enemyShipX = battlefieldSize;
+        playerX = 0;
         combatVisualisationX = combatVisualisationBounding.left;
         combatVisualisationY = combatVisualisationBounding.top;
 
@@ -116,17 +155,36 @@ function attack(attacker, attacked) {
 function getPlayerAction() {
     return new Promise(res => {
         document.getElementById("actionButtons").innerHTML = "";
+
+        const basicActions = document.createElement("div");
         const attackButton = document.createElement("button");
         attackButton.textContent = "Attack";
         attackButton.addEventListener("click", _ => res("attack"));
-        document.getElementById("actionButtons").appendChild(attackButton);
+        basicActions.appendChild(attackButton);
 
         const blockButton = document.createElement("button");
         blockButton.textContent = "Block";
         blockButton.addEventListener("click", _ => res("block"));
-        document.getElementById("actionButtons").appendChild(blockButton);
+        basicActions.appendChild(blockButton);
 
-    })
+        basicActions.style.display = "flex";
+        document.getElementById("actionButtons").appendChild(basicActions);
+
+        const moveButtons = document.createElement("div");
+
+        const moveBack = document.createElement("button");
+        moveBack.textContent = "<-";
+        moveBack.addEventListener("click", _ => res("moveBack"));
+        moveButtons.appendChild(moveBack);
+
+        const moveForward = document.createElement("button");
+        moveForward.textContent = "->";
+        moveForward.addEventListener("click", _ => res("moveForward"));
+        moveButtons.appendChild(moveForward);
+
+        moveButtons.style.display = "flex";
+        document.getElementById("actionButtons").appendChild(moveButtons);
+    });
 }
 
 function block(ship) {
@@ -136,40 +194,49 @@ function block(ship) {
     }
 }
 async function playerTurn(playerShip, enemyShip) {
-    document.getElementById("actionButtons").style.display = "flex";
+    document.getElementById("actionButtons").style.display = "block";
 
     const action = await getPlayerAction();
-    if (action === "attack") {
-        const oldHealth = enemyShip.currentHealth;
-        await blasterAnimation(true);
-        particles({
-            particleX: enemyShipX + combatVisualisationX + 10,
-            particleY: combatVisualisationY + shipPosY,
-            particleColor: "red",
-            particleLifetime: 2000,
-            particleNumber: 10,
-            particleSize: 3,
-            zIndex: 99999,
-            particleSpeed: 0.1
-        });
-        attack(playerShip, enemyShip);
-        combatLog(`You attacked the enemy for ${oldHealth - enemyShip.currentHealth} damage!`);
-        if (enemyShip.currentHealth <= 0) {
-            enemyShip.currentHealth = 0;
-            updateStatsDisplay(playerShip, enemyShip);
-            document.getElementById("actionButtons").style.display = "none";
-            combatLog("You are victorious.");
-            await endCombat();
-            return true;
-        } else {
+    switch (action) {
+        case "attack":
+            const oldHealth = enemyShip.currentHealth;
+            attack(playerShip, enemyShip);
+            await blasterAnimation(true, Math.min(playerShip.baseStats.baseAttack, 15));
+            particles({
+                particleX: enemyShipX / battlefieldSize * combatVisualisationWidth + combatVisualisationX - 10,
+                particleY: combatVisualisationY + shipPosY,
+                particleColor: "red",
+                particleLifetime: 2000,
+                particleNumber: Math.min(Math.max((oldHealth - enemyShip.currentHealth) * 2, 8), 50),
+                particleSize: 3,
+                zIndex: 99999,
+                particleSpeed: 0.1
+            });
+            combatLog(`You attacked the enemy for ${oldHealth - enemyShip.currentHealth} damage!`);
+            if (enemyShip.currentHealth <= 0) {
+                enemyShip.currentHealth = 0;
+                updateStatsDisplay(playerShip, enemyShip);
+                document.getElementById("actionButtons").style.display = "none";
+                combatLog("You are victorious.");
+                await endCombat();
+                return true;
+            } else {
+                updateStatsDisplay(playerShip, enemyShip);
+                return enemyTurn(playerShip, enemyShip);
+            }
+        case "block":
+            block(playerShip);
+            combatLog(`You regenerated your shield.`);
             updateStatsDisplay(playerShip, enemyShip);
             return enemyTurn(playerShip, enemyShip);
-        }
-    } else if (action === "block") {
-        block(playerShip);
-        combatLog(`You regenerated your shield.`);
-        updateStatsDisplay(playerShip, enemyShip);
-        return enemyTurn(playerShip, enemyShip);
+        case "moveForward":
+            await moveForwardAnimation(10, playerShipDiv, playerX);
+            playerX += 10;
+            return enemyTurn(playerShip, enemyShip);
+        case "moveBack":
+            await moveForwardAnimation(-10, playerShipDiv, playerX);
+            playerX -= 10;
+            return enemyTurn(playerShip, enemyShip);
     }
 }
 
@@ -178,19 +245,19 @@ async function enemyTurn(playerShip, enemyShip) {
     await wait(500);
     const oldHealth = playerShip.currentHealth;
     if (enemyShip.currentHealth / enemyShip.baseStats.baseHealth > 0.3) {
-        await blasterAnimation(false);
+        attack(enemyShip, playerShip);
+        await blasterAnimation(false, Math.min(enemyShip.baseStats.baseAttack, 15));
         particles({
-            particleX: playerX + combatVisualisationX + 10,
+            particleX: playerX / battlefieldSize * combatVisualisationWidth + combatVisualisationX + 10,
             particleY: combatVisualisationY + shipPosY,
             particleColor: "red",
             particleLifetime: 2000,
-            particleNumber: 10,
+            particleNumber: Math.min(Math.max((oldHealth - playerShip.currentHealth) * 2, 8), 50),
             particleSize: 3,
             zIndex: 99999,
             particleSpeed: 0.1
         });
-        attack(enemyShip, playerShip);
-        combatLog(`The enemy attacked you for ${oldHealth - playerShip.currentHealth} damage!`)
+        combatLog(`The enemy attacked you for ${oldHealth - playerShip.currentHealth} damage!`);
         if (playerShip.currentHealth <= 0) {
             playerShip.currentHealth = 0;
             updateStatsDisplay(playerShip, enemyShip);
