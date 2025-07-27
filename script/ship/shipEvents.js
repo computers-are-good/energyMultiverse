@@ -17,6 +17,7 @@ function buildShip(userData) {
             const shipInfo = currentShip.shipInfo;
             addNavigationAttention("Shipyard", "pageShipyard");
             notify(`Your ${shipInfo.class} has finished construction.`);
+            document.getElementById("selectedShipClass").style.display = "none";
             shipInfo.currentHealth = shipInfo.baseStats.baseHealth;
             shipInfo.posX = 0;
             shipInfo.poxY = 0;

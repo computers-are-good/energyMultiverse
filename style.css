@@ -186,6 +186,15 @@ button {
     display: flex;
     justify-content: center;
 }
+#chooseShipClass {
+    display: flex;
+}
+#chooseShipClass div {
+    border: 1px solid white;
+    width: 20%;
+    margin: 15px;
+    cursor: pointer;
+}
 .progressBarDiv button {
     margin: 0px 10px;
 }
@@ -449,6 +458,27 @@ button {
 #actionButtons button{
     margin: 12px;
     display: inline-block;
+}
+#overlay {
+    width: 80%;
+    position: absolute;
+    left: 10%;
+    height: 80vh;
+    top: 10vh;
+    background-color: rgb(23, 22, 22);
+    display: none;
+    overflow: scroll;
+    z-index: 100;
+}
+#overlayBG {
+    z-index: 99;
+    width: 100%;
+    display: none;
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 100vh;
+    backdrop-filter: blur(10px);
 }
 #actionButtons div {
     justify-content: center;

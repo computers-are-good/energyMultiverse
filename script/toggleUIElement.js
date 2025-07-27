@@ -1,4 +1,5 @@
 import fadeIn from "./animations/fadeIn.js"
+import { updateBoundingBoxes } from "./data/tutorialText.js";
 import { updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
 import displayTutorialText from "./notifs/tutorialText.js";
 
@@ -79,7 +80,10 @@ function toggleScreen(userData, screenName) {
     const screensWithTutorials = ["Research", "Upgrades"];
     if (screensWithTutorials.includes(screenName)) {
         if (!userData.multiverses[userData.currentMultiverse].eventsDone.includes(`${screenName}Tutorial`)) {
-            displayTutorialText(screenName);
+            setTimeout(_ => { //wait so the upgrade buttons can be drawn before we display tutorial text.
+                updateBoundingBoxes();
+                displayTutorialText(screenName);
+            });
             userData.multiverses[userData.currentMultiverse].eventsDone.push(`${screenName}Tutorial`);
         }
     }

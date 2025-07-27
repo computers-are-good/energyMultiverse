@@ -1,4 +1,4 @@
-import tutorialTextData from "../data/tutorialText.js";
+import {tutorialTextData} from "../data/tutorialText.js";
 
 function displayTutorialText(textId) {
     const el = document.getElementById("tutorialTexts");

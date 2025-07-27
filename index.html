@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>This is a JavaScripten: It Scriptens Java</title>
-    <script src="./script/main.js" type="module"></script>
+    <script src="./script/main.js" type="module" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geo:ital@0;1&display=swap" rel="stylesheet">
@@ -209,8 +209,8 @@
         <div id="Shipyard">
             <h2>Shipyard</h2>
             <div id="chooseShipToBuild">
-                <p>Select a class:</p>
-                <div id="chooseShipClass" class="flexCenter list"></div>
+                <button id="selectShipClass">Select class</button>
+                <p id="selectedShipClass" style="display: none">Selected class: <span id="selectedShipClassDisplay"></p>
                 <p id="selectAccessoriesText">Select accessories (<span id="accessoriesCostUsed"></span>/<span
                         id="accessoriesCostTotal"></span>):</p>
                 <div id="chooseShipAccessories" class="flexCenter list"></div>
@@ -387,7 +387,8 @@
             <div id="notifications"></div>
         </div>
     </div>
-
+    <div id="overlay"></div>
+    <div id="overlayBG"></div>
 </body>
 
 </html>

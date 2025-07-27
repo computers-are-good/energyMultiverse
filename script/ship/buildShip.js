@@ -2,6 +2,7 @@ import { addDescriptionEvent, changeDescriptionText, manualDescriptionUpdate } f
 import { shipClasses, shipAccessories } from "../data/shipData.js";
 import { checkCosts, subtractCosts, writeCostsReadable } from "../itemCosts.js";
 import notify from "../notifs/notify.js";
+import { hideOverlay, showOverlay } from "../overlay.js";
 import { updateEnergyCounter, updateShipConstruction } from "../pageUpdates.js";
 import { deepClone } from "../utils.js";
 
@@ -19,16 +20,18 @@ const statMappings = {
     baseShield: "Shield",
     baseSpeed: "Speed"
 }
-let totalShipCost = {
-}
-function drawBuildShipsDiv(userData) {
-    userDataBig = userData;
+let totalShipCost = {}
+function openChooseShipOverlay(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    document.getElementById("totalEnergyCost").style.display = "none";
-    document.getElementById("chooseShipAccessories").style.display = "none";
-    document.getElementById("chooseShipAccessories").innerHTML = "";
-    document.getElementById("chooseShipClass").innerHTML = "";
-    document.getElementById("selectAccessoriesText").style.display = "none";
+    showOverlay();
+    const heading = document.createElement("h2");
+    heading.textContent = "Select a class";
+    document.getElementById("overlay").appendChild(heading);
+    heading.style.textAlign = "center";
+
+    const chooseShipClass = document.createElement("div");
+    chooseShipClass.id = "chooseShipClass";
+    document.getElementById("overlay").appendChild(chooseShipClass);
 
     for (let shipClass of currentMultiverse.shipClassesUnlocked) {
         const shipObj = shipClasses[shipClass];
@@ -53,6 +56,8 @@ function drawBuildShipsDiv(userData) {
         newDiv.addEventListener("click", _ => {
             document.getElementById("chooseShipAccessories").style.display = "flex";
             document.getElementById("selectAccessoriesText").style.display = "block";
+            document.getElementById("selectedShipClassDisplay").textContent = shipClass;
+            document.getElementById("selectedShipClass").style.display = "block";
             if (selectedShipType) {
                 selectedShipDiv.classList.remove("shipSelected");
             }
@@ -80,10 +85,23 @@ function drawBuildShipsDiv(userData) {
         });
 
         newDiv.appendChild(statsWrapper);
-
-        document.getElementById("chooseShipClass").appendChild(newDiv);
+        chooseShipClass.appendChild(newDiv);
     }
 
+    const close = document.createElement("button");
+    close.textContent = "close";
+    document.getElementById("overlay").appendChild(close);
+    close.addEventListener("click", hideOverlay);
+    close.style.position = "relative";
+    close.style.top = "10px";
+}
+function drawBuildShipsDiv(userData) {
+    userDataBig = userData;
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    document.getElementById("totalEnergyCost").style.display = "none";
+    document.getElementById("chooseShipAccessories").style.display = "none";
+    document.getElementById("chooseShipAccessories").innerHTML = "";
+    document.getElementById("selectAccessoriesText").style.display = "none";
     for (let shipAccessory of currentMultiverse.shipAccessoriesUnlocked) {
         const accessoryInfo = shipAccessories[shipAccessory];
         const newDiv = document.createElement("div");
@@ -219,4 +237,4 @@ function showShipbuildingProgress(userData, x, y) {
     }, x, y, "shipbuildingBar");
 }
 
-export { drawBuildShipsDiv, buildShip, showShipbuildingProgress }
+export { drawBuildShipsDiv, buildShip, showShipbuildingProgress, openChooseShipOverlay }

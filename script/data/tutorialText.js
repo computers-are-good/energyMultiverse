@@ -3,6 +3,7 @@ const tutorialTextData = {
     Research: [],
     Upgrades: []
 }
+
 const clickBox = document.createElement("div");
 clickBox.classList.add("tutorialBrightArea");
 clickBox.style.width = "400px";
@@ -22,9 +23,9 @@ const researchDescription = document.createElement("p");
 researchDescription.classList.add("tutorialText");
 researchDescription.textContent =
     `Click the rate up and down buttons to adjust how much energy is used per second for research.
-    Once you have spent 150 energy, you will get a research point.
-    Research points can be used to unlock upgrades.
-    More upgrades will be available as you progress.`;
+        Once you have spent 150 energy, you will get a research point.
+        Research points can be used to unlock upgrades.
+        More upgrades will be available as you progress.`;
 researchDescription.style.left = "20%";
 researchDescription.style.width = "40%";
 researchDescription.style.top = "350px";
@@ -32,28 +33,36 @@ tutorialTextData.Research.push(researchDescription);
 
 const researchBox = document.createElement("div");
 researchBox.classList.add("tutorialBrightArea");
+
 let researchBounding = document.getElementById("Research").getBoundingClientRect();
 researchBox.style.width = `${researchBounding.width <= 0 ? 1000 : researchBounding.width}px`;
 researchBox.style.height = `300px`;
 researchBox.style.left = `${researchBounding.x <= 0 ? 0 : researchBounding.x}px`;
 researchBox.style.top = `45px`;
+
+
 tutorialTextData.Research.push(researchBox);
 
-window.addEventListener("resize", _ => {
+function updateBoundingBoxes() {
     clickBox.style.left = `${document.getElementById("bigEnergy").getBoundingClientRect().x}px`;
     clickText.style.left = `${document.getElementById("bigEnergy").getBoundingClientRect().x}px`;
 
     researchBounding = document.getElementById("Research").getBoundingClientRect();
     researchBox.style.width = `${researchBounding.width}px`;
     researchBox.style.left = `${researchBounding.x}px`;
-});
 
-const researchButtonsBounding = document.getElementById("upgradeButtonsContainer").getBoundingClientRect();
+    const upgradeButtonsBounding = document.getElementById("upgradeButtonsContainer").getBoundingClientRect();
+    upgradeBox.style.width = `${upgradeButtonsBounding.width - 300}px`;
+    upgradeDescription.style.width = `${upgradeButtonsBounding.width - 500}px`;
+}
 
+window.addEventListener("resize", updateBoundingBoxes);
+
+const upgradeButtonsBounding = document.getElementById("upgradeButtonsContainer").getBoundingClientRect();
 
 const upgradeBox = document.createElement("div");
 upgradeBox.classList.add("tutorialBrightArea");
-upgradeBox.style.width = `${researchButtonsBounding.width - 300}px`;
+upgradeBox.style.width = `${upgradeButtonsBounding.width - 300}px`;
 upgradeBox.style.left = "150px";
 upgradeBox.style.top = "30px";
 upgradeBox.style.height = "200px";
@@ -67,8 +76,8 @@ Once you have the necessary resources to unlock an upgrade, click on it.
 Upgrades are more expensive the more they are upgraded.
 Once an upgrade is maxed out, it will disappear.`;
 upgradeDescription.style.left = "250px";
-upgradeDescription.style.width = `${researchButtonsBounding.width - 500}px`;
+upgradeDescription.style.width = `${upgradeButtonsBounding.width - 500}px`;
 upgradeDescription.style.top = "250px";
 tutorialTextData.Upgrades.push(upgradeDescription);
 
-export default tutorialTextData;
+export {tutorialTextData, updateBoundingBoxes};
