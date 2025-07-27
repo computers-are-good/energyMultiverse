@@ -15,7 +15,6 @@ let enemyShipDiv;
 let offset;
 
 function drawPlayerAndEnemy() {
-
     const combatVisualisationRect = combatVisualisation.getBoundingClientRect();
     combatVisualisationWidth = combatVisualisationRect.width;
     offset = combatVisualisationRect.left;
@@ -40,6 +39,7 @@ function drawPlayerAndEnemy() {
 
     combatVisualisation.appendChild(enemyShipDiv);
 }
+
 function blasterAnimation(fromPlayerToEnemy, size) {
     function accelerate(time) {
         return (time / 10) ** 4
@@ -93,7 +93,6 @@ function moveForwardAnimation(amount, div, divCurrentOffset) {
             let deltaT = t1 - t0;
             t0 = t1;
             amountMoved += speed * deltaT * (amount > 0 ? 1 : -1);
-            console.log(divCurrentOffset);
             div.style.left = `${(amountMoved + divCurrentOffset) / battlefieldSize * combatVisualisationWidth + offset}px`;
                 if (amount > 0 ? amountMoved >= amount : amountMoved <= amount) {
                     amountMoved = amount;
@@ -112,6 +111,7 @@ function combat(playerShip, enemyShip) { //resolve with true if the player has w
     enemyShip.currentShield = 0;
     document.getElementById("combatLog").innerHTML = "";
     return new Promise(res => {
+        combatInProgress = true;
         updateStatsDisplay(playerShip, enemyShip);
 
         document.getElementById("combat").style.display = "block";
@@ -124,6 +124,26 @@ function combat(playerShip, enemyShip) { //resolve with true if the player has w
 
         drawPlayerAndEnemy(playerShip, enemyShip);
 
+        let particleInterval = setInterval(_ => {
+            particles({
+                particleX: combatVisualisationX + combatVisualisationWidth * Math.random(),
+                particleY: combatVisualisationY + 250 * Math.random(),
+                particleColor: "white",
+                spawnVariance: 0,
+                particleLifetime: 5000,
+                particleNumber: 2,
+                fadeIn: 2500,
+                particleSize: 3,
+                zIndex: 999999,
+                direction: Math.PI / 2,
+                particleSpeed: 0.0
+            }, combatVisualisation);
+            if (!combatInProgress) {
+                clearInterval(particleInterval);
+            }
+        }, 3500);
+
+
         if (playerShip.baseStats.baseSpeed >= enemyShip.baseStats.baseSpeed) {
             res(playerTurn(playerShip, enemyShip));
         } else {
@@ -132,11 +152,13 @@ function combat(playerShip, enemyShip) { //resolve with true if the player has w
 
     });
 }
+let combatInProgress;
 async function endCombat() {
     return new Promise(res => {
         const endButton = document.createElement("button");
         endButton.textContent = "End combat";
         document.getElementById("player").appendChild(endButton);
+        combatInProgress = false;
         endButton.addEventListener("click", _ => {
             res();
             endButton.remove();
@@ -202,16 +224,30 @@ async function playerTurn(playerShip, enemyShip) {
             const oldHealth = enemyShip.currentHealth;
             attack(playerShip, enemyShip);
             await blasterAnimation(true, Math.min(playerShip.baseStats.baseAttack, 15));
-            particles({
-                particleX: enemyShipX / battlefieldSize * combatVisualisationWidth + combatVisualisationX - 10,
-                particleY: combatVisualisationY + shipPosY,
-                particleColor: "red",
-                particleLifetime: 2000,
-                particleNumber: Math.min(Math.max((oldHealth - enemyShip.currentHealth) * 2, 8), 50),
-                particleSize: 3,
-                zIndex: 99999,
-                particleSpeed: 0.1
-            });
+            if (oldHealth - enemyShip.currentHealth <= 0) {
+                particles({
+                    particleX: enemyShipX / battlefieldSize * combatVisualisationWidth + combatVisualisationX - 22,
+                    particleY: combatVisualisationY + shipPosY - 22,
+                    particleColor: "DodgerBlue",
+                    spawnVariance: 0,
+                    particleLifetime: 750,
+                    particleNumber: 1,
+                    particleSize: 75,
+                    zIndex: 999999,
+                    particleSpeed: 0
+                });
+            } else {
+                particles({
+                    particleX: enemyShipX / battlefieldSize * combatVisualisationWidth + combatVisualisationX - 10,
+                    particleY: combatVisualisationY + shipPosY,
+                    particleColor: "red",
+                    particleLifetime: 2000,
+                    particleNumber: Math.min(Math.max((oldHealth - enemyShip.currentHealth) * 2, 8), 50),
+                    particleSize: 3,
+                    zIndex: 99999,
+                    particleSpeed: 0.1
+                });
+            }
             combatLog(`You attacked the enemy for ${oldHealth - enemyShip.currentHealth} damage!`);
             if (enemyShip.currentHealth <= 0) {
                 enemyShip.currentHealth = 0;
@@ -239,7 +275,6 @@ async function playerTurn(playerShip, enemyShip) {
             return enemyTurn(playerShip, enemyShip);
     }
 }
-
 async function enemyTurn(playerShip, enemyShip) {
     document.getElementById("actionButtons").style.display = "none";
     await wait(500);
@@ -247,16 +282,33 @@ async function enemyTurn(playerShip, enemyShip) {
     if (enemyShip.currentHealth / enemyShip.baseStats.baseHealth > 0.3) {
         attack(enemyShip, playerShip);
         await blasterAnimation(false, Math.min(enemyShip.baseStats.baseAttack, 15));
-        particles({
-            particleX: playerX / battlefieldSize * combatVisualisationWidth + combatVisualisationX + 10,
-            particleY: combatVisualisationY + shipPosY,
-            particleColor: "red",
-            particleLifetime: 2000,
-            particleNumber: Math.min(Math.max((oldHealth - playerShip.currentHealth) * 2, 8), 50),
-            particleSize: 3,
-            zIndex: 99999,
-            particleSpeed: 0.1
-        });
+        if (oldHealth - playerShip.currentHealth <= 0) {
+            particles({ //shield pulse
+                particleX: playerX / battlefieldSize * combatVisualisationWidth + combatVisualisationX - 22,
+                particleY: combatVisualisationY + shipPosY - 22,
+                particleColor: "DodgerBlue",
+                particleLifetime: 500,
+                particleNumber: 1,
+                particleSize: 75,
+                zIndex: 999999,
+                particleScalingRate: 0.001,
+                spawnVariance: 0,
+                particleSpeed: 0,
+                circular: true
+            }, combatVisualisation);
+        } else {
+            particles({ //damage particles
+                particleX: playerX / battlefieldSize * combatVisualisationWidth + combatVisualisationX + 10,
+                particleY: combatVisualisationY + shipPosY,
+                spawnVariance: 0,
+                particleColor: "red",
+                particleLifetime: 2000,
+                particleNumber: Math.min(Math.max((oldHealth - playerShip.currentHealth) * 2, 8), 50),
+                particleSize: 3,
+                zIndex: 99999,
+                particleSpeed: 0.1
+            });
+        }
         combatLog(`The enemy attacked you for ${oldHealth - playerShip.currentHealth} damage!`);
         if (playerShip.currentHealth <= 0) {
             playerShip.currentHealth = 0;

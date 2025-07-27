@@ -3,9 +3,15 @@
     particleY,
     particleNumber,
     particleLifetime,
-    particleColor
-    particleSize
-    particleSpeed
+    particleColor,
+    particleSize,
+    particleSpeed,
+    circular,
+    particleScalingRate
+    spawnVariance,
+    allowXVelocity,
+    allowYVelocity,
+    direction
 } */
 
 let allParticles = [];
@@ -14,11 +20,17 @@ function particles(particleConfig, divToAppendTo) {
     for (let i = 0; i < particleConfig.particleNumber; i++) {
         const newParticleDiv = document.createElement("div");
         const newParticle = {
-            theta: Math.PI * 2 * Math.random(),
-            particleX: particleConfig.particleX - 5 + Math.random() * 10,
-            particleY: particleConfig.particleY - 5 + Math.random() * 10,
+            theta: particleConfig.direction ?? Math.PI * 2 * Math.random(),
+            particleX: particleConfig.particleX - (particleConfig.spawnVariance ?? 5) + Math.random() * (particleConfig.spawnVariance ?? 5) * 2,
+            particleY: particleConfig.particleY - (particleConfig.spawnVariance ?? 5) + Math.random() * (particleConfig.spawnVariance ?? 5) * 2,
             lifeLeft: particleConfig.particleLifetime,
             totalLife: particleConfig.particleLifetime,
+            fadeIn: particleConfig.fadeIn ?? 0,
+            fadeInLeft: particleConfig.fadeIn ?? 0,
+            allowXVelocity: particleConfig.allowXVelocity ?? true,
+            allowYVelocity: particleConfig.allowYVelocity ?? true,
+            scalingRate: particleConfig.particleScalingRate ?? 0,
+            scale: 1,
             speed: particleConfig.particleSpeed,
             div: newParticleDiv
         }
@@ -31,6 +43,7 @@ function particles(particleConfig, divToAppendTo) {
         newParticleDiv.style.width = `${particleConfig.particleSize}px`;
         newParticleDiv.style.left = `${particleConfig.particleX}px`;
         newParticleDiv.style.top = `${particleConfig.particleY}px`;
+        if (particleConfig.circular) newParticleDiv.style.borderRadius = "999px";
         if (divToAppendTo) {
             divToAppendTo.appendChild(newParticleDiv);
         } else {
@@ -47,13 +60,23 @@ function animateParticles() {
     t0 = t1;
 
     allParticles = allParticles.filter(e => {
-        e.lifeLeft -= deltaT;
-        e.particleX += Math.cos(e.theta) * e.speed * deltaT;
-        e.particleY += Math.sin(e.theta) * e.speed * deltaT;
+        e.particleX += e.allowXVelocity ? (Math.cos(e.theta) * e.speed * deltaT) : 0;
+        e.particleY += e.allowYVelocity ? (Math.sin(e.theta) * e.speed * deltaT) : 0;
 
         e.div.style.left = `${e.particleX}px`;
         e.div.style.top = `${e.particleY}px`;
-        e.div.style.opacity = e.lifeLeft / e.totalLife;
+        if (e.fadeInLeft > 0) {
+            e.fadeInLeft -= deltaT;
+            e.div.style.opacity = 1 - e.fadeInLeft / e.fadeIn; 
+        } else {
+            e.lifeLeft -= deltaT;
+            e.div.style.opacity = e.lifeLeft / e.totalLife;
+        }
+
+        if (e.scalingRate) {
+            e.scale += e.scalingRate * deltaT;
+            e.div.style.transform = `scale(${e.scale})`;
+        }
 
         if (e.lifeLeft < 0) {
             e.div.remove();
