@@ -33,12 +33,37 @@ function openChooseShipOverlay(userData) {
     chooseShipClass.id = "chooseShipClass";
     document.getElementById("overlay").appendChild(chooseShipClass);
 
+    const classesUnlockedArray = [];
+    for (let shipClass of currentMultiverse.shipClassesUnlocked) {
+        const shipObj = shipClasses[shipClass];
+        if (!classesUnlockedArray.includes(shipObj.class)) classesUnlockedArray.push(shipObj.class);
+    }
+
+    const classesUnlockedObj = {}
+    for (const shipClass of classesUnlockedArray) {
+        const newHeading = document.createElement("h2")
+        newHeading.textContent = shipClass;
+        chooseShipClass.appendChild(newHeading);
+
+        const newDiv = document.createElement("div");
+        newDiv.style.display = "flex";
+        classesUnlockedObj[shipClass] = newDiv;
+        chooseShipClass.appendChild(newDiv);
+    }
+
+    let allShipDivs = [];
     for (let shipClass of currentMultiverse.shipClassesUnlocked) {
         const shipObj = shipClasses[shipClass];
         const newDiv = document.createElement("div");
+        allShipDivs.push(newDiv);
+        newDiv.classList.add("shipClassDiv");
         const classTitle = document.createElement("p");
         classTitle.textContent = shipClass;
         newDiv.appendChild(classTitle);
+
+        if (selectedShipType === shipClass) {
+            newDiv.classList.add("shipSelected");
+        }
 
         const statsWrapper = document.createElement("ul");
 
@@ -77,6 +102,7 @@ function openChooseShipOverlay(userData) {
             accessorySlotsAvailable = shipObj.accessorySlots;
             selectedShipDiv = newDiv;
             selectedShipType = shipClass;
+            allShipDivs.forEach(e => e.classList.remove("shipSelected"));
             newDiv.classList.add("shipSelected");
 
             calculateShipCost();
@@ -85,7 +111,7 @@ function openChooseShipOverlay(userData) {
         });
 
         newDiv.appendChild(statsWrapper);
-        chooseShipClass.appendChild(newDiv);
+        classesUnlockedObj[shipObj.class].appendChild(newDiv);
     }
 
     const close = document.createElement("button");

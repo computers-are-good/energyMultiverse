@@ -6,6 +6,7 @@ const shipClasses = {
             baseShield: 5,
             baseSpeed: 10,
         },
+        class: "Recon",
         description: "A basic ship for scouting out the area.",
         accessorySlots: 1,
         baseCost: {
@@ -22,6 +23,7 @@ const shipClasses = {
             baseSpeed: 5
         },
         accessorySlots: 2,
+        class: "Light",
         description: "A small and nimble ship.",
         baseCost: {
             dust: 30,
@@ -36,6 +38,7 @@ const shipClasses = {
             baseShield: 10,
             baseSpeed: 4
         },
+        class: "Medium",
         description: "Tired of losing your ships? The blackbird is built to be durable!",
         accessorySlots: 1,
         baseCost: {
@@ -51,6 +54,7 @@ const shipClasses = {
             baseShield: 1,
             baseSpeed: 3
         },
+        class: "Special",
         description: "The factory ship will become a factory! Just fly it to a planet to start.",
         baseCost: {
             metal: 30,
@@ -66,6 +70,7 @@ const shipClasses = {
             baseShield: 50,
             baseSpeed: 1
         },
+        class: "Giant",
         description: "He big.",
         accessorySlots: 5,
         baseCost: {
