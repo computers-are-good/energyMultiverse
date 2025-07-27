@@ -81,6 +81,7 @@ function addCheats(userData) {
                     case "DELETETHEMULTIVERSE":
                         targetMultiverse = userData.currentMultiverse;
                         userData.multiverses.splice(targetMultiverse, 1);
+                        userData.currentMultiverse = Math.min(targetMultiverse - 1, 0);
                         break;
                     case "NEXT":
                         targetMultiverse = userData.currentMultiverse + 1;

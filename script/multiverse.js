@@ -5,10 +5,15 @@ import { gainAntimatter } from "./resources/gainResources.js";
 import { newMultiverse } from "./userdata.js";
 
 function createNewMultiverse(userData, multipliers) {
-    const multiverse = newMultiverse(userData);
-    multiverse.multipliers = multipliers;
+    const multiverse = newMultiverse(userData, multipliers);
+    multiverse.multipliers = structuredClone(multipliers);
+    multiverse.multipliers.antimatterGained = 1;
 }
 function callCreateFunction(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    for (const multiplier in currentMultiverse.savedUniverseMultipliers) {
+        userData.highestUniverseMultipliers[multiplier] = Math.max(currentMultiverse.highestUniverseMultipliers[multiplier], currentMultiverse.savedUniverseMultipliers[multiplier]);
+    }
     createNewMultiverse(userData, userData.savedUniverseMultipliers);
     document.getElementById("multiverseTravel").style.display = "block";
     matchMultipliers(userData);
@@ -16,8 +21,8 @@ function callCreateFunction(userData) {
 }
 function matchMultipliers(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    for (const multiplier in currentMultiverse.multipliers) {
-        userData.savedUniverseMultipliers[multiplier] = currentMultiverse.multipliers[multiplier];
+    for (const multiplier in currentMultiverse.highestUniverseMultipliers) {
+        userData.savedUniverseMultipliers[multiplier] = currentMultiverse.highestUniverseMultipliers[multiplier];
     }
     userData.savedMultipliersIncrease = {
         energyGained: 0,
@@ -69,6 +74,7 @@ function decreaseMultiplier(resource, userData) {
         userData.savedUniverseMultipliers[resource]--;
         userData.savedMultipliersIncrease[resource]--;
         gainAntimatter(userData, generateIncreaseCost(resource, userData.savedUniverseMultipliers[resource]));
+        console.log(userData.multiverses[1].antimatter)
         updateMultiverseMultipliers(userData);
     }
 }
