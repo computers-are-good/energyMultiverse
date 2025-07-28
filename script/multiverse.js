@@ -1,5 +1,6 @@
 import { mouseoverDescriptions, rewriteDescription } from "./addUIDescriptions.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
+import { hideOverlay, showOverlay } from "./overlay.js";
 import { firstLoadFunctions } from "./pageLoad.js";
 import { gainAntimatter } from "./resources/gainResources.js";
 import { newMultiverse } from "./userdata.js";
@@ -74,9 +75,59 @@ function decreaseMultiplier(resource, userData) {
         userData.savedUniverseMultipliers[resource]--;
         userData.savedMultipliersIncrease[resource]--;
         gainAntimatter(userData, generateIncreaseCost(resource, userData.savedUniverseMultipliers[resource]));
-        console.log(userData.multiverses[1].antimatter)
         updateMultiverseMultipliers(userData);
     }
+}
+
+let selectedMultiverseIndex;
+
+function openMultiverseTravelUI(userData) {
+    showOverlay();
+
+    const overlay = document.getElementById("overlay");
+
+    const closeButton = document.createElement("button");
+    closeButton.textContent = "close";
+
+    const container = document.createElement("div");
+    container.style.display = "flex";
+    container.style.justifyContent = "center";
+    for (const index in userData.multiverses) {
+        const multiverse = userData.multiverses[index];
+        const newDiv = document.createElement("div");
+        newDiv.classList.add("shipClassDiv");
+        container.appendChild(newDiv);
+
+        const multiverseName = document.createElement("p");
+        multiverseName.textContent = multiverse.name;
+        newDiv.appendChild(multiverseName);
+
+        const ul = document.createElement("ul");
+        const li = document.createElement("li");
+        li.textContent = "Hi chat";
+        ul.appendChild(li);
+
+        newDiv.appendChild(ul);
+
+        newDiv.addEventListener("click", _ => {
+            selectedMultiverseIndex = index;
+            document.querySelectorAll(".shipClassDiv").forEach(e => e.classList.remove("shipSelected"));
+            newDiv.classList.add("shipSelected");
+        });
+    }
+    overlay.appendChild(container);
+
+    const travelButton = document.createElement("button");
+    travelButton.textContent = "Travel";
+    overlay.appendChild(travelButton);
+    
+    travelButton.addEventListener("click", _ => {
+        hideOverlay();
+        multiverseTravel(userData, selectedMultiverseIndex);
+    });
+
+    closeButton.addEventListener("click", hideOverlay);
+    overlay.appendChild(closeButton);
 }
 
 function multiverseTravel(userData, targetMultiverse) {
@@ -87,4 +138,13 @@ function multiverseTravel(userData, targetMultiverse) {
     });
     firstLoadFunctions(userData);
 }
-export { createNewMultiverse, multiverseTravel, matchMultipliers, updateMultiverseMultipliers, increaseMultiplier, decreaseMultiplier, callCreateFunction }
+export {
+    createNewMultiverse,
+    multiverseTravel,
+    matchMultipliers,
+    updateMultiverseMultipliers,
+    increaseMultiplier,
+    decreaseMultiplier,
+    callCreateFunction,
+    openMultiverseTravelUI
+}

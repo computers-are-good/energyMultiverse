@@ -186,7 +186,7 @@ button {
     display: flex;
     justify-content: center;
 }
-#chooseShipClass .shipClassDiv {
+.shipClassDiv {
     border: 1px solid white;
     width: 20%;
     margin: 15px;
@@ -468,7 +468,7 @@ button {
     z-index: 100;
 }
 #overlayBG {
-    z-index: 99;
+    z-index: 50;
     width: 100%;
     display: none;
     top: 0;

@@ -28,7 +28,8 @@ import { ending } from "./ending.js";
 import { fabriBotSlider, updateFabriBot } from "./resources/fabribotClicker.js";
 import { buildTurret, toggleTurret, updateTurret } from "./turret.js";
 import displayTutorialText from "./notifs/tutorialText.js";
-import { callCreateFunction, decreaseMultiplier, increaseMultiplier, matchMultipliers, updateMultiverseMultipliers } from "./multiverse.js";
+import { callCreateFunction, decreaseMultiplier, increaseMultiplier, matchMultipliers, openMultiverseTravelUI, updateMultiverseMultipliers } from "./multiverse.js";
+import { hideOverlay } from "./overlay.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -112,6 +113,10 @@ function applyEvents(userData) {
     document.getElementById("selectShipClass").addEventListener("click", _ => openChooseShipOverlay(userData));
     document.getElementById("increaseIridiumMultiplier").addEventListener("click", _ => increaseMultiplier("iridiumGained", userData));
     document.getElementById("newMultiverse").addEventListener("click", _ => callCreateFunction(userData));
+    document.getElementById("multiverseTravel").addEventListener("click", _ => openMultiverseTravelUI(userData));
+    document.getElementById("overlayBG").addEventListener("click", e => {
+        if (e.target.id === "overlayBG") hideOverlay()
+    });
     document.getElementById("ending").addEventListener("click", _ => {
         ending();
         document.getElementById("ending").blur();

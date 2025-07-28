@@ -2,6 +2,9 @@ function choice(arr) {
     const index = Math.floor(Math.random() * arr.length);
     return arr[index];
 }
+
+const getDistance = (x1, y1, x2, y2) => Math.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2);
+
 function deepClone(input) {
     if (Array.isArray(input)) {
         let output = [];
@@ -41,4 +44,4 @@ function removeFromArray(array, element) {
     array.splice(array.indexOf(element), 1);
 }
 
-export { choice, deepClone, wait , removeFromArray}
+export { choice, deepClone, wait, removeFromArray }
