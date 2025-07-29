@@ -5,20 +5,28 @@ import { firstLoadFunctions } from "./pageLoad.js";
 import { gainAntimatter } from "./resources/gainResources.js";
 import { newMultiverse } from "./userdata.js";
 
+function multiverseCreationCost(userData) {
+    return userData.multiverses.length * 50;
+}
 function createNewMultiverse(userData, multipliers) {
     const multiverse = newMultiverse(userData, multipliers);
     multiverse.multipliers = structuredClone(multipliers);
     multiverse.multipliers.antimatterGained = 1;
 }
 function callCreateFunction(userData) {
-    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    for (const multiplier in currentMultiverse.savedUniverseMultipliers) {
-        userData.highestUniverseMultipliers[multiplier] = Math.max(currentMultiverse.highestUniverseMultipliers[multiplier], currentMultiverse.savedUniverseMultipliers[multiplier]);
+    if (checkCosts(userData, {antimatter: multiverseCreationCost(userData)})) {
+        subtractCosts(userData, {antimatter: multiverseCreationCost(userData)});
+        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+        for (const multiplier in currentMultiverse.savedUniverseMultipliers) {
+            userData.highestUniverseMultipliers[multiplier] = Math.max(currentMultiverse.highestUniverseMultipliers[multiplier], currentMultiverse.savedUniverseMultipliers[multiplier]);
+        }
+        createNewMultiverse(userData, userData.savedUniverseMultipliers);
+        document.getElementById("multiverseTravel").style.display = "block";
+        matchMultipliers(userData);
+        updateMultiverseMultipliers(userData);
+        openMultiverseTravelUI(userData, true);
     }
-    createNewMultiverse(userData, userData.savedUniverseMultipliers);
-    document.getElementById("multiverseTravel").style.display = "block";
-    matchMultipliers(userData);
-    updateMultiverseMultipliers(userData);
+
 }
 function matchMultipliers(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -46,6 +54,7 @@ function updateMultiverseMultipliers(userData) {
     mouseoverDescriptions.decreaseDustMultiplier.refund.antimatter = generateIncreaseCost("dustGained", userData.savedUniverseMultipliers.dustGained - 1);
     mouseoverDescriptions.decreaseMetalMultiplier.refund.antimatter = generateIncreaseCost("metalGained", userData.savedUniverseMultipliers.metalGained - 1);
     mouseoverDescriptions.decreaseIridiumMultiplier.refund.antimatter = generateIncreaseCost("iridiumGained", userData.savedUniverseMultipliers.iridiumGained - 1);
+    mouseoverDescriptions.newMultiverse.cost.antimatter = multiverseCreationCost(userData);
     rewriteDescription();
 }
 
@@ -81,7 +90,7 @@ function decreaseMultiplier(resource, userData) {
 
 let selectedMultiverseIndex;
 
-function openMultiverseTravelUI(userData) {
+function openMultiverseTravelUI(userData, selectLastMultiverse = false) {
     showOverlay();
 
     const overlay = document.getElementById("overlay");
@@ -106,6 +115,11 @@ function openMultiverseTravelUI(userData) {
         const li = document.createElement("li");
         li.textContent = "Hi chat";
         ul.appendChild(li);
+
+        if (selectLastMultiverse && index == userData.multiverses.length - 1) {
+            selectedMultiverseIndex = index;
+            newDiv.classList.add("shipSelected");
+        }
 
         newDiv.appendChild(ul);
 

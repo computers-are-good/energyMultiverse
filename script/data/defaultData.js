@@ -20,6 +20,7 @@ const defaultData = {
         dustGained: 0,
         metalGained: 0,
         iridiumGained: 0
-    }
+    },
+    allMultiverseTicksPassed: 0,
 }
 export default defaultData;

@@ -101,6 +101,7 @@ function tick(userData) {
             }
         }
     }
+    userData.allMultiverseTicksPassed++
 
     if (tickCount % 20 === 0) { //events that happen every 2 seconds
 

@@ -126,6 +126,12 @@ const mouseoverDescriptions = {
             antimatter: 1
         }
     },
+    "newMultiverse": {
+        content: "Use your antimatter to create a new world.",
+        cost: {
+            antimatter: 50,
+        }
+    }
 }
 let currentDescription = "";
 const cost = document.getElementById("cost");

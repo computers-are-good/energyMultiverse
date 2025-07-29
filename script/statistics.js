@@ -18,7 +18,8 @@ function updateStatistics(userData) {
     document.getElementById("totalIridiumMade").textContent = currentMultiverse.statistics.iridiumGained;
     document.getElementById("planetsVisited").textContent = currentMultiverse.statistics.planetsVisited;
     document.getElementById("shipsMade").textContent = currentMultiverse.statistics.shipsBuilt;
-    document.getElementById("statisticsPlaytime").textContent = formatPlaytime(Math.floor(currentMultiverse.statistics.totalTicksPassed / 10));
+    document.getElementById("statisticsPlaytimeInMultiverse").textContent = formatPlaytime(Math.floor(currentMultiverse.statistics.totalTicksPassed / 10));
+    document.getElementById("statisticsPlaytimeInTotal").textContent = formatPlaytime(Math.floor(userData.allMultiverseTicksPassed / 10));
 
     document.getElementById("energyConsumptionList").innerHTML = "";
     const energyConsumed = calculateEnergyConsumptionPerSec(userData);
