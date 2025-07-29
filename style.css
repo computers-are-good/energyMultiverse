@@ -161,6 +161,8 @@ button {
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 10px;
+    height: 80vh;
+    overflow: scroll;
 }
 .upgradeTicks {
     display: inline-block;

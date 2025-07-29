@@ -30,3 +30,4 @@ This project is licensed under the Apache NON-AI License, Version 2.0. This is a
     - Warp drive cost
     - Base hull for all ships
     - Base shield for all ships
+Make the "Advanced energy exraction" upgrade more expensive.

@@ -96,7 +96,7 @@ const research = {
     },
     "Warp Drive": {
         cost: {
-            points: 25
+            points: 10
         },
         name: "Warp Drive",
         description: "Use this to jump between star systems.",
