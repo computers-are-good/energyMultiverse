@@ -112,8 +112,12 @@ function openMultiverseTravelUI(userData, selectLastMultiverse = false) {
         newDiv.appendChild(multiverseName);
 
         const ul = document.createElement("ul");
+        let multiverseLevel = 1;
+        for (const multiplier in multiverse.multipliers) {
+            multiverseLevel += multiverse.multipliers[multiplier] - 1;
+        }
         const li = document.createElement("li");
-        li.textContent = "Hi chat";
+        li.textContent = `Multiplier level ${multiverseLevel}`;
         ul.appendChild(li);
 
         if (selectLastMultiverse && index == userData.multiverses.length - 1) {

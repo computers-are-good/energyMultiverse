@@ -24,7 +24,7 @@ const hideableIDs = [
     "buildWarpDrive",
     "recallShip",
     "pageStatistics",
-    "energyStatistics"
+    "energyStatistics",
 ];
 const screens = [
     "Energy",
@@ -57,8 +57,8 @@ function hideLockedElements(elementsArray) {
         if (!elementsArray.includes(e)) {
             document.getElementById(e).style.display = "none";
         } else {
-            document.getElementById(e).style.display = inlineBlockElements.includes(e) ? "inline-block": 
-            (flexElements.includes(e) ? "flex" : "block");
+            document.getElementById(e).style.display = inlineBlockElements.includes(e) ? "inline-block" :
+                (flexElements.includes(e) ? "flex" : "block");
         }
     });
 }
@@ -67,7 +67,7 @@ function unlockUIElement(elementsArray, elementName) {
     if (!elementsArray.includes(elementName)) {
         elementsArray.push(elementName);
         const element = document.getElementById(elementName);
-        element.style.display = inlineBlockElements.includes(elementName) ? "inline-block": 
+        element.style.display = inlineBlockElements.includes(elementName) ? "inline-block" :
             (flexElements.includes(elementName) ? "flex" : "block");
         fadeIn(element, 2);
     }
@@ -87,7 +87,13 @@ function toggleScreen(userData, screenName) {
             userData.multiverses[userData.currentMultiverse].eventsDone.push(`${screenName}Tutorial`);
         }
     }
+
+    if (screenName == "energy") {
+        document.getElementById("buildAntimatterBeam").style.display =
+            (!userData.antimatterBeamBuilt && userData.antimatterBeamNotifDone) ?
+                "block" : "none";
+    }
     document.getElementById(screenName).style.display = "block";
     currentScreenDisplayed = screenName;
 }
-export {hideLockedElements, unlockUIElement, toggleScreen, currentScreenDisplayed, addNavigationAttention, hideableIDs}
+export { hideLockedElements, unlockUIElement, toggleScreen, currentScreenDisplayed, addNavigationAttention, hideableIDs }

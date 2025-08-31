@@ -131,6 +131,13 @@ const mouseoverDescriptions = {
         cost: {
             antimatter: 50,
         }
+    },
+    "buildAntimatterBeam": {
+        content: "An antimatter beam can destroy planets for energy.",
+        cost: {
+            energy: 1000,
+            antimatter: 15
+        }
     }
 }
 let currentDescription = "";

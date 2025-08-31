@@ -158,6 +158,8 @@ function newPlanet(planetCount, solarSystemTier, solarSystemsMade) {
         radius: Math.floor(Math.random() * 5) + 8,
         theta: Math.PI * Math.random(),
         orbitalRadius: 40 * planetCount + 80,
+        antimatterBeamEnergyReq: Math.floor((Math.random() * 0.3 + 0.85) * 1000 * solarSystemTier),
+        antimatterBeamEnergyYield: Math.floor((Math.random() * 0.3 + 0.85) * 6000 * solarSystemTier),
         uniqueEvents,
         totalUniqueEvents: uniqueEvents.length,
         biomeSpecificEventsAvailable,

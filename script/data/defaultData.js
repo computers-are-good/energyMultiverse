@@ -22,5 +22,8 @@ const defaultData = {
         iridiumGained: 0
     },
     allMultiverseTicksPassed: 0,
+    antimatterBeamBuilt: false,
+    antimatterBeamNotifDone: false,
+    antimatterBeamTarget: 0,
 }
 export default defaultData;

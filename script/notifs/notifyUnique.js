@@ -17,7 +17,8 @@ const messages = {
     firstShip: "Go forward, and explore the unknown. This little ship will keep you safe.",
     factoryShip: "You have explored the whole planet. Go forth and build a factory here. Let your reach grow.",
     missileDamage: "You've made a lot of missiles. Now it's time to make them stronger.",
-    scannerAccuracy: "You've built a scanner, but it still needs calibration."
+    scannerAccuracy: "You've built a scanner, but it still needs calibration.",
+    antimatterBeamBuilt: "Now go forth into your previous multiverses, and destroy planets for energy."
 }
 
 function notifyUnique(messageId) {

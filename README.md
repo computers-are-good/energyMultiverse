@@ -19,7 +19,7 @@ This project is licensed under the Apache NON-AI License, Version 2.0. This is a
 ## Minor:
 - Add exotic energy as a resource: needed to jump between systems, has a 0.1% chance of being produced every time we make energy.
 - When enemies defeat your ship, the cargo on your ship should be added to the cargo on the enemy ship.
-- Add antimatter as a resource: needed to build advanced ship components, you will obtain one every 15 minutes of playtime.
+- Antimatter: add advanced ship components, that use it, you will obtain one every 15 minutes of playtime.
     - Make cloaking device require antimatter to make
 - Add more upgrades:
     - Turret damage

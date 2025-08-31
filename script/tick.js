@@ -5,7 +5,7 @@ import { checkCosts, subtractCosts } from "./itemCosts.js";
 import notify from "./notifs/notify.js";
 import { buildShip } from "./ship/shipEvents.js";
 import { updateFactory, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
-import { currentScreenDisplayed } from "./toggleUIElement.js";
+import { addNavigationAttention, currentScreenDisplayed, unlockUIElement } from "./toggleUIElement.js";
 import { solarPanelTick } from "./resources/solarPanel.js";
 import { gainDust, gainEnergy, gainMetal } from "./resources/gainResources.js";
 import updateStatistics from "./statistics.js";
@@ -101,6 +101,15 @@ function tick(userData) {
             }
         }
     }
+
+    //Unlock the antimatter beam if in new multiverse
+    if (tickCount > 300 && !userData.antimatterBeamNotifDone && userData.currentMultiverse > 0) {
+        userData.antimatterBeamNotifDone = true;
+        notify("Now that you're in a new world, you are ready to destroy the old one you left behind.");
+        document.getElementById("buildAntimatterBeam").style.display = "block";
+        addNavigationAttention("energy", "pageEnergy");
+    }
+
     userData.allMultiverseTicksPassed++
 
     if (tickCount % 20 === 0) { //events that happen every 2 seconds

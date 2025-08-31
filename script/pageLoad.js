@@ -30,6 +30,7 @@ import { buildTurret, toggleTurret, updateTurret } from "./turret.js";
 import displayTutorialText from "./notifs/tutorialText.js";
 import { callCreateFunction, decreaseMultiplier, increaseMultiplier, matchMultipliers, openMultiverseTravelUI, updateMultiverseMultipliers } from "./multiverse.js";
 import { hideOverlay } from "./overlay.js";
+import { checkCosts, subtractCosts } from "./itemCosts.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -115,17 +116,28 @@ function applyEvents(userData) {
     document.getElementById("newMultiverse").addEventListener("click", _ => callCreateFunction(userData));
     document.getElementById("multiverseTravel").addEventListener("click", _ => openMultiverseTravelUI(userData));
     document.getElementById("overlayBG").addEventListener("click", e => {
-        if (e.target.id === "overlayBG") hideOverlay()
+        if (e.target.id === "overlayBG") hideOverlay();
     });
     document.getElementById("ending").addEventListener("click", _ => {
         ending();
         document.getElementById("ending").blur();
     });
+    document.getElementById("buildAntimatterBeam").addEventListener("click", _ => {
+        if (checkCosts(userData, {
+            energy: 1000,
+            antimatter: 15
+        }, true)) {
+            subtractCosts(userData, {energy: 1000, antimatter: 15});
+            userData.antimatterBeamBuilt = true;
+            notifyUnique("antimatterBeamBuilt");
+            document.getElementById("buildAntimatterBeam").style.display = "none";
+        }
+    })
     addCheats(userData);
 
     setInterval(_ => tick(userData), 100);
 
-    //Double tapping and holding right shift speeds up game
+    //Double tapping and holding shift speeds up game
     let quickInterval1;
     let quickInterval2;
     let intervalSet = false;
