@@ -92,6 +92,7 @@ let selectedMultiverseIndex;
 
 function openMultiverseTravelUI(userData, selectLastMultiverse = false) {
     showOverlay();
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
     const overlay = document.getElementById("overlay");
 
@@ -101,7 +102,15 @@ function openMultiverseTravelUI(userData, selectLastMultiverse = false) {
     const container = document.createElement("div");
     container.style.display = "flex";
     container.style.justifyContent = "center";
+
+    const currentMulitverseText = document.createElement("p"); //Display which multiverse we are in
+    currentMulitverseText.textContent = `Current Multiverse: ${currentMultiverse.name}`;
+    currentMulitverseText.style.textAlign = "center";
+    overlay.appendChild(currentMulitverseText);
+
     for (const index in userData.multiverses) {
+        if (index == userData.currentMultiverse) continue; //Do not display the multiverse we are currently in
+
         const multiverse = userData.multiverses[index];
         const newDiv = document.createElement("div");
         newDiv.classList.add("shipClassDiv");
