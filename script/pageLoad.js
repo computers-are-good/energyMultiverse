@@ -14,7 +14,7 @@ import { buildDustbotEvent, dustbotSlider } from "./resources/dustbotClicker.js"
 import { buildShip, drawBuildShipsDiv, openChooseShipOverlay, showShipbuildingProgress } from "./ship/buildShip.js";
 import { decreaseBuildRate, increaseBuildRate } from "./ship/shipEvents.js";
 import { closeHangar, openHangar } from "./ship/hangar.js";
-import { buildScanner, cancelRedirect, dispatchShipEvent, goToHostile, launchMissile, moveMothership, newTargetButton, recallButton, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
+import { buildScanner, cancelRedirect, dispatchShipEvent, goToHostile, launchMissile, moveMothership, newTargetButton, obliteratePlanet, recallButton, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
 import { makeMissile, makeRepairKit } from "./ship/manufactory.js";
 import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "./map/thrust.js";
 import metalClicker from "./resources/metal.js";
@@ -28,7 +28,7 @@ import { ending } from "./ending.js";
 import { fabriBotSlider, updateFabriBot } from "./resources/fabribotClicker.js";
 import { buildTurret, toggleTurret, updateTurret } from "./turret.js";
 import displayTutorialText from "./notifs/tutorialText.js";
-import { callCreateFunction, decreaseMultiplier, increaseMultiplier, matchMultipliers, openMultiverseTravelUI, updateMultiverseMultipliers } from "./multiverse.js";
+import { callCreateFunction, decreaseMultiplier, increaseMultiplier, matchMultipliers, selectMultiverse, updateMultiverseMultipliers } from "./multiverse.js";
 import { hideOverlay } from "./overlay.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
 
@@ -47,7 +47,7 @@ function applyEvents(userData) {
             particleSize: 3,
             particleSpeed: 0.1
         });
-        energyClicker(userData)
+        energyClicker(userData);
     });
     document.querySelectorAll("#pageSelector li").forEach(e => e.addEventListener("click", _ => {
         e.classList.remove("navigationAttention");
@@ -114,7 +114,8 @@ function applyEvents(userData) {
     document.getElementById("selectShipClass").addEventListener("click", _ => openChooseShipOverlay(userData));
     document.getElementById("increaseIridiumMultiplier").addEventListener("click", _ => increaseMultiplier("iridiumGained", userData));
     document.getElementById("newMultiverse").addEventListener("click", _ => callCreateFunction(userData));
-    document.getElementById("multiverseTravel").addEventListener("click", _ => openMultiverseTravelUI(userData));
+    document.getElementById("multiverseTravel").addEventListener("click", _ => selectMultiverse(userData, false, true));
+    document.getElementById("obliteratePlanet").addEventListener("click", _ => obliteratePlanet(userData));
     document.getElementById("overlayBG").addEventListener("click", e => {
         if (e.target.id === "overlayBG") hideOverlay();
     });
@@ -127,7 +128,7 @@ function applyEvents(userData) {
             energy: 1000,
             antimatter: 15
         }, true)) {
-            subtractCosts(userData, {energy: 1000, antimatter: 15});
+            subtractCosts(userData, {energy: 10000, antimatter: 15});
             userData.antimatterBeamBuilt = true;
             notifyUnique("antimatterBeamBuilt");
             document.getElementById("buildAntimatterBeam").style.display = "none";

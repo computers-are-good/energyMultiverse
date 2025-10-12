@@ -24,7 +24,7 @@ function callCreateFunction(userData) {
         document.getElementById("multiverseTravel").style.display = "block";
         matchMultipliers(userData);
         updateMultiverseMultipliers(userData);
-        openMultiverseTravelUI(userData, true);
+        openMultiverseTravelUI(userData, true, true);
     }
 
 }
@@ -90,71 +90,82 @@ function decreaseMultiplier(resource, userData) {
 
 let selectedMultiverseIndex;
 
-function openMultiverseTravelUI(userData, selectLastMultiverse = false) {
-    showOverlay();
-    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-
-    const overlay = document.getElementById("overlay");
-
-    const closeButton = document.createElement("button");
-    closeButton.textContent = "close";
-
-    const container = document.createElement("div");
-    container.style.display = "flex";
-    container.style.justifyContent = "center";
-
-    const currentMulitverseText = document.createElement("p"); //Display which multiverse we are in
-    currentMulitverseText.textContent = `Current Multiverse: ${currentMultiverse.name}`;
-    currentMulitverseText.style.textAlign = "center";
-    overlay.appendChild(currentMulitverseText);
-
-    for (const index in userData.multiverses) {
-        if (index == userData.currentMultiverse) continue; //Do not display the multiverse we are currently in
-
-        const multiverse = userData.multiverses[index];
-        const newDiv = document.createElement("div");
-        newDiv.classList.add("shipClassDiv");
-        container.appendChild(newDiv);
-
-        const multiverseName = document.createElement("p");
-        multiverseName.textContent = multiverse.name;
-        newDiv.appendChild(multiverseName);
-
-        const ul = document.createElement("ul");
-        let multiverseLevel = 1;
-        for (const multiplier in multiverse.multipliers) {
-            multiverseLevel += multiverse.multipliers[multiplier] - 1;
-        }
-        const li = document.createElement("li");
-        li.textContent = `Multiplier level ${multiverseLevel}`;
-        ul.appendChild(li);
-
-        if (selectLastMultiverse && index == userData.multiverses.length - 1) {
-            selectedMultiverseIndex = index;
-            newDiv.classList.add("shipSelected");
-        }
-
-        newDiv.appendChild(ul);
-
-        newDiv.addEventListener("click", _ => {
-            selectedMultiverseIndex = index;
-            document.querySelectorAll(".shipClassDiv").forEach(e => e.classList.remove("shipSelected"));
-            newDiv.classList.add("shipSelected");
-        });
-    }
-    overlay.appendChild(container);
-
-    const travelButton = document.createElement("button");
-    travelButton.textContent = "Travel";
-    overlay.appendChild(travelButton);
+function selectMultiverse(userData, selectLastMultiverse = false, travelToMultiverse = false, customMessage) {
+    return new Promise((res, rej) => {
+        showOverlay();
+        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     
-    travelButton.addEventListener("click", _ => {
-        hideOverlay();
-        multiverseTravel(userData, selectedMultiverseIndex);
-    });
+        const overlay = document.getElementById("overlay");
+    
+        const closeButton = document.createElement("button");
+        closeButton.textContent = "close";
+    
+        const container = document.createElement("div");
+        container.style.display = "flex";
+        container.style.justifyContent = "center";
+    
+        const currentMulitverseText = document.createElement("p"); //Display which multiverse we are in
+        currentMulitverseText.textContent = `Current Multiverse: ${currentMultiverse.name}`;
+        currentMulitverseText.style.textAlign = "center";
+        overlay.appendChild(currentMulitverseText);
 
-    closeButton.addEventListener("click", hideOverlay);
-    overlay.appendChild(closeButton);
+        if (customMessage) {
+            const customMessageText = document.createElement("p");
+            customMessageText.textContent = customMessage;
+            customMessageText.style.textAlign = "center";
+            overlay.appendChild(customMessageText);
+        }
+    
+        for (const index in userData.multiverses) {
+            if (index == userData.currentMultiverse) continue; //Do not display the multiverse we are currently in
+    
+            const multiverse = userData.multiverses[index];
+            const newDiv = document.createElement("div");
+            newDiv.classList.add("shipClassDiv");
+            container.appendChild(newDiv);
+    
+            const multiverseName = document.createElement("p");
+            multiverseName.textContent = multiverse.name;
+            newDiv.appendChild(multiverseName);
+    
+            const ul = document.createElement("ul");
+            let multiverseLevel = 1;
+            for (const multiplier in multiverse.multipliers) {
+                multiverseLevel += multiverse.multipliers[multiplier] - 1;
+            }
+            const li = document.createElement("li");
+            li.textContent = `Multiplier level ${multiverseLevel}`;
+            ul.appendChild(li);
+    
+            if (selectLastMultiverse && index == userData.multiverses.length - 1) {
+                selectedMultiverseIndex = index;
+                newDiv.classList.add("shipSelected");
+            }
+    
+            newDiv.appendChild(ul);
+    
+            newDiv.addEventListener("click", _ => {
+                selectedMultiverseIndex = index;
+                document.querySelectorAll(".shipClassDiv").forEach(e => e.classList.remove("shipSelected"));
+                newDiv.classList.add("shipSelected");
+            });
+        }
+        overlay.appendChild(container);
+     
+        const confirmButton = document.createElement("button");
+        confirmButton.textContent = travelToMultiverse ? "Travel" : "Confirm";
+        overlay.appendChild(confirmButton);
+        
+        confirmButton.addEventListener("click", _ => {
+            hideOverlay();
+            res(selectedMultiverseIndex);
+            if (travelToMultiverse) multiverseTravel(userData, selectedMultiverseIndex);
+        });
+    
+        closeButton.addEventListener("click", hideOverlay);
+        closeButton.addEventListener("click", rej);
+        overlay.appendChild(closeButton);
+    })
 }
 
 function multiverseTravel(userData, targetMultiverse) {
@@ -173,5 +184,5 @@ export {
     increaseMultiplier,
     decreaseMultiplier,
     callCreateFunction,
-    openMultiverseTravelUI
+    selectMultiverse
 }

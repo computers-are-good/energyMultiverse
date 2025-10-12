@@ -11,7 +11,8 @@
     spawnVariance,
     allowXVelocity,
     allowYVelocity,
-    direction
+    direction,
+    converge
 } */
 
 let allParticles = [];
@@ -33,6 +34,15 @@ function particles(particleConfig, divToAppendTo) {
             scale: 1,
             speed: particleConfig.particleSpeed,
             div: newParticleDiv
+        }
+
+        if (particleConfig.converge) {
+            console.log(particleConfig.particleSpeed * particleConfig.particleLifetime / 100)
+            const newX = Math.cos(newParticle.theta) * particleConfig.particleSpeed * particleConfig.particleLifetime + particleConfig.particleX;
+            const newY = Math.sin(newParticle.theta) * particleConfig.particleSpeed * particleConfig.particleLifetime + particleConfig.particleY;
+            newParticle.particleX = newX;
+            newParticle.particleY = newY;
+            newParticle.theta = newParticle.theta - Math.PI;
         }
         newParticleDiv.classList.add("particle");
         newParticleDiv.style.zIndex = particleConfig.zIndex ?? 10;

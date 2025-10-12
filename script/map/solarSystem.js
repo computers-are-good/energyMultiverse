@@ -7,18 +7,21 @@ import { arriveAtTarget, getSolarSystemExplorationLevel } from "./planetEvents.j
 import { combat } from "./combat.js";
 import threatLevel from "./threatLevel.js";
 import notifyUnique from "../notifs/notifyUnique.js";
-import { choice, deepClone, removeFromArray } from "../utils.js";
+import { choice, deepClone, removeFromArray, wait } from "../utils.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons } from "../pageUpdates.js";
 import hostileTiers from "../data/hostileTiers.js";
 import { useEnergy } from "../resources/useResources.js";
-import { resourceMappings } from "../resources/gainResources.js";
+import { gainEnergy, resourceMappings } from "../resources/gainResources.js";
 import { getPlanetExplorationLevel } from "./planetEvents.js";
 import { checkCosts, subtractCosts, writeCostsReadable } from "../itemCosts.js";
 import fadeIn from "../animations/fadeIn.js";
 import { particles } from "../animations/particles.js";
 import unlockResearchForElement from "../unlockResearch.js";
 import { drawUpgradeButtons } from "../upgrades.js";
-const blockingScreens = ["attacked", "scriptPlayer"]
+import { selectMultiverse } from "../multiverse.js";
+
+const blockingScreens = ["attacked", "scriptPlayer"];
+const persistantDescriptions = ["buildWarpDrive", "dispatchToSun", "buildScanner", "obliteratePlanet"];
 const planetVelocity = 8.8;
 
 let activeScreen = "";
@@ -33,6 +36,69 @@ const systemMap = document.getElementById("systemMap");
 let mapTop;
 let mapLeft;
 
+function getPlanetEnergyGained(planet) { //TODO: Come up with a proper algorithm for this
+    return 100000;
+}
+
+async function obliteratePlanet(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
+    const currentPlanet = currentSystem.objects[selected];
+
+    const energyGained = getPlanetEnergyGained(currentPlanet);
+    selectMultiverse(userData, false, false, "Choose energy destination").then(async selectedMultiverse => {
+        if (checkCosts(userData, {antimatter: 1}, false)) {
+            subtractCosts(userData, {antimatter: 1});
+            currentMultiverse.allowSolarSystemUpdates = false;
+            particles({ //Animation for destroying planets
+                particleX: currentPlanet.posX + mapLeft,
+                particleY: currentPlanet.posY + mapTop,
+                particleNumber: 25,
+                particleColor: "red",
+                particleSize: 5,
+                circular: true,
+                particleScalingRate: 0.001,
+                converge: true,
+                particleLifetime: 500,
+                particleSpeed: 0.125,
+            }, map);
+            await wait(500);
+            particles({
+                particleX: currentPlanet.posX + mapLeft - currentPlanet.radius / 4,
+                particleY: currentPlanet.posY + mapTop + currentPlanet.radius / 4,
+                particleNumber: 1,
+                particleColor: "white",
+                particleSize: 5,
+                circular: true,
+                particleScalingRate: 0.025,
+                converge: true,
+                particleLifetime: 2500,
+                particleSpeed: 0,
+            }, map);
+            await wait(1500);
+            const mapRect = systemMap.getBoundingClientRect();
+            mapTop = mapRect.top;
+            mapLeft = mapRect.left;
+            particles({
+                particleX: currentPlanet.posX + mapLeft,
+                particleY: currentPlanet.posY + mapTop,
+                particleNumber: 50,
+                particleColor: "red",
+                particleSize: 3,
+                circular: true,
+                particleLifetime: 2500,
+                particleSpeed: 0.05,
+            }, map);
+            userData.multiverses[selectedMultiverse].energy += energyGained;
+            delete currentSystem.objects[selected];
+            currentMultiverse.allowSolarSystemUpdates = true;
+            updateSolarSystem(userData);
+        }
+    }).catch(e => {
+        notify("Cancelled; target multiverse not selected.");
+    });
+}
+
 function updateVisibleDivs() {
     document.querySelectorAll(".sidebarScreen").forEach(e => {
         if (e.id !== activeScreen) {
@@ -45,7 +111,7 @@ function updateVisibleDivs() {
 function updateSolarSystem(userData) {
     newHostile(userData);
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    if (currentMultiverse.allowSolarSystemUpdates && !["buildWarpDrive", "dispatchToSun", "buildScanner"].includes(currentDescription)) {
+    if (currentMultiverse.allowSolarSystemUpdates && !persistantDescriptions.includes(currentDescription)) {
         removeDescription();
     }
 
@@ -160,6 +226,13 @@ function updateSolarSystem(userData) {
                             });
 
                             updateFactory(userData);
+                            document.getElementById("obliteratePlanet").style.display = userData.antimatterBeamBuilt ? "block" : "none";
+                            addDescriptionEvent(document.getElementById("obliteratePlanet"), {
+                                description: `Destroy this planet and syphon ${getPlanetEnergyGained(systemObject)} energy to another universe.`,
+                                cost: {
+                                    "antimatter": 1
+                                }
+                            }, userData, "obliteratePlanet");
                         }
                     });
                     systemObject.style.backgroundColor = thing.color;
@@ -812,7 +885,6 @@ async function updateSolarSystemPositions(userData) {
                         targetObjectId: target,
                         damage: 1
                     }
-
                     currentMultiverse.turret.currentCharge = 0;
                 }
 
@@ -868,11 +940,11 @@ function generateShipLoot(enemyShip) {
         if (item in loot) {
             loot[item] += enemyShip.cargo[item];
         } else {
-            loot[item] = enemyShip.cargo[item]; 2
+            loot[item] = enemyShip.cargo[item];
         }
     }
 
-    return loot
+    return loot;
 }
 
 function generateDebris(userData, enemyShip) {
@@ -1011,5 +1083,6 @@ export {
     newTargetButton,
     cancelRedirect,
     buildScanner,
-    updateFactory
+    updateFactory,
+    obliteratePlanet
 };

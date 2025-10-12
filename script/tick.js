@@ -84,7 +84,7 @@ function tick(userData) {
         if (currentScreenDisplayed === "Map") updateSolarSystem(userData);
 
 
-        for (const system of currentMultiverse.solarSystems) {
+        for (const system of currentMultiverse.solarSystems) { // Check factory production
             for (const id in system.objects) {
                 if (system.objects[id].factory) {
                     const factoryInfo = system.objects[id].factory;
