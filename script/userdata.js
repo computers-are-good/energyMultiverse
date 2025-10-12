@@ -1,7 +1,7 @@
 import defaultData from "./data/defaultData.js";
 import defaultMultiverseData from "./data/defaultMultiverseData.js";
 import generateAllSystems from "./map/newSolarSystem.js";
-import newSolarSystem from "./map/newSolarSystem.js";
+import multiverseNames from "./data/multiverseNames.js";
 import notify from "./notifs/notify.js";
 import { choice, deepClone } from "./utils.js";
 
@@ -30,9 +30,8 @@ function getUserData() {
     return dataToReturn;
 }
 
-const multiverseNames = ["Ytare", "Baela", "Starwater"];
 function newMultiverse(userData) {
-    const chosenName = choice(multiverseNames);
+    const chosenName = multiverseNames[userData.currentMultiverse % multiverseNames.length];
     const multiverse = structuredClone(defaultMultiverseData);
     multiverse.name = chosenName;
     generateAllSystems(multiverse);
