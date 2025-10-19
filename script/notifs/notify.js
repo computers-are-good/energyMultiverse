@@ -15,13 +15,12 @@ function notify(message) {
         sameMessageCount = 0;
         const newP = document.createElement("p");
         newP.textContent = message;
-        lastMessage = message;
+        //lastMessage = message;
         lastPAdded = newP;
         if (messageCount === 0) {
             notificationsDiv.appendChild(newP);
         } else {
             notificationsDiv.insertBefore(newP, notificationsDiv.firstChild);
-
         }
 
         if (messageCount > 10) {
@@ -29,12 +28,15 @@ function notify(message) {
             messageCount--;
         }
 
+        //Update visibility of all previous divs
+        notificationsDiv.childNodes.forEach((e, i) => {
+            e.style.opacity = 1 - i * 0.1;
+        });
+
         fadeIn(newP, 0.5);
-        //newP.style.filter = "blur(5px)";
         newP.style.left = "-200px";
         newP.style.position = "relative";
         setTimeout(_ => {
-            //newP.style.filter = "blur(0px)";
             newP.style.left = "0px";
         }, 10);
     }
