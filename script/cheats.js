@@ -19,6 +19,18 @@ function addCheats(userData) {
                 const code = prompt("Confess, young child, and speak thy soul.");
                 let targetMultiverse;
                 switch (code) {
+                    case "RESOURCEDADDY":
+                        currentMultiverse.energy = 99999;
+                        updateEnergyCounter(userData);
+                        currentMultiverse.dust = 99999;
+                        updateDustCounter(userData);
+                        currentMultiverse.metal = 99999;
+                        updateMetalCounter(userData);
+                        currentMultiverse.iridium = 99999;
+                        updateIridiumCounter(userData);
+                        currentMultiverse.antimatter = 99999;
+                        updateAntimatterCounter(userData);
+                        break;
                     case "ENERGYFORDAYS":
                         currentMultiverse.energy = 99999;
                         updateEnergyCounter(userData);

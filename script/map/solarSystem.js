@@ -50,38 +50,42 @@ async function obliteratePlanet(userData) {
         if (checkCosts(userData, {antimatter: 1}, true)) {
             subtractCosts(userData, {antimatter: 1});
             currentMultiverse.allowSolarSystemUpdates = false;
+            const planetX = currentPlanet.posX + mapLeft - currentPlanet.radius / 4;
+            const planetY = currentPlanet.posY + mapTop - currentPlanet.radius / 4;
             particles({ //Animation for destroying planets
-                particleX: currentPlanet.posX + mapLeft,
-                particleY: currentPlanet.posY + mapTop,
+                particleX: planetX,
+                particleY: planetY,
                 particleNumber: 25,
                 particleColor: "red",
                 particleSize: 5,
                 circular: true,
                 particleScalingRate: 0.001,
                 converge: true,
-                particleLifetime: 500,
-                particleSpeed: 0.125,
+                particleLifetime: 1000,
+                particleSpeed: 0.2,
             }, map);
-            await wait(500);
-            particles({
-                particleX: currentPlanet.posX + mapLeft - currentPlanet.radius,
-                particleY: currentPlanet.posY + mapTop + currentPlanet.radius,
-                particleNumber: 1,
-                particleColor: "white",
-                particleSize: 5,
-                circular: true,
-                particleScalingRate: 0.025,
-                converge: true,
-                particleLifetime: 2500,
-                particleSpeed: 0,
-            }, map);
-            await wait(1500);
+            await wait(1000);
+            for (let i = 0; i < 10; i++) {
+                particles({
+                    particleX: planetX,
+                    particleY: planetY,
+                    particleNumber: 2,
+                    particleColor: ["red", "yellow", "green", "blue", "white"][i % 5],
+                    particleSize: 5,
+                    circular: true,
+                    particleScalingRate: 0.009,
+                    converge: false,
+                    particleLifetime: 1250,
+                    particleSpeed: 0.04,
+                }, map);
+                await wait(200);
+            }
             const mapRect = systemMap.getBoundingClientRect();
             mapTop = mapRect.top;
             mapLeft = mapRect.left;
             particles({
-                particleX: currentPlanet.posX + mapLeft,
-                particleY: currentPlanet.posY + mapTop,
+                particleX: planetX,
+                particleY: planetY,
                 particleNumber: 50,
                 particleColor: "red",
                 particleSize: 3,

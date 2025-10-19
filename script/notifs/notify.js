@@ -15,7 +15,7 @@ function notify(message) {
         sameMessageCount = 0;
         const newP = document.createElement("p");
         newP.textContent = message;
-        //lastMessage = message;
+        lastMessage = message;
         lastPAdded = newP;
         if (messageCount === 0) {
             notificationsDiv.appendChild(newP);
