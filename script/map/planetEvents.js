@@ -108,7 +108,8 @@ function getSolarSystemExplorationLevel(userData, systemInfo) {
             explorationLevels.push(getPlanetExplorationLevel(userData, systemInfo.objects[object]));
         }
     }
-    return Math.floor(explorationLevels.reduce((a, b) => a + b) / explorationLevels.length);
+    // A solar system with no planets is 100% explored by default
+    return explorationLevels.length > 0 ? Math.floor(explorationLevels.reduce((a, b) => a + b) / explorationLevels.length) : 100;
 }
 
 export { arriveAtTarget, getPlanetExplorationLevel, getSolarSystemExplorationLevel }
