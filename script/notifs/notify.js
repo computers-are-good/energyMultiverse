@@ -30,8 +30,13 @@ function notify(message) {
         }
 
         fadeIn(newP, 0.5);
-        newP.style.filter = "blur(5px)";
-        setTimeout(_ => newP.style.filter = "blur(0px)", 10);
+        //newP.style.filter = "blur(5px)";
+        newP.style.left = "-200px";
+        newP.style.position = "relative";
+        setTimeout(_ => {
+            //newP.style.filter = "blur(0px)";
+            newP.style.left = "0px";
+        }, 10);
     }
 }
 

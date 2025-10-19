@@ -47,7 +47,7 @@ async function obliteratePlanet(userData) {
 
     const energyGained = getPlanetEnergyGained(currentPlanet);
     selectMultiverse(userData, false, false, "Choose energy destination").then(async selectedMultiverse => {
-        if (checkCosts(userData, {antimatter: 1}, false)) {
+        if (checkCosts(userData, {antimatter: 1}, true)) {
             subtractCosts(userData, {antimatter: 1});
             currentMultiverse.allowSolarSystemUpdates = false;
             particles({ //Animation for destroying planets
@@ -64,8 +64,8 @@ async function obliteratePlanet(userData) {
             }, map);
             await wait(500);
             particles({
-                particleX: currentPlanet.posX + mapLeft - currentPlanet.radius / 4,
-                particleY: currentPlanet.posY + mapTop + currentPlanet.radius / 4,
+                particleX: currentPlanet.posX + mapLeft - currentPlanet.radius,
+                particleY: currentPlanet.posY + mapTop + currentPlanet.radius,
                 particleNumber: 1,
                 particleColor: "white",
                 particleSize: 5,
@@ -93,6 +93,8 @@ async function obliteratePlanet(userData) {
             delete currentSystem.objects[selected];
             currentMultiverse.allowSolarSystemUpdates = true;
             updateSolarSystem(userData);
+        } else {
+            notify("Cannot obliterate planet.");
         }
     }).catch(e => {
         notify("Cancelled; target multiverse not selected.");

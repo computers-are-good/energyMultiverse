@@ -498,7 +498,7 @@ button {
     justify-content: center;
 }
 #notifications p {
-    transition: filter 0.8s
+    transition: all 0.5s ease-out;
 }
 #energyStatsInfo {
     display: flex;
