@@ -32,6 +32,7 @@ function galaxyView(userData) {
         for (const i in currentMultiverse.solarSystems) {
             const system = currentMultiverse.solarSystems[i];
             const systemDiv = drawSystem(system.galaxyX, system.galaxyY);
+            const planetCount = Object.keys(system.objects).filter(e => system.objects[e].type === "planet").length;
 
             const explorationPercent = getSolarSystemExplorationLevel(userData, system);
 
@@ -39,14 +40,16 @@ function galaxyView(userData) {
                 systemDiv.style.backgroundColor = "white";
             } else {
                 systemDiv.style.backgroundColor = tierColours[system.tier];
+                if (explorationPercent === 100) {
+                    systemDiv.style.opacity = 0.4;
+                    if (planetCount == 0) systemDiv.style.backgroundColor = "gray";
+                }
             }
-
-            if (explorationPercent === 100) systemDiv.style.opacity = 0.3;
 
             systemDiv.addEventListener("click", _ => {
                 document.getElementById("systemInfo").style.display = "block";
                 document.getElementById("energyRequired").textContent = calculateEnergyRequired(userData, i);
-                document.getElementById("numberOfPlanetsDisplay").textContent = Object.keys(system.objects).filter(e => system.objects[e].type === "planet").length;
+                document.getElementById("numberOfPlanetsDisplay").textContent = planetCount;
                 document.getElementById("systemTierDisplayGalaxy").textContent = system.tier;
                 document.getElementById("dangerLevelDisplay").textContent = system.dangerLevel;
                 document.getElementById("systemName").textContent = system.name;
@@ -108,6 +111,7 @@ function drawSystem(x, y) {
     newSystem.style.width = "20px";
     newSystem.style.height = "20px";
     newSystem.style.borderRadius = "20px";
+    newSystem.style.cursor = "pointer";
     bigGalaxyMap.appendChild(newSystem);
     return newSystem;
 }
