@@ -19,7 +19,7 @@ function addCheats(userData) {
                 const code = prompt("Confess, young child, and speak thy soul.");
                 let targetMultiverse;
                 switch (code) {
-                    case "RESOURCEDADDY":
+                    case "SUGARDADDY":
                         currentMultiverse.energy = 99999;
                         updateEnergyCounter(userData);
                         currentMultiverse.dust = 99999;
