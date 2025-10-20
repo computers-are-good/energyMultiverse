@@ -65,20 +65,20 @@ async function obliteratePlanet(userData) {
                 particleSpeed: 0.2,
             }, map);
             await wait(1000);
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 20; i++) {
                 particles({
                     particleX: planetX,
                     particleY: planetY,
-                    particleNumber: 2,
+                    particleNumber: 4,
                     particleColor: ["red", "yellow", "green", "blue", "white"][i % 5],
                     particleSize: 5,
                     circular: true,
                     particleScalingRate: 0.009,
                     converge: false,
-                    particleLifetime: 1250,
-                    particleSpeed: 0.04,
+                    particleLifetime: 500,
+                    particleSpeed: 0.3,
                 }, map);
-                await wait(200);
+                await wait(Math.max(200 - i ** 1.5 * 2, 20));
             }
             const mapRect = systemMap.getBoundingClientRect();
             mapTop = mapRect.top;
