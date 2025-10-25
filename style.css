@@ -30,6 +30,12 @@ main p {
     justify-content: center;
     margin-top: 10px;
 }
+#tickCount {
+    position: absolute;
+    display: none;
+    left: 18px;
+    bottom: 0px;
+}
 #drones button, #dusts button, #metals button {
     margin: 10px 0;
 }
@@ -89,6 +95,7 @@ ul {
     width: 100%;
     padding: 10px;
     border: 1px solid white;
+    box-sizing: border-box;
 }
 #notifications {
     position: relative;

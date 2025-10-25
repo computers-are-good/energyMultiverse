@@ -7,10 +7,11 @@ import { buildShip } from "./ship/shipEvents.js";
 import { updateFactory, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
 import { addNavigationAttention, currentScreenDisplayed, unlockUIElement } from "./toggleUIElement.js";
 import { solarPanelTick } from "./resources/solarPanel.js";
-import { gainDust, gainEnergy, gainMetal } from "./resources/gainResources.js";
+import { gainAntimatter, gainDust, gainEnergy, gainMetal } from "./resources/gainResources.js";
 import updateStatistics from "./statistics.js";
 import unlockResearchForElement from "./unlockResearch.js";
 import { storeUserData } from "./userdata.js";
+import notifyUnique from "./notifs/notifyUnique.js";
 
 let tickCount = 0;
 function tick(userData) {
@@ -108,6 +109,13 @@ function tick(userData) {
         notify("Now that you're in a new world, you are ready to destroy the old one you left behind.");
         unlockUIElement(currentMultiverse.UIElementsUnlocked, "buildAntimatterBeam");
         addNavigationAttention("energy", "pageEnergy");
+    }
+
+    if (currentMultiverse.statistics.totalTicksPassed % 900 === 0) { // Gaining antimatter
+        gainAntimatter(userData, 1);
+        if (currentMultiverse.statistics.antimatterGained == 0) {
+            notifyUnique("firstAntimatter");
+        }   
     }
 
     userData.allMultiverseTicksPassed++

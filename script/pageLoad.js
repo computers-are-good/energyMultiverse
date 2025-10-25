@@ -148,8 +148,12 @@ function applyEvents(userData) {
         if (e.key === "Shift") {
             if (currentTime - lastShiftTime < 500) {
                 lastShiftTime = 0;
+                document.getElementById("tickCount").style.display = "block";
                 if (userData.speedModeEnabled) {
-                    quickInterval1 = setInterval(_ => tick(userData), 10);
+                    quickInterval1 = setInterval(_ => {
+                        tick(userData);
+                        document.getElementById("tickCount").textContent = `[Fast forwarding] Tick number: ${userData.multiverses[userData.currentMultiverse].statistics.totalTicksPassed}`;
+                    }, 10);
                     quickInterval2 = setInterval(_ => tick(userData), 10);
                     intervalSet = true;
                 }
@@ -162,6 +166,7 @@ function applyEvents(userData) {
         if (e.key === "Shift") {
             clearInterval(quickInterval1);
             clearInterval(quickInterval2);
+            document.getElementById("tickCount").style.display = "none";
             intervalSet = false;
         }
     });

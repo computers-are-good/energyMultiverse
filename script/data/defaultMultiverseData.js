@@ -67,6 +67,7 @@ const defaultMultiverseData = {
         dustGained: 0,
         metalGained: 0,
         iridiumGained: 0,
+        antimatterGained: 0,
         totalTicksPassed: 0,
         planetsVisited: 0,
         shipsBuilt: 0,
