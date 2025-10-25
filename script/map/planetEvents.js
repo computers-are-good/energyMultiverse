@@ -45,13 +45,19 @@ function getBiomeEvents(userData, planetInfo) {
 
     return availableEvents;
 }
+
 const globalEventsMilestones = {
     5: "deflectionDriveUnlock",
     8: "fasterShips",
     10: "story1",
     15: "story2",
     18: "story3",
+    22: "story4",
+    25: "story5",
+    27: "story6",
+    28: "story7"
 }
+
 function arriveAtTarget(shipInfo, userData) { //for use with player ships arriving on planets only
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];

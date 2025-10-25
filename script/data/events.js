@@ -516,7 +516,7 @@ const events = {
                 text: "You appreciate the sublimity of the clouds coated in the golden glow of the sun. In between the glowing streaks from your ship, the horizon is coated in the gold of its distant star.",
             },
             {
-                text: "The scenery envelop you in transquility, and, as your ship slowly floats down towards the surface, you mind begins to drift to far away places.",
+                text: "The scenery envelop you in transquility, and, as your ship slowly floats down towards the surface, your mind begins to drift to far away places.",
             },
             {
                 text: "Your mind's eye sees a universe far larger, a place where there are not hundreds of stars, but billions. And it in, you are on a blue marble around a star. It's your star.",
@@ -525,7 +525,7 @@ const events = {
                 text: "And, of course, there are more like you. A place where billions of individuals like you move about from place to place in their day to day work, the hustle and bustle of their conversations whispering to you as they pass by. Must be wonderful being caught in the moment.",
             },
             {
-                text: "At this moment, a sudden alarm takes you out of your thoughts. LANDING GEAR FAILURE. Looks like this expedition has to end early.",
+                text: "You look towards the seas below. There's nothing there. No point in landing; better leave now.",
             },
             {
                 text: "As you pull up, you again take your mind to the distant world, a world hidden behind the shrouds of darkened glass in your mind. You picture yourself standing in the centre, where vast systems formed into galaxies whirl past you, leaving behind naught but a memory.",
@@ -601,10 +601,58 @@ const events = {
                 text: "We reached for the night sky. The most brilliant scientists gathered to solve the puzzle of the darkness. We sent out probes; we sent out spaceships. Even then, the collective intelligence cannot solve the story of the stars.",
             },
             {
-                text: "Even then, we would live on in our new fake reality, our days marked by the little suns above. It is as if the old God was always there.",
+                text: "We would live on in our new fake reality, our days marked by the little suns above. It is as if our old God was always there.",
             },
             {
-                text: "But, in the back of everyone's minds lies a lingering monster no one wishes to confront directly, a monster reminding us we will run out of hydrogen. We will run out of energy. And when that happens, the world will again return to darkness.",
+                text: "But, in the back of everyone's minds lies a lingering monster no one wishes to confront, a monster reminding us we will run out of hydrogen. We will run out of energy. And when that happens, the world will again return to darkness.",
+            },
+        ]
+    },
+    story6: {
+        script: [
+            {
+                text: "As with all affairs human, the initial warning signs fell onto deaf ears and apatheic minds. It started when the Sun over Britain started dimming, its hunger consuming the world. We ignored it; we thought we could reach out to the Moon again, to seek its resources.",
+            },
+            {
+                text: "In theory it should be like any other lunar expedition, but our spaceship never made it. The Maiden of Deception an elusive white orb mocking our futile attempts, perpetually out of reach. The more we travelled, the further she became. We never closed the gap. Our ship came back, its fuel cells empty as a void.",
+            },
+            {
+                text: "We soon realised we were on our own. All we had was truly all we had; we can't get more. We started dimming the suns, but that was only a temporary solution. Time passes, the previously bright skies now the colours of dusk. Soon, it will be an echo of midnight. In time, the uncalling of nothingness.",
+            },
+            {
+                text: "And, in the last dying moments of dusk, is where you come in.",
+            },
+        ]
+    },
+    story7: {
+        script: [
+            {
+                text: "You awake from the daydreams of the past to stare at the void of the present. There is naught but an empty sky. Refractions of starlight on the planet's atmosphere adds a glimmer to your world, but the world is at peace. It is truly you and that vast nihility.",
+            },
+            {
+                text: "Scientists ran the numbers. Everyone knows energy conservation: you cannot create energy from nothing. But that rule only applies within the borders of our universe. What about outside the universe?",
+            },
+            {
+                text: "Is it possible for us to, in theory at least, build a out a new life for us? A world next to our own, running side by side. One which mirrors our laws of physics, but with a fresh start? It may violate our laws of physics, but the new world does not care for our laws; it cares for its own laws.",
+            },
+            {
+                text: "And, with that, humanity's hope was again rekindled.",
+            },
+        ]
+    },
+    story8: {
+        script: [
+            {
+                text: "On the border of lumen, in a world where darkness has no partner, the greatest minds gather. The breakthrough was not unexpected; months of buildup lead to this moment, but they finally confirmed a way through the dark. News was dramatised and obfuscated by corporations as usual, but behind those lies, was the truth in hope.",
+            },
+            {
+                text: "The companies called it a computer hypervised simulation system. The idea in theory was simple: use our computing power to build a new universe, and harvest energy from that new universe. Send it back to us. No fundamental law of nature was being violated, for we are connecting different worlds. We still respected their rules. We will be welcome guests.",
+            },
+            {
+                text: "A new plan for our surival was established.",
+            },
+            {
+                text: "But, even with that, we still need a brave soul to venture through.",
             },
         ]
     },

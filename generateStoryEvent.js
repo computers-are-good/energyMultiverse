@@ -8,7 +8,7 @@ chapters.splice(0, 1); //Remove the disclaimers
 const outputString = "";
 
 for (const chapter of chapters) {
-    lines = chapter.split("\r\n");
+    lines = chapter.split("\n");
     const storyTitle = lines.splice(0, 1)[0].trim();
     let individualChapter =
         `${storyTitle}: {
