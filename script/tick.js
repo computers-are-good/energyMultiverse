@@ -103,10 +103,10 @@ function tick(userData) {
     }
 
     //Unlock the antimatter beam if in new multiverse
-    if (tickCount > 300 && !userData.antimatterBeamNotifDone && userData.currentMultiverse > 0) {
+    if (currentMultiverse.statistics.totalTicksPassed > 300 && !userData.antimatterBeamNotifDone && userData.currentMultiverse > 0) {
         userData.antimatterBeamNotifDone = true;
         notify("Now that you're in a new world, you are ready to destroy the old one you left behind.");
-        document.getElementById("buildAntimatterBeam").style.display = "block";
+        unlockUIElement(currentMultiverse.UIElementsUnlocked, "buildAntimatterBeam");
         addNavigationAttention("energy", "pageEnergy");
     }
 

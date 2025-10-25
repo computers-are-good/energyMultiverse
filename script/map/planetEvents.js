@@ -63,7 +63,6 @@ function arriveAtTarget(shipInfo, userData) { //for use with player ships arrivi
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
     const targetObject = currentSystem.objects[shipInfo.targetObjectId];
 
-    targetObject.biomeSpecificEventsAvailable = 999;
     return new Promise(async res => {
         addNavigationAttention("Map", "pageMap");
         notify(`A ship has arrived at ${targetObject.name}.`);

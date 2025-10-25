@@ -24,7 +24,7 @@ function callCreateFunction(userData) {
         document.getElementById("multiverseTravel").style.display = "block";
         matchMultipliers(userData);
         updateMultiverseMultipliers(userData);
-        openMultiverseTravelUI(userData, true, true);
+        selectMultiverse(userData, true, true);
     }
 
 }

@@ -25,6 +25,7 @@ const hideableIDs = [
     "recallShip",
     "pageStatistics",
     "energyStatistics",
+    "buildAntimatterBeam",
 ];
 const screens = [
     "Energy",
