@@ -10,6 +10,12 @@ body {
 main p {
     text-align: center;
 }
+#eventText {
+    text-align: left;
+    width: 90%;
+    left: 5%;
+    position: relative
+}
 #bigEnergy {
     background-color: rgb(28, 28, 27);
     border-radius: 50px;
