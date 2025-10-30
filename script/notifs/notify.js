@@ -1,4 +1,5 @@
 import fadeIn from "../animations/fadeIn.js";
+import letterByLetter from "../animations/letterByLetter.js";
 
 let messageCount = 0;
 let lastMessage = "";
@@ -34,11 +35,7 @@ function notify(message) {
         });
 
         fadeIn(newP, 0.5);
-        newP.style.left = "-200px";
-        newP.style.position = "relative";
-        setTimeout(_ => {
-            newP.style.left = "0px";
-        }, 10);
+        letterByLetter(newP, 25);
     }
 }
 

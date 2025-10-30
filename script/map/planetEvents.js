@@ -53,7 +53,10 @@ const storyEvents = {
     22: "story4",
     25: "story5",
     27: "story6",
-    28: "story7"
+    28: "story7",
+    32: "story8",
+    35: "story9",
+    36: "story10"
 }
 
 const globalEventsMilestones = {
@@ -68,7 +71,6 @@ function arriveAtTarget(shipInfo, userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
     const targetObject = currentSystem.objects[shipInfo.targetObjectId];
-    currentMultiverse.statistics.planetsVisited = 10;
 
     return new Promise(async res => {
         addNavigationAttention("Map", "pageMap");

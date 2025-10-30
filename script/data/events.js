@@ -1,4 +1,4 @@
-import { addNavigationAttention } from "../toggleUIElement.js";
+import { addNavigationAttention, toggleScreen, unlockUIElement } from "../toggleUIElement.js";
 
 const events = {
     "Batteries": {
@@ -510,25 +510,25 @@ const events = {
     story1: {
         script: [
             {
-                text: "This is your tenth descent below the blanket of clouds. You've hit double digits already. You again feel the familar vibrations of your ship as it hurls into the depths of the unknown.",
+                text: "This is your tenth descent below the blanket of clouds. You've hit double digits already. You again feel the familiar vibrations of your ship as it hurls into the depths of the unknown.",
             },
             {
                 text: "You appreciate the sublimity of the clouds coated in the golden glow of the sun. In between the glowing streaks from your ship, the horizon is coated in the gold of its distant star.",
             },
             {
-                text: "The scenery envelop you in transquility, and, as your ship slowly floats down towards the surface, your mind begins to drift to far away places.",
+                text: "The scenery envelops you in tranquility, and, as your ship slowly floats down towards the surface, your mind begins to drift to places far away.",
             },
             {
-                text: "Your mind's eye sees a universe far larger, a place where there are not hundreds of stars, but billions. And it in, you are on a blue marble around a star. It's your star.",
+                text: "Your mind's eye sees a universe far larger, where there are not hundreds of stars, but billions. And it in, you are on a blue marble around one such star. It's your star.",
             },
             {
-                text: "And, of course, there are more like you. A place where billions of individuals like you move about from place to place in their day to day work, the hustle and bustle of their conversations whispering to you as they pass by. Must be wonderful being caught in the moment.",
+                text: "There are more like you. A place where billions of individuals wearing your features move from here to there, the hustle and bustle of their conversations whispering to you as they pass by. Must be wonderful being caught in the moment.",
             },
             {
                 text: "You look towards the seas below. There's nothing there. No point in landing; better leave now.",
             },
             {
-                text: "As you pull up, you again take your mind to the distant world, a world hidden behind the shrouds of darkened glass in your mind. You picture yourself standing in the centre, where vast systems formed into galaxies whirl past you, leaving behind naught but a memory.",
+                text: "As you pull up, you again take your mind to the distant world — a world hidden behind the shrouds of darkened glass in your mind. You picture yourself standing in its centre, where vast systems formed into galaxies whirl past you, leaving behind naught but a memory.",
             },
             {
                 text: "But does that place ever exist? You consider as you fly away.",
@@ -538,10 +538,10 @@ const events = {
     story2: {
         script: [
             {
-                text: "From high above the atmosphere, you send your lilliputian craft into the depths. It's night on this side of the planet. Better be careful, you think to yourself. The red trails of your ship lights up the sky, but, in front of you, there is only an empty void.",
+                text: "From high above the atmosphere, you send your Lilliputian craft into the depths. It's night on this side of the planet. Better be careful, you think to yourself. The red trails of your ship lights up the sky, but, in front of you, there is only an empty void.",
             },
             {
-                text: "Again you cast your mind to the distant universe. Does it really exist? And if it does, what's in the distant universe? Is it simply a realm of daydreams, or does it really exist beyond the confines of your mind?",
+                text: "Again you cast your mind to the distant universe. Does it really exist? And if it does, what's in it? Is it simply a realm of daydreams, or does it really exist beyond the confines of your mind? How a place like it end up in your thoughts?",
             },
             {
                 text: "You try to probe your head for details relating to the universe. Accompanied by the rattle of your spaceship, you push deeper into the abyss of the mind. And, you find three words staring back at you.",
@@ -563,16 +563,16 @@ const events = {
                 text: "Blades of the green populate an open plain as you stand in the darkness. When you gaze to the night sky above, you see the light from billions of stars  lighting up your world. It is as if a dream was reflected through the lens of the real.",
             },
             {
-                text: "The world between dream and nightmare blurs as a light above was extingushed by a force not known, the emptiness a reflection of a reality where it never existed.",
+                text: "The world between dream and nightmare blurs as a light above was extinguished by a force not known, the emptiness a reflection of a reality where it never existed.",
             },
             {
-                text: "Then, in a distant corner, another light darkens. Then another, and another, and another. It doesn't stop. Another one's gone. And another star. The one that glew the brightest is gone, and so is the one that's the dimmest. The biggest disappeared, and so did the smallest.",
+                text: "Then, in a distant corner, another light darkens. Then another, and another, and another. It doesn't stop. Another one's gone. And another star. The one that was the brightest is gone, and so is the one that's the dimmest. The biggest disappeared, and so did the smallest.",
             },
             {
-                text: "It keeps going. Soon, you are greeted by nothing but a pitch black sky and the audible echoes within your soul.",
+                text: "It keeps going. Soon, you are greeted by nothing but a pitch black sky and the audible echoes within yourself.",
             },
             {
-                text: "Your mind snaps back to the ever-shifting present, a reality where your feeble spaceship is about to cross the boundries between worlds. You gaze at the skies above; the stars wave at you as if they were never gone.",
+                text: "Your mind snaps back to the ever-shifting present, a reality where your feeble spaceship is about to cross the boundaries between worlds. You gaze at the skies above; the stars here are always there for you.",
             },
         ]
     },
@@ -582,7 +582,7 @@ const events = {
                 text: "You awaken to the essence of nothingness; the world painted with the soul of oblivion and the silence of the night. The grass plain reduced from a mirror for the expression of the night sky to an apathetic maiden watching the world go by.",
             },
             {
-                text: "And you, a mere mortal witnessing the affair of the divine, left alone in the aphotic without a guidepost, patiently waiting for the sunrise of a new dawn to lead you away.",
+                text: "And you, a mere mortal witnessing the affairs of the divine, left alone in the aphotic without a guidepost, patiently waiting for the sunrise of a new dawn to lead you away.",
             },
             {
                 text: "But that sunrise never came.",
@@ -592,7 +592,7 @@ const events = {
     story5: {
         script: [
             {
-                text: "Yet, human ingenuity persists in the tide of change, for despite the odds against us, we adapted. We may not be able to restore the stars, but we will not give up. We coordinated and talked. We built our own suns, fusion reactors consuming swarms of hydrogen to light up the sky, their faint and distant glow a pathetic yet faithful mimicry of Sol.",
+                text: "Yet, human ingenuity persists in the tide of change, for despite the odds against us, we adapted. We may not be able to restore the stars, but we will not give up. We coordinated. We talked. We thrived. We built our own suns, fusion reactors consuming swarms of hydrogen to light up the sky, their faint and distant glow a pathetic yet faithful mimicry of Sol.",
             },
             {
                 text: "We would turn them on and off to recreate the eternal cycle of day and night. We would suspend them from the clouds like the Old Sun. They provided guidance both for the distant and weary traveller and for the city dweller. Thus, there is again light in the world.",
@@ -611,7 +611,7 @@ const events = {
     story6: {
         script: [
             {
-                text: "As with all affairs human, the initial warning signs fell onto deaf ears and apatheic minds. It started when the Sun over Britain started dimming, its hunger consuming the world. We ignored it; we thought we could reach out to the Moon again, to seek its resources.",
+                text: "As with all affairs human, the initial warning signs fell onto deaf ears and apathetic minds. It started when the Sun over Britain started dimming, its hunger consuming the world. We ignored it; we thought we could reach out to the Moon again, to seek its resources.",
             },
             {
                 text: "In theory it should be like any other lunar expedition, but our spaceship never made it. The Maiden of Deception an elusive white orb mocking our futile attempts, perpetually out of reach. The more we travelled, the further she became. We never closed the gap. Our ship came back, its fuel cells empty as a void.",
@@ -633,7 +633,7 @@ const events = {
                 text: "Scientists ran the numbers. Everyone knows energy conservation: you cannot create energy from nothing. But that rule only applies within the borders of our universe. What about outside the universe?",
             },
             {
-                text: "Is it possible for us to, in theory at least, build a out a new life for us? A world next to our own, running side by side. One which mirrors our laws of physics, but with a fresh start? It may violate our laws of physics, but the new world does not care for our laws; it cares for its own laws.",
+                text: "Is it possible for us to, in theory at least, build out a new life for us? A world next to our own, running side by side. One which mirrors our laws of physics, but with a fresh start? It may violate our laws of physics, but the new world does not care for our laws; it cares for its own laws.",
             },
             {
                 text: "And, with that, humanity's hope was again rekindled.",
@@ -643,19 +643,64 @@ const events = {
     story8: {
         script: [
             {
-                text: "On the border of lumen, in a world where darkness has no partner, the greatest minds gather. The breakthrough was not unexpected; months of buildup lead to this moment, but they finally confirmed a way through the dark. News was dramatised and obfuscated by corporations as usual, but behind those lies, was the truth in hope.",
+                text: "On the border of lumen, in a world where darkness has no partner, the greatest minds gather. The breakthrough was not unexpected; it was supported by years of progress. They finally confirmed a way through the dark. The news was obfuscated, but behind those lies, was the truth in hope.",
             },
             {
-                text: "The companies called it a computer hypervised simulation system. The idea in theory was simple: use our computing power to build a new universe, and harvest energy from that new universe. Send it back to us. No fundamental law of nature was being violated, for we are connecting different worlds. We still respected their rules. We will be welcome guests.",
+                text: "The companies called it a computer hypervised simulation system. The idea in theory was simple: use our computing power to build a new universe, and harvest energy from that new universe. Send it back to us. No fundamental law of nature was being violated; we are connecting different worlds. We still respected their rules. We will be welcome guests.",
             },
             {
-                text: "A new plan for our surival was established.",
+                text: "A new plan for our survival was established.",
             },
             {
                 text: "But, even with that, we still need a brave soul to venture through.",
             },
         ]
     },
+    story9: {
+        script: [
+            {
+                text: "With a rekindled way forward, humanity yet again shifted our attention. The collective effort was a titan's last breath, our survival instinct's one last desperate grip.",
+            },
+            {
+                text: "We had to make the simulation work. We have failed so many times; one more, and the last star in the universe will finally die.",
+            },
+            {
+                text: "Just as the suns were entering their final slumber, a figure coated in darkness faced a void. They weren't promised much, but they had the basics. On the other side was a small universe. It had only a handful of stars, but it was enough. A small mothership, a white square wailing among nothingness.",
+            },
+            {
+                text: "They were promised a means of harvesting energy on the other side. All they had to do was click.",
+            },
+            {
+                text: "With slow but steady gait the figure advanced, until they were no longer.",
+            },
+            {
+                text: "Looking back at that last moment, it was what your mind knew all along.",
+            },
+            {
+                text: "The figure in shadow was you.",
+            },
+        ]
+    },
+    story10: {
+        script: [
+            {
+                text: "As you move down into the atmosphere, your mind remembers the final detail from the moments before stepping through to here.",
+            },
+            {
+                text: "Your ship, just like the scientists, has the equipment to create multiple universes.",
+            },
+            {
+                text: "Make use of it.",
+            },
+            {
+                text: "Save humanity back home. After all, you are our only hope.",
+            },
+        ],
+        endScript(shipData, userData) {
+            unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "pageUniverse");
+            toggleScreen(userData, "Universe");
+        },
+    }
 }
 
 export default events;

@@ -10,6 +10,7 @@ const hideableIDs = [
     "pageSelector",
     "sidebar",
     "drones",
+    "pageUniverse",
     "energyTitle",
     "dustbotDiv",
     "fabriBot",

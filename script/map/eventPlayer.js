@@ -3,6 +3,7 @@ import events from "../data/events.js";
 import notify from "../notifs/notify.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons } from "../pageUpdates.js";
 import { addNavigationAttention } from "../toggleUIElement.js";
+import { wait } from "../utils.js";
 import { updateSolarSystem } from "./solarSystem.js";
 
 function eventPlayer(shipData, userData, eventId, planetName) {
@@ -53,13 +54,21 @@ function eventPlayer(shipData, userData, eventId, planetName) {
                     addNavigationAttention("research", "pageResearch");
                 }
             }
+
+            if ("endScript" in events[eventId]) events[eventId].endScript(shipData, userData);
             res(successfulResolution);
         }
 
         endButton.addEventListener("click", endEvent);
         document.getElementById("scriptPlayer").appendChild(endButton);
 
-        function readEvent(index) {
+        async function readEvent(index) {
+            let i;
+            let text = eventScript[index].text;
+            function skipText() {
+                i = text.length - 1;
+                document.getElementById("eventText").textContent = text;
+            }
             if ("probability" in eventScript[index]) {
                 if (Math.random() > eventScript[index].probability) {
                     currentIndex++;
@@ -73,20 +82,28 @@ function eventPlayer(shipData, userData, eventId, planetName) {
             }
 
             const replacementKeys = {
-                "{STARNAME}" : currentSystem.name,
+                "{STARNAME}": currentSystem.name,
                 "{SHIPCLASS}": shipData.class,
                 "{PLANETNAME}": currentSystem.objects[shipData.targetObjectId].name
             }
-
-            let text = eventScript[index].text;
 
             for (const key in replacementKeys) {
                 text = text.replaceAll(key, replacementKeys[key]);
             }
 
-            document.getElementById("eventText").textContent = text;
+            document.getElementById("eventText").textContent = "";
+            eventNext.style.display = "none";
+            endButton.style.display = "none";
+            await wait(150);
+            document.getElementById("encounterInfo").addEventListener("click", skipText);
+            for (i = 0; i < text.length; i++) {
+                document.getElementById("eventText").textContent = text.slice(0, i + 1);
+                await wait(25);
+            }
+            document.getElementById("encounterInfo").removeEventListener("click", skipText);
+            eventNext.style.display = "block";
 
-            if (eventScript[index].researchUnlocked) 
+            if (eventScript[index].researchUnlocked)
                 eventScript[index].researchUnlocked.forEach(e => researchToUnlock.push(e));
 
             if (eventScript[index].item) {
