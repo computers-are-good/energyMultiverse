@@ -62,6 +62,7 @@ const defaultMultiverseData = {
     },
     uniqueNotifsDone: [],
     eventsDone: [],
+    eventQueue: [],
     statistics: {
         energyGained: 0,
         dustGained: 0,

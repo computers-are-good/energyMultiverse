@@ -46,9 +46,7 @@ function getBiomeEvents(userData, planetInfo) {
     return availableEvents;
 }
 
-const globalEventsMilestones = {
-    5: "deflectionDriveUnlock",
-    8: "fasterShips",
+const storyEvents = {
     10: "story1",
     15: "story2",
     18: "story3",
@@ -58,32 +56,75 @@ const globalEventsMilestones = {
     28: "story7"
 }
 
-function arriveAtTarget(shipInfo, userData) { //for use with player ships arriving on planets only
+const globalEventsMilestones = {
+    5: "deflectionDriveUnlock",
+    8: "fasterShips",
+}
+
+function arriveAtTarget(shipInfo, userData) { 
+    // For use with player ships arriving on planets only
+    // This function selects an event for the player, plays the event, and 
+    // sets the destination for the player ship back to the mothership.
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
     const targetObject = currentSystem.objects[shipInfo.targetObjectId];
+    currentMultiverse.statistics.planetsVisited = 10;
 
     return new Promise(async res => {
         addNavigationAttention("Map", "pageMap");
         notify(`A ship has arrived at ${targetObject.name}.`);
         let eventToDo = choice(genericEvents);
-        if (currentMultiverse.statistics.planetsVisited in globalEventsMilestones) {
-            eventToDo = globalEventsMilestones[currentMultiverse.statistics.planetsVisited]
-        } else if (targetObject.uniqueEvents.length > 0) {
+        let totalPlanetsVisitedAllMultiverses = 0;
+        userData.multiverses.forEach(e => totalPlanetsVisitedAllMultiverses += e.statistics.planetsVisited);
+
+        // Event priority: Constants below are listed in order of event priority.
+        // Events at the top have the highest priority.
+        // If there is a story event and a unique event available, the story event will be shown
+        // as it is the "first" event and thus the highest priority.
+
+        // First we will show events present in the event queue.
+        // The event queue stores global events that may have been overriden by story events.
+        const eventQueueFull = currentMultiverse.eventQueue.length > 0
+        // Events relevant to the story, will only be shown once in ALL multiverses
+        const storyEventAvailable = totalPlanetsVisitedAllMultiverses in storyEvents;
+        const storyEvent = storyEvents[totalPlanetsVisitedAllMultiverses];
+        // Events unlocked after a certain amount of planets are visited, 
+        const globalEventAvailable = currentMultiverse.statistics.planetsVisited in globalEventsMilestones;
+        const globalEvent = globalEventsMilestones[currentMultiverse.statistics.planetsVisited];
+        // Events unique on for a specific planet
+        const uniqueEventAvailable = targetObject.uniqueEvents.length > 0;
+        // Events unique for a specific biome the planet has.
+        const biomeSpecificEventsAvailable = targetObject.biomeSpecificEventsAvailable > 0;
+        // If no "special" events are available, we will show a generic event.
+    
+        if (eventQueueFull) {
+            eventToDo = currentMultiverse.eventQueue[0];
+        } else if (storyEventAvailable) {
+            eventToDo = storyEvent;
+            if (globalEventAvailable) {
+                currentMultiverse.eventQueue.push(globalEvent);
+            }
+        } else if (globalEventAvailable) {
+            eventToDo = globalEvent;
+        } else if (uniqueEventAvailable) {
             eventToDo = choice(targetObject.uniqueEvents);
-        } else if (targetObject.biomeSpecificEventsAvailable > 0) {
+        } else if (biomeSpecificEventsAvailable) {
             const availableEvents = getBiomeEvents(userData, targetObject);
             if (availableEvents.length > 0) {
                 eventToDo = choice(availableEvents);
             }
         }
+
+        //If an event is resolved, it is finished and can be safely removed from the potential events pool.
         const eventResolved = await eventPlayer(shipInfo, userData, eventToDo);
         shipInfo.targetObjectId = "player";
         if (eventResolved) {
             if (!(currentMultiverse.statistics.planetsVisited in globalEventsMilestones)) {
-                if (targetObject.uniqueEvents.length > 0) {
+                if (eventQueueFull) { //Done the events in event queue, now remove it
+                    currentMultiverse.eventQueue.shift();
+                } else if (uniqueEventAvailable) {
                     removeFromArray(targetObject.uniqueEvents, eventToDo);
-                } else if (targetObject.biomeSpecificEventsAvailable > 0) {
+                } else if (biomeSpecificEventsAvailable) {
                     targetObject.biomeSpecificEventsAvailable--
                     currentMultiverse.biomeSpecificEventsDone[targetObject.planetType].push(eventToDo);
                 }
