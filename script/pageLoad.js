@@ -11,7 +11,7 @@ import notifyUnique from "./notifs/notifyUnique.js";
 import { wait } from "./utils.js";
 import fadeIn from "./animations/fadeIn.js";
 import { buildDustbotEvent, dustbotSlider } from "./resources/dustbotClicker.js";
-import { buildShip, drawBuildShipsDiv, openChooseShipOverlay, showShipbuildingProgress } from "./ship/buildShip.js";
+import { buildShip, drawBuildShipsDiv, openChooseShipOverlay, openChooseWeaponOverlay, showShipbuildingProgress } from "./ship/buildShip.js";
 import { decreaseBuildRate, increaseBuildRate } from "./ship/shipEvents.js";
 import { closeHangar, openHangar } from "./ship/hangar.js";
 import { buildScanner, cancelRedirect, dispatchShipEvent, goToHostile, launchMissile, moveMothership, newTargetButton, obliteratePlanet, recallButton, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
@@ -116,6 +116,7 @@ function applyEvents(userData) {
     document.getElementById("newMultiverse").addEventListener("click", _ => callCreateFunction(userData));
     document.getElementById("multiverseTravel").addEventListener("click", _ => selectMultiverse(userData, false, true));
     document.getElementById("obliteratePlanet").addEventListener("click", _ => obliteratePlanet(userData));
+    document.getElementById("selectWeapons").addEventListener("click", _ => openChooseWeaponOverlay(userData));
     document.getElementById("overlayBG").addEventListener("click", e => {
         if (e.target.id === "overlayBG") hideOverlay();
     });
@@ -133,7 +134,8 @@ function applyEvents(userData) {
             notifyUnique("antimatterBeamBuilt");
             document.getElementById("buildAntimatterBeam").style.display = "none";
         }
-    })
+    });
+    
     addCheats(userData);
 
     setInterval(_ => tick(userData), 100);

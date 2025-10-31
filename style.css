@@ -203,12 +203,15 @@ button {
     display: flex;
     justify-content: center;
 }
-.shipClassDiv {
+.shipClassDiv, .weaponsDiv {
     border: 1px solid white;
     width: 35%;
     text-align: center;
     margin: 5px;
     cursor: pointer;
+}
+.weaponsDiv {
+    width: 20%;
 }
 #chooseShipClass .specificShipClass h2 {
     width: 100%;

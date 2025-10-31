@@ -1,13 +1,13 @@
 import { addDescriptionEvent, changeDescriptionText, manualDescriptionUpdate } from "../addUIDescriptions.js";
-import { shipClasses, shipAccessories } from "../data/shipData.js";
+import { shipClasses, shipAccessories, shipWeapons } from "../data/shipData.js";
 import { checkCosts, subtractCosts, writeCostsReadable } from "../itemCosts.js";
 import notify from "../notifs/notify.js";
-import { hideOverlay, showOverlay } from "../overlay.js";
+import { appendCloseButton, hideOverlay, setOverlayTitle, showOverlay } from "../overlay.js";
 import { updateEnergyCounter, updateShipConstruction } from "../pageUpdates.js";
 import { deepClone } from "../utils.js";
 
 let selectedShipType = "";
-let selectedShipDiv;
+let selectedWeaponsType = "Phasor";
 let totalEnergyCost = 0;
 let accessoriesSelected = [];
 let accessorySlotsUsed = 0;
@@ -18,16 +18,16 @@ const statMappings = {
     baseHealth: "Hull",
     baseAttack: "Attack",
     baseShield: "Shield",
-    baseSpeed: "Speed"
+    baseSpeed: "Speed",
+    minRange: "Minimum range",
+    maxRange: "Maximum range",
+    baseDamageMultiplier: "Damage multiplier"
 }
 let totalShipCost = {}
 function openChooseShipOverlay(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     showOverlay();
-    const heading = document.createElement("h2");
-    heading.textContent = "Select a class";
-    document.getElementById("overlay").appendChild(heading);
-    heading.style.textAlign = "center";
+    setOverlayTitle("Choose ship class");
 
     const chooseShipClass = document.createElement("div");
     chooseShipClass.id = "chooseShipClass";
@@ -87,8 +87,10 @@ function openChooseShipOverlay(userData) {
             document.getElementById("selectAccessoriesText").style.display = "block";
             document.getElementById("selectedShipClassDisplay").textContent = shipClass;
             document.getElementById("selectedShipClass").style.display = "block";
+            document.getElementById("selectWeapons").style.display = "block";
+
             if (selectedShipType) {
-                selectedShipDiv.classList.remove("shipSelected");
+                document.querySelectorAll(".shipClassDiv").forEach(e => e.classList.remove("selectedShip"))
             }
             if (shipObj.accessorySlots < accessorySlotsUsed) {
                 //remove accessories until we have gotten below the limit
@@ -104,7 +106,6 @@ function openChooseShipOverlay(userData) {
                 accessoriesSelected = accessoriesSelected.filter(e => e !== 0);
             }
             accessorySlotsAvailable = shipObj.accessorySlots;
-            selectedShipDiv = newDiv;
             selectedShipType = shipClass;
             allShipDivs.forEach(e => e.classList.remove("shipSelected"));
             newDiv.classList.add("shipSelected");
@@ -118,12 +119,61 @@ function openChooseShipOverlay(userData) {
         classesUnlockedObj[shipObj.class].appendChild(newDiv);
     }
 
-    const close = document.createElement("button");
-    close.textContent = "close";
-    document.getElementById("overlay").appendChild(close);
-    close.addEventListener("click", hideOverlay);
-    close.style.position = "relative";
-    close.style.top = "10px";
+    appendCloseButton();
+}
+
+function openChooseWeaponOverlay(userData) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    showOverlay();
+    setOverlayTitle("Choose weapons system");
+
+    const weaponsDiv = document.createElement("div");
+    weaponsDiv.classList.add("flexCenter");
+    currentMultiverse.weaponsUnlocked.forEach(e => {
+        const newDiv = document.createElement("div");
+        newDiv.classList.add("weaponsDiv");
+        const weaponInfo = shipWeapons[e];
+        const statsWrapper = document.createElement("ul");
+
+        // Indicate if weapon is selected
+        if (e === selectedWeaponsType) newDiv.classList.add("shipSelected");
+
+        // Weapon name
+        const name = document.createElement("li");
+        name.textContent = e;
+        statsWrapper.appendChild(name);
+
+        // Weapon stats
+        for (const stat in weaponInfo.baseStats) {
+            const newLi = document.createElement("li");
+            newLi.textContent = `${statMappings[stat]}: ${weaponInfo.baseStats[stat]}`;
+            statsWrapper.appendChild(newLi);
+        }
+
+        // Mouseover description
+        addDescriptionEvent(newDiv, {
+            content: weaponInfo.description,
+            cost: weaponInfo.baseCost
+        }, userData);
+
+        // Select weapon
+        newDiv.addEventListener("click", _ => {
+            document.querySelectorAll(".weaponsDiv").forEach(e => e.classList.remove("shipSelected"));
+            newDiv.classList.add("shipSelected");
+            selectedWeaponsType = e;
+
+            // Update all costs for ship
+            calculateShipCost();
+            updateShipCost();
+            updateAccessoriesCost();
+        });
+
+        newDiv.appendChild(statsWrapper);
+        weaponsDiv.appendChild(newDiv);
+    });
+    document.getElementById("overlay").appendChild(weaponsDiv);
+
+    appendCloseButton();
 }
 function drawBuildShipsDiv(userData) {
     userDataBig = userData;
@@ -188,11 +238,21 @@ function calculateShipCost() {
         metal: 0,
         iridium: 0
     }
+
+    //Base cost
     for (let cost in shipClasses[selectedShipType].baseCost) {
         totalShipCost[cost] += shipClasses[selectedShipType].baseCost[cost];
     }
+
+    // Weapon cost
+    for (let cost in shipWeapons[selectedWeaponsType].baseCost) {
+        totalShipCost[cost] += shipWeapons[selectedWeaponsType].baseCost[cost];
+    }
+
     totalEnergyCost = 0;
     totalEnergyCost += shipClasses[selectedShipType].energyCost;
+
+    //Cost for accessories
     for (let accessory of accessoriesSelected) {
         const accessoryInfo = shipAccessories[accessory.name];
         totalEnergyCost += accessoryInfo.energyCost;
@@ -241,17 +301,20 @@ function buildShip(userData) {
                 class: selectedShipType,
                 baseStats: deepClone(shipClasses[selectedShipType].baseStats),
                 cost: deepClone(totalShipCost),
+                weapon: selectedWeaponsType,
                 accessories: []
             },
             energyCostTotal: totalEnergyCost,
             energySpent: 0
         }
+        selectedWeaponsType = "Phasor"; //default weapon for new ships
         subtractCosts(userData, totalShipCost);
         for (let accessory of accessoriesSelected) {
             shipObj.shipInfo.accessories.push(accessory.name);
         }
 
         currentMultiverse.shipInProgress = shipObj;
+        document.getElementById("selectWeapons").style.display = "none";
         updateShipConstruction(userData);
         updateEnergyCounter(userData);
     }
@@ -267,4 +330,10 @@ function showShipbuildingProgress(userData, x, y) {
     }, x, y, "shipbuildingBar");
 }
 
-export { drawBuildShipsDiv, buildShip, showShipbuildingProgress, openChooseShipOverlay }
+export {
+    drawBuildShipsDiv,
+    buildShip,
+    showShipbuildingProgress,
+    openChooseShipOverlay,
+    openChooseWeaponOverlay
+}

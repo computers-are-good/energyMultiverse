@@ -1026,6 +1026,7 @@ function newHostile(userData) {
         posX,
         cargo: {},
         posY,
+        weapon: "Phasor",
         targetX: Math.random() * 750,
         targetY: Math.random() * 750,
     }

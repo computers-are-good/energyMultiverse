@@ -15,6 +15,22 @@ const shipClasses = {
         },
         energyCost: 500
     },
+    "Extar": {
+        baseStats: {
+            baseHealth: 20,
+            baseAttack: 2,
+            baseShield: 5,
+            baseShield: 20
+        },
+        class: "Recon",
+        description: "A faster version of the basic scout.",
+        accessorySlots: 1,
+        baseCost: {
+            dust: 20,
+            metal: 4
+        },
+        energyCost: 1500
+    },
     "Fighter": {
         baseStats: {
             baseHealth: 30,
@@ -122,7 +138,31 @@ const shipAccessories = {
         accessorySlots: 1,
         energyCost: 1500
     }
-
+}
+const shipWeapons = {
+    "Phasor": {
+        description: "A basic phasor.",
+        baseStats: {
+            minRange: 20,
+            maxRange: 180,
+            baseDamageMultiplier: 1,
+        },
+        baseCost: {
+            dust: 5
+        }
+    },
+    "Cutter": {
+        description: "A basic but powerful long range weapon.",
+        baseStats: {
+            minRange: 60,
+            maxRange: 150,
+            baseDamageMultiplier: 1.5
+        },
+        baseCost: {
+            dust: 20,
+            metal: 10
+        }
+    }
 }
 
-export { shipClasses, shipAccessories }
+export { shipClasses, shipAccessories, shipWeapons }

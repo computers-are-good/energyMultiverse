@@ -9,4 +9,25 @@ function hideOverlay() {
     document.getElementById("overlayBG").style.display = "none";
 }
 
-export {showOverlay, hideOverlay}
+function appendCloseButton() {
+    const close = document.createElement("button");
+    close.textContent = "close";
+    document.getElementById("overlay").appendChild(close);
+    close.addEventListener("click", hideOverlay);
+    close.style.position = "relative";
+    close.style.top = "10px";
+}
+
+function setOverlayTitle(title) {
+    const heading = document.createElement("h2");
+    heading.textContent = title;
+    document.getElementById("overlay").appendChild(heading);
+    heading.style.textAlign = "center";
+}
+
+export {
+    showOverlay,
+    hideOverlay,
+    appendCloseButton,
+    setOverlayTitle
+}

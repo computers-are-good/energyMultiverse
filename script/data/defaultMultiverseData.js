@@ -88,6 +88,7 @@ const defaultMultiverseData = {
     maxShipBuildingRate: 5,
     shipClassesUnlocked: ["Scout", "Fighter"],
     shipAccessoriesUnlocked: ["Basic shield", "Reinforcement Plates"],
+    weaponsUnlocked: ["Phasor", "Cutter"],
     solarSystems: [],
     currentSolarSystem: 0,
     mothershipMaxThrust: 3,
