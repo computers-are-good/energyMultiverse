@@ -109,9 +109,39 @@ const research = {
             points: 15
         },
         name: "Deflection Drive",
-        description: "A deflection drive will protect your ship during system jumps, allowing you to jump to tier 3 systems.",
+        description: "Deflects paradoxes during hyperspace jumps, allowing you to travel to tier 3 systems.",
         complete: function (userData) {
             userData.multiverses[userData.currentMultiverse].maxJumpTier = 3;
+        }
+    },
+    "gradientDrive": {
+        cost: {
+            points: 20
+        },
+        name: "Gradient Drive",
+        description: "By capturing the radiance of their host stars, a gradient drive effectively provides you with the energy required to jump to tier 4 systems.",
+        complete: function (userData) {
+            userData.multiverses[userData.currentMultiverse].maxJumpTier = 4;
+        }
+    },
+    "invertionDrive": {
+        cost: {
+            points: 30
+        },
+        name: "Invertion Drive",
+        description: "Inverts the reality that binds us all to unlock the secrets and access to tier 5 systems.",
+        complete: function (userData) {
+            userData.multiverses[userData.currentMultiverse].maxJumpTier = 5;
+        }
+    },
+    "absurdistDrive": {
+        cost: {
+            points: 50
+        },
+        name: "Absurdist drive",
+        description: "The absurdist drive inverts minds and logic to create self-sustaining paradoxes, breaking down the logicical protection of tier 6 systems.",
+        complete: function (userData) {
+            userData.multiverses[userData.currentMultiverse].maxJumpTier = 6;
         }
     },
     "radar": {
