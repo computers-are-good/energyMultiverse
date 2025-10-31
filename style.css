@@ -205,9 +205,24 @@ button {
 }
 .shipClassDiv {
     border: 1px solid white;
-    width: 20%;
-    margin: 15px;
+    width: 35%;
+    text-align: center;
+    margin: 5px;
     cursor: pointer;
+}
+#chooseShipClass .specificShipClass h2 {
+    width: 100%;
+    text-align: center;
+}
+#chooseShipClass .specificShipClass {
+    display: inline-block;
+    width: 33.2%;
+    border: 1px solid white;
+}
+#chooseShipClass .divForClasses {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 .progressBarDiv button {
     margin: 0px 10px;

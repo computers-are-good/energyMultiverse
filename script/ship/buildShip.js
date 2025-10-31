@@ -43,11 +43,15 @@ function openChooseShipOverlay(userData) {
     for (const shipClass of classesUnlockedArray) {
         const newHeading = document.createElement("h2")
         newHeading.textContent = shipClass;
-        chooseShipClass.appendChild(newHeading);
-
         const newDiv = document.createElement("div");
-        newDiv.style.display = "flex";
-        classesUnlockedObj[shipClass] = newDiv;
+
+        newDiv.appendChild(newHeading);
+        newDiv.classList.add("specificShipClass");
+
+        const divForClasses = document.createElement("div");
+        divForClasses.classList.add("divForClasses");
+        classesUnlockedObj[shipClass] = divForClasses;
+        newDiv.appendChild(divForClasses);
         chooseShipClass.appendChild(newDiv);
     }
 
