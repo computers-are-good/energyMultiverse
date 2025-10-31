@@ -30,6 +30,7 @@ let cursorY = 0;
 let selected;
 let shipSelected;
 let redirectionInProgress = false;
+let mapScale;
 
 const map = document.getElementById("Map");
 const systemMap = document.getElementById("systemMap");
@@ -47,11 +48,11 @@ async function obliteratePlanet(userData) {
 
     const energyGained = getPlanetEnergyGained(currentPlanet);
     selectMultiverse(userData, false, false, "Choose energy destination").then(async selectedMultiverse => {
-        if (checkCosts(userData, {antimatter: 1}, true)) {
-            subtractCosts(userData, {antimatter: 1});
+        if (checkCosts(userData, { antimatter: 1 }, true)) {
+            subtractCosts(userData, { antimatter: 1 });
             currentMultiverse.allowSolarSystemUpdates = false;
-            const planetX = currentPlanet.posX + mapLeft - currentPlanet.radius / 4;
-            const planetY = currentPlanet.posY + mapTop - currentPlanet.radius / 4;
+            const planetX = (currentPlanet.posX * mapScale + mapLeft - currentPlanet.radius / 4);
+            const planetY = (currentPlanet.posY * mapScale + mapTop - currentPlanet.radius / 4);
             particles({ //Animation for destroying planets
                 particleX: planetX,
                 particleY: planetY,
@@ -78,6 +79,16 @@ async function obliteratePlanet(userData) {
                     particleLifetime: 500,
                     particleSpeed: 0.3,
                 }, map);
+                particles({
+                    particleX: planetX,
+                    particleY: planetY,
+                    particleNumber: 4,
+                    particleColor: "red",
+                    particleSize: 3,
+                    circular: true,
+                    particleLifetime: 5500,
+                    particleSpeed: 0.05,
+                }, map);
                 await wait(Math.max(200 - i ** 1.5 * 2, 20));
             }
             const mapRect = systemMap.getBoundingClientRect();
@@ -90,7 +101,7 @@ async function obliteratePlanet(userData) {
                 particleColor: "red",
                 particleSize: 3,
                 circular: true,
-                particleLifetime: 2500,
+                particleLifetime: 5500,
                 particleSpeed: 0.05,
             }, map);
             userData.multiverses[selectedMultiverse].energy += energyGained;
@@ -129,6 +140,7 @@ function updateSolarSystem(userData) {
         const mapRect = systemMap.getBoundingClientRect();
         mapTop = mapRect.top;
         mapLeft = mapRect.left;
+        let mapWidth = mapRect.right - mapLeft;
 
         //Draw the star
         const star = drawNewElement(375, 375);
@@ -138,8 +150,8 @@ function updateSolarSystem(userData) {
         star.style.borderRadius = `15px`;
 
         particles({
-            particleX: 385 + mapLeft,
-            particleY: 385 + mapTop,
+            particleX: mapWidth / 2 + mapLeft + 10 * mapScale,
+            particleY: mapWidth / 2 + mapTop + 10 * mapScale,
             particleColor: "#f7f29e",
             particleLifetime: 9000,
             particleNumber: 3,
@@ -925,6 +937,22 @@ async function updateSolarSystemPositions(userData) {
     }
 }
 
+function scaleSolarSystem() { // Scales the solar system map and sidebar to current screen width
+    const width = window.innerWidth;
+    const solarSystemBaseWidth = 750;
+    let widthMinusUi = width -
+        (width * .15 + 30) - //Sidebar
+        350 //Map screen
+
+    widthMinusUi = Math.min(widthMinusUi, window.innerHeight - 200);
+    mapScale = widthMinusUi / solarSystemBaseWidth
+    document.getElementById("systemMap").style.transform = `scale(${mapScale})`;
+
+    document.getElementById("mapSide").style.left = `${widthMinusUi + 20}px`;
+    document.getElementById("encounterInfo").style.height = `${widthMinusUi - 200}px`;
+    document.getElementById("thrusterSettings").style.top = `${widthMinusUi - 180}px`
+}
+
 const getDistanceTo = (obj1, obj2) => Math.sqrt((obj1.posX - obj2.posX) ** 2 + (obj1.posY - obj2.posY) ** 2);
 const statMappings = {
     baseAttack: "Attack",
@@ -1042,6 +1070,7 @@ function drawNewElement(x, y) {
     const newDiv = document.createElement("div");
     newDiv.style.left = `${x}px`;
     newDiv.style.top = `${y}px`;
+    newDiv.style.zIndex = 10;
     document.getElementById("systemMap").appendChild(newDiv);
     return newDiv;
 }
@@ -1091,5 +1120,6 @@ export {
     cancelRedirect,
     buildScanner,
     updateFactory,
-    obliteratePlanet
+    obliteratePlanet,
+    scaleSolarSystem
 };

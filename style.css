@@ -259,11 +259,11 @@ button {
 #systemMap {
     background-color: black;
     position: absolute;
+    transform-origin: top left;
     width: 750px;
     height: 750px;
     display: inline-block;
 }
-/* I FUCKING HATE CSS BURN IN HELL */
 #encounterInfo {
     height: 550px;
     position: relative;

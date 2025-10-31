@@ -14,7 +14,7 @@ import { buildDustbotEvent, dustbotSlider } from "./resources/dustbotClicker.js"
 import { buildShip, drawBuildShipsDiv, openChooseShipOverlay, openChooseWeaponOverlay, showShipbuildingProgress } from "./ship/buildShip.js";
 import { decreaseBuildRate, increaseBuildRate } from "./ship/shipEvents.js";
 import { closeHangar, openHangar } from "./ship/hangar.js";
-import { buildScanner, cancelRedirect, dispatchShipEvent, goToHostile, launchMissile, moveMothership, newTargetButton, obliteratePlanet, recallButton, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
+import { buildScanner, cancelRedirect, dispatchShipEvent, goToHostile, launchMissile, moveMothership, newTargetButton, obliteratePlanet, recallButton, scaleSolarSystem, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
 import { makeMissile, makeRepairKit } from "./ship/manufactory.js";
 import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "./map/thrust.js";
 import metalClicker from "./resources/metal.js";
@@ -137,6 +137,8 @@ function applyEvents(userData) {
     });
     
     addCheats(userData);
+    scaleSolarSystem();
+    window.onresize = scaleSolarSystem;
 
     setInterval(_ => tick(userData), 100);
 
