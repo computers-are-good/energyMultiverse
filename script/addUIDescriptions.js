@@ -151,8 +151,9 @@ let showingDescription = false;
 function updateDescription(description, x, y, userData) {
     showingDescription = true;
     descriptionBox.style.display = "block";
-    descriptionBox.style.top = `${y + 25}px`;
-    descriptionBox.style.left = `${x + 25}px`;
+    const {pageX, pageY} = getDescriptionBoxCoords(x, y);
+    descriptionBox.style.top = `${pageY}px`;
+    descriptionBox.style.left = `${pageX}px`;
     populateDescription(description, userData);
 }
 function populateDescription(description, userData) {
@@ -196,10 +197,29 @@ function populateDescription(description, userData) {
         upgradePreview.textContent = description.upgradePreview;
     }
 }
+
+function getDescriptionBoxCoords(mouseX, mouseY) {
+    // If the mouse is close to the edge of screen, ensure we don't display a
+    // description box that goes off the screen.
+    let x = mouseX + 25;
+    let y = mouseY + 25;
+    const bounding = descriptionBox.getBoundingClientRect();
+    if (mouseY === undefined) console.trace();
+    if (window.innerHeight - mouseY < bounding.height + 200) {
+        y -= bounding.height + 50;
+    }
+    if (window.innerWidth - mouseX < bounding.width + 200) {
+        x -= bounding.width + 50;
+    }
+    return {
+        x, y
+    }
+}
 document.body.addEventListener("mousemove", e => {
     if (showingDescription) {
-        descriptionBox.style.top = `${e.y + 25}px`;
-        descriptionBox.style.left = `${e.x + 25}px`;
+        const {x, y} = getDescriptionBoxCoords(e.x, e.y);
+        descriptionBox.style.top = `${y}px`;
+        descriptionBox.style.left = `${x}px`;
     }
 })
 function removeDescription() {
@@ -222,8 +242,8 @@ let lastX;
 let lastY;
 let activeUserdata;
 document.body.addEventListener("mousemove", e => {
-    lastX = e.lastX;
-    lastY = e.lastY;
+    lastX = e.x;
+    lastY = e.y;
 })
 function rewriteDescription() {
     if (showingDescription) updateDescription(activeDescription, lastX, lastY, activeUserdata);
@@ -239,7 +259,7 @@ function addDescriptionEvent(element, description, userData, screen) {
     element.addEventListener("mouseover", e => {
         currentDescription = screen;
         activeDescription = description;
-        activeUserdata = userData
+        activeUserdata = userData;
         updateDescription(description, lastX, lastY, userData);
     });
     element.addEventListener("mousedown", e => {
