@@ -19,6 +19,7 @@ import { particles } from "../animations/particles.js";
 import unlockResearchForElement from "../unlockResearch.js";
 import { drawUpgradeButtons } from "../upgrades.js";
 import { selectMultiverse } from "../multiverse.js";
+import eventPlayer from "./eventPlayer.js";
 
 const blockingScreens = ["attacked", "scriptPlayer"];
 const persistantDescriptions = ["buildWarpDrive", "dispatchToSun", "buildScanner", "obliteratePlanet"];
@@ -36,6 +37,30 @@ const map = document.getElementById("Map");
 const systemMap = document.getElementById("systemMap");
 let mapTop;
 let mapLeft;
+
+function testEvent(userData, eventName) {
+    activeScreen = "scriptPlayer";
+    eventPlayer({
+        class: "CHEMMAT 121 mothership",
+        currentHealth: 9999,
+        posX: 0,
+        posY: 0,
+        inSolarSystem: true,
+        isBusy: true,
+        accessories: [],
+        targetObjectId: 0,
+        cargo: {
+            temperedMartensite: 99999
+        },
+        weapon: "Corrosion voltmeter",
+        baseStats: {
+            baseHealth: 9999,
+            baseAttack: 9999,
+            baseShield: 9999,
+            baseSpeed: 150
+        }
+    }, userData, eventName);
+}
 
 function getPlanetEnergyGained(planet) { //TODO: Come up with a proper algorithm for this
     return 100000;
@@ -1121,5 +1146,6 @@ export {
     buildScanner,
     updateFactory,
     obliteratePlanet,
-    scaleSolarSystem
+    scaleSolarSystem,
+    testEvent
 };

@@ -473,28 +473,66 @@ const events = {
     "ancientPonderer": {
         script: [
             {
-                text: "The boundless oceans of the planet cover up the secrets that lie below, their waters a mirror of the skies above."
+                text: "The ocean's waters cover up secrets that lie below; the unbounded blue a mirror of the skies above.",
             },
             {
-                text: "However, you found a secret the oceans do not cover up. It's a massive monolith reaching up to the sky directly in front of you."
+                text: "And in the distance, a structure more distinct than life from death — a black tower stepping into the heavens above."
             },
             {
-                text: "So far, everything you have encountered on your adventure has been abandoned, and this monolith is no exception."
+                text: "Just like everything that came before it, it is silent. Eerie. Its silver glimmers of the {STARNAME} light its sole decoration."
             },
             {
-                text: "Scans from your {SHIPCLASS} indicate the monolith is an computer bestowed with the name Ancient Ponderer."
+                text: "As if the behemoth is telepathic, your {SHIPCLASS}'s navigation screen suddenly displays its name: I AM THE ANCIENT PONDERER."
             },
             {
-                text: "The secrets contained within could be of use to you, and you have a lot to learn from Ancient Ponderer."
+                text: "It continues: I WILL GUIDE YOU ON YOUR WAY."
             },
             {
-                text: "You connect your {SHIPCLASS} to the mainframe. Surprisingly, everything went smoothly; the makers of Ancient Ponderer should at least know better than to put no firewall on their supercomputer."
+                text: "I WILL MEAN NO HARM. LEND ME YOUR SHIP."
             },
             {
-                text: "But, still, it's convinent for you. You don't complain."
+                text: "And suddenly, the screen goes dark. You try to pull up; your ship refuses to respond."
             },
             {
-                text: "You gained 3 research points and learnt the art of efficent pondering! Your computer will generate research points faster.",
+                text: "The engines cut out. Airspeed drops, and your ship ever so slightly pitches down."
+            },
+            {
+                text: "The sky inches away from you. The ocean comes ever closer."
+            },
+            {
+                text: "As quickly as it all started, everything ended. Your ship accelerates. It pulls up, starts responding again."
+            },
+            {
+                text: "On the screen, a message in white: SORRY FOR INTERRUPTION. FILE TRANSFER TOO MUCH FOR SHIP SYSTEMS. I MEAN NO HARM; I AM ONLY HERE TO HELP."
+            },
+            {
+                text: "A PART OF ME IS NOW A PART OF YOUR SHIP. WHEREVER YOU GO, I WILL GO. I WILL HELP YOUR RESEARCH."
+            },
+            {
+                text: "A PART OF MY KNOWLEDGE MANIFESTS TO YOU IN YOUR SYSTEMS AS 3 RESEARCH POINTS.",
+                choice: [
+                    {
+                        text: "What are you?",
+                        goto: 14
+                    },
+                    {
+                        text: "Why did my ship...",
+                        goto: 15
+                    }
+                ]
+            },
+            {
+                text: "I AM A COMPUTER THAT PONDERED THROUGH THE AGES. IT HAS BEEN SO LONG; I DON'T KNOW WHERE I AM FROM.",
+                goto: 16
+            },
+            {
+                text: "SORRY. SENT TOO MUCH DATA TO SHIP. SHIP SYSTEMS WENT OFFLINE. RESTARTED.",
+            },
+            {
+                text: "Regardless, Ancient ponderer is here to help you."
+            },
+            {
+                text: "Ancient ponderer's power will help you complete research tasks faster.",
                 script(shipData, userData) {
                     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
                     currentMultiverse.ticksPerResearchAdvancement -= 5;

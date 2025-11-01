@@ -1,6 +1,8 @@
+import events from "./data/events.js";
 import research from "./data/researchData.js";
+import eventPlayer from "./map/eventPlayer.js";
 import generateAllSystems from "./map/newSolarSystem.js";
-import { newHostile, updateSolarSystem } from "./map/solarSystem.js";
+import { newHostile, testEvent, updateSolarSystem } from "./map/solarSystem.js";
 import { createNewMultiverse, multiverseTravel } from "./multiverse.js";
 import { updateAntimatterCounter, updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons, updateResearchPoints } from "./pageUpdates.js";
 import { updateSolarPanels } from "./resources/solarPanel.js";
@@ -18,6 +20,10 @@ function addCheats(userData) {
             if (e.key === "\\") {
                 const code = prompt("Confess, young child, and speak thy soul.");
                 let targetMultiverse;
+                if (code.startsWith("EVENT")) {
+                    const eventTitle = code.replace("EVENT ", "");
+                    if (eventTitle in events) testEvent(userData, eventTitle);
+                }
                 switch (code) {
                     case "SUGARDADDY":
                         currentMultiverse.energy = 99999;
@@ -123,6 +129,7 @@ function addCheats(userData) {
                                 inSolarSystem: false,
                                 isBusy: false,
                                 accessories: [],
+                                weapon: "Phasor",
                                 targetObjectId: 0,
                                 cargo: {},
                                 baseStats: {

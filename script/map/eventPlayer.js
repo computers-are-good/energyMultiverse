@@ -6,7 +6,7 @@ import { addNavigationAttention } from "../toggleUIElement.js";
 import { wait } from "../utils.js";
 import { updateSolarSystem } from "./solarSystem.js";
 
-function eventPlayer(shipData, userData, eventId, planetName) {
+function eventPlayer(shipData, userData, eventId) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
 
@@ -84,7 +84,7 @@ function eventPlayer(shipData, userData, eventId, planetName) {
             const replacementKeys = {
                 "{STARNAME}": currentSystem.name,
                 "{SHIPCLASS}": shipData.class,
-                "{PLANETNAME}": currentSystem.objects[shipData.targetObjectId].name
+                "{PLANETNAME}": currentSystem.objects[shipData.targetObjectId]?.name ?? "Planet failure"
             }
 
             for (const key in replacementKeys) {
@@ -185,7 +185,11 @@ function eventPlayer(shipData, userData, eventId, planetName) {
         }
 
         eventNext.addEventListener("click", _ => {
-            currentIndex++;
+            if ("goto" in eventScript[currentIndex]) {
+                currentIndex = eventScript[currentIndex].goto;
+            } else {
+                currentIndex++;
+            }
             readEvent(currentIndex);
         });
         readEvent(0);
