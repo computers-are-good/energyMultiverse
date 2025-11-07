@@ -3,7 +3,7 @@ import events from "../data/events.js";
 import notify from "../notifs/notify.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons } from "../pageUpdates.js";
 import { addNavigationAttention } from "../toggleUIElement.js";
-import { wait } from "../utils.js";
+import { textWidth, wait } from "../utils.js";
 import { updateSolarSystem } from "./solarSystem.js";
 
 function eventPlayer(shipData, userData, eventId) {
@@ -15,6 +15,7 @@ function eventPlayer(shipData, userData, eventId) {
         const itemsToSubtract = {};
         const shipCargo = {};
         const researchToUnlock = [];
+        const eventText = document.getElementById("eventText");
 
         let currentIndex = 0;
 
@@ -65,9 +66,12 @@ function eventPlayer(shipData, userData, eventId) {
         async function readEvent(index) {
             let i;
             let text = eventScript[index].text;
+            let textSplit = text.split(" ");
+            let continueTextEvent = true;
             function skipText() {
-                i = text.length - 1;
-                document.getElementById("eventText").textContent = text;
+                i = textSplit.length - 1;
+                eventText.textContent = text;
+                continueTextEvent = false;
             }
             if ("probability" in eventScript[index]) {
                 if (Math.random() > eventScript[index].probability) {
@@ -91,14 +95,26 @@ function eventPlayer(shipData, userData, eventId) {
                 text = text.replaceAll(key, replacementKeys[key]);
             }
 
-            document.getElementById("eventText").textContent = "";
+            eventText.textContent = "";
             eventNext.style.display = "none";
             endButton.style.display = "none";
+
             await wait(150);
+
+            let widthUsed = 0;
+            const eventTextWidth = 315;
             document.getElementById("encounterInfo").addEventListener("click", skipText);
-            for (i = 0; i < text.length; i++) {
-                document.getElementById("eventText").textContent = text.slice(0, i + 1);
-                await wait(25);
+            for (i = 0; i < textSplit.length; i++) {
+                if (widthUsed > eventTextWidth) {
+                    if (continueTextEvent) eventText.innerHTML += "<br>";
+                    widthUsed = 0;
+                }
+                for (let j = 0; j < textSplit[i].length; j++) {
+                    if (continueTextEvent) eventText.innerHTML += textSplit[i][j];
+                    await wait(25);
+                }
+                if (continueTextEvent) eventText.innerHTML += " ";
+                widthUsed += textWidth(`${textSplit[i]}  `, eventText);
             }
             document.getElementById("encounterInfo").removeEventListener("click", skipText);
             eventNext.style.display = "block";

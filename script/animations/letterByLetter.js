@@ -1,13 +1,25 @@
-import { wait } from "../utils.js";
+import { textWidth, wait } from "../utils.js";
 
 async function letterByLetter(targetDiv, timeToWait) {
     //This function returns a promise that resolves when the animation is done.
     return new Promise(async res => {
-        const targetDivText = targetDiv.textContent;
+        const targetDivWidth = targetDiv.getBoundingClientRect().width;
+        console.log(targetDivWidth);
+        const targetDivText = targetDiv.textContent.split(" ");
+        let widthUsed = 0;
+
         targetDiv.textContent = "";
         for (let i = 0; i < targetDivText.length; i++) {
-            targetDiv.textContent += targetDivText[i];
-            await wait(timeToWait);
+            if (widthUsed > targetDivWidth) {
+                targetDiv.innerHTML += "<br>";
+                widthUsed = 0;
+            }
+            for (let j = 0; j < targetDivText[i].length; j++) {
+                targetDiv.innerHTML += targetDivText[i][j];
+                await wait(timeToWait);
+            }
+            targetDiv.innerHTML += " ";
+            widthUsed += textWidth(`${targetDivText[i]}  `, targetDiv);
         }
         res();
     });

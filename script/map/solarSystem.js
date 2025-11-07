@@ -736,7 +736,7 @@ async function updateSolarSystemPositions(userData) {
                                 }
 
                                 const cargoText = writeCostsReadable(cargoProcessed);
-                                notify(`A ship has returned ${Object.keys(cargoProcessed).length > 0 ? `carrying ${cargoText}` : ""}`);
+                                notify(`A ship has returned ${Object.keys(cargoProcessed).length > 0 ? `carrying ${cargoText}` : ""}.`);
                                 if (activeScreen === "shipInfo") {
                                     activeScreen = "";
                                     updateVisibleDivs();
