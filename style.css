@@ -9,6 +9,7 @@ body {
 }
 main p {
     text-align: center;
+    margin: 10px;
 }
 #eventText {
     text-align: left;
@@ -371,10 +372,17 @@ button {
     height: 550px;
     border: 1px solid white;
 }
-#combatLog {
+#combatMiddleContainer {
     width: 40%;
-    height: 550px;
+}
+#combatLog {
+    height: 350px;
     border: 1px solid white;
+}
+#coordinatesInfo {
+    height: 200px;
+    border: 1px solid white;
+    box-sizing: border-box;
 }
 #combatVisualisation {
     width: 70%;

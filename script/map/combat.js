@@ -42,7 +42,7 @@ function drawPlayerAndEnemy() {
     combatVisualisation.appendChild(enemyShipDiv);
 }
 
-function blasterAnimation(fromPlayerToEnemy, size) {
+function blasterAnimation(fromPlayerToEnemy, size) { //TODO: Fix this when playerX > enemyX
     function accelerate(time) {
         return (time / 10) ** 4
     }
@@ -114,8 +114,6 @@ function combat(playerShip, enemyShip) { //resolve with true if the player has w
     document.getElementById("combatLog").innerHTML = "";
     return new Promise(res => {
         combatInProgress = true;
-        updateStatsDisplay(playerShip, enemyShip);
-
         document.getElementById("combat").style.display = "block";
 
         const combatVisualisationBounding = combatVisualisation.getBoundingClientRect();
@@ -124,6 +122,7 @@ function combat(playerShip, enemyShip) { //resolve with true if the player has w
         combatVisualisationX = combatVisualisationBounding.left;
         combatVisualisationY = combatVisualisationBounding.top;
 
+        updateStatsDisplay(playerShip, enemyShip);
         drawPlayerAndEnemy(playerShip, enemyShip);
 
         let particleInterval = setInterval(_ => {
@@ -171,7 +170,7 @@ async function endCombat() {
 function attack(attacker, attacked) {
     let damage = attacker.baseStats.baseAttack;
     const attackerWeapon = shipWeapons[attacker.weapon];
-    const playerEnemyDistance = enemyX - playerX;
+    const playerEnemyDistance = Math.abs(enemyX - playerX);
     if (attackerWeapon.baseStats.minRange <= playerEnemyDistance && attackerWeapon.baseStats.maxRange >= playerEnemyDistance) {
         damage *= attackerWeapon.baseStats.baseDamageMultiplier;
     } else {
@@ -192,10 +191,10 @@ function getPlayerAction(playerShip, enemyShip) {
         attackButton.textContent = "Attack";
         attackButton.addEventListener("click", _ => res("attack"));
 
+        const playerEnemyDistance = Math.abs(enemyX - playerX);
         const playerWeapon = shipWeapons[playerShip.weapon];
-        const playerEnemyDistance = enemyX - playerX;
         const inRange = playerWeapon.baseStats.minRange <= playerEnemyDistance && playerWeapon.baseStats.maxRange >= playerEnemyDistance
-        addDescriptionEvent(attackButton, { //TODO: Display weapon range, and enemy player distance, to the user
+        addDescriptionEvent(attackButton, {
             content: `The enemy is ${inRange ? "in range" : "out of range"}.`
         })
 
@@ -213,12 +212,16 @@ function getPlayerAction(playerShip, enemyShip) {
 
         const moveBack = document.createElement("button");
         moveBack.textContent = "<-";
-        moveBack.addEventListener("click", _ => res("moveBack"));
+        moveBack.addEventListener("click", _ => {
+            if (playerX >= 10) res("moveBack")
+        });
         moveButtons.appendChild(moveBack);
 
         const moveForward = document.createElement("button");
         moveForward.textContent = "->";
-        moveForward.addEventListener("click", _ => res("moveForward"));
+        moveForward.addEventListener("click", _ => {
+            if (playerX < 190) res("moveForward")
+        });
         moveButtons.appendChild(moveForward);
 
         moveButtons.style.display = "flex";
@@ -235,6 +238,7 @@ function block(ship) {
 async function playerTurn(playerShip, enemyShip) {
     const playerWeapon = shipWeapons[playerShip.weapon];
     const playerEnemyDistance = enemyX - playerX;
+    updateStatsDisplay(playerShip, enemyShip)
     document.getElementById("actionButtons").style.display = "block";
 
     const action = await getPlayerAction(playerShip, enemyShip);
@@ -270,23 +274,20 @@ async function playerTurn(playerShip, enemyShip) {
             if (playerWeapon.baseStats.minRange <= playerEnemyDistance && playerWeapon.baseStats.maxRange >= playerEnemyDistance) {
                 combatLog(`You attacked the enemy for ${oldHealth - enemyShip.currentHealth} damage!`);
             } else {
-                combatLog(`You attacked the enemy, but the enemy is out of range.`)
+                combatLog(`You attacked the enemy, but the enemy is out of range.`);
             }
             if (enemyShip.currentHealth <= 0) {
                 enemyShip.currentHealth = 0;
-                updateStatsDisplay(playerShip, enemyShip);
                 document.getElementById("actionButtons").style.display = "none";
                 combatLog("You are victorious.");
                 await endCombat();
                 return true;
             } else {
-                updateStatsDisplay(playerShip, enemyShip);
                 return enemyTurn(playerShip, enemyShip);
             }
         case "block":
             block(playerShip);
             combatLog(`You regenerated your shield.`);
-            updateStatsDisplay(playerShip, enemyShip);
             return enemyTurn(playerShip, enemyShip);
         case "moveForward": //TODO: Make speed affect this number
             await moveForwardAnimation(10, playerShipDiv, playerX);
@@ -300,18 +301,29 @@ async function playerTurn(playerShip, enemyShip) {
 }
 async function enemyTurn(playerShip, enemyShip) {
     const enemyWeapon = shipWeapons[enemyShip.weapon];
-    const playerEnemyDistance = enemyX - playerX;
+    const playerEnemyDistance = Math.abs(enemyX - playerX);
+    updateStatsDisplay(playerShip, enemyShip);
     document.getElementById("actionButtons").style.display = "none";
     await wait(500);
     const oldHealth = playerShip.currentHealth;
     //Player out of range? Move so the player is in range!
-    if (playerEnemyDistance <= enemyWeapon.baseStats.minRange) {
-        await moveForwardAnimation(10, enemyShipDiv, enemyX);
-        enemyX = 10;
+    if (playerEnemyDistance < enemyWeapon.baseStats.minRange) {
+        if (enemyX < playerX) {
+            await moveForwardAnimation(10, enemyShipDiv, enemyX);
+            enemyX -= 10;
+        } else {
+            await moveForwardAnimation(-10, enemyShipDiv, enemyX);
+            enemyX += 10;
+        }
         return playerTurn(playerShip, enemyShip);
-    } else if (playerEnemyDistance >= enemyWeapon.baseStats.maxRange) {
-        await moveForwardAnimation(-10, enemyShipDiv, enemyX);
-        enemyX -= 10;
+    } else if (playerEnemyDistance > enemyWeapon.baseStats.maxRange) {
+        if (enemyX > playerX) {
+            await moveForwardAnimation(-10, enemyShipDiv, enemyX - 5);
+            enemyX -= 10;
+        } else {
+            await moveForwardAnimation(10, enemyShipDiv, enemyX);
+            enemyX += 10;
+        }
         return playerTurn(playerShip, enemyShip);
     } else if (enemyShip.currentHealth / enemyShip.baseStats.baseHealth > 0.3) {
         attack(enemyShip, playerShip);
@@ -362,12 +374,19 @@ async function enemyTurn(playerShip, enemyShip) {
 }
 
 function updateStatsDisplay(playerShip, enemyShip) {
+    const playerWeapon = shipWeapons[playerShip.weapon];
+    const playerMinRange = playerWeapon.baseStats.minRange;
+    const playerMaxRange = playerWeapon.baseStats.maxRange;
+    const playerEnemyDistance = Math.abs(enemyX - playerX);
+    const inRange = playerWeapon.baseStats.minRange <= playerEnemyDistance && playerWeapon.baseStats.maxRange >= playerEnemyDistance;
     document.getElementById("playerHull").textContent = playerShip.currentHealth;
     document.getElementById("playerShield").textContent = `${playerShip.currentShield} / ${playerShip.baseStats.baseShield * 2}`;
     document.getElementById("playerAttack").textContent = playerShip.baseStats.baseAttack;
     document.getElementById("enemyHull").textContent = enemyShip.currentHealth;
     document.getElementById("enemyShield").textContent = enemyShip.currentShield;
     document.getElementById("enemyAttack").textContent = enemyShip.baseStats.baseAttack;
+    document.getElementById("enemyDistanceSpan").textContent = `${playerEnemyDistance} (weapon range ${playerMinRange} - ${playerMaxRange})`;
+    document.getElementById("enemyOutRange").style.display = inRange ? "none" : "block";
 }
 
 export { combat }

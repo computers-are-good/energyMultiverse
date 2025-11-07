@@ -4,7 +4,6 @@ async function letterByLetter(targetDiv, timeToWait) {
     //This function returns a promise that resolves when the animation is done.
     return new Promise(async res => {
         const targetDivWidth = targetDiv.getBoundingClientRect().width;
-        console.log(targetDivWidth);
         const targetDivText = targetDiv.textContent.split(" ");
         let widthUsed = 0;
 

@@ -18,6 +18,10 @@ function combatLog(message) {
             messageCount--;
         }
 
+        notificationsDiv.childNodes.forEach((e, i) => {
+            if (i > 0) e.style.opacity = 1 - i * 0.075;
+        })
+
         fadeIn(newP, 0.5);
 }
 
