@@ -1,5 +1,5 @@
 import { checkCosts, subtractCosts } from "../itemCosts.js";
-import notify from "../notifs/notify.js";
+import {notify} from "../notifs/notify.js"
 import notifyUnique from "../notifs/notifyUnique.js";
 import { addNavigationAttention } from "../toggleUIElement.js";
 import { drawUpgradeButtons } from "../upgrades.js";

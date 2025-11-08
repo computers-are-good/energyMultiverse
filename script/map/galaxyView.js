@@ -1,5 +1,5 @@
 import fadeIn from "../animations/fadeIn.js";
-import notify from "../notifs/notify.js";
+import {notify} from "../notifs/notify.js"
 import { updateEnergyCounter } from "../pageUpdates.js";
 import { useEnergy } from "../resources/useResources.js";
 import { getSolarSystemExplorationLevel } from "./planetEvents.js";

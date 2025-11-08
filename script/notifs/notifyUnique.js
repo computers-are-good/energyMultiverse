@@ -1,4 +1,4 @@
-import notify from "./notify.js";
+import {notify} from "./notify.js";
 
 const messages = {
     awake: "As the light from the distant room fades, you find yourself awake among darkness.",

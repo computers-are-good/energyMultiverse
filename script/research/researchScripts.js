@@ -1,6 +1,6 @@
 import { addDescriptionEvent, removeDescription } from "../addUIDescriptions.js"
 import research from "../data/researchData.js"
-import notify from "../notifs/notify.js";
+import {notify} from "../notifs/notify.js"
 import { updateResearchButtons, updateResearchPoints } from "../pageUpdates.js";
 import { removeFromArray } from "../utils.js";
 

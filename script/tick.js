@@ -2,7 +2,7 @@ import { updateDroneDivs } from "./resources/drone/droneClicker.js"
 import { updateEnergyCounter } from "./pageUpdates.js";
 import updateResearch from "./research/research.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
-import notify from "./notifs/notify.js";
+import {notify} from "./notifs/notify.js";
 import { buildShip } from "./ship/shipEvents.js";
 import { updateFactory, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
 import { addNavigationAttention, currentScreenDisplayed, unlockUIElement } from "./toggleUIElement.js";

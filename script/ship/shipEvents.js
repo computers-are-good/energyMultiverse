@@ -1,5 +1,5 @@
 import { shipAccessories } from "../data/shipData.js";
-import notify from "../notifs/notify.js";
+import {notify} from "../notifs/notify.js"
 import notifyUnique from "../notifs/notifyUnique.js";
 import { updateEnergyCounter, updateShipConstruction, updateShipConstructionBar } from "../pageUpdates.js";
 import { useEnergy } from "../resources/useResources.js";

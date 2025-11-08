@@ -1,5 +1,5 @@
 import { updateTurret } from "../turret.js";
-import notify from "../notifs/notify.js";
+import {notify} from "../notifs/notify.js"
 import { updateResearchRate } from "../pageUpdates.js";
 import { drawBuildShipsDiv } from "../ship/buildShip.js";
 import { addNavigationAttention, unlockUIElement } from "../toggleUIElement.js";

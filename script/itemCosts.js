@@ -1,4 +1,4 @@
-import notify from "./notifs/notify.js";
+import {notify} from "./notifs/notify.js";
 import { useAntimatter, useDust, useEnergy, useIridium, useMetal } from "./resources/useResources.js";
 
 function checkCosts(userData, cost, notifyUser = true) {

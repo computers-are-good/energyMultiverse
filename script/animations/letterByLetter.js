@@ -5,7 +5,6 @@ async function letterByLetter(targetDiv, timeToWait) {
     return new Promise(async res => {
         const targetDivWidth = targetDiv.getBoundingClientRect().width;
         const targetDivText = targetDiv.textContent.split(" ");
-        console.log(targetDivWidth);
         let widthUsed = 0;
 
         targetDiv.textContent = "";

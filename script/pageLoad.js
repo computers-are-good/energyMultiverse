@@ -31,6 +31,7 @@ import displayTutorialText from "./notifs/tutorialText.js";
 import { callCreateFunction, decreaseMultiplier, increaseMultiplier, matchMultipliers, selectMultiverse, updateMultiverseMultipliers } from "./multiverse.js";
 import { hideOverlay } from "./overlay.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
+import { resetMessageCount } from "./notifs/notify.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -186,6 +187,8 @@ async function firstLoadFunctions(userData) {
 
     mouseoverDescriptions.drone.cost = { dust: droneCost(currentMultiverse.drones.length) };
 
+    resetMessageCount();
+    
     toggleScreen(userData, currentMultiverse.lastScreen || "Energy");
     if (currentMultiverse.lastScreen === "Map") updateSolarSystem(userData);
 

@@ -1,7 +1,7 @@
 import { addDescriptionEvent, changeDescriptionText, manualDescriptionUpdate } from "../addUIDescriptions.js";
 import { shipClasses, shipAccessories, shipWeapons } from "../data/shipData.js";
 import { checkCosts, subtractCosts, writeCostsReadable } from "../itemCosts.js";
-import notify from "../notifs/notify.js";
+import {notify} from "../notifs/notify.js"
 import { appendCloseButton, hideOverlay, setOverlayTitle, showOverlay } from "../overlay.js";
 import { updateEnergyCounter, updateShipConstruction } from "../pageUpdates.js";
 import { deepClone } from "../utils.js";

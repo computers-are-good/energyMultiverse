@@ -2,7 +2,7 @@ import { addDescriptionEvent, removeDescription, currentDescription } from "../a
 import dispatchShip from "../ship/dispatchShip.js";
 import { openHangar } from "../ship/hangar.js";
 import { addNavigationAttention, currentScreenDisplayed } from "../toggleUIElement.js";
-import notify from "../notifs/notify.js";
+import {notify} from "../notifs/notify.js"
 import { arriveAtTarget, getSolarSystemExplorationLevel } from "./planetEvents.js";
 import { combat } from "./combat.js";
 import threatLevel from "./threatLevel.js";
@@ -862,7 +862,6 @@ async function updateSolarSystemPositions(userData) {
                         }
                         delete currentSystem.objects[object];
                     }
-
                 }
             } else if (thing.type === "player") {
                 if ("targetX" in thing && "targetY" in thing) {

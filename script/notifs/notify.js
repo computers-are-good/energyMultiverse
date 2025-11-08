@@ -38,5 +38,7 @@ function notify(message) {
         letterByLetter(newP, 25);
     }
 }
-
-export default notify;
+function resetMessageCount() {
+    messageCount = 0;
+}
+export {notify, resetMessageCount};

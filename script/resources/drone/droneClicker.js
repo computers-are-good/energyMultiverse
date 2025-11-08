@@ -2,7 +2,7 @@ import { spawnDrone } from "./drones.js";
 import { deepClone } from "../../utils.js"
 import { manualDescriptionUpdate, mouseoverDescriptions, removeDescription } from "../../addUIDescriptions.js";
 import { updateDustCounter } from "../../pageUpdates.js";
-import notify from "../../notifs/notify.js";
+import {notify} from "../../notifs/notify.js";
 import { checkCosts, subtractCosts } from "../../itemCosts.js";
 const defaultDroneData = {
     ticksTilEnergy: 100,

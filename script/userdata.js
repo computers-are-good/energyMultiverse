@@ -2,7 +2,7 @@ import defaultData from "./data/defaultData.js";
 import defaultMultiverseData from "./data/defaultMultiverseData.js";
 import generateAllSystems from "./map/newSolarSystem.js";
 import multiverseNames from "./data/multiverseNames.js";
-import notify from "./notifs/notify.js";
+import {notify} from "./notifs/notify.js";
 import { choice, deepClone } from "./utils.js";
 
 function addMissingEntries(dataToFix, dataReference) {

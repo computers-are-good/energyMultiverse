@@ -1,6 +1,6 @@
 import { addDescriptionEvent } from "../addUIDescriptions.js";
 import events from "../data/events.js";
-import notify from "../notifs/notify.js";
+import {notify} from "../notifs/notify.js"
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons } from "../pageUpdates.js";
 import { addNavigationAttention } from "../toggleUIElement.js";
 import { textWidth, wait } from "../utils.js";
