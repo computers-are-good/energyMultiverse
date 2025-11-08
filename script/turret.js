@@ -30,6 +30,7 @@ function buildTurret(userData) {
         drawUpgradeButtons(userData);
         currentMultiverse.turret.enabled = false;
         updateTurret(userData);
+        toggleTurret(userData);
     }
 }
 
