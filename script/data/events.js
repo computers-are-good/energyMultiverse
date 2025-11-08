@@ -592,35 +592,35 @@ const events = {
     story3: {
         script: [
             {
-                text: "It doesn't take a genius to figure out that the \"Impending Energy Calamity\" is, in fact, a very bad thing. Well, judging by the fact that you're alive and currently piloting a spaceship at eight kilometers per second down into the atmosphere of a strange new planet, you figured you probably survived the worse of it.",
+                text: "It doesn't take a genius to figure out that the \"Impending Energy Calamity\" is, in fact, a very bad thing. Well, going by the fact that you're alive and currently piloting a spaceship at eight kilometers per second down into the atmosphere of a strange new planet, you probably survived the worst of it.",
             },
             {
-                text: "Of course, it is only natural now to wonder what the Impending Energy Calamity is. Suddenly, as if imparted by an entity beyond this universe, visions of that same distant world appear in your mind, its radiance blocking out the vast lands below.",
+                text: "Of course, it is only natural now to wonder what the Impending Energy Calamity is. Suddenly, as if imparted by an entity beyond this universe, visions of that same distant world appear in your mind, its image blocking out the vast lands below.",
             },
             {
-                text: "Blades of the green populate an open plain as you stand in the darkness. When you gaze to the night sky above, you see the light from billions of stars  lighting up your world. It is as if a dream was reflected through the lens of the real.",
+                text: "Blades of the green populated an open plain as we stood in the darkness. When we gazed to the night sky above, we saw light from billions of stars lighting up your world: a dream reflected through the lens of the real.",
             },
             {
-                text: "The world between dream and nightmare blurs as a light above was extinguished by a force not known, the emptiness a reflection of a reality where it never existed.",
+                text: "The world between dream and nightmare blurred as a light above was extinguished by a force not known, the emptiness it left behind a reflection of a reality where it never existed.",
             },
             {
-                text: "Then, in a distant corner, another light darkens. Then another, and another, and another. It doesn't stop. Another one's gone. And another star. The one that was the brightest is gone, and so is the one that's the dimmest. The biggest disappeared, and so did the smallest.",
+                text: "Then, in a distant corner, another light darkened. Then another, and another, and another. It doesn't stop. Another one's gone. And another star. The one that was the brightest is gone, followed by the one that's the dimmest. The biggest disappeared, and so did the smallest.",
             },
             {
-                text: "It keeps going. Soon, you are greeted by nothing but a pitch black sky and the audible echoes within yourself.",
+                text: "It kept going. Soon, we were greeted by nothing but a pitch black sky and the audible echoes within us.",
             },
             {
-                text: "Your mind snaps back to the ever-shifting present, a reality where your feeble spaceship is about to cross the boundaries between worlds. You gaze at the skies above; the stars here are always there for you.",
+                text: "Your mind snaps back to the ever-shifting present, a reality where your feeble spaceship is about to cross the boundaries between worlds. You gaze at the skies above; the stars gaze back, indifferent to your vision.",
             },
         ]
     },
     story4: {
         script: [
             {
-                text: "You awaken to the essence of nothingness; the world painted with the soul of oblivion and the silence of the night. The grass plain reduced from a mirror for the expression of the night sky to an apathetic maiden watching the world go by.",
+                text: "We awakened to the essence of nothingness; the world painted with the soul of oblivion and the silence of the night. The grass plain reduced from a mirror for the expression of the night sky to an apathetic maiden watching the world go by.",
             },
             {
-                text: "And you, a mere mortal witnessing the affairs of the divine, left alone in the aphotic without a guidepost, patiently waiting for the sunrise of a new dawn to lead you away.",
+                text: "And us, mere mortals witnessing the affairs of the divine, left alone in the aphotic without a guidepost, patiently waiting for the sunrise of a new dawn to guide us away.",
             },
             {
                 text: "But that sunrise never came.",
@@ -630,32 +630,32 @@ const events = {
     story5: {
         script: [
             {
-                text: "Yet, human ingenuity persists in the tide of change, for despite the odds against us, we adapted. We may not be able to restore the stars, but we will not give up. We coordinated. We talked. We thrived. We built our own suns, fusion reactors consuming swarms of hydrogen to light up the sky, their faint and distant glow a pathetic yet faithful mimicry of Sol.",
+                text: "Yet, human ingenuity persists in the tide of change, for despite the odds against us, we adapted. We may not be able to restore the stars, but we will not give up. We coordinated. We talked. We thrived. We built our own suns, fusion reactors consuming oceans of hydrogen to light up the sky, their faint and distant glow a pathetic yet faithful mimicry of Sol.",
             },
             {
-                text: "We would turn them on and off to recreate the eternal cycle of day and night. We would suspend them from the clouds like the Old Sun. They provided guidance both for the distant and weary traveller and for the city dweller. Thus, there is again light in the world.",
+                text: "We turned them on and off to recreate the eternal cycle of day and night. We suspended them from the clouds like the Old Sun. They provided guidance both for the distant traveller the city dweller. Thus, there was again light in the world.",
             },
             {
-                text: "We reached for the night sky. The most brilliant scientists gathered to solve the puzzle of the darkness. We sent out probes; we sent out spaceships. Even then, the collective intelligence cannot solve the story of the stars.",
+                text: "We reached for the night sky. The most brilliant scientists gathered to solve the puzzle of the darkness. We sent probes; we sent spaceships. Even then, the collective intelligence could not solve the puzzle of the stars.",
             },
             {
-                text: "We would live on in our new fake reality, our days marked by the little suns above. It is as if our old God was always there.",
+                text: "We would live on in our new fake reality, our days marked by the little suns above, as if our old God was always there.",
             },
             {
-                text: "But, in the back of everyone's minds lies a lingering monster no one wishes to confront, a monster reminding us we will run out of hydrogen. We will run out of energy. And when that happens, the world will again return to darkness.",
+                text: "But, in the back of everyone's minds laid a lingering monster no one wishes to confront, a monster reminding us we will run out of hydrogen. We will run out of energy. And when that happens, the world will again return to darkness.",
             },
         ]
     },
     story6: {
         script: [
             {
-                text: "As with all affairs human, the initial warning signs fell onto deaf ears and apathetic minds. It started when the Sun over Britain started dimming, its hunger consuming the world. We ignored it; we thought we could reach out to the Moon again, to seek its resources.",
+                text: "As with all affairs human, the initial warning signs fell onto deaf ears and apathetic minds. It started when the Sun over Britain began dimming. We ignored it; we thought we could reach out to the Moon again, to seek its resources.",
             },
             {
-                text: "In theory it should be like any other lunar expedition, but our spaceship never made it. The Maiden of Deception an elusive white orb mocking our futile attempts, perpetually out of reach. The more we travelled, the further she became. We never closed the gap. Our ship came back, its fuel cells empty as a void.",
+                text: "That time soon came. In theory it should be like any other lunar expedition, but our spaceship never made it. The Maiden of Deception an elusive white orb mocking our futile attempts, perpetually out of reach. The more we travelled, the further she became. We never closed the gap. Our ship came back, its fuel cells reminding us we failed.",
             },
             {
-                text: "We soon realised we were on our own. All we had was truly all we had; we can't get more. We started dimming the suns, but that was only a temporary solution. Time passes, the previously bright skies now the colours of dusk. Soon, it will be an echo of midnight. In time, the uncalling of nothingness.",
+                text: "We soon realised we were on our own. All we had was truly all we had; we can't get more. We started dimming the suns, but that was a temporary solution. Time passes, the previously bright skies now the colours of dusk. Soon, it will be an echo of midnight. In time, the uncalling of nothingness.",
             },
             {
                 text: "And, in the last dying moments of dusk, is where you come in.",
@@ -671,7 +671,7 @@ const events = {
                 text: "Scientists ran the numbers. Everyone knows energy conservation: you cannot create energy from nothing. But that rule only applies within the borders of our universe. What about outside the universe?",
             },
             {
-                text: "Is it possible for us to, in theory at least, build out a new life for us? A world next to our own, running side by side. One which mirrors our laws of physics, but with a fresh start? It may violate our laws of physics, but the new world does not care for our laws; it cares for its own laws.",
+                text: "Is it possible for us to, in theory at least, build out a new life for us? A world next to our own, running side by side. One which mirrors our laws of physics, but with a fresh start? It may violate our laws of physics, but it does not care for our laws; it cares for its own laws.",
             },
             {
                 text: "And, with that, humanity's hope was again rekindled.",
@@ -681,10 +681,10 @@ const events = {
     story8: {
         script: [
             {
-                text: "On the border of lumen, in a world where darkness has no partner, the greatest minds gather. The breakthrough was not unexpected; it was supported by years of progress. They finally confirmed a way through the dark. The news was obfuscated, but behind those lies, was the truth in hope.",
+                text: "On the border of lumen, in a world where darkness has no partner, the greatest minds gathered. The breakthrough was not unexpected; it was supported by years of progress. They finally confirmed a way. Behind darkness was news in hope.",
             },
             {
-                text: "The companies called it a computer hypervised simulation system. The idea in theory was simple: use our computing power to build a new universe, and harvest energy from that new universe. Send it back to us. No fundamental law of nature was being violated; we are connecting different worlds. We still respected their rules. We will be welcome guests.",
+                text: "They called it a computer hypervised simulation system. The idea in theory was simple: use our computing power to build a new universe, and harvest energy from that new universe. Send it back to us. No fundamental law of nature was being violated; we were connecting different worlds. We still respected their rules. We will be welcome guests.",
             },
             {
                 text: "A new plan for our survival was established.",
@@ -697,7 +697,7 @@ const events = {
     story9: {
         script: [
             {
-                text: "With a rekindled way forward, humanity yet again shifted our attention. The collective effort was a titan's last breath, our survival instinct's one last desperate grip.",
+                text: "With hope for another way forward, humanity again shifted its attention. The collective effort was a titan's last breath, our survival instincts' one last desperate grip.",
             },
             {
                 text: "We had to make the simulation work. We have failed so many times; one more, and the last star in the universe will finally die.",
@@ -706,7 +706,7 @@ const events = {
                 text: "Just as the suns were entering their final slumber, a figure coated in darkness faced a void. They weren't promised much, but they had the basics. On the other side was a small universe. It had only a handful of stars, but it was enough. A small mothership, a white square wailing among nothingness.",
             },
             {
-                text: "They were promised a means of harvesting energy on the other side. All they had to do was click.",
+                text: "But, above all, they were promised a means of harvesting energy on the other side. All they had to do was click.",
             },
             {
                 text: "With slow but steady gait the figure advanced, until they were no longer.",
@@ -715,14 +715,17 @@ const events = {
                 text: "Looking back at that last moment, it was what your mind knew all along.",
             },
             {
-                text: "The figure in shadow was you.",
+                text: "That figure in shadow was you.",
             },
         ]
     },
     story10: {
         script: [
             {
-                text: "As you move down into the atmosphere, your mind remembers the final detail from the moments before stepping through to here.",
+                text: "To close off your saga, your mind remembers the final detail from moments before stepping through to here.",
+            },
+            {
+                text: "A detail sleeping at the back of your head, but a detail vital for your mission."
             },
             {
                 text: "Your ship, just like the scientists, has the equipment to create multiple universes.",
@@ -731,7 +734,7 @@ const events = {
                 text: "Make use of it.",
             },
             {
-                text: "Save humanity back home. After all, you are our only hope.",
+                text: "After all, you are our only hope.",
             },
         ],
         endScript(shipData, userData) {
