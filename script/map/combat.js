@@ -44,7 +44,7 @@ function drawPlayerAndEnemy() {
 
 function blasterAnimation(fromPlayerToEnemy, size) { //TODO: Fix this when playerX > enemyX
     function accelerate(time) {
-        return (time / 10) ** 4
+        return (time / 10) ** 4;
     }
     const speed = 0.00000001;
     const originX = fromPlayerToEnemy ? playerX + 1 : enemyX - 5;
@@ -193,10 +193,10 @@ function getPlayerAction(playerShip, enemyShip) {
 
         const playerEnemyDistance = Math.abs(enemyX - playerX);
         const playerWeapon = shipWeapons[playerShip.weapon];
-        const inRange = playerWeapon.baseStats.minRange <= playerEnemyDistance && playerWeapon.baseStats.maxRange >= playerEnemyDistance
+        const inRange = playerWeapon.baseStats.minRange <= playerEnemyDistance && playerWeapon.baseStats.maxRange >= playerEnemyDistance;
         addDescriptionEvent(attackButton, {
             content: `The enemy is ${inRange ? "in range" : "out of range"}.`
-        })
+        });
 
         basicActions.appendChild(attackButton);
 
@@ -213,14 +213,14 @@ function getPlayerAction(playerShip, enemyShip) {
         const moveBack = document.createElement("button");
         moveBack.textContent = "<-";
         moveBack.addEventListener("click", _ => {
-            if (playerX >= 10) res("moveBack")
+            if (playerX >= 10) res("moveBack");
         });
         moveButtons.appendChild(moveBack);
 
         const moveForward = document.createElement("button");
         moveForward.textContent = "->";
         moveForward.addEventListener("click", _ => {
-            if (playerX < 190) res("moveForward")
+            if (playerX < 190) res("moveForward");
         });
         moveButtons.appendChild(moveForward);
 
@@ -238,7 +238,7 @@ function block(ship) {
 async function playerTurn(playerShip, enemyShip) {
     const playerWeapon = shipWeapons[playerShip.weapon];
     const playerEnemyDistance = enemyX - playerX;
-    updateStatsDisplay(playerShip, enemyShip)
+    updateStatsDisplay(playerShip, enemyShip);
     document.getElementById("actionButtons").style.display = "block";
 
     const action = await getPlayerAction(playerShip, enemyShip);

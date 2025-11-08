@@ -102,7 +102,7 @@ function eventPlayer(shipData, userData, eventId) {
             await wait(150);
 
             let widthUsed = 0;
-            const eventTextWidth = 315;
+            const eventTextWidth = 300;
             document.getElementById("encounterInfo").addEventListener("click", skipText);
             for (i = 0; i < textSplit.length; i++) {
                 if (widthUsed > eventTextWidth) {

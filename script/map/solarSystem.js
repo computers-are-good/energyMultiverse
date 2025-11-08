@@ -837,9 +837,10 @@ async function updateSolarSystemPositions(userData) {
                         if (target.currentHealth <= 0) {
                             delete currentSystem.objects[thing.targetObjectId];
                             notify(`A missile detonated and destroyed an enemy.`);
+                            console.log(thing.posX * mapScale)
                             particles({
-                                particleX: thing.posX + 30,
-                                particleY: thing.posY + 90,
+                                particleX: thing.posX * mapScale + mapLeft,
+                                particleY: thing.posY * mapScale + mapTop,
                                 particleColor: "red",
                                 particleLifetime: 5000,
                                 particleNumber: 15,
@@ -850,8 +851,8 @@ async function updateSolarSystemPositions(userData) {
                         } else {
                             notify(`A missile detonated and dealt ${thing.damage} damage to an enemy.`);
                             particles({
-                                particleX: thing.posX + mapLeft,
-                                particleY: thing.posY + mapTop,
+                                particleX: thing.posX * mapScale + mapLeft,
+                                particleY: thing.posY * mapScale + mapTop,
                                 particleColor: "red",
                                 particleLifetime: 3000,
                                 particleNumber: 5,
