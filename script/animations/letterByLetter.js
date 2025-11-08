@@ -20,7 +20,7 @@ async function letterByLetter(targetDiv, timeToWait) {
                 await wait(timeToWait);
             }
             targetDiv.innerHTML += " ";
-            widthUsed += textWidth(`${targetDivText[i]}  `, targetDiv);
+            widthUsed += textWidth(`${targetDivText[i]} `, targetDiv);
         }
         res();
     });

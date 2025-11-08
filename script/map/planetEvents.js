@@ -28,7 +28,7 @@ const biomeSpecificEvents = {
     "Paradise": [],
     "Ice": [],
     "Gas": ["turret"],
-    "Volcanic": [],
+    "Volcanic": ["gradientDriveUnlock"],
     "Diamond": [],
     "Barren": [],
     "Intrarelativistic": [],

@@ -289,6 +289,45 @@ const events = {
             }
         ]
     },
+    "gradientDriveUnlock": {
+        script: [
+            {
+                text: "A speck of light catches your eye. A sleeping monolith orbits around your planet."
+            },
+            {
+                text: "As you move past the monolith, its surface comes to life."
+            },
+            {
+                text: "Polygons of colour emerge from the once perfect black surface. Shifting, morphing, awaiting something — you.",
+                choice: [
+                    {
+                        text: "Receive",
+                        cost: {
+                            antimatter: 1
+                        },
+                        goto: 4
+                    },
+                    {
+                        text: "Later",
+                        goto: 3  
+                    }
+                ]
+            },
+            {
+                text: "You don't have the resources to understand the colours right now. Better come back later.",
+                endEvent: true,
+                eventResolved: false,
+            },
+            {
+                text: "Images of colour flood your mind. In it, you see a clear vision: a drive to harness the colours, an engine to tap into the unknown potential."
+            },
+            {
+                text: "You take the idea back to your mothership for more investigation",
+                eventResolved: true,
+                researchUnlocked: ["deflectionDrive"]
+            }
+        ]
+    },
     "fasterShips": {
         script: [
             {

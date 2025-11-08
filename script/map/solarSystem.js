@@ -2,7 +2,7 @@ import { addDescriptionEvent, removeDescription, currentDescription } from "../a
 import dispatchShip from "../ship/dispatchShip.js";
 import { openHangar } from "../ship/hangar.js";
 import { addNavigationAttention, currentScreenDisplayed } from "../toggleUIElement.js";
-import {notify} from "../notifs/notify.js"
+import { notify } from "../notifs/notify.js"
 import { arriveAtTarget, getSolarSystemExplorationLevel } from "./planetEvents.js";
 import { combat } from "./combat.js";
 import threatLevel from "./threatLevel.js";
@@ -59,7 +59,9 @@ function testEvent(userData, eventName) {
             baseShield: 9999,
             baseSpeed: 150
         }
-    }, userData, eventName);
+    }, userData, eventName).then(_ => {
+        activeScreen = "";
+    });
 }
 
 function getPlanetEnergyGained(planet) { //TODO: Come up with a proper algorithm for this

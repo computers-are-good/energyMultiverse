@@ -4,7 +4,6 @@ import {notify} from "../notifs/notify.js"
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons } from "../pageUpdates.js";
 import { addNavigationAttention } from "../toggleUIElement.js";
 import { textWidth, wait } from "../utils.js";
-import { updateSolarSystem } from "./solarSystem.js";
 
 function eventPlayer(shipData, userData, eventId) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -98,6 +97,7 @@ function eventPlayer(shipData, userData, eventId) {
             eventText.textContent = "";
             eventNext.style.display = "none";
             endButton.style.display = "none";
+            eventChoices.style.display = "none";
 
             await wait(150);
 
@@ -105,7 +105,7 @@ function eventPlayer(shipData, userData, eventId) {
             const eventTextWidth = 300;
             document.getElementById("encounterInfo").addEventListener("click", skipText);
             for (i = 0; i < textSplit.length; i++) {
-                if (widthUsed > eventTextWidth) {
+                if (widthUsed > eventTextWidth - textWidth(`${textSplit[i + 1]} `, eventText)) {
                     if (continueTextEvent) eventText.innerHTML += "<br>";
                     widthUsed = 0;
                 }
@@ -141,6 +141,7 @@ function eventPlayer(shipData, userData, eventId) {
                 eventNext.style.display = "none";
                 endButton.style.display = "block";
             } else {
+                // Draw the buttons for events that require user choice.
                 if (eventScript[index].choice) {
                     eventNext.style.display = "none";
                     eventChoices.innerHTML = "";
@@ -209,7 +210,6 @@ function eventPlayer(shipData, userData, eventId) {
             readEvent(currentIndex);
         });
         readEvent(0);
-
     })
 }
 
