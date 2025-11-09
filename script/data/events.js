@@ -456,19 +456,25 @@ const events = {
                 text: "You found the source: a very large scanner visible beyond the cockpit of your ship."
             },
             {
-                text: "The scanner doesn't seem to be do anything. But strangely, you continue to hear the rhythmic beeping and booping as if your ship was a blip picked up by the scanner."
+                text: "The scanner is oddly still. No movement. But strangely, you continue to hear the rhythmic beeping and booping as if your ship was a blip picked up by the scanner."
             },
             {
-                text: "As you get closer to the source, you can make out a large sign: \"ScannerCon: Who Can Make The Best Scanners?\"."
+                text: "A sign tells you this is a 'Ultrasonic quantum hyperinfrared advanced radar device'. A smaller sign below you tells you it's just a prototype."
             },
             {
-                text: "And, underneath the sign, you find two large pairs of speakers alternating between making beeping and booping sounds."
+                text: "And, underneath the sign, you find two large pairs of speakers alternating between making beeping and booping sounds. So that's where the sounds came from."
+            },
+            {
+                text: "You've seen this trick before many times: pretend to know what you're doing, and the investors will never know. Easy profits."
             },
             {
                 text: "Well, those speakers are just wasting their energy. You decide to take their batteries.",
                 item: {
                     energy: 750
                 }
+            },
+            {
+                text: "You suspect that behind the facade, the technology looks genuinely useful. Could learn a lot about your enemies using this technology."
             },
             {
                 text: "Next to the speakers, you find a blueprint of the scanner. Better take that as well.",

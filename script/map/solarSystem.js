@@ -52,7 +52,7 @@ function testEvent(userData, eventName) {
         cargo: {
             temperedMartensite: 99999
         },
-        weapon: "Corrosion voltmeter",
+        weapon: "Shot penning",
         baseStats: {
             baseHealth: 9999,
             baseAttack: 9999,
@@ -808,17 +808,32 @@ async function updateSolarSystemPositions(userData) {
                         updateSolarSystem(userData);
                     }
                 } else { //Move between random points in the solar system if we have no ship to target
-                    const targetX = thing.targetX;
-                    const targetY = thing.targetY;
-                    moveTowards(thing, {
-                        posX: targetX,
-                        posY: targetY
-                    }, thing.baseStats.baseSpeed * 0.6);
-
-                    const distanceToTarget = Math.sqrt((hostileX - targetX) ** 2 + (hostileY - targetY) ** 2);
-                    if (distanceToTarget < 10) {
-                        thing.targetX = Math.random() * 750;
-                        thing.targetY = Math.random() * 750;
+                    if (currentSystem.tier < 4) {
+                        const targetX = thing.targetX;
+                        const targetY = thing.targetY;
+                        moveTowards(thing, {
+                            posX: targetX,
+                            posY: targetY
+                        }, thing.baseStats.baseSpeed * 0.6);
+                        const distanceToTarget = Math.sqrt((hostileX - targetX) ** 2 + (hostileY - targetY) ** 2);
+                        if (distanceToTarget < 10) {
+                            if (currentSystem.tier < 4) {
+                                thing.targetY = Math.random() * 750;
+                                thing.targetX = Math.random() * 750;
+                            }
+                        }
+                    } else { // In more dangerous solar systems, hostile ships guard planets
+                        if (!thing.targetObjectId || getDistanceTo(thing, currentSystem.objects[thing.targetObjectId]) < 10) {
+                            let planets = [];
+                            for (const item in currentSystem.objects) {
+                                if (currentSystem.objects[item].type == "planet") {
+                                    planets.push(item);
+                                }
+                            }
+                            thing.targetObjectId = choice(planets);
+                        } else {
+                            moveTowards(thing, currentSystem.objects[thing.targetObjectId], thing.baseStats.baseSpeed * 0.6);
+                        }
                     }
                 }
             } else if (thing.type === "missile") {
