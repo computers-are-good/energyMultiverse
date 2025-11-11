@@ -32,6 +32,7 @@ import { callCreateFunction, decreaseMultiplier, increaseMultiplier, matchMultip
 import { hideOverlay } from "./overlay.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
 import { resetMessageCount } from "./notifs/notify.js";
+import updateStatistics from "./statistics.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -119,6 +120,7 @@ function applyEvents(userData) {
     document.getElementById("multiverseTravel").addEventListener("click", _ => selectMultiverse(userData, false, true));
     document.getElementById("obliteratePlanet").addEventListener("click", _ => obliteratePlanet(userData));
     document.getElementById("selectWeapons").addEventListener("click", _ => openChooseWeaponOverlay(userData));
+    document.getElementById("pageStatistics").addEventListener("click", _ => updateStatistics(userData));
     document.getElementById("overlayBG").addEventListener("click", e => {
         if (e.target.id === "overlayBG") hideOverlay();
     });
