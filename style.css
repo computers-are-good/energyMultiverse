@@ -1,22 +1,25 @@
 body {
-    font-family:"Geo", sans-serif;
-    background-color:rgb(23, 22, 22);
+    font-family: "Geo", sans-serif;
+    background-color: rgb(23, 22, 22);
     color: white;
     width: 100%;
     height: 100vh;
     font-size: 18px;
     overflow: hidden;
 }
+
 main p {
     text-align: center;
     margin: 10px;
 }
+
 #eventText {
     text-align: left;
     width: 90%;
     left: 5%;
     position: relative
 }
+
 #bigEnergy {
     background-color: rgb(28, 28, 27);
     border-radius: 50px;
@@ -25,27 +28,36 @@ main p {
     margin: auto;
     display: block;
 }
+
 .drone {
     background-color: white;
     width: 5px;
     position: absolute;
     height: 5px;
 }
-#drones, #dusts, #metals {
+
+#drones,
+#dusts,
+#metals {
     display: inline-block;
     display: flex;
     justify-content: center;
     margin-top: 10px;
 }
+
 #tickCount {
     position: absolute;
     display: none;
     left: 18px;
     bottom: 0px;
 }
-#drones button, #dusts button, #metals button {
+
+#drones button,
+#dusts button,
+#metals button {
     margin: 10px 0;
 }
+
 #energyClicker {
     width: 200px;
     height: 200px;
@@ -58,18 +70,22 @@ main p {
     cursor: pointer;
     transition: transform 0.5s;
 }
+
 main {
     width: 100%;
     user-select: none;
     display: inline-block;
 }
+
 main div h2 {
     text-align: center;
 }
+
 ul {
     list-style: none;
     padding: 0;
 }
+
 #sidecontent {
     width: 15%;
     background-color: rgb(28, 28, 27);
@@ -77,37 +93,45 @@ ul {
     margin-right: 30px;
     position: absolute;
 }
+
 #newMultiverseMultipliers {
     display: flex;
     justify-content: center;
     width: 100%;
 }
+
 #newMultiverseMultipliers p {
     border: 1px solid white;
     margin: 12px;
-    box-sizing:content-box;
+    box-sizing: content-box;
 }
+
 .increaseMultiplier {
     margin: 0;
     margin-left: 12px;
 }
+
 .decreaseMultiplier {
     margin: 0;
     margin-right: 12px;
 }
+
 #newMultiverseMultipliers button {
     display: inline-block;
 }
+
 .side {
     width: 100%;
     padding: 10px;
     border: 1px solid white;
     box-sizing: border-box;
 }
+
 #notifications {
     position: relative;
     right: 0;
 }
+
 #descriptionBox {
     padding: 6px;
     display: none;
@@ -116,37 +140,46 @@ ul {
     z-index: 999;
     background-color: black;
 }
+
 #pageSelector {
     display: inline-block;
     left: 15px;
     font-size: 18px;
     width: 100%;
 }
+
 .flexCenter {
     display: flex;
     justify-content: center;
 }
-#dustbotSliderInfo, #dustbotInactive {
+
+#dustbotSliderInfo,
+#dustbotInactive {
     text-align: center;
 }
+
 #pageSelector ul {
     display: flex;
     margin: 0;
     justify-content: center;
     width: 100%;
 }
+
 #dustbotDiv {
     margin-top: 20px;
 }
+
 #pageSelector ul li {
     margin-right: 10px;
     margin-left: 10px;
     cursor: pointer;
 }
+
 #researchPointsParagraph {
     text-align: center;
     font-size: 22px;
 }
+
 button {
     background-color: rgb(23, 22, 22);
     color: white;
@@ -157,6 +190,7 @@ button {
     margin: 15px auto 0px auto;
     cursor: pointer;
 }
+
 .dronesDisplayElement {
     border: 1px solid white;
     width: 20%;
@@ -166,12 +200,16 @@ button {
     width: 120px;
     margin: 5px;
 }
-.dronesDisplayElement p, .dronesDisplayElement button {
+
+.dronesDisplayElement p,
+.dronesDisplayElement button {
     margin-top: 0px;
 }
+
 .dronesDisplayElement p {
     text-align: left;
 }
+
 #dronesDisplay {
     display: flex;
     flex-wrap: wrap;
@@ -182,8 +220,27 @@ button {
     position: relative;
     width: 60%;
     left: 20%;
-    align-content: flex-start;    
+    align-content: flex-start;
 }
+
+#Manufactory {
+    width: 60%;
+    margin: auto;
+}
+
+#manufactoryItems {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#manufactoryInventory {
+    text-align: center;
+    border: 1px solid white;
+    margin: auto;
+    width: 20%;
+}
+
 .upgradeTicks {
     display: inline-block;
     padding: 0;
@@ -191,53 +248,66 @@ button {
     height: 20px;
     margin-right: 5px;
 }
+
 .progressBarBackground {
     display: inline-block;
     width: 750px;
     height: 50px;
     background-color: black;
 }
+
 .progressBarForeground {
     position: absolute;
     height: 50px;
     background-color: beige;
     transition: width 0.1s;
 }
+
 .progressBarDiv {
     margin: 0;
     display: flex;
     justify-content: center;
 }
-.shipClassDiv, .weaponsDiv {
+
+.shipClassDiv,
+.weaponsDiv {
     border: 1px solid white;
     width: 35%;
     text-align: center;
     margin: 5px;
     cursor: pointer;
 }
+
 .weaponsDiv {
     width: 20%;
 }
+
 #chooseShipClass .specificShipClass h2 {
     width: 100%;
     text-align: center;
 }
+
 #chooseShipClass .specificShipClass {
     display: inline-block;
     width: 33.2%;
     border: 1px solid white;
 }
+
 #chooseShipClass .divForClasses {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
 }
+
 .progressBarDiv button {
     margin: 0px 10px;
 }
-#researchInfo p,#chooseShipToBuild p  {
+
+#researchInfo p,
+#chooseShipToBuild p {
     text-align: center;
 }
+
 .list div {
     margin: 15px;
     border: 1px solid white;
@@ -245,13 +315,16 @@ button {
     width: 150px;
     cursor: pointer;
 }
+
 .list div p {
     margin: 4px;
 }
+
 .shipSelected {
     background-color: beige;
     color: black;
 }
+
 #playerShips {
     position: absolute;
     top: 0;
@@ -261,6 +334,7 @@ button {
     height: 100vh;
     background-color: rgb(23, 22, 22);
 }
+
 #systemMap {
     background-color: black;
     position: absolute;
@@ -269,6 +343,7 @@ button {
     height: 750px;
     display: inline-block;
 }
+
 #encounterInfo {
     height: 550px;
     position: relative;
@@ -277,6 +352,7 @@ button {
     margin-left: 10px;
     border: 1px solid white;
 }
+
 #thrusterSettings {
     position: relative;
     height: 180px;
@@ -287,15 +363,19 @@ button {
     margin-left: 11px;
     width: 350px;
 }
+
 #scanResults li {
     text-align: center;
 }
+
 #buildScanner {
     margin-bottom: 18px;
 }
+
 #thrusterSettings p {
     margin: 10px auto;
 }
+
 #turret {
     position: absolute;
     width: 200px;
@@ -303,38 +383,46 @@ button {
     border: 1px solid white;
     padding: 12px;
 }
+
 #factoryNotBuilt li {
     text-align: center;
 }
+
 #factorySwitchProduction {
     display: flex;
     justify-content: center;
     width: 80%;
     margin: auto;
 }
+
 #factorySwitchProduction button {
     margin-top: 0;
 }
+
 #galaxyView {
     margin: 10px auto;
     display: block;
 }
+
 #thrustAdjust button {
     margin: 0;
     height: 50px;
 }
+
 #thrusterSettings div {
     display: flex;
     justify-content: space-between;
     width: 80%;
     margin: auto;
 }
+
 #mapSide {
     width: 600px;
     display: flex;
     left: 750px;
     position: relative;
 }
+
 #systemMap div {
     position: absolute;
     height: 10px;
@@ -342,20 +430,25 @@ button {
     z-index: 50;
     background-color: aqua;
 }
+
 .shipBusy {
     border: 1px solid gray;
     color: gray;
 }
-#yourShip, #enemyShip {
+
+#yourShip,
+#enemyShip {
     width: 49%;
     border: 1px solid white;
     margin: 0;
     padding: 0;
     display: inline-block;
 }
+
 .center {
     text-align: center;
 }
+
 #combat {
     display: none;
     position: absolute;
@@ -367,61 +460,77 @@ button {
     z-index: 100;
     background-color: rgb(23, 22, 22);
 }
+
 #combatMain {
     width: 70%;
     margin: auto;
 }
-#player, #enemy {
+
+#player,
+#enemy {
     width: 30%;
     height: 550px;
     border: 1px solid white;
 }
+
 #combatMiddleContainer {
     width: 40%;
 }
+
 #combatLog {
     height: 350px;
     border: 1px solid white;
 }
+
 #coordinatesInfo {
     height: 200px;
     border: 1px solid white;
     box-sizing: border-box;
 }
+
 #combatVisualisation {
     width: 70%;
     height: 250px;
     background-color: black;
     margin: 10px auto;
 }
+
 .navigationAttention {
-    color:rgb(223, 218, 115);
+    color: rgb(223, 218, 115);
 }
+
 #hangar {
     position: absolute;
     margin: 0px auto;
     left: 48%;
     bottom: 5vh;
 }
+
 #spaceCoords p {
     width: 49%;
     margin: 0;
     padding: 0;
     display: inline-block;
 }
-#researchButtons, #Manufactory {
+
+#researchButtons,
+#Manufactory {
     display: flex;
     justify-content: center;
 
 }
-#researchButtons button, #Manufactory button {
+
+#researchButtons button,
+#Manufactory button {
     margin: 12px;
 }
+
 .hangarButtons button {
     margin: 5px;
     display: inline-block;
     padding: 5px;
 }
+
 .hangarButtons {
     display: flex;
     justify-content: center;
@@ -429,6 +538,7 @@ button {
     padding: 0 !important;
     border: none !important;
 }
+
 #galaxyMap {
     display: none;
     width: 100%;
@@ -439,70 +549,88 @@ button {
     background-color: rgb(23, 22, 22);
     z-index: 100;
 }
+
 #bigGalaxyMap {
     background-color: black;
     width: 900px;
     height: 700px;
     display: block;
 }
+
 #galaxyMapSidebar {
     margin-left: 12px;
     height: 700px;
     border: 1px solid white;
     width: 300px;
 }
-#cannotJump, #cannotJumpTier {
+
+#cannotJump,
+#cannotJumpTier {
     display: none;
     width: 80%;
     margin: 30px auto;
 }
+
 #debrisInfo li {
     text-align: center;
 }
+
 #solarPanel {
     width: 30%;
     margin: 12px auto;
     padding: 12px;
     border: 1px solid white;
 }
-#clickOnPlanetOrHostile, #redirectCancel {
+
+#clickOnPlanetOrHostile,
+#redirectCancel {
     display: none;
 }
-#energyRequiredWrapper, #energyRequiredProgress {
+
+#energyRequiredWrapper,
+#energyRequiredProgress {
     width: 250px;
     height: 250px;
     border-radius: 250px;
     margin: auto;
 }
+
 #energyRequiredWrapper {
     background-color: black;
 }
+
 #energyRequiredProgress {
     position: absolute;
     background-color: white;
 }
+
 #ending {
     background-color: white;
     color: black;
     display: none;
 }
+
 #allCategories {
     display: flex;
     justify-content: center;
 }
+
 #allCategories div {
     margin: 12px;
     border: 1px solid white;
     padding: 12px;
     width: 250px;
 }
+
 #Statistics {
     text-align: center;
 }
-#actionButtons button{
+
+#actionButtons button {
     margin: 12px;
     display: inline-block;
 }
+
 #overlay {
     width: 80%;
     position: absolute;
@@ -514,6 +642,7 @@ button {
     overflow: scroll;
     z-index: 100;
 }
+
 #overlayBG {
     z-index: 50;
     width: 100%;
@@ -524,35 +653,43 @@ button {
     height: 100vh;
     backdrop-filter: blur(10px);
 }
+
 #actionButtons div {
     justify-content: center;
 }
+
 #systemMapContainer {
     justify-content: left;
     left: 20%;
     position: relative;
     display: flex;
 }
+
 #upgradeButtonsContainer button {
     margin: 12px;
     display: inline-block;
 }
+
 #upgradeButtonsContainer {
     display: flex;
     justify-content: center;
 }
+
 #notifications p {
     transition: left 0.5s ease-out;
 }
+
 #energyStatsInfo {
     display: flex;
     justify-content: center;
 }
+
 #energyStatsInfo div {
     border: 1px solid white;
     margin: 15px;
     padding: 12px;
 }
+
 #tutorialTexts {
     display: none;
     width: 100%;
@@ -563,12 +700,14 @@ button {
     z-index: 9999;
     backdrop-filter: brightness(25%);
 }
+
 .tutorialBrightArea {
     backdrop-filter: brightness(400%);
     position: absolute;
     border: solid white 3px;
     box-sizing: border-box;
 }
+
 .tutorialText {
     position: absolute;
     text-align: center;

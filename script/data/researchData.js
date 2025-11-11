@@ -4,6 +4,7 @@ import { updateResearchRate } from "../pageUpdates.js";
 import { drawBuildShipsDiv } from "../ship/buildShip.js";
 import { addNavigationAttention, unlockUIElement } from "../toggleUIElement.js";
 import { drawUpgradeButtons } from "../upgrades.js";
+import { manufactoryUnlockItem } from "../ship/manufactory.js";
 
 const research = {
     "Upgrades": {
@@ -36,6 +37,16 @@ const research = {
         complete: function (userData) {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "dustBot");
             addNavigationAttention("Energy", "pageEnergy");
+        }
+    },
+    "missiles" : {
+        cost: {
+            points: 20
+        },
+        name: "Missile",
+        description: "A missile to attack difficult to take down enemies from range.",
+        complete: function (userData) {
+            manufactoryUnlockItem(userData, "missile");
         }
     },
     "fabriBot": {
@@ -91,7 +102,7 @@ const research = {
         name: "Repair kits",
         description: "Tired of your ships never being at full hull? Learn how to repair them!",
         complete: function (userData) {
-            unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "makeRepairKit");
+            manufactoryUnlockItem(userData, "repairKit");
         }
     },
     "Warp Drive": {

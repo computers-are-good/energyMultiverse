@@ -138,6 +138,14 @@ const mouseoverDescriptions = {
             energy: 1000,
             antimatter: 15
         }
+    },
+    "makeDriveCell": {
+        content: "A drive cell to jump between systems",
+        cost: {
+            iridium: 1,
+            metal: 5,
+            dust: 10
+        }
     }
 }
 let currentDescription = "";
@@ -151,7 +159,7 @@ let showingDescription = false;
 function updateDescription(description, x, y, userData) {
     showingDescription = true;
     descriptionBox.style.display = "block";
-    const {pageX, pageY} = getDescriptionBoxCoords(x, y);
+    const { pageX, pageY } = getDescriptionBoxCoords(x, y);
     descriptionBox.style.top = `${pageY}px`;
     descriptionBox.style.left = `${pageX}px`;
     populateDescription(description, userData);
@@ -217,7 +225,7 @@ function getDescriptionBoxCoords(mouseX, mouseY) {
 }
 document.body.addEventListener("mousemove", e => {
     if (showingDescription) {
-        const {x, y} = getDescriptionBoxCoords(e.x, e.y);
+        const { x, y } = getDescriptionBoxCoords(e.x, e.y);
         descriptionBox.style.top = `${y}px`;
         descriptionBox.style.left = `${x}px`;
     }

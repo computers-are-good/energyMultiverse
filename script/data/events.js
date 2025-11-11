@@ -309,7 +309,7 @@ const events = {
                     },
                     {
                         text: "Later",
-                        goto: 3  
+                        goto: 3
                     }
                 ]
             },
@@ -786,7 +786,13 @@ const events = {
             unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "pageUniverse");
             toggleScreen(userData, "Universe");
         },
-    }
+    },
+    unlockMissions: [
+        {
+            text: "Missile",
+            researchUnlocked: ["missile"]
+        }
+    ]
 }
 
 export default events;

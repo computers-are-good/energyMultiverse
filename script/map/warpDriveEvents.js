@@ -1,4 +1,6 @@
 import { checkCosts, subtractCosts } from "../itemCosts.js";
+import notifyUnique from "../notifs/notifyUnique.js";
+import { addNavigationAttention, unlockUIElement } from "../toggleUIElement.js";
 
 function updateWarpDriveButton(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -25,6 +27,9 @@ function buildWarpDrive(userData) {
         subtractCosts(userData, warpDriveCosts);
         currentMultiverse.warpDriveBuilt = true;
         updateWarpDriveButton(userData);
+        unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "pageManufactory");
+        notifyUnique("manufactoryUnlocked");
+        addNavigationAttention("Manufactory", "pageManufactory");
     }
 }
 

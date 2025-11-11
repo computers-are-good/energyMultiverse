@@ -308,15 +308,15 @@ function updateSolarSystem(userData) {
                         document.getElementById("launchMissile").style.display = "none";
                     } else {
                         document.getElementById("hostileAttack").style.display = "block";
-                        document.getElementById("launchMissile").style.display = currentMultiverse.missiles > 0 ? "block" : "none";
+                        document.getElementById("launchMissile").style.display = currentMultiverse.manufactoryItems.missile > 0 ? "block" : "none";
                     }
 
                     enemy.addEventListener("mousedown", _ => {
                         if (!blockingScreens.includes(activeScreen)) {
                             selected = id;
                             activeScreen = "hostileInfo";
-                            document.getElementById("missileCount").textContent = currentMultiverse.missiles > 0 ? `Missiles: ${currentMultiverse.missiles}` : "";
-                            document.getElementById("launchMissile").style.display = currentMultiverse.missiles > 0 ? "block" : "none";
+                            document.getElementById("missileCount").textContent = currentMultiverse.manufactoryItems.missile > 0 ? `Missiles: ${currentMultiverse.manufactoryItems.missiles}` : "";
+                            document.getElementById("launchMissile").style.display = currentMultiverse.manufactoryItems.missile > 0 ? "block" : "none";
                             updateVisibleDivs();
                             document.querySelectorAll(".selectTargetButton").forEach(e => e.remove());
                             if (redirectionInProgress) document.getElementById("hostileInfo").appendChild(selectTargetButton);
@@ -570,8 +570,8 @@ document.body.addEventListener("click", e => {
 function launchMissile(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
-    if (currentMultiverse.missiles > 0) {
-        currentMultiverse.missiles--;
+    if (currentMultiverse.manufactoryItems.missile > 0) {
+        currentMultiverse.manufactoryItems.missile--;
         let key = Math.floor(Math.random() * 10000);
         while (key in currentSystem.objects) {
             key = Math.floor(Math.random() * 10000);
@@ -584,8 +584,8 @@ function launchMissile(userData) {
             damage: currentMultiverse.missileDamage ?? 5,
         }
     }
-    document.getElementById("missileCount").textContent = currentMultiverse.missiles > 0 ? `Missiles: ${currentMultiverse.missiles}` : "";
-    if (currentMultiverse.missiles <= 0) {
+    document.getElementById("missileCount").textContent = currentMultiverse.manufactoryItems.missile > 0 ? `Missiles: ${currentMultiverse.missiles}` : "";
+    if (currentMultiverse.manufactoryItems.missile <= 0) {
         document.getElementById("launchMissile").style.display = "none";
     }
 }
@@ -846,8 +846,8 @@ async function updateSolarSystemPositions(userData) {
                 const distance = getDistanceTo(thing, target);
                 if (distance < 10) {
                     if (thing.targetObjectId === "player") {
-                        currentMultiverse.missiles++;
-                        document.getElementById("missileCount").textContent = currentMultiverse.missiles > 0 ? `Missiles: ${currentMultiverse.missiles}` : "";
+                        currentMultiverse.manufactoryItems.missile++;
+                        document.getElementById("missileCount").textContent = currentMultiverse.manufactoryItems.missile > 0 ? `Missiles: ${currentMultiverse.missiles}` : "";
                         delete currentSystem.objects[object];
                     } else {
                         target.currentHealth -= thing.damage;

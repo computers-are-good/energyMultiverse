@@ -43,6 +43,7 @@
                 <li id="pageResearch">Research</li>
                 <li id="pageUpgrades">Upgrades</li>
                 <li id="pageShipyard">Shipyard</li>
+                <li id="pageManufactory">Manufactory</li>
                 <li id="pageMap">Map</li>
                 <li id="pageUniverse">Universe</li>
                 <li id="pageStatistics">Statistics</li>
@@ -249,12 +250,23 @@
                 </div>
                 <p>Using <span id="shipBuildingEnergyUsed"></span> energy every second.</p>
             </div>
-            <h2>Manufactory</h2>
-            <div id="Manufactory">
-                <button id="makeMissile">Missile</button>
-                <button id="makeRepairKit">Repair kit</button>
-            </div>
             <button id="hangar">Hangar</button>
+        </div>
+        <div id="Manufactory">
+            <h2>Manufactory</h2>
+            <div id="manufactoryItems">
+                <button class="driveCell" id="makeDriveCell">Drive Cell</button>
+                <button class="missile" id="makeMissile">Missile</button>
+                <button class="repairKit" id="makeRepairKit">Repair kit</button>
+            </div>
+            <h2>Inventory</h2>
+            <div id="manufactoryInventory">
+                <ul>
+                    <li class="driveCell" id="driveCellCount">Drive cell:</li>
+                    <li class="missile" id="driveCellCount">Missile:</li>
+                    <li class="repairKit" id="driveCellCount">Repair Kit:</li>
+                </ul>
+            </div>
         </div>
         <div id="playerShips">
             <h2>Your ships</h2>
@@ -350,12 +362,16 @@
                 <div id="galaxyMapSidebar">
                     <div id="systemInfo">
                         <h2 id="systemName"></h2>
+                        <hr>
                         <p><span id="explorationPercentageDisplay"></span>% explored</p>
                         <p>System tier: <span id="systemTierDisplayGalaxy"></span></p>
                         <p>Danger Level: <span id="dangerLevelDisplay"></span></p>
                         <p>Number of planets: <span id="numberOfPlanetsDisplay"></span></p>
+                        <hr>
                         <p>Energy required for jump: <span id="energyRequired"></span></p>
+                        <p>Drive cells required: <span id="driveCellsRequired"></span></p>
                         <button id="jumpToSystem">Jump to system</button>
+                        <hr>
                     </div>
                     <p id="cannotJump">Cannot jump; one or more ships are in the solar system.</p>
                     <p id="cannotJumpTier">Cannot jump; you can only jump to tier <span id="maxJumpTier"></span> systems

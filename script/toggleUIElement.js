@@ -16,7 +16,6 @@ const hideableIDs = [
     "fabriBot",
     "dustBot",
     "turret",
-    "makeRepairKit",
     "metals",
     "metalCounter",
     "pageShipyard",
@@ -27,6 +26,8 @@ const hideableIDs = [
     "pageStatistics",
     "energyStatistics",
     "buildAntimatterBeam",
+    "makeMissile",
+    "pageManufactory"
 ];
 const screens = [
     "Energy",
@@ -38,6 +39,7 @@ const screens = [
     "playerShips",
     "Map",
     "Universe",
+    "Manufactory",
     "Statistics",
     "fabriBotView"
 ]

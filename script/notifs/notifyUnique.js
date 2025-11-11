@@ -1,4 +1,4 @@
-import {notify} from "./notify.js";
+import { notify } from "./notify.js";
 
 const messages = {
     awake: "As the light from the distant room fades, you find yourself awake among darkness.",
@@ -19,7 +19,8 @@ const messages = {
     missileDamage: "You've made a lot of missiles. Now it's time to make them stronger.",
     scannerAccuracy: "You've built a scanner, but it still needs calibration.",
     antimatterBeamBuilt: "Now go forth into your previous multiverses, and destroy planets for energy.",
-    firstAntimatter: "An inverted bit of matter finds itself into the space among you. It will be useful for your journey."
+    firstAntimatter: "An inverted bit of matter finds itself into the space among you. It will be useful for your journey.",
+    manufactoryUnlocked: "You turn a dusty old room into a makeshaft manufactory for your operations."
 }
 
 function notifyUnique(messageId) {

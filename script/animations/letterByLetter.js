@@ -11,7 +11,7 @@ async function letterByLetter(targetDiv, timeToWait) {
         for (let i = 0; i < targetDivText.length; i++) {
             let maxWidth = targetDivWidth;
             if (i < targetDivText.length - 1) maxWidth -= textWidth(`${targetDivText[i + 1]}  `, targetDiv);
-            if (widthUsed > maxWidth) {
+            if (widthUsed > maxWidth - 5) {
                 targetDiv.innerHTML += "<br>";
                 widthUsed = 0;
             }

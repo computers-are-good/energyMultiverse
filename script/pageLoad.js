@@ -15,7 +15,7 @@ import { buildShip, drawBuildShipsDiv, openChooseShipOverlay, openChooseWeaponOv
 import { decreaseBuildRate, increaseBuildRate } from "./ship/shipEvents.js";
 import { closeHangar, openHangar } from "./ship/hangar.js";
 import { buildScanner, cancelRedirect, dispatchShipEvent, goToHostile, launchMissile, moveMothership, newTargetButton, obliteratePlanet, recallButton, scaleSolarSystem, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
-import { makeMissile, makeRepairKit } from "./ship/manufactory.js";
+import { makeMissile, simpleItemMaker, updateInventoryDisplay, updateManufactoryButtons } from "./ship/manufactory.js";
 import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "./map/thrust.js";
 import metalClicker from "./resources/metal.js";
 import addCheats from "./cheats.js";
@@ -93,7 +93,8 @@ function applyEvents(userData) {
     document.getElementById("moveMothership").addEventListener("click", _ => moveMothership(userData));
     document.getElementById("dispatchToSun").addEventListener("click", _ => sendShipToSun(userData));
     document.getElementById("metal").addEventListener("click", _ => metalClicker(userData));
-    document.getElementById("makeRepairKit").addEventListener("click", _ => makeRepairKit(userData));
+    document.getElementById("makeRepairKit").addEventListener("click", _ => simpleItemMaker(userData, "repairKit"));
+    document.getElementById("makeDriveCell").addEventListener("click", _ => simpleItemMaker(userData, "driveCell"));
     document.getElementById("galaxyMapBack").addEventListener("click", closeGalaxyView);
     document.getElementById("galaxyView").addEventListener("click", _ => galaxyView(userData));
     document.getElementById("recallShip").addEventListener("click", recallButton);
@@ -213,6 +214,8 @@ async function firstLoadFunctions(userData) {
     updateSolarPanels(userData);
     drawUpgradeButtons(userData);
     updateMultiverseMultipliers(userData);
+    updateManufactoryButtons(userData);
+    updateInventoryDisplay(userData);
 
     if (userData.multiverses.length > 1) {
         document.getElementById("multiverseTravel").style.display = "block";

@@ -47,6 +47,7 @@ function galaxyView(userData) {
             }
 
             systemDiv.addEventListener("click", _ => {
+                selectedIndex = i;
                 document.getElementById("systemInfo").style.display = "block";
                 document.getElementById("energyRequired").textContent = calculateEnergyRequired(userData, i);
                 document.getElementById("numberOfPlanetsDisplay").textContent = planetCount;
@@ -54,7 +55,7 @@ function galaxyView(userData) {
                 document.getElementById("dangerLevelDisplay").textContent = system.dangerLevel;
                 document.getElementById("systemName").textContent = system.name;
                 document.getElementById("explorationPercentageDisplay").textContent = explorationPercent;
-                selectedIndex = i;
+                document.getElementById("driveCellsRequired").textContent = currentMultiverse.solarSystems[selectedIndex].tier;
             });
         }
     } else {
@@ -64,9 +65,10 @@ function galaxyView(userData) {
 function jumpButtonClicked(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const energyReq = calculateEnergyRequired(userData, selectedIndex);
-    if (currentMultiverse.energy > energyReq) {
+    if (currentMultiverse.energy > energyReq && currentMultiverse.driveCell > currentMultiverse.solarSystems[selectedIndex].tier) {
         jumpToSystem(userData, selectedIndex);
         useEnergy(userData, energyReq);
+        currentMultiverse.driveCell -= currentMultiverse.solarSystems[selectedIndex].tier;
         updateEnergyCounter(userData);
     }
 }
