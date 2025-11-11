@@ -38,23 +38,23 @@ function addCheats(userData) {
                         updateAntimatterCounter(userData);
                         break;
                     case "ENERGYFORDAYS":
-                        currentMultiverse.energy = 99999;
+                        currentMultiverse.energy = 999999;
                         updateEnergyCounter(userData);
                         break;
                     case "ITSDUSTYINHERE":
-                        currentMultiverse.dust = 99999;
+                        currentMultiverse.dust = 999999;
                         updateDustCounter(userData);
                         break;
                     case "GIVEMETHEMETAL":
-                        currentMultiverse.metal = 99999;
+                        currentMultiverse.metal = 999999;
                         updateMetalCounter(userData);
                         break;
                     case "SAYYESTOIRIDIUM":
-                        currentMultiverse.iridium = 99999;
+                        currentMultiverse.iridium = 999999;
                         updateIridiumCounter(userData);
                         break;
                     case "MATTERN'T":
-                        currentMultiverse.antimatter = 99999;
+                        currentMultiverse.antimatter = 999999;
                         updateAntimatterCounter(userData);
                         break;
                     case "IAMSMORT":

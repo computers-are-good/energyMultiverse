@@ -854,7 +854,6 @@ async function updateSolarSystemPositions(userData) {
                         if (target.currentHealth <= 0) {
                             delete currentSystem.objects[thing.targetObjectId];
                             notify(`A missile detonated and destroyed an enemy.`);
-                            console.log(thing.posX * mapScale)
                             particles({
                                 particleX: thing.posX * mapScale + mapLeft,
                                 particleY: thing.posY * mapScale + mapTop,

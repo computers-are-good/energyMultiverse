@@ -179,6 +179,10 @@ button {
     margin-top: 10px;
     height: 80vh;
     overflow: scroll;
+    position: relative;
+    width: 60%;
+    left: 20%;
+    align-content: flex-start;    
 }
 .upgradeTicks {
     display: inline-block;
