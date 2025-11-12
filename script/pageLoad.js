@@ -33,10 +33,10 @@ import { hideOverlay } from "./overlay.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
 import { resetMessageCount } from "./notifs/notify.js";
 import updateStatistics from "./statistics.js";
+import { resetSolarPanelAnimation, startSolarPanelAnimation } from "./animations/solarPanel.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-
     document.getElementById("drone").addEventListener("mousedown", _ => droneClicker(userData));
     document.getElementById("dust").addEventListener("mousedown", _ => dustClicker(userData));
     document.getElementById("energyClicker").addEventListener("mousedown", e => {
@@ -133,16 +133,22 @@ function applyEvents(userData) {
             energy: 1000,
             antimatter: 15
         }, true)) {
-            subtractCosts(userData, {energy: 10000, antimatter: 15});
+            subtractCosts(userData, { energy: 10000, antimatter: 15 });
             userData.antimatterBeamBuilt = true;
             notifyUnique("antimatterBeamBuilt");
             document.getElementById("buildAntimatterBeam").style.display = "none";
         }
     });
-    
+
+    startSolarPanelAnimation();
+
     addCheats(userData);
     scaleSolarSystem();
-    window.onresize = scaleSolarSystem;
+
+    window.onresize = _ => {
+        scaleSolarSystem();
+        resetSolarPanelAnimation();
+    }
 
     setInterval(_ => tick(userData), 100);
 
@@ -191,7 +197,7 @@ async function firstLoadFunctions(userData) {
     mouseoverDescriptions.drone.cost = { dust: droneCost(currentMultiverse.drones.length) };
 
     resetMessageCount();
-    
+
     toggleScreen(userData, currentMultiverse.lastScreen || "Energy");
     if (currentMultiverse.lastScreen === "Map") updateSolarSystem(userData);
 

@@ -1,3 +1,4 @@
+import { spawnNewCell } from "../animations/solarPanel.js";
 import { updateEnergyCounter } from "../pageUpdates.js";
 import { gainEnergy } from "./gainResources.js";
 
@@ -25,12 +26,16 @@ function solarPanelTick(userData) {
 
 const solarPanelDiv = document.getElementById("solarPanel");
 function updateSolarPanels(userData) {
+    const eps = getEnergyPerSecond(userData);
+    for (let i = 0; i < Math.min(Math.floor(eps / 2), 20); i++) {
+        spawnNewCell()
+    }
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     solarPanelDiv.style.display = currentMultiverse.solarPanel > 0 ? "block" : "none";
     document.getElementById("numberOfSolarPanels").textContent = currentMultiverse.solarPanel;
-    document.getElementById("solarPanelEPS").textContent = getEnergyPerSecond(userData);
+    document.getElementById("solarPanelEPS").textContent = eps;
     document.getElementById("solarPanelDistanceToStar").textContent = getDistanceToStar(userData);
-    const bgColor = Math.floor(-0.9 * getDistanceToStar(userData) + 255);    
+    const bgColor = Math.floor(-0.9 * getDistanceToStar(userData) / 100);    
     solarPanelDiv.style.color = bgColor > 150 ? "black" : "white";
     solarPanelDiv.style.backgroundColor = `rgb(${bgColor}, ${bgColor}, ${bgColor})`
 }
