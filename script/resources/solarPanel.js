@@ -35,9 +35,8 @@ function updateSolarPanels(userData) {
     document.getElementById("numberOfSolarPanels").textContent = currentMultiverse.solarPanel;
     document.getElementById("solarPanelEPS").textContent = eps;
     document.getElementById("solarPanelDistanceToStar").textContent = getDistanceToStar(userData);
-    const bgColor = Math.floor(-0.9 * getDistanceToStar(userData) / 100);    
-    solarPanelDiv.style.color = bgColor > 150 ? "black" : "white";
-    solarPanelDiv.style.backgroundColor = `rgb(${bgColor}, ${bgColor}, ${bgColor})`
+    const dropShadowBlur = Math.min(eps / 2, 4);    
+    solarPanelDiv.style.filter = `drop-shadow(0px 0px ${dropShadowBlur}px rgba(223, 218, 115, 0.33))`;
 }
 
 export { solarPanelTick, updateSolarPanels, getEnergyPerSecond }
