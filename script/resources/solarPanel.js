@@ -1,4 +1,4 @@
-import { spawnNewCell } from "../animations/solarPanel.js";
+import { acknowledgeEnergyGenerated } from "../animations/solarPanel.js";
 import { updateEnergyCounter } from "../pageUpdates.js";
 import { gainEnergy } from "./gainResources.js";
 
@@ -28,7 +28,7 @@ const solarPanelDiv = document.getElementById("solarPanel");
 function updateSolarPanels(userData) {
     const eps = getEnergyPerSecond(userData);
     for (let i = 0; i < Math.min(Math.floor(eps / 2), 20); i++) {
-        spawnNewCell()
+        acknowledgeEnergyGenerated(eps);
     }
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     solarPanelDiv.style.display = currentMultiverse.solarPanel > 0 ? "block" : "none";

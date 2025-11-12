@@ -5,6 +5,7 @@ let cellsInProgress = [];
 let tBottom;
 let resizeFinished = true;
 let tRight;
+let energyGenerated = 0;
 function drawTable() {
     const table = document.createElement("table");
     const boundingBox = document.getElementById("solarPanel").getBoundingClientRect();
@@ -34,6 +35,11 @@ function resizePanel() {
     setTimeout(_ => resizeFinished = true, 1000); // Add a delay in case other resize events are fired, to prevent flickering
     document.querySelector("#solarPanel table").remove(); // Draw a new table
     drawTable();
+}
+function acknowledgeEnergyGenerated(energy) {
+    // Acknowledges that some energy has been generated, and spans a new cell to reflect that in the animation
+    for (energyGenerated += energy; energyGenerated > 13; energyGenerated -= 13) 
+        spawnNewCell();
 }
 function spawnNewCell() {
     // Draws a new cell that will be animated
@@ -158,6 +164,6 @@ function continueSolarPanelAnimation() {
 }
 export {
     startSolarPanelAnimation,
-    spawnNewCell,
-    resizePanel as resetSolarPanelAnimation
+    acknowledgeEnergyGenerated,
+    resizePanel 
 }

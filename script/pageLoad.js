@@ -33,7 +33,7 @@ import { hideOverlay } from "./overlay.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
 import { resetMessageCount } from "./notifs/notify.js";
 import updateStatistics from "./statistics.js";
-import { resetSolarPanelAnimation, startSolarPanelAnimation } from "./animations/solarPanel.js";
+import { resizePanel, startSolarPanelAnimation } from "./animations/solarPanel.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -147,7 +147,7 @@ function applyEvents(userData) {
 
     window.onresize = _ => {
         scaleSolarSystem();
-        resetSolarPanelAnimation();
+        resizePanel();
     }
 
     setInterval(_ => tick(userData), 100);
