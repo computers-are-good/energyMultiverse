@@ -33,13 +33,24 @@ function resizePanel() {
     // Actions for when the window is resized
     resizeFinished = false; // Don't allow animation to play while we are resizing
     setTimeout(_ => resizeFinished = true, 1000); // Add a delay in case other resize events are fired, to prevent flickering
-    document.querySelector("#solarPanel table").remove(); // Draw a new table
-    drawTable();
+    if (currentScreenDisplayed == "Energy") {
+        document.querySelector("#solarPanel table").remove(); // Draw a new table
+        drawTable();
+    }
 }
 function acknowledgeEnergyGenerated(energy) {
     // Acknowledges that some energy has been generated, and spans a new cell to reflect that in the animation
-    for (energyGenerated += energy; energyGenerated > 13; energyGenerated -= 13) 
+    let i = 0;
+    for (energyGenerated += energy; energyGenerated > 10; energyGenerated -= 10) {
+        i++;
+        // If we try to spawn too much particles, we probably have generated a lot of energy.
+        // Reset the energy counter to prevent too much lag.
+        if (i > 5) {
+            energyGenerated = 0;
+            break;
+        }
         spawnNewCell();
+    }
 }
 function spawnNewCell() {
     // Draws a new cell that will be animated
@@ -143,8 +154,8 @@ function continueSolarPanelAnimation() {
             let hasLifeLeft = false;
             e.previousCells.forEach(f => {
                 // Update the "trail" cells
-                let value = Math.max(20 + 235 * (f.life / 15), 20)
                 if (f.life >= 0) {
+                    let value = Math.max(20 + 235 * (f.life / 15), 20)
                     hasLifeLeft = true;
                     const randR = 50 * f.life / 15;
                     const randG = 50 * f.life / 15;
@@ -152,8 +163,8 @@ function continueSolarPanelAnimation() {
                     const targetEl = document.querySelector(`.solarPanelTable .row${f.row} .col${f.col}`);
                     if (targetEl) targetEl.style.backgroundColor =
                         `rgb(${value + randR}, ${value + randG}, ${value + randB})`;
+                    f.life--;
                 }
-                f.life--;
             });
             if (!hasLifeLeft && !e.isMoving) {
                 cellsInProgress.splice(i, 1)
@@ -165,5 +176,5 @@ function continueSolarPanelAnimation() {
 export {
     startSolarPanelAnimation,
     acknowledgeEnergyGenerated,
-    resizePanel 
+    resizePanel
 }

@@ -576,11 +576,23 @@ button {
 }
 
 #solarPanel {
-    width: 400px;
+    width: 30%;
     position: relative;
-    margin: 12px auto;
+    margin: 36px auto;
     padding: 24px;
     border: 1px solid white;
+}
+
+#solarPanel hr {
+   position: relative; 
+}
+
+#solarPanelLineTop {
+    top: -50px;
+}
+
+#solarPanelLineBottom {
+    bottom: -50px
 }
 
 #solarPanel p {
