@@ -145,10 +145,8 @@ function applyEvents(userData) {
     addCheats(userData);
     scaleSolarSystem();
 
-    window.onresize = _ => {
-        scaleSolarSystem();
-        resizePanel();
-    }
+    window.onresize = _ => windowResize(userData);
+    windowResize(userData);
 
     setInterval(_ => tick(userData), 100);
 
@@ -184,6 +182,20 @@ function applyEvents(userData) {
             intervalSet = false;
         }
     });
+}
+function windowResize(userData) {
+    scaleSolarSystem();
+    resizePanel();
+    // Resize the big energy clicker on smaller screens.
+    if (window.innerHeight < 1000) {
+        document.getElementById("bigEnergy").style.marginTop = "-100px";
+        document.getElementById("bigEnergy").style.marginBottom = "-100px";
+        document.getElementById("bigEnergy").style.scale = "0.5";
+    } else {
+        document.getElementById("bigEnergy").style.marginTop = "0px";
+        document.getElementById("bigEnergy").style.marginBottom = "0";
+        document.getElementById("bigEnergy").style.scale = "1";
+    }
 }
 async function firstLoadFunctions(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];

@@ -10,7 +10,7 @@ function drawTable() {
     const table = document.createElement("table");
     const boundingBox = document.getElementById("solarPanel").getBoundingClientRect();
     table.classList.add("solarPanelTable");
-    const cellHeight = 4;
+    const cellHeight = 7;
     tBottom = Math.floor(boundingBox.height / cellHeight);
     tRight = Math.floor(boundingBox.width / cellHeight);
     for (let i = 0; i < tBottom; i++) {

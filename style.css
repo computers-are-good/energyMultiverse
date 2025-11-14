@@ -628,7 +628,7 @@ button {
     border-width: 0;
     background-color: rgb(20, 20, 20);
     margin: 0;
-    transition: background-color 0.2s 
+    transition: background-color 0.3s 
 }
 
 #clickOnPlanetOrHostile,
@@ -761,4 +761,18 @@ button {
     position: absolute;
     text-align: center;
     user-select: none;
+}
+
+#bottomDisplay {
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+}
+
+#bottomDisplay a {
+    margin-left: 8px;
+}
+
+#energyButtonsContainer div, #energyButtonsContainer #buildAntimatterBeam  {
+    margin: 10px;
 }
