@@ -814,3 +814,8 @@ button {
 #settingsDiv div p {
     display: inline-block;
 }
+
+.activeTab {
+    background-color: white;
+    color: black;
+}
