@@ -20,7 +20,7 @@ function getUserData() {
     const readData = window.localStorage.getItem("saveData");
     let dataToReturn;
     if (readData === null) {
-        dataToReturn = defaultData;
+        dataToReturn = structuredClone(defaultData);
         newMultiverse(dataToReturn);
     } else {
         dataToReturn = JSON.parse(readData);

@@ -133,4 +133,23 @@ function toggleScreen(userData, screenName) {
     document.getElementById(screenName).style.display = "block";
     currentScreenDisplayed = screenName;
 }
+
+// Shortcut way to navigate between different screens using the nubmer keys
+document.body.addEventListener("keydown", e => {
+    if (document.getElementById("pageSelector").style.display != "none") { // Only allow switching the page if the user can actually select the page.
+        if ("123456789".includes(e.key)) { // number key pressed
+            const tabsShowing = []; // holds all of the tabs that the player have unlocked and can see
+            const tabsAvailable = document.querySelectorAll("#pageSelector li") // hold every single tab, including the ones the player hasn't unlocked
+            tabsAvailable.forEach(e => {
+                if (e.style.display !== "none") { // filter out the tabs the player cannot see
+                    tabsShowing.push(e);
+                }
+            });
+            const keyAsNumber = parseInt(e.key) - 1; // convert to usable index. Account for difference between zero index and one index
+            if (keyAsNumber < tabsShowing.length) {
+                tabsShowing[keyAsNumber].click();
+            }
+        }
+    }
+});
 export { hideLockedElements, unlockUIElement, toggleScreen, currentScreenDisplayed, addNavigationAttention, hideableIDs }

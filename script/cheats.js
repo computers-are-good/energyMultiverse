@@ -4,6 +4,7 @@ import eventPlayer from "./map/eventPlayer.js";
 import generateAllSystems from "./map/newSolarSystem.js";
 import { newHostile, testEvent, updateSolarSystem } from "./map/solarSystem.js";
 import { createNewMultiverse, multiverseTravel } from "./multiverse.js";
+import { notify } from "./notifs/notify.js";
 import { updateAntimatterCounter, updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons, updateResearchPoints } from "./pageUpdates.js";
 import { updateSolarPanels } from "./resources/solarPanel.js";
 import { hideableIDs, unlockUIElement } from "./toggleUIElement.js";
@@ -115,9 +116,14 @@ function addCheats(userData) {
                         console.log(JSON.stringify(userData));
                         break;
                     case "GOODBYEWORLD":
-                        localStorage.clear();
-                        userData = getUserData();
-                        multiverseTravel(userData, 0);
+                        notify("Erasing World...");
+                        setTimeout(_ => notify("Three seconds left."), 1000);
+                        setTimeout(_ => notify("Two seconds left."), 2000);
+                        setTimeout(_ => notify("One second left."), 3000);
+                        setTimeout(_ => {
+                            localStorage.clear();
+                            location.reload();
+                        }, 4000);
                         break;
                     case "DANIEL":
                         currentMultiverse.ships.push(deepClone(
