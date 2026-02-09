@@ -102,7 +102,8 @@ function updateDustbot(userData) {
 function updateShipConstruction(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     if (Object.keys(currentMultiverse.shipInProgress).length > 0) {
-        document.getElementById("chooseShipToBuild").style.display = "none";
+        const noneElements = ["chooseShipToBuild", "shipToBuildInfo", "selectWeapons", "selectAccessoriesText", "chooseShipAccessories", "buildShip"];
+        noneElements.forEach(e => document.getElementById(e).style.display = "none");
         document.getElementById("buildShipDiv").style.display = "block";
     } else {
         document.getElementById("buildShipDiv").style.display = "none";

@@ -313,14 +313,12 @@ function buildShip(userData) {
             energyCostTotal: totalEnergyCost,
             energySpent: 0
         }
-        selectedWeaponsType = "Phasor"; //default weapon for new ships
         subtractCosts(userData, totalShipCost);
         for (let accessory of accessoriesSelected) {
             shipObj.shipInfo.accessories.push(accessory.name);
         }
 
         currentMultiverse.shipInProgress = shipObj;
-        document.getElementById("selectWeapons").style.display = "none";
         updateShipConstruction(userData);
         updateEnergyCounter(userData);
     }

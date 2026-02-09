@@ -13,6 +13,7 @@ function buildShip(userData) {
         useEnergy(userData, progress);
         currentShip.energySpent += progress;
     
+        // If we have finished building a ship.
         if (currentShip.energySpent >= currentShip.energyCostTotal) {
             const shipInfo = currentShip.shipInfo;
             addNavigationAttention("Shipyard", "pageShipyard");
