@@ -5,7 +5,7 @@ const upgrades = {
         name: "Advanced energy extraction",
         cost(upgradedTimes) {
             return {
-                dust: (upgradedTimes + 1) * 5
+                dust: ((upgradedTimes + 1) ** 2) * 5 + 10
             }
         },
         description: "Gives you more energy for each click."
