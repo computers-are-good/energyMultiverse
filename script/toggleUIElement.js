@@ -129,7 +129,6 @@ function toggleScreen(userData, screenName) {
         default:
             document.getElementById("screenSpecificResources").style.display = "none";
             break;
-
     }
     document.getElementById(screenName).style.display = "block";
     currentScreenDisplayed = screenName;
