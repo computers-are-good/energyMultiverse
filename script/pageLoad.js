@@ -11,7 +11,7 @@ import notifyUnique from "./notifs/notifyUnique.js";
 import { wait } from "./utils.js";
 import fadeIn from "./animations/fadeIn.js";
 import { buildDustbotEvent, dustbotSlider } from "./resources/dustbotClicker.js";
-import { buildShip, drawBuildShipsDiv, openChooseShipOverlay, openChooseWeaponOverlay, showShipbuildingProgress } from "./ship/buildShip.js";
+import { buildShip, drawBuildShipsDiv, selectClassButton, showShipbuildingProgress, selectWeaponsButton } from "./ship/buildShip.js";
 import { decreaseBuildRate, increaseBuildRate } from "./ship/shipEvents.js";
 import { closeHangar, openHangar } from "./ship/hangar.js";
 import { buildScanner, cancelRedirect, dispatchShipEvent, goToHostile, launchMissile, moveMothership, newTargetButton, obliteratePlanet, recallButton, scaleSolarSystem, sendShipToDebris, sendShipToSun, updateSolarSystem, updateSolarSystemPositions } from "./map/solarSystem.js";
@@ -114,12 +114,12 @@ function applyEvents(userData) {
     document.getElementById("increaseEnergyMultiplier").addEventListener("click", _ => increaseMultiplier("energyGained", userData));
     document.getElementById("increaseDustMultiplier").addEventListener("click", _ => increaseMultiplier("dustGained", userData));
     document.getElementById("increaseMetalMultiplier").addEventListener("click", _ => increaseMultiplier("metalGained", userData));
-    document.getElementById("selectShipClass").addEventListener("click", _ => openChooseShipOverlay(userData));
+    document.getElementById("selectShipClass").addEventListener("click", _ => selectClassButton(userData));
     document.getElementById("increaseIridiumMultiplier").addEventListener("click", _ => increaseMultiplier("iridiumGained", userData));
     document.getElementById("newMultiverse").addEventListener("click", _ => callCreateFunction(userData));
     document.getElementById("multiverseTravel").addEventListener("click", _ => selectMultiverse(userData, false, true));
     document.getElementById("obliteratePlanet").addEventListener("click", _ => obliteratePlanet(userData));
-    document.getElementById("selectWeapons").addEventListener("click", _ => openChooseWeaponOverlay(userData));
+    document.getElementById("selectWeapons").addEventListener("click", _ => selectWeaponsButton(userData));
     document.getElementById("pageStatistics").addEventListener("click", _ => updateStatistics(userData));
     document.getElementById("overlayBG").addEventListener("click", e => {
         if (e.target.id === "overlayBG") hideOverlay();

@@ -635,7 +635,21 @@ button {
 }
 
 #clickOnPlanetOrHostile,
+#buildShip,
 #redirectCancel {
+    display: none;
+}
+
+#shipToBuildInfo {
+    width: 15%;
+    position: absolute;
+    right: 80px;
+    border: 1px solid white;
+    padding: 8px;
+    top: 100px;
+}
+
+.defaultHidden {
     display: none;
 }
 

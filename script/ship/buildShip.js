@@ -1,13 +1,13 @@
 import { addDescriptionEvent, changeDescriptionText, manualDescriptionUpdate } from "../addUIDescriptions.js";
 import { shipClasses, shipAccessories, shipWeapons } from "../data/shipData.js";
 import { checkCosts, subtractCosts, writeCostsReadable } from "../itemCosts.js";
-import {notify} from "../notifs/notify.js"
+import { notify } from "../notifs/notify.js"
 import { appendCloseButton, hideOverlay, setOverlayTitle, showOverlay } from "../overlay.js";
 import { updateEnergyCounter, updateShipConstruction } from "../pageUpdates.js";
 import { deepClone } from "../utils.js";
 
 let selectedShipType = "";
-let selectedWeaponsType = "Phasor";
+let selectedWeaponsType = "";
 let totalEnergyCost = 0;
 let accessoriesSelected = [];
 let accessorySlotsUsed = 0;
@@ -25,160 +25,164 @@ const statMappings = {
 }
 let totalShipCost = {}
 function openChooseShipOverlay(userData) {
-    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    showOverlay();
-    setOverlayTitle("Choose ship class");
+    return new Promise(res => {
+        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+        showOverlay();
+        setOverlayTitle("Choose ship class");
 
-    const chooseShipClass = document.createElement("div");
-    chooseShipClass.id = "chooseShipClass";
-    document.getElementById("overlay").appendChild(chooseShipClass);
+        const chooseShipClass = document.createElement("div");
+        chooseShipClass.id = "chooseShipClass";
+        document.getElementById("overlay").appendChild(chooseShipClass);
 
-    const classesUnlockedArray = [];
-    for (let shipClass of currentMultiverse.shipClassesUnlocked) {
-        const shipObj = shipClasses[shipClass];
-        if (!classesUnlockedArray.includes(shipObj.class)) classesUnlockedArray.push(shipObj.class);
-    }
-
-    const classesUnlockedObj = {}
-    for (const shipClass of classesUnlockedArray) {
-        const newHeading = document.createElement("h2")
-        newHeading.textContent = shipClass;
-        const newDiv = document.createElement("div");
-
-        newDiv.appendChild(newHeading);
-        newDiv.classList.add("specificShipClass");
-
-        const divForClasses = document.createElement("div");
-        divForClasses.classList.add("divForClasses");
-        classesUnlockedObj[shipClass] = divForClasses;
-        newDiv.appendChild(divForClasses);
-        chooseShipClass.appendChild(newDiv);
-    }
-
-    let allShipDivs = [];
-    for (let shipClass of currentMultiverse.shipClassesUnlocked) {
-        const shipObj = shipClasses[shipClass];
-        const newDiv = document.createElement("div");
-        allShipDivs.push(newDiv);
-        newDiv.classList.add("shipClassDiv");
-        const classTitle = document.createElement("p");
-        classTitle.textContent = shipClass;
-        newDiv.appendChild(classTitle);
-
-        if (selectedShipType === shipClass) {
-            newDiv.classList.add("shipSelected");
+        const classesUnlockedArray = [];
+        for (let shipClass of currentMultiverse.shipClassesUnlocked) {
+            const shipObj = shipClasses[shipClass];
+            if (!classesUnlockedArray.includes(shipObj.class)) classesUnlockedArray.push(shipObj.class);
         }
 
-        const statsWrapper = document.createElement("ul");
+        const classesUnlockedObj = {}
+        for (const shipClass of classesUnlockedArray) {
+            const newHeading = document.createElement("h2")
+            newHeading.textContent = shipClass;
+            const newDiv = document.createElement("div");
 
-        for (const stat in shipObj.baseStats) {
-            const newLi = document.createElement("li");
-            newLi.textContent = `${statMappings[stat]}: ${shipObj.baseStats[stat]}`;
-            statsWrapper.appendChild(newLi);
+            newDiv.appendChild(newHeading);
+            newDiv.classList.add("specificShipClass");
+
+            const divForClasses = document.createElement("div");
+            divForClasses.classList.add("divForClasses");
+            classesUnlockedObj[shipClass] = divForClasses;
+            newDiv.appendChild(divForClasses);
+            chooseShipClass.appendChild(newDiv);
         }
 
-        addDescriptionEvent(newDiv, {
-            content: shipObj.description,
-            cost: shipObj.baseCost
-        }, userData);
+        let allShipDivs = [];
+        for (let shipClass of currentMultiverse.shipClassesUnlocked) {
+            const shipObj = shipClasses[shipClass];
+            const newDiv = document.createElement("div");
+            allShipDivs.push(newDiv);
+            newDiv.classList.add("shipClassDiv");
+            const classTitle = document.createElement("p");
+            classTitle.textContent = shipClass;
+            newDiv.appendChild(classTitle);
 
-        newDiv.addEventListener("click", _ => {
-            document.getElementById("chooseShipAccessories").style.display = "flex";
-            document.getElementById("selectAccessoriesText").style.display = "block";
-            document.getElementById("selectedShipClassDisplay").textContent = shipClass;
-            document.getElementById("selectedShipClass").style.display = "block";
-            document.getElementById("selectWeapons").style.display = "block";
-
-            if (selectedShipType) {
-                document.querySelectorAll(".shipClassDiv").forEach(e => e.classList.remove("selectedShip"))
+            if (selectedShipType === shipClass) {
+                newDiv.classList.add("shipSelected");
             }
-            if (shipObj.accessorySlots < accessorySlotsUsed) {
-                //remove accessories until we have gotten below the limit
-                for (let index in accessoriesSelected) {
-                    const accessory = accessoriesSelected[index];
-                    accessory.associatedDiv.classList.remove("shipSelected");
-                    accessorySlotsUsed -= shipAccessories[accessory.name].accessorySlots;
-                    accessoriesSelected[index] = 0;
-                    if (accessorySlotsUsed <= shipObj.accessorySlots) {
-                        break;
-                    }
+
+            const statsWrapper = document.createElement("ul");
+
+            for (const stat in shipObj.baseStats) {
+                const newLi = document.createElement("li");
+                newLi.textContent = `${statMappings[stat]}: ${shipObj.baseStats[stat]}`;
+                statsWrapper.appendChild(newLi);
+            }
+
+            addDescriptionEvent(newDiv, {
+                content: shipObj.description,
+                cost: shipObj.baseCost
+            }, userData);
+
+            newDiv.addEventListener("click", _ => {
+                document.getElementById("selectedShipClassDisplay").textContent = shipClass;
+
+                if (selectedShipType) {
+                    document.querySelectorAll(".shipClassDiv").forEach(e => e.classList.remove("selectedShip"))
                 }
-                accessoriesSelected = accessoriesSelected.filter(e => e !== 0);
-            }
-            accessorySlotsAvailable = shipObj.accessorySlots;
-            selectedShipType = shipClass;
-            allShipDivs.forEach(e => e.classList.remove("shipSelected"));
-            newDiv.classList.add("shipSelected");
+                if (shipObj.accessorySlots < accessorySlotsUsed) {
+                    //remove accessories until we have gotten below the limit
+                    for (let index in accessoriesSelected) {
+                        const accessory = accessoriesSelected[index];
+                        accessory.associatedDiv.classList.remove("shipSelected");
+                        accessorySlotsUsed -= shipAccessories[accessory.name].accessorySlots;
+                        accessoriesSelected[index] = 0;
+                        if (accessorySlotsUsed <= shipObj.accessorySlots) {
+                            break;
+                        }
+                    }
+                    accessoriesSelected = accessoriesSelected.filter(e => e !== 0);
+                }
+                accessorySlotsAvailable = shipObj.accessorySlots;
+                selectedShipType = shipClass;
+                allShipDivs.forEach(e => e.classList.remove("shipSelected"));
+                newDiv.classList.add("shipSelected");
 
-            calculateShipCost();
-            updateShipCost();
-            updateAccessoriesCost();
-        });
+                if (selectedWeaponsType) {
+                    calculateShipCost(); // Only calculate ship cost if we have also selected a weapon
+                    updateShipCost();
+                    updateAccessoriesCost();
+                }
+            });
 
-        newDiv.appendChild(statsWrapper);
-        classesUnlockedObj[shipObj.class].appendChild(newDiv);
-    }
+            newDiv.appendChild(statsWrapper);
+            classesUnlockedObj[shipObj.class].appendChild(newDiv);
+        }
 
-    appendCloseButton();
+        appendCloseButton(res);
+    })
+
 }
 
 function openChooseWeaponOverlay(userData) {
-    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    showOverlay();
-    setOverlayTitle("Choose weapons system");
+    return new Promise(res => {
+        const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+        showOverlay();
+        setOverlayTitle("Choose weapons system");
 
-    const weaponsDiv = document.createElement("div");
-    weaponsDiv.classList.add("flexCenter");
-    currentMultiverse.weaponsUnlocked.forEach(e => {
-        const newDiv = document.createElement("div");
-        newDiv.classList.add("weaponsDiv");
-        const weaponInfo = shipWeapons[e];
-        const statsWrapper = document.createElement("ul");
+        const weaponsDiv = document.createElement("div");
+        weaponsDiv.classList.add("flexCenter");
+        currentMultiverse.weaponsUnlocked.forEach(e => {
+            const newDiv = document.createElement("div");
+            newDiv.classList.add("weaponsDiv");
+            const weaponInfo = shipWeapons[e];
+            const statsWrapper = document.createElement("ul");
 
-        // Indicate if weapon is selected
-        if (e === selectedWeaponsType) newDiv.classList.add("shipSelected");
+            // Indicate if weapon is selected
+            if (e === selectedWeaponsType) newDiv.classList.add("shipSelected");
 
-        // Weapon name
-        const name = document.createElement("li");
-        name.textContent = e;
-        statsWrapper.appendChild(name);
+            // Weapon name
+            const name = document.createElement("li");
+            name.textContent = e;
+            statsWrapper.appendChild(name);
 
-        // Weapon stats
-        for (const stat in weaponInfo.baseStats) {
-            const newLi = document.createElement("li");
-            newLi.textContent = `${statMappings[stat]}: ${weaponInfo.baseStats[stat]}`;
-            statsWrapper.appendChild(newLi);
-        }
+            // Weapon stats
+            for (const stat in weaponInfo.baseStats) {
+                const newLi = document.createElement("li");
+                newLi.textContent = `${statMappings[stat]}: ${weaponInfo.baseStats[stat]}`;
+                statsWrapper.appendChild(newLi);
+            }
 
-        // Mouseover description
-        addDescriptionEvent(newDiv, {
-            content: weaponInfo.description,
-            cost: weaponInfo.baseCost
-        }, userData);
+            // Mouseover description
+            addDescriptionEvent(newDiv, {
+                content: weaponInfo.description,
+                cost: weaponInfo.baseCost
+            }, userData);
 
-        // Select weapon
-        newDiv.addEventListener("click", _ => {
-            document.querySelectorAll(".weaponsDiv").forEach(e => e.classList.remove("shipSelected"));
-            newDiv.classList.add("shipSelected");
-            selectedWeaponsType = e;
+            // Select weapon
+            newDiv.addEventListener("click", _ => {
+                document.querySelectorAll(".weaponsDiv").forEach(e => e.classList.remove("shipSelected"));
+                newDiv.classList.add("shipSelected");
+                document.getElementById("selectedShipWeaponDisplay").innerText = e;
+                selectedWeaponsType = e;
 
-            // Update all costs for ship
-            calculateShipCost();
-            updateShipCost();
-            updateAccessoriesCost();
+                // Update all costs for ship
+                calculateShipCost();
+                updateShipCost();
+                updateAccessoriesCost();
+            });
+
+            newDiv.appendChild(statsWrapper);
+            weaponsDiv.appendChild(newDiv);
         });
+        document.getElementById("overlay").appendChild(weaponsDiv);
 
-        newDiv.appendChild(statsWrapper);
-        weaponsDiv.appendChild(newDiv);
-    });
-    document.getElementById("overlay").appendChild(weaponsDiv);
+        appendCloseButton(res);
+    })
 
-    appendCloseButton();
 }
 function drawBuildShipsDiv(userData) {
     userDataBig = userData;
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
-    document.getElementById("totalEnergyCost").style.display = "none";
     document.getElementById("chooseShipAccessories").style.display = "none";
     document.getElementById("chooseShipAccessories").innerHTML = "";
     document.getElementById("selectAccessoriesText").style.display = "none";
@@ -274,8 +278,10 @@ document.getElementById("buildShip").addEventListener("mouseover", e => {
 });
 
 function updateShipCost() {
-    document.getElementById("totalEnergyCost").style.display = "block";
     document.getElementById("totalEnergyCostSpan").textContent = totalEnergyCost;
+    document.querySelectorAll("#totalResourcesCost .buildShipResource").forEach(e => e.textContent = "0");
+    for (const resource in totalShipCost)
+        document.querySelector(`#totalResourcesCost .${resource}`).textContent = totalShipCost[resource];
 }
 
 function updateAccessoriesCost() {
@@ -330,10 +336,28 @@ function showShipbuildingProgress(userData, x, y) {
     }, x, y, "shipbuildingBar");
 }
 
+async function selectClassButton(userData) {
+    await openChooseShipOverlay(userData);
+    if (selectedShipType) {
+        document.getElementById("selectWeapons").style.display = "block";
+        document.getElementById("shipToBuildInfo").style.display = "block";
+    }
+}
+
+async function selectWeaponsButton(userData) {
+    await openChooseWeaponOverlay(userData);
+    if (selectedWeaponsType) {
+        document.getElementById("selectWeapons").style.display = "block";
+        document.getElementById("chooseShipAccessories").style.display = "flex";
+        document.getElementById("selectAccessoriesText").style.display = "block";
+        document.getElementById("buildShip").style.display = "block";
+    }
+}
+
 export {
     drawBuildShipsDiv,
     buildShip,
     showShipbuildingProgress,
-    openChooseShipOverlay,
-    openChooseWeaponOverlay
+    selectClassButton,
+    selectWeaponsButton
 }

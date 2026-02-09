@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>This is a JavaScripten: It Scriptens Java</title>
+    <title>Energy Multiverse</title>
     <script src="./script/main.js" type="module" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -241,15 +241,29 @@
         <div id="Shipyard">
             <h2>Shipyard</h2>
             <div id="chooseShipToBuild">
+                <h2>Build a new ship</h2>
                 <button id="selectShipClass">Select class</button>
                 <button id="selectWeapons" style="display: none">Select Weapons System</button>
-                <p id="selectedShipClass" style="display: none">Selected class: <span id="selectedShipClassDisplay"></p>
                 <p id="selectAccessoriesText">Select accessories (<span id="accessoriesCostUsed"></span>/<span
                         id="accessoriesCostTotal"></span>):</p>
                 <div id="chooseShipAccessories" class="flexCenter list"></div>
 
-                <p id="totalEnergyCost">Energy cost: <span id="totalEnergyCostSpan"></span></p>
                 <button id="buildShip">Build ship</button>
+                <div id="shipToBuildInfo" class="defaultHidden">
+                    <h2>Your new ship</h2>
+                    <ul>
+                        <li>Class: <span id="selectedShipClassDisplay"></li>
+                        <li>Weapon: <span id="selectedShipWeaponDisplay"></span></li>
+                    </ul>
+                    <hr>
+                    <p>Resource costs</p>
+                    <ul id="totalResourcesCost">
+                        <li>Energy: <span id="totalEnergyCostSpan" class="energy">???</span></li>
+                        <li>Dust: <span id="totalDustCostSpan" class="dust buildShipResource">???</span></li>
+                        <li>Metal: <span id="totalMetalCostSpan" class="metal buildShipResource">???</span></li>
+                        <li>Iridium: <span id="totalIridiumCostSpan" class="iridium buildShipResource">???</span></li>
+                    </ul>
+                </div>
             </div>
             <div id="buildShipDiv">
                 <p>Building ship...</p>
@@ -386,8 +400,10 @@
                         <hr>
                     </div>
                     <p id="cannotJump">Cannot jump; one or more ships are in the solar system.</p>
-                    <p id="cannotJumpEnergy">Cannot jump; you need <span id="cannotJumpEnergyReq"></span> more energy.</p>
-                    <p id="cannotJumpDriveCell">Cannot jump; you need <span id="cannotJumpDriveCellReq"></span> more drive cell(s).</p>
+                    <p id="cannotJumpEnergy">Cannot jump; you need <span id="cannotJumpEnergyReq"></span> more energy.
+                    </p>
+                    <p id="cannotJumpDriveCell">Cannot jump; you need <span id="cannotJumpDriveCellReq"></span> more
+                        drive cell(s).</p>
                     <p id="cannotJumpTier">Cannot jump; you can only jump to tier <span id="maxJumpTier"></span> systems
                         or below.</p>
                 </div>

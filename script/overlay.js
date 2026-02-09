@@ -9,11 +9,14 @@ function hideOverlay() {
     document.getElementById("overlayBG").style.display = "none";
 }
 
-function appendCloseButton() {
+function appendCloseButton(callThisWhenClosed) {
     const close = document.createElement("button");
     close.textContent = "close";
     document.getElementById("overlay").appendChild(close);
-    close.addEventListener("click", hideOverlay);
+    close.addEventListener("click", _ => {
+        hideOverlay()
+        if (callThisWhenClosed) callThisWhenClosed()
+    });
     close.style.position = "relative";
     close.style.top = "10px";
 }
