@@ -139,6 +139,15 @@ function openHangar(userData, askForShipSelection, f) {
             }
         });
     }
+
+    //Use Esc to back out of the hangar screen
+    document.body.addEventListener("keyup", handleEscape);
+    function handleEscape(e) {
+        if (e.key === "Escape") {
+            closeHangar();
+            document.body.removeEventListener("keyup", handleEscape);
+        }
+    }
 }
 function closeHangar() {
     document.getElementById("playerShips").style.display = "none";

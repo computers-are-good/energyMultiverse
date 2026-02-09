@@ -319,8 +319,17 @@ function buildShip(userData) {
         }
 
         currentMultiverse.shipInProgress = shipObj;
+
         updateShipConstruction(userData);
         updateEnergyCounter(userData);
+
+        // Clear the stored ship type and weapons type so we can start building a new ship with a blank slate.
+        // Also clear what the UI elements are display for a fresh start.
+        selectedWeaponsType = "";
+        selectedShipType = "";
+        document.querySelectorAll(`#totalResourcesCost li`).forEach(e => e.innerText = "???");
+        document.getElementById("selectedShipClassDisplay").innerText = "";
+        document.getElementById("selectedShipWeaponDisplay").innerText = "";
     }
 
 }

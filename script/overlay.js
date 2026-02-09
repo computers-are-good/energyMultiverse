@@ -10,15 +10,24 @@ function hideOverlay() {
 }
 
 function appendCloseButton(callThisWhenClosed) {
+    // Close the overlay, because Esc or the "close" button is pressed
+    function handleClose() {
+        hideOverlay();
+        if (callThisWhenClosed) callThisWhenClosed();
+    }
+    function handleKeyDown(e) {
+        if (e.key === "Escape") {
+            handleClose();
+            document.body.removeEventListener("keyup", handleKeyDown);
+        }
+    }
     const close = document.createElement("button");
     close.textContent = "close";
     document.getElementById("overlay").appendChild(close);
-    close.addEventListener("click", _ => {
-        hideOverlay()
-        if (callThisWhenClosed) callThisWhenClosed()
-    });
+    close.addEventListener("click", handleClose);
     close.style.position = "relative";
     close.style.top = "10px";
+    document.body.addEventListener("keyup", handleKeyDown)
 }
 
 function setOverlayTitle(title) {
