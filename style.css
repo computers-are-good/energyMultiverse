@@ -565,10 +565,12 @@ button {
 }
 
 #cannotJump,
+#cannotJumpEnergy,
+#cannotJumpDriveCell,
 #cannotJumpTier {
     display: none;
     width: 80%;
-    margin: 30px auto;
+    margin: 10px auto;
 }
 
 #debrisInfo li {

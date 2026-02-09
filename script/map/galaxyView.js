@@ -1,5 +1,5 @@
 import fadeIn from "../animations/fadeIn.js";
-import {notify} from "../notifs/notify.js"
+import { notify } from "../notifs/notify.js"
 import { updateEnergyCounter } from "../pageUpdates.js";
 import { useEnergy } from "../resources/useResources.js";
 import { getSolarSystemExplorationLevel } from "./planetEvents.js";
@@ -62,40 +62,61 @@ function galaxyView(userData) {
         notify("Please resolve the event in the solar system before opening the galaxy map.");
     }
 }
+
+const cannotJump = document.getElementById("cannotJump");
+const cannotJumpTier = document.getElementById("cannotJumpTier");
+const cannotJumpEnergy = document.getElementById("cannotJumpEnergy");
+const cannotJumpDriveCell = document.getElementById("cannotJumpDriveCell");
+
+
+// This is called when the jump to system button is called. It contains a preliminary check to make sure we have enough resources for the jump
 function jumpButtonClicked(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const energyReq = calculateEnergyRequired(userData, selectedIndex);
-    if (currentMultiverse.energy > energyReq && currentMultiverse.driveCell > currentMultiverse.solarSystems[selectedIndex].tier) {
+    const driveCellReq = currentMultiverse.solarSystems[selectedIndex].tier;
+    // We have enough energy AND drive cells to complete the jump
+    if (currentMultiverse.energy >= energyReq && currentMultiverse.manufactoryItems.driveCell >= driveCellReq) {
         jumpToSystem(userData, selectedIndex);
         useEnergy(userData, energyReq);
-        currentMultiverse.driveCell -= currentMultiverse.solarSystems[selectedIndex].tier;
+        currentMultiverse.manufactoryItems.driveCell -= driveCellReq;
         updateEnergyCounter(userData);
+    } else {
+        // notify user if we don't have enough energy
+        if (currentMultiverse.energy < energyReq) {
+            document.getElementById("cannotJumpEnergyReq").innerText = energyReq - currentMultiverse.energy;
+            feedbackToUserCannotJump(cannotJumpEnergy);
+        // notify user if we don't have enough drive cells
+        } else if (currentMultiverse.manufactoryItems.driveCell < driveCellReq) {
+            document.getElementById("cannotJumpDriveCellReq").innerText = driveCellReq - currentMultiverse.manufactoryItems.driveCell;
+            feedbackToUserCannotJump(cannotJumpDriveCell);
+        }
     }
 }
-const cannotJump = document.getElementById("cannotJump");
-const cannotJumpTier = document.getElementById("cannotJumpTier");
+// If the player cannot jump to another system, pass in an element corresponding to a hidden element in #galaxyMapSidebar with the relevant reason why they cannot jump.
+// Fade in that element, then remove it after 3 seconds.
+function feedbackToUserCannotJump(elementToDisplay) {
+    console.log(elementToDisplay);
+    elementToDisplay.style.display = "block";
+    fadeIn(elementToDisplay, 0.2);
+    setTimeout(_ => elementToDisplay.style.display = "none", 3000);
+}
+
 function jumpToSystem(userData, systemId) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
     let canMakeJump = true;
-
     for (let ship of currentMultiverse.ships) {
         if (ship.isBusy) {
             canMakeJump = false;
-            cannotJump.style.display = "block";
-            fadeIn(cannotJump, 0.2);
-            setTimeout(_ => cannotJump.style.display = "none", 3000);
+            feedbackToUserCannotJump(cannotJump)
             break;
         }
     }
 
     if (currentMultiverse.solarSystems[systemId].tier > currentMultiverse.maxJumpTier) {
         canMakeJump = false;
-        cannotJumpTier.style.display = "block";
         document.getElementById("maxJumpTier").textContent = currentMultiverse.maxJumpTier;
-        fadeIn(cannotJumpTier, 0.2);
-        setTimeout(_ => cannotJumpTier.style.display = "none", 3000);
-
+        feedbackToUserCannotJump(cannotJumpTier);
     }
     if (canMakeJump) {
         currentMultiverse.currentSolarSystem = systemId;
