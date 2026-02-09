@@ -17,7 +17,11 @@
 
 let allParticles = [];
 
-function particles(particleConfig, divToAppendTo) {
+// userSettings determines global properties about the particle
+// particleConfig determiens particlar properties about the particles
+// The particle will be appended to divToAppendTo, defaulting to body
+function particles(userSettings, particleConfig, divToAppendTo) {
+    if (!userSettings.particlesOn) return;
     for (let i = 0; i < particleConfig.particleNumber; i++) {
         const newParticleDiv = document.createElement("div");
         const newParticle = {

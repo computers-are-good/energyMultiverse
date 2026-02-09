@@ -13,7 +13,7 @@ This project is licensed under the Apache NON-AI License, Version 2.0. This is a
 ## Things to do:
 ### Major:
 - Finish the entire storyline
-- Add more events to every planet type
+- Add more event5 s to every planet type
 - Add a "exotic refinery" which can appear in some systems. You need to give the exotic refinery some energy but it will make your ships stronger (increase hull).
 - Add "boss ships" which need to be defeated to progress the story. The "boss ships" have a lot of health and you need to send multiple ships at it to defeat them.
 ## Minor:

@@ -146,7 +146,7 @@ const mouseoverDescriptions = {
             metal: 5,
             dust: 10
         }
-    }
+    },
 }
 let currentDescription = "";
 const cost = document.getElementById("cost");

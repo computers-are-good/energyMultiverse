@@ -21,6 +21,10 @@ const defaultData = {
         metalGained: 0,
         iridiumGained: 0
     },
+    settings: {
+        autosaveInterval: 600,
+        particlesOn: true,
+    },
     allMultiverseTicksPassed: 0,
     antimatterBeamBuilt: false,
     antimatterBeamNotifDone: false,

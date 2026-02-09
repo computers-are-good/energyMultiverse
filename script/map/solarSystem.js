@@ -80,7 +80,7 @@ async function obliteratePlanet(userData) {
             currentMultiverse.allowSolarSystemUpdates = false;
             const planetX = (currentPlanet.posX * mapScale + mapLeft - currentPlanet.radius / 4);
             const planetY = (currentPlanet.posY * mapScale + mapTop - currentPlanet.radius / 4);
-            particles({ //Animation for destroying planets
+            particles(userData.settings, { //Animation for destroying planets
                 particleX: planetX,
                 particleY: planetY,
                 particleNumber: 25,
@@ -94,7 +94,7 @@ async function obliteratePlanet(userData) {
             }, map);
             await wait(1000);
             for (let i = 0; i < 20; i++) {
-                particles({
+                particles(userData.settings, {
                     particleX: planetX,
                     particleY: planetY,
                     particleNumber: 4,
@@ -106,7 +106,7 @@ async function obliteratePlanet(userData) {
                     particleLifetime: 500,
                     particleSpeed: 0.3,
                 }, map);
-                particles({
+                particles(userData.settings, {
                     particleX: planetX,
                     particleY: planetY,
                     particleNumber: 4,
@@ -121,7 +121,7 @@ async function obliteratePlanet(userData) {
             const mapRect = systemMap.getBoundingClientRect();
             mapTop = mapRect.top;
             mapLeft = mapRect.left;
-            particles({
+            particles(userData.settings, {
                 particleX: planetX,
                 particleY: planetY,
                 particleNumber: 50,
@@ -176,7 +176,7 @@ function updateSolarSystem(userData) {
         star.style.width = "20px";
         star.style.borderRadius = `15px`;
 
-        particles({
+        particles(userData.settings, {
             particleX: mapWidth / 2 + mapLeft + 10 * mapScale,
             particleY: mapWidth / 2 + mapTop + 10 * mapScale,
             particleColor: "#f7f29e",
@@ -854,7 +854,7 @@ async function updateSolarSystemPositions(userData) {
                         if (target.currentHealth <= 0) {
                             delete currentSystem.objects[thing.targetObjectId];
                             notify(`A missile detonated and destroyed an enemy.`);
-                            particles({
+                            particles(userData.settings, {
                                 particleX: thing.posX * mapScale + mapLeft,
                                 particleY: thing.posY * mapScale + mapTop,
                                 particleColor: "red",
@@ -866,7 +866,7 @@ async function updateSolarSystemPositions(userData) {
                             generateDebris(userData, target);
                         } else {
                             notify(`A missile detonated and dealt ${thing.damage} damage to an enemy.`);
-                            particles({
+                            particles(userData.settings, {
                                 particleX: thing.posX * mapScale + mapLeft,
                                 particleY: thing.posY * mapScale + mapTop,
                                 particleColor: "red",
@@ -1066,7 +1066,7 @@ async function initCombat(ship, enemy, userData) {
             document.getElementById("attackedEnemyStats").innerHTML = "";
             activeScreen = "";
             updateVisibleDivs();
-            const combatResults = await combat(ship, enemy);
+            const combatResults = await combat(userData, ship, enemy);
             res(combatResults);
             combatButton.remove();
         });

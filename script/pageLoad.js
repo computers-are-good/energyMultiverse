@@ -34,13 +34,14 @@ import { checkCosts, subtractCosts } from "./itemCosts.js";
 import { resetMessageCount } from "./notifs/notify.js";
 import updateStatistics from "./statistics.js";
 import { resizePanel, startSolarPanelAnimation } from "./animations/solarPanel.js";
+import { openSettingsPage } from "../settingsPage.js";
 
 function applyEvents(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     document.getElementById("drone").addEventListener("mousedown", _ => droneClicker(userData));
     document.getElementById("dust").addEventListener("mousedown", _ => dustClicker(userData));
     document.getElementById("energyClicker").addEventListener("mousedown", e => {
-        particles({
+        particles(userData.settings, {
             particleX: e.pageX,
             particleY: e.pageY,
             particleColor: "White",
@@ -121,6 +122,7 @@ function applyEvents(userData) {
     document.getElementById("obliteratePlanet").addEventListener("click", _ => obliteratePlanet(userData));
     document.getElementById("selectWeapons").addEventListener("click", _ => selectWeaponsButton(userData));
     document.getElementById("pageStatistics").addEventListener("click", _ => updateStatistics(userData));
+    document.getElementById("openSettingsPage").addEventListener("click", _ => openSettingsPage(userData));
     document.getElementById("overlayBG").addEventListener("click", e => {
         if (e.target.id === "overlayBG") hideOverlay();
     });

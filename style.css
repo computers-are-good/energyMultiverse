@@ -793,3 +793,24 @@ button {
 #energyButtonsContainer div, #energyButtonsContainer #buildAntimatterBeam  {
     margin: 10px;
 }
+#settingsDiv {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 600px;
+}
+#settingsDiv h2 {
+    text-align: center;
+}
+#settingsDiv button {
+    margin-top: 0;
+}
+
+#settingsDiv div div {
+    display: flex;
+    float: right;
+}
+
+#settingsDiv div p {
+    display: inline-block;
+}

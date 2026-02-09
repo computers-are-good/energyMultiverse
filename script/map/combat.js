@@ -7,6 +7,7 @@ import { wait } from "../utils.js";
 const combatVisualisation = document.getElementById("combatVisualisation");
 const shipPosY = 115;
 
+let playerSettings;
 let playerX;
 let enemyX;
 let combatVisualisationX;
@@ -108,7 +109,8 @@ function moveForwardAnimation(amount, div, divCurrentOffset) {
 }
 const battlefieldSize = 200;
 
-function combat(playerShip, enemyShip) { //resolve with true if the player has won
+function combat(userData, playerShip, enemyShip) { //resolve with true if the player has won
+    playerSettings = userData.settings;
     playerShip.currentShield = 0;
     enemyShip.currentShield = 0;
     document.getElementById("combatLog").innerHTML = "";
@@ -126,7 +128,7 @@ function combat(playerShip, enemyShip) { //resolve with true if the player has w
         drawPlayerAndEnemy(playerShip, enemyShip);
 
         let particleInterval = setInterval(_ => {
-            particles({
+            particles(playerSettings, {
                 particleX: combatVisualisationX + combatVisualisationWidth * Math.random(),
                 particleY: combatVisualisationY + 250 * Math.random(),
                 particleColor: "white",
@@ -248,7 +250,7 @@ async function playerTurn(playerShip, enemyShip) {
             attack(playerShip, enemyShip);
             await blasterAnimation(true, Math.min(playerShip.baseStats.baseAttack, 15));
             if (oldHealth - enemyShip.currentHealth <= 0 && enemyShip.currentShield > 0) {
-                particles({ //Shield particle
+                particles(playerSettings, { //Shield particle
                     particleX: enemyX / battlefieldSize * combatVisualisationWidth + combatVisualisationX - 22,
                     particleY: combatVisualisationY + shipPosY - 22,
                     particleColor: "DodgerBlue",
@@ -260,7 +262,7 @@ async function playerTurn(playerShip, enemyShip) {
                     particleSpeed: 0
                 });
             } else {
-                particles({
+                particles(playerSettings, {
                     particleX: enemyX / battlefieldSize * combatVisualisationWidth + combatVisualisationX - 10,
                     particleY: combatVisualisationY + shipPosY,
                     particleColor: "red",
@@ -329,7 +331,7 @@ async function enemyTurn(playerShip, enemyShip) {
         attack(enemyShip, playerShip);
         await blasterAnimation(false, Math.min(enemyShip.baseStats.baseAttack, 15));
         if (oldHealth - playerShip.currentHealth <= 0 && playerShip.currentShield > 0) {
-            particles({ //shield pulse
+            particles(playerSettings, { //shield pulse
                 particleX: playerX / battlefieldSize * combatVisualisationWidth + combatVisualisationX - 22,
                 particleY: combatVisualisationY + shipPosY - 22,
                 particleColor: "DodgerBlue",
@@ -343,7 +345,7 @@ async function enemyTurn(playerShip, enemyShip) {
                 circular: true
             }, combatVisualisation);
         } else {
-            particles({ //damage particles
+            particles(playerSettings, { //damage particles
                 particleX: playerX / battlefieldSize * combatVisualisationWidth + combatVisualisationX + 10,
                 particleY: combatVisualisationY + shipPosY,
                 spawnVariance: 0,

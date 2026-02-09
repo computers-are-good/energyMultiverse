@@ -19,7 +19,7 @@ function tick(userData) {
     tickCount++;
     currentMultiverse.statistics.totalTicksPassed++;
 
-    if (currentMultiverse.allowSolarSystemUpdates && tickCount % 600 === 0) {
+    if (currentMultiverse.allowSolarSystemUpdates && tickCount % userData.settings.autosaveInterval === 0) {
         storeUserData(userData);
     }
     let energyChanged = false;
