@@ -238,6 +238,8 @@ async function firstLoadFunctions(userData) {
     updateMultiverseMultipliers(userData);
     updateManufactoryButtons(userData);
     updateInventoryDisplay(userData);
+    // Update the positions of everything ONCE, if we are focused on the map
+    if (currentMultiverse.lastScreen === "Map") updateSolarSystemPositions(userData);
 
     if (userData.multiverses.length > 1) {
         document.getElementById("multiverseTravel").style.display = "block";

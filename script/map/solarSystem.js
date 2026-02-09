@@ -20,6 +20,7 @@ import unlockResearchForElement from "../unlockResearch.js";
 import { drawUpgradeButtons } from "../upgrades.js";
 import { selectMultiverse } from "../multiverse.js";
 import eventPlayer from "./eventPlayer.js";
+import { updateShipThrust } from "./thrust.js";
 
 const blockingScreens = ["attacked", "scriptPlayer"];
 const persistantDescriptions = ["buildWarpDrive", "dispatchToSun", "buildScanner", "obliteratePlanet", "settingsDiv"];
@@ -896,6 +897,12 @@ async function updateSolarSystemPositions(userData) {
                         }
                         useEnergy(userData, energyUsed);
                     }
+                    document.getElementById("mothershipThrust").style.display = "block";
+                    document.getElementById("thrustAdjust").style.display = "flex";
+                    updateShipThrust(userData);
+                } else {
+                    document.getElementById("mothershipThrust").style.display = "none";
+                    document.getElementById("thrustAdjust").style.display = "none";
                 }
 
                 const distanceToSun = getDistanceTo(thing, { posX: 375, posY: 375 });
