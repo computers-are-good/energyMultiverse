@@ -78,9 +78,13 @@ function unlockUIElement(elementsArray, elementName) {
 }
 
 function toggleScreen(userData, screenName) {
+    const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    // First hide all screens.
     screens.forEach(e => {
         document.getElementById(e).style.display = "none";
     });
+
+    // Tutorial system
     const screensWithTutorials = ["Research", "Upgrades"];
     if (screensWithTutorials.includes(screenName)) {
         if (!userData.multiverses[userData.currentMultiverse].eventsDone.includes(`${screenName}Tutorial`)) {
@@ -92,10 +96,40 @@ function toggleScreen(userData, screenName) {
         }
     }
 
+    // If switching to energy, check if we have built the antimatter beam
     if (screenName == "energy") {
         document.getElementById("buildAntimatterBeam").style.display =
             (!userData.antimatterBeamBuilt && userData.antimatterBeamNotifDone) ?
                 "block" : "none";
+    }
+
+    // Display any unique resources relevant to a specific screen.
+    switch (screenName) {
+        case "Map": // On the map screen, the player is also interested in how many missiles (if unlocked) and drive cells they have.
+            document.getElementById("screenSpecificResources").style.display = "block";
+            document.querySelector("#screenSpecificResources ul").innerHTML = "";
+            const driveCellCount = document.createElement("li")
+            driveCellCount.innerText = `Drive cell: ${currentMultiverse.manufactoryItems.driveCell}`;
+            document.querySelector("#screenSpecificResources ul").appendChild(driveCellCount);
+            if (currentMultiverse.manufactoryItemsUnlocked.includes("missile")) {
+                const missileCount = document.createElement("li");
+                missileCount.innerText = `Missile: ${currentMultiverse.manufactoryItems.missile}`;
+                document.querySelector("#screenSpecificResources ul").appendChild(missileCount);
+            }
+            break;
+        case "Shipyard": // On the shipyard screen, the player is also interested in the number of repair kits they have (if applicable)
+            if (currentMultiverse.manufactoryItemsUnlocked.includes("repairKit")) {
+                document.getElementById("screenSpecificResources").style.display = "block";
+                document.querySelector("#screenSpecificResources ul").innerHTML = "";
+                const repairKitCount = document.createElement("li");
+                repairKitCount.innerText = `Repair kit: ${currentMultiverse.manufactoryItems.repairKit}`;
+                document.querySelector("#screenSpecificResources ul").appendChild(repairKitCount);
+            }
+            break;
+        default:
+            document.getElementById("screenSpecificResources").style.display = "none";
+            break;
+
     }
     document.getElementById(screenName).style.display = "block";
     currentScreenDisplayed = screenName;
