@@ -22,7 +22,7 @@ import { selectMultiverse } from "../multiverse.js";
 import eventPlayer from "./eventPlayer.js";
 
 const blockingScreens = ["attacked", "scriptPlayer"];
-const persistantDescriptions = ["buildWarpDrive", "dispatchToSun", "buildScanner", "obliteratePlanet"];
+const persistantDescriptions = ["buildWarpDrive", "dispatchToSun", "buildScanner", "obliteratePlanet", "settingsDiv"];
 const planetVelocity = 8.8;
 
 let activeScreen = "";

@@ -26,7 +26,7 @@ function openSettingsPage(userData) {
     autosaveDiv.appendChild(autosavep);
     addDescriptionEvent(autosaveDiv, {
         content: "Control the time between autosaves."
-    }, userData, "settingsDiv")
+    }, userData, "settingsDiv");
 
     const autosaveButtonsContainer = document.createElement("div");
     const times = [300, 600, 1200, 99999999];
@@ -49,6 +49,9 @@ function openSettingsPage(userData) {
 
     // Turn off or on particles
     const particlesDiv = document.createElement("div");
+        addDescriptionEvent(particlesDiv, {
+        content: "Turns the particle system on or off. If set to off, no particles will be displayed."
+    }, userData, "settingsDiv");
 
     const particlesp = document.createElement("p");
     particlesp.textContent = "Global particles:"
