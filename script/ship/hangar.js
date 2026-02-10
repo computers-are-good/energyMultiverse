@@ -27,7 +27,7 @@ function openHangar(userData, askForShipSelection, f) {
     document.getElementById("hangarCapacityUsed").textContent = currentMultiverse.ships.length;
     document.getElementById("hangarCapacityTotal").textContent = currentMultiverse.maxHangarShips;
 
-    document.getElementById("repairKitCount").textContent = currentMultiverse.repairKit;
+    document.getElementById("repairKitCount").textContent = currentMultiverse.manufactoryItems.repairKit;
 
     for (const i in currentMultiverse.ships) {
         let healthDiv;
@@ -82,15 +82,15 @@ function openHangar(userData, askForShipSelection, f) {
             if (ship.currentHealth < ship.baseStats.baseHealth) buttonsDiv.appendChild(repairButton);
 
             repairButton.addEventListener("click", _ => {
-                if (currentMultiverse.repairKit > 0) {
-                    currentMultiverse.repairKit--;
-                    document.getElementById("repairKitCount").textContent = currentMultiverse.repairKit;
+                if (currentMultiverse.manufactoryItems.repairKit > 0) {
+                    currentMultiverse.manufactoryItems.repairKit--;
+                    document.getElementById("repairKitCount").textContent = currentMultiverse.manufactoryItems.repairKit;
                     ship.currentHealth += Math.ceil(ship.baseStats.baseHealth * 0.15);
-                    healthDiv.textContent = `Hull: ${ship.currentHealth} / ${ship.baseStats.baseHealth}`;
                     if (ship.currentHealth >= ship.baseStats.baseHealth) {
                         ship.currentHealth = ship.baseStats.baseHealth;
                         repairButton.remove();
                     }
+                    healthDiv.textContent = `Hull: ${ship.currentHealth} / ${ship.baseStats.baseHealth}`;
                 }
             });
 
@@ -100,7 +100,7 @@ function openHangar(userData, askForShipSelection, f) {
             buttonsDiv.appendChild(scrapButton);
 
             scrapButton.addEventListener("click", _ => {
-                const confirmed = confirm(`Scrap ship? You will obtain ${writeCostsReadable(ship.cost)}`);
+                const confirmed = confirm(`Scrap ship? You will obtain ${writeCostsReadable(ship.cost)}.`);
                 if (confirmed) {
                     for (const cost in ship.cost) currentMultiverse[cost] += ship.cost[cost];
                     updateEnergyCounter(userData);
