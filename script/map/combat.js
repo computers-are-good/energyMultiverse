@@ -314,11 +314,13 @@ async function playerTurn(playerShip, enemyShip) {
 }
 async function enemyTurn(playerShip, enemyShip) {
     const enemyWeapon = shipWeapons[enemyShip.weapon];
+    const playerWeapon = shipWeapons[playerShip.weapon];
     const playerEnemyDistance = Math.abs(enemyX - playerX);
     updateStatsDisplay(playerShip, enemyShip);
     document.getElementById("actionButtons").style.display = "none";
     await wait(500);
     const oldHealth = playerShip.currentHealth;
+
     //Player out of range? Move so the player is in range!
     if (playerEnemyDistance < enemyWeapon.baseStats.minRange) {
         if (enemyX < playerX) {
@@ -338,7 +340,14 @@ async function enemyTurn(playerShip, enemyShip) {
             enemyX += 10;
         }
         return playerTurn(playerShip, enemyShip);
-    } else if (enemyShip.currentHealth / enemyShip.baseStats.baseHealth > 0.3) {
+    } else if // If it is possible to move such that the player is in the enemy's range BUT the enemy is not in the player's range, do that.
+        (playerEnemyDistance <= playerWeapon.baseStats.maxRange && playerEnemyDistance + 10 > playerWeapon.baseStats.maxRange && playerEnemyDistance + 10 < enemyWeapon.baseStats.maxRange && enemyX < 190) {
+        await moveForwardAnimation(10, enemyShipDiv, enemyX);
+        enemyX += 10;
+        return playerTurn(playerShip, enemyShip);
+    } else if // The enemy should attack when... (otherwise enemy will shield)
+        (enemyShip.currentHealth / enemyShip.baseStats.baseHealth > 0.3 && playerShip.baseStats.baseAttack < enemyShip.currentHealth + enemyShip.currentShield // The enemy is not in danger, so doesn't need to regenerate shields
+        || enemyShip.currentShield === enemyMaxShield) { // The enemy is already at max shields, so there's no point in using shields. 
         attack(enemyShip, playerShip);
         await blasterAnimation(false, Math.min(enemyShip.baseStats.baseAttack, 15));
         if (oldHealth - playerShip.currentHealth <= 0 && playerShip.currentShield > 0) {
