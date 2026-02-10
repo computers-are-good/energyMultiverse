@@ -288,11 +288,22 @@ async function playerTurn(playerShip, enemyShip) {
             } else {
                 combatLog(`You attacked the enemy, but the enemy is out of range.`);
             }
-            if (enemyShip.currentHealth <= 0) {
+            if (enemyShip.currentHealth <= 0) { // Enemy lost
                 enemyShip.currentHealth = 0;
                 document.getElementById("actionButtons").style.display = "none";
                 updateStatsDisplay(playerShip, enemyShip);
                 combatLog("You are victorious.");
+                particles(playerSettings, { // enemy death particles
+                    particleX: enemyX / battlefieldSize * (combatVisualisationWidth - 15) + combatVisualisationX,
+                    particleY: combatVisualisationY + shipPosY,
+                    particleColor: "red",
+                    particleLifetime: 4000,
+                    particleNumber: Math.min(enemyInitialHull * 3, 70),
+                    particleSize: 3,
+                    zIndex: 99999,
+                    particleSpeed: 0.02
+                });
+                enemyShipDiv.remove();
                 await endCombat();
                 return true;
             } else {
@@ -377,6 +388,18 @@ async function enemyTurn(playerShip, enemyShip) {
             playerShip.currentHealth = 0;
             updateStatsDisplay(playerShip, enemyShip);
             combatLog("You were defeated.");
+            particles(playerSettings, { //player death particles
+                particleX: playerX / battlefieldSize * (combatVisualisationWidth - 45) + combatVisualisationX,
+                particleY: combatVisualisationY + shipPosY,
+                spawnVariance: 0,
+                particleColor: "red",
+                particleLifetime: 5000,
+                particleNumber: 30,
+                particleSize: 3,
+                zIndex: 99999,
+                particleSpeed: 0.03
+            });
+            playerShipDiv.remove();
             await endCombat();
             return false;
         } else {
