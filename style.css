@@ -819,3 +819,36 @@ button {
     background-color: white;
     color: black;
 }
+
+.combatStat {
+    height: 20px;
+    display: flex;
+    align-items: center;
+    width: 90%;
+    margin: auto;
+    justify-content: space-between;
+    margin-top: 4px;
+}
+.combatStat p {
+    display: inline-block;
+    position: relative;
+    margin: 0;
+}
+.barContainer {
+    display: inline-block;
+    background-color: black;
+    width: 40%;
+    height: 20px;
+}
+
+.barContainer div {
+    height: 20px;
+}
+
+.hullContainer div {
+    background-color: red;
+}
+
+.shieldContainer div {
+    background-color: aqua;
+}

@@ -15,6 +15,10 @@ let combatVisualisationY;
 let combatVisualisationWidth;
 let playerShipDiv;
 let enemyShipDiv;
+let playerInitialHull;
+let playerMaxShield;
+let enemyInitialHull;
+let enemyMaxShield;
 let offset;
 
 function drawPlayerAndEnemy() {
@@ -113,6 +117,11 @@ function combat(userData, playerShip, enemyShip) { //resolve with true if the pl
     playerSettings = userData.settings;
     playerShip.currentShield = 0;
     enemyShip.currentShield = 0;
+    playerInitialHull = playerShip.baseStats.baseHealth;
+    enemyInitialHull = enemyShip.baseStats.baseHealth;
+    playerMaxShield = playerShip.baseStats.baseShield * 2;
+    enemyMaxShield = enemyShip.baseStats.baseShield * 2;
+    console.log(playerShip, enemyShip);
     document.getElementById("combatLog").innerHTML = "";
     document.getElementById("combatVisualisation").innerHTML = "";
     return new Promise(res => {
@@ -390,6 +399,12 @@ function updateStatsDisplay(playerShip, enemyShip) {
     document.getElementById("enemyAttack").textContent = enemyShip.baseStats.baseAttack;
     document.getElementById("enemyDistanceSpan").textContent = `${playerEnemyDistance} (weapon range ${playerMinRange} - ${playerMaxRange})`;
     document.getElementById("enemyOutRange").style.display = inRange ? "none" : "block";
+
+    // Update bars showing percentage shield and hull for the player and enemy
+    document.getElementById("shipHullRemaining").style.width = `${playerShip.currentHealth / playerInitialHull * 100}%`;
+    document.getElementById("shipShieldRemaining").style.width = `${playerShip.currentShield / playerMaxShield * 100}%`;
+    document.getElementById("enemyHullRemaining").style.width = `${enemyShip.currentHealth / enemyInitialHull * 100}%`;
+    document.getElementById("enemyShieldRemaining").style.width = `${enemyShip.currentShield / enemyMaxShield * 100}%`;
 }
 
 export { combat }

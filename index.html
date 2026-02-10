@@ -363,8 +363,18 @@
             <div id="combatMain" class="flexCenter">
                 <div id="player">
                     <p>You</p>
-                    <p>Hull: <span id="playerHull"></span></p>
-                    <p>Shield: <span id="playerShield"></span></p>
+                    <div class="combatStat">
+                        <p>Hull: <span id="playerHull"></span></p>
+                        <div id="shipHullContainer" class="barContainer hullContainer">
+                            <div id="shipHullRemaining"></div>
+                        </div>
+                    </div>
+                    <div class="combatStat">
+                        <p>Shield: <span id="playerShield"></span></p>
+                        <div id="shipShieldContainer" class="barContainer shieldContainer">
+                            <div id="shipShieldRemaining"></div>
+                        </div>
+                    </div>
                     <p>Attack: <span id="playerAttack"></span></p>
                     <div id="actionButtons"></div>
                 </div>
@@ -377,8 +387,18 @@
                 </div>
                 <div id="enemy">
                     <p>Enemy</p>
-                    <p>Hull: <span id="enemyHull"></span></p>
+                    <div class="combatStat">
+                        <p>Hull: <span id="enemyHull"></span></p>
+                        <div id="enemyHullContainer" class="barContainer hullContainer">
+                            <div id="enemyHullRemaining"></div>
+                        </div>
+                    </div>
+                    <div class="combatStat">
                     <p>Shield: <span id="enemyShield"></span></p>
+                        <div id="enemyShieldContainer" class="barContainer shieldContainer">
+                            <div id="enemyShieldRemaining"></div>
+                        </div>
+                    </div>
                     <p>Attack: <span id="enemyAttack"></span></p>
                 </div>
             </div>
