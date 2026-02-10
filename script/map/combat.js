@@ -129,7 +129,7 @@ function combat(userData, playerShip, enemyShip) { //resolve with true if the pl
 
         const combatVisualisationBounding = combatVisualisation.getBoundingClientRect();
         enemyX = battlefieldSize;
-        playerX = 150;
+        playerX = 0;
         combatVisualisationX = combatVisualisationBounding.left;
         combatVisualisationY = combatVisualisationBounding.top;
 
@@ -385,6 +385,7 @@ async function enemyTurn(playerShip, enemyShip) {
         }
     } else {
         block(enemyShip);
+        combatLog(`The enemy regenerated their shield.`);
         return playerTurn(playerShip, enemyShip);
     }
 
