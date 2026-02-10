@@ -316,7 +316,7 @@ function updateSolarSystem(userData) {
                         if (!blockingScreens.includes(activeScreen)) {
                             selected = id;
                             activeScreen = "hostileInfo";
-                            document.getElementById("missileCount").textContent = currentMultiverse.manufactoryItems.missile > 0 ? `Missiles: ${currentMultiverse.manufactoryItems.missiles}` : "";
+                            document.getElementById("missileCount").textContent = currentMultiverse.manufactoryItems.missile > 0 ? `Missiles: ${currentMultiverse.manufactoryItems.missile}` : "";
                             document.getElementById("launchMissile").style.display = currentMultiverse.manufactoryItems.missile > 0 ? "block" : "none";
                             updateVisibleDivs();
                             document.querySelectorAll(".selectTargetButton").forEach(e => e.remove());
@@ -1129,7 +1129,7 @@ function updateFactory(userData) {
     document.getElementById("factorySwitchProduction").innerHTML = "";
 
     const targetPlanet = currentSystem.objects[selected];
-    if (selected && "factory" in targetPlanet) {
+    if (selected && targetPlanet && "factory" in targetPlanet) {
         if (activeScreen === "planetInfo") {
             const factoryInfo = targetPlanet.factory;
             document.getElementById("factoryCurrentProduction").textContent = factoryInfo.making;
