@@ -114,6 +114,7 @@ function combat(userData, playerShip, enemyShip) { //resolve with true if the pl
     playerShip.currentShield = 0;
     enemyShip.currentShield = 0;
     document.getElementById("combatLog").innerHTML = "";
+    document.getElementById("combatVisualisation").innerHTML = "";
     return new Promise(res => {
         combatInProgress = true;
         document.getElementById("combat").style.display = "block";
