@@ -291,6 +291,7 @@ async function playerTurn(playerShip, enemyShip) {
             if (enemyShip.currentHealth <= 0) {
                 enemyShip.currentHealth = 0;
                 document.getElementById("actionButtons").style.display = "none";
+                updateStatsDisplay(playerShip, enemyShip);
                 combatLog("You are victorious.");
                 await endCombat();
                 return true;

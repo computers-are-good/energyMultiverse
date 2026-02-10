@@ -843,6 +843,7 @@ button {
 
 .barContainer div {
     height: 20px;
+    transition: width 0.1s;
 }
 
 .hullContainer div {
