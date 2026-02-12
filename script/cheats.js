@@ -1,3 +1,4 @@
+import { resizePanel, startSolarPanelAnimation } from "./animations/solarPanel.js";
 import events from "./data/events.js";
 import research from "./data/researchData.js";
 import eventPlayer from "./map/eventPlayer.js";
@@ -86,8 +87,10 @@ function addCheats(userData) {
                         generateAllSystems(currentMultiverse);
                         break;
                     case "BETTERTHANGAS":
-                        currentMultiverse.solarPanel = 10;
+                        const zeroPanels = currentMultiverse.solarPanel === 0;
+                        currentMultiverse.solarPanel += 10;
                         updateSolarPanels(userData);
+                        if (zeroPanels) resizePanel();
                         break;
                     case "GODVERSE":
                         createNewMultiverse(userData, {

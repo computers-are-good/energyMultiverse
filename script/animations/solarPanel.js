@@ -64,6 +64,7 @@ function spawnNewCell() {
     let allowYVelocity = false; // Are we allowed to move up and down?
     const totalCells = 2 * tBottom + 2 * tRight;
     const selectedCell = Math.floor(rand * totalCells);
+    
     // Determine which side the new cell should spawn on, and initialise variables accordingly
     if (selectedCell < tRight) {
         row = 0;
