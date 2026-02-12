@@ -11,6 +11,8 @@ const defaultMultiverseData = {
     lastScreen: "",
     maxHangarShips: 5,
     maxJumpTier: 2,
+    ticksPassed: 0,
+    lastTickPlayed: 0, 
     items: [],
     drones: [],
     manufactoryItemsUnlocked: ["driveCell"],

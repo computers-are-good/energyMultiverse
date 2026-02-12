@@ -16,8 +16,11 @@ import notifyUnique from "./notifs/notifyUnique.js";
 let tickCount = 0;
 function tick(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
+    // Update ticks passed for current and all multiverses.
     tickCount++;
     currentMultiverse.statistics.totalTicksPassed++;
+    currentMultiverse.lastTickedPlayed = userData.allMultiverseTicksPassed;
+    userData.allMultiverseTicksPassed++
 
     if (currentMultiverse.allowSolarSystemUpdates && tickCount % userData.settings.autosaveInterval === 0) {
         storeUserData(userData);
@@ -84,7 +87,6 @@ function tick(userData) {
         updateSolarSystemPositions(userData);
         if (currentScreenDisplayed === "Map") updateSolarSystem(userData);
 
-
         for (const system of currentMultiverse.solarSystems) { // Check factory production
             for (const id in system.objects) {
                 if (system.objects[id].factory) {
@@ -118,7 +120,6 @@ function tick(userData) {
         }   
     }
 
-    userData.allMultiverseTicksPassed++
 
     if (tickCount % 20 === 0) { //events that happen every 2 seconds
 

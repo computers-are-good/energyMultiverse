@@ -4,6 +4,7 @@ import { hideOverlay, showOverlay } from "./overlay.js";
 import { firstLoadFunctions } from "./pageLoad.js";
 import { gainAntimatter } from "./resources/gainResources.js";
 import { newMultiverse } from "./userdata.js";
+import { formatPlaytime } from "./utils.js";
 
 function multiverseCreationCost(userData) {
     return userData.multiverses.length * 50;
@@ -136,6 +137,10 @@ function selectMultiverse(userData, selectLastMultiverse = false, travelToMultiv
             const li = document.createElement("li");
             li.textContent = `Multiplier level ${multiverseLevel}`;
             ul.appendChild(li);
+            
+            const li2 = document.createElement("li");
+            li2.textContent = `Last played ${formatPlaytime(Math.floor((userData.allMultiverseTicksPassed - userData.multiverses[index].lastTickPlayed) / 10))} ago`
+            ul.appendChild(li2);
     
             if (selectLastMultiverse && index == userData.multiverses.length - 1) {
                 selectedMultiverseIndex = index;

@@ -71,8 +71,17 @@ function textWidth(text, e) {
     return getTextWidth(text, getCanvasFont(e));
 }
 
+function formatPlaytime(seconds) {
+    let hours = (seconds - (seconds % 3600)) / 3600;
+    seconds -= hours * 3600;
+    let minutes = (seconds - (seconds % 60)) / 60;
+    seconds -= minutes * 60;
+    return `${hours}H ${minutes}M ${seconds}s`
+}
+
 export {
     choice,
+    formatPlaytime,
     deepClone,
     wait,
     removeFromArray,

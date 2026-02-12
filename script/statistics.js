@@ -1,13 +1,7 @@
 import unlockResearchForElement from "./unlockResearch.js";
 import { getEnergyPerSecond } from "./resources/solarPanel.js";
+import { formatPlaytime } from "./utils.js";
 
-function formatPlaytime(seconds) {
-    let hours = (seconds - (seconds % 3600)) / 3600;
-    seconds -= hours * 3600;
-    let minutes = (seconds - (seconds % 60)) / 60;
-    seconds -= minutes * 60;
-    return `${hours}H ${minutes}M ${seconds}s`
-}
 
 function updateStatistics(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
