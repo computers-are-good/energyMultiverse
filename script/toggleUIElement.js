@@ -135,10 +135,10 @@ function toggleScreen(userData, screenName) {
             document.getElementById("screenSpecificResources").style.display = "none";
             break;
     }
+    currentScreenDisplayed = screenName;
     setTimeout(_ => {
         document.getElementById(screenName).style.display = "block";
         setTimeout(_ => document.getElementById(screenName).style.opacity = 1, 5);
-        currentScreenDisplayed = screenName;
     }, 110);
 }
 
