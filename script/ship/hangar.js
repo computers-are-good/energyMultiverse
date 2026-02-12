@@ -1,5 +1,6 @@
 import { writeCostsReadable } from "../itemCosts.js";
 import threatLevel from "../map/threatLevel.js";
+import overlayConfirm from "../overlayConfirm.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter } from "../pageUpdates.js";
 
 const statMappings = {
@@ -99,16 +100,16 @@ function openHangar(userData, askForShipSelection, f) {
             scrapButton.textContent = "Scrap";
             buttonsDiv.appendChild(scrapButton);
 
-            scrapButton.addEventListener("click", _ => {
-                const confirmed = confirm(`Scrap ship? You will obtain ${writeCostsReadable(ship.cost)}.`);
+            scrapButton.addEventListener("click", async _ => {
+                const confirmed = await overlayConfirm(`Scrap ship? You will obtain ${ship.cost ? writeCostsReadable(ship.cost) : "nothing"}.`);
                 if (confirmed) {
                     for (const cost in ship.cost) currentMultiverse[cost] += ship.cost[cost];
                     updateEnergyCounter(userData);
                     updateMetalCounter(userData);
                     updateDustCounter(userData);
                     updateIridiumCounter(userData);
-                    document.getElementById("hangarCapacityUsed").textContent = currentMultiverse.ships.length;
                     currentMultiverse.ships.splice(i, 1);
+                    document.getElementById("hangarCapacityUsed").textContent = currentMultiverse.ships.length;
                     newDiv.remove();
                 }
             });

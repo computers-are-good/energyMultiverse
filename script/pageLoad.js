@@ -124,7 +124,7 @@ function applyEvents(userData) {
     document.getElementById("pageStatistics").addEventListener("click", _ => updateStatistics(userData));
     document.getElementById("openSettingsPage").addEventListener("click", _ => openSettingsPage(userData));
     document.getElementById("overlayBG").addEventListener("click", e => {
-        if (e.target.id === "overlayBG") hideOverlay();
+        if (e.target.id === "overlayBG") hideOverlay(true);
     });
     document.getElementById("ending").addEventListener("click", _ => {
         ending();

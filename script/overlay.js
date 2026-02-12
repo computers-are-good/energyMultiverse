@@ -1,12 +1,34 @@
-function showOverlay() {
-    document.getElementById("overlay").style.display = "block";
-    document.getElementById("overlayBG").style.display = "block";
-    document.getElementById("overlay").innerHTML = "";
+let allowBGClose = true;
+const overlay = document.getElementById("overlay");
+const overlayBG = document.getElementById("overlayBG");
+
+function showOverlay(askingForConfirmation) {
+    // If the overlay is asking a yes or no question, we cannot let the user click the background and close it
+    // Instead, we wait for explicit confirmation from the user whether to close the background.
+    if (askingForConfirmation) {
+        allowBGClose = false;
+    } else {
+        allowBGClose = true;
+    }
+    overlay.style.display = "block";
+    overlayBG.style.display = "block";
+    overlay.innerHTML = "";
+    overlay.style.opacity = 0;
+    overlayBG.style.backdropFilter = "blur(0px)";
+    setTimeout(_ => overlay.style.opacity = 1, 10);
+    setTimeout(_ => overlayBG.style.backdropFilter = "blur(10px)", 10);
 }
 
-function hideOverlay() {
-    document.getElementById("overlay").style.display = "none";
-    document.getElementById("overlayBG").style.display = "none";
+// clickedFromBG is set to true when the overlay is hidden because the user clicked outside the overlay.
+// This cannot close the overlay when the overlay is asking for a confirmation.
+function hideOverlay(clickedFromBG) {
+    if (clickedFromBG && !allowBGClose) return;
+    overlay.style.opacity = 0;
+    overlayBG.style.backdropFilter = "blur(0px)"
+    setTimeout(_ => {
+        document.getElementById("overlayBG").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }, 300);
 }
 
 function appendCloseButton(callThisWhenClosed) {

@@ -1,6 +1,7 @@
 import { mouseoverDescriptions, rewriteDescription } from "./addUIDescriptions.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
 import { hideOverlay, showOverlay } from "./overlay.js";
+import overlayConfirm from "./overlayConfirm.js";
 import { firstLoadFunctions } from "./pageLoad.js";
 import { gainAntimatter } from "./resources/gainResources.js";
 import { newMultiverse } from "./userdata.js";
@@ -14,7 +15,11 @@ function createNewMultiverse(userData, multipliers) {
     multiverse.multipliers = structuredClone(multipliers);
     multiverse.multipliers.antimatterGained = 1;
 }
-function callCreateFunction(userData) {
+
+// Asks for confirmation then creates a multiverse
+async function callCreateFunction(userData) {
+    const confirmation = await overlayConfirm("Multiverses, once birthed, cannot be destroyed. Are you sure?");
+    if (!confirmation) return; // User decided to not create multiverse, abort function.
     if (checkCosts(userData, {antimatter: multiverseCreationCost(userData)})) {
         subtractCosts(userData, {antimatter: multiverseCreationCost(userData)});
         const currentMultiverse = userData.multiverses[userData.currentMultiverse];

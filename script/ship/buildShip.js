@@ -3,6 +3,7 @@ import { shipClasses, shipAccessories, shipWeapons } from "../data/shipData.js";
 import { checkCosts, subtractCosts, writeCostsReadable } from "../itemCosts.js";
 import { notify } from "../notifs/notify.js"
 import { appendCloseButton, hideOverlay, setOverlayTitle, showOverlay } from "../overlay.js";
+import overlayConfirm from "../overlayConfirm.js";
 import { updateEnergyCounter, updateShipConstruction } from "../pageUpdates.js";
 import { deepClone } from "../utils.js";
 
@@ -289,7 +290,7 @@ function updateAccessoriesCost() {
     document.getElementById("accessoriesCostTotal").textContent = accessorySlotsAvailable;
 }
 
-function buildShip(userData) {
+async function buildShip(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
     if (!selectedShipType) {
@@ -302,6 +303,8 @@ function buildShip(userData) {
     }
     calculateShipCost();
     if (checkCosts(userData, totalShipCost)) {
+        const confirmation = await overlayConfirm(`Do you want to build a ${selectedShipType} with the current configuration?`);
+        if (!confirmation) return;
         const shipObj = {
             shipInfo: {
                 class: selectedShipType,
