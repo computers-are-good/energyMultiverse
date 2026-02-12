@@ -2,6 +2,7 @@ import { hideOverlay, showOverlay } from "./overlay.js";
 
 // Displays a message and ask for a "yes" or "no" confirmation.
 // Returns a promise that resolves true if user clicks "yes", and false if user clicks "no".
+// if justDisplayMsg is set to true, an "ok" button will be displayed instead.
 function overlayConfirm(msg) {
     return new Promise((res) => {
         showOverlay(true);

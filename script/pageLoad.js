@@ -8,7 +8,7 @@ import { updateEnergyCounter, updateDustCounter, updateResearchPoints, updateRes
 import { droneClicker, droneCost, drawDronesDivs } from "./resources/drone/droneClicker.js";
 import { decreaseResearchRate, increaseResearchRate, showResearchProgress } from "./research/researchClicker.js";
 import notifyUnique from "./notifs/notifyUnique.js";
-import { wait } from "./utils.js";
+import { mobileCheck, wait } from "./utils.js";
 import fadeIn from "./animations/fadeIn.js";
 import { buildDustbotEvent, dustbotSlider } from "./resources/dustbotClicker.js";
 import { buildShip, drawBuildShipsDiv, selectClassButton, showShipbuildingProgress, selectWeaponsButton } from "./ship/buildShip.js";
@@ -29,7 +29,7 @@ import { fabriBotSlider, updateFabriBot } from "./resources/fabribotClicker.js";
 import { buildTurret, toggleTurret, updateTurret } from "./turret.js";
 import displayTutorialText from "./notifs/tutorialText.js";
 import { callCreateFunction, decreaseMultiplier, increaseMultiplier, matchMultipliers, selectMultiverse, updateMultiverseMultipliers } from "./multiverse.js";
-import { hideOverlay } from "./overlay.js";
+import { appendCloseButton, hideOverlay, showOverlay } from "./overlay.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
 import { resetMessageCount } from "./notifs/notify.js";
 import updateStatistics from "./statistics.js";
@@ -37,6 +37,16 @@ import { resizePanel, startSolarPanelAnimation } from "./animations/solarPanel.j
 import { openSettingsPage } from "../settingsPage.js";
 
 function applyEvents(userData) {
+    if (mobileCheck()) {
+        showOverlay();
+        const p = document.createElement("p");
+        p.style.width = "40%";
+        p.style.textAlign = "center";
+        p.style.marginLeft = "30%";
+        p.textContent = "Unfortunately, Energy Multiverse does not officially support mobile devices. Please switch to a desktop for the best experience.";
+        document.getElementById("overlay").appendChild(p);
+        appendCloseButton();
+    }
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     document.getElementById("drone").addEventListener("mousedown", _ => droneClicker(userData));
     document.getElementById("dust").addEventListener("mousedown", _ => dustClicker(userData));

@@ -3,8 +3,9 @@ body {
     background-color: rgb(23, 22, 22);
     color: white;
     width: 100%;
-    height: 100vh;
+    height: 90vh;
     font-size: 18px;
+    touch-action: manipulation;
     overflow: hidden;
 }
 
@@ -679,6 +680,10 @@ button {
 #allCategories {
     display: flex;
     justify-content: center;
+}
+.screen {
+    opacity: 0;
+    transition: opacity 0.1s linear;
 }
 
 #allCategories div {

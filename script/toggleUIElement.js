@@ -78,12 +78,13 @@ function unlockUIElement(elementsArray, elementName) {
 }
 
 function toggleScreen(userData, screenName) {
+    if (screenName == currentScreenDisplayed) return; // If we're going to the same screen, skip the whole procedure.
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     // First hide all screens.
     screens.forEach(e => {
-        document.getElementById(e).style.display = "none";
+        document.getElementById(e).style.opacity = 0;
+        setTimeout(_ => document.getElementById(e).style.display = "none", 100);
     });
-
     // Change which tab is marked as active by the CSS. Active tabs have a white background.
     document.querySelectorAll("#pageSelector li").forEach(e => e.classList.remove("activeTab"));
     document.getElementById(`page${screenName}`)?.classList.add("activeTab");
@@ -134,8 +135,11 @@ function toggleScreen(userData, screenName) {
             document.getElementById("screenSpecificResources").style.display = "none";
             break;
     }
-    document.getElementById(screenName).style.display = "block";
-    currentScreenDisplayed = screenName;
+    setTimeout(_ => {
+        document.getElementById(screenName).style.display = "block";
+        setTimeout(_ => document.getElementById(screenName).style.opacity = 1, 5);
+        currentScreenDisplayed = screenName;
+    }, 110);
 }
 
 // Shortcut way to navigate between different screens using the nubmer keys
