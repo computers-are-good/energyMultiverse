@@ -86,7 +86,7 @@ function toggleScreen(userData, screenName) {
 
     // Change which tab is marked as active by the CSS. Active tabs have a white background.
     document.querySelectorAll("#pageSelector li").forEach(e => e.classList.remove("activeTab"));
-    document.getElementById(`page${screenName}`).classList.add("activeTab");
+    document.getElementById(`page${screenName}`)?.classList.add("activeTab");
 
     // Tutorial system
     const screensWithTutorials = ["Research", "Upgrades"];

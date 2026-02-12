@@ -585,7 +585,7 @@ function launchMissile(userData) {
             damage: currentMultiverse.missileDamage ?? 5,
         }
     }
-    document.getElementById("missileCount").textContent = currentMultiverse.manufactoryItems.missile > 0 ? `Missiles: ${currentMultiverse.missiles}` : "";
+    document.getElementById("missileCount").textContent = currentMultiverse.manufactoryItems.missile > 0 ? `Missiles: ${currentMultiverse.manufactoryItems.missiles}` : "";
     if (currentMultiverse.manufactoryItems.missile <= 0) {
         document.getElementById("launchMissile").style.display = "none";
     }
@@ -848,7 +848,7 @@ async function updateSolarSystemPositions(userData) {
                 if (distance < 10) {
                     if (thing.targetObjectId === "player") {
                         currentMultiverse.manufactoryItems.missile++;
-                        document.getElementById("missileCount").textContent = currentMultiverse.manufactoryItems.missile > 0 ? `Missiles: ${currentMultiverse.missiles}` : "";
+                        document.getElementById("missileCount").textContent = currentMultiverse.manufactoryItems.missile > 0 ? `Missiles: ${currentMultiverse.manufactoryItems.missiles}` : "";
                         delete currentSystem.objects[object];
                     } else {
                         target.currentHealth -= thing.damage;
