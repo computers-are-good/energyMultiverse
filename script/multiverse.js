@@ -104,7 +104,7 @@ function selectMultiverse(userData, selectLastMultiverse = false, travelToMultiv
         const overlay = document.getElementById("overlay");
     
         const closeButton = document.createElement("button");
-        closeButton.textContent = "close";
+        closeButton.textContent = "Close";
     
         const container = document.createElement("div");
         container.style.display = "flex";

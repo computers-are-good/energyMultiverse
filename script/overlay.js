@@ -44,7 +44,7 @@ function appendCloseButton(callThisWhenClosed) {
         }
     }
     const close = document.createElement("button");
-    close.textContent = "close";
+    close.textContent = "Close";
     document.getElementById("overlay").appendChild(close);
     close.addEventListener("click", handleClose);
     close.style.position = "relative";

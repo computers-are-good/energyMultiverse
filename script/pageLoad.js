@@ -37,7 +37,7 @@ import { resizePanel, startSolarPanelAnimation } from "./animations/solarPanel.j
 import { openSettingsPage } from "../settingsPage.js";
 
 function applyEvents(userData) {
-    if (mobileCheck()) {
+    if (mobileCheck()) { // Warning on mobile, as we do NOT officially support mobile devices.
         showOverlay();
         const p = document.createElement("p");
         p.style.width = "40%";
