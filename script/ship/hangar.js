@@ -15,6 +15,7 @@ let selectedDiv;
 function openHangar(userData, askForShipSelection, f) {
     document.getElementById("playerShips").style.display = "block";
     document.getElementById("playerShipsDisplay").innerHTML = "";
+    setTimeout(_ => document.getElementById("playerShips").style.opacity = 1, 10);
     if (askForShipSelection) {
         document.getElementById("closeHangar").style.display = "none";
         document.getElementById("submitShipSelection").style.display = "block";
@@ -151,7 +152,8 @@ function openHangar(userData, askForShipSelection, f) {
     }
 }
 function closeHangar() {
-    document.getElementById("playerShips").style.display = "none";
+    document.getElementById("playerShips").style.opacity = 0;
+    setTimeout(_ => document.getElementById("playerShips").style.display = "none", 200);
 }
 
 export { openHangar, closeHangar }

@@ -55,6 +55,8 @@ function acknowledgeEnergyGenerated(energy) {
 function spawnNewCell() {
     // Draws a new cell that will be animated
     // Initialise variables with placeholder values
+    if (currentScreenDisplayed !== "Energy") return; // Only spawn new cell when screen is on energy, to prevent clutter
+
     const rand = Math.random();
     let row = 0; // The row this cell will be start on
     let col = 0; // The column the cell will start on

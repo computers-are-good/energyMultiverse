@@ -26,7 +26,9 @@ const biomeSpecificEvents = {
         "cloakingDevice"
     ],
     "Paradise": [],
-    "Ice": [],
+    "Ice": [
+        "unlockRepairSwarm"
+    ],
     "Gas": ["turret"],
     "Volcanic": ["gradientDriveUnlock"],
     "Diamond": [],

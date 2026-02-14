@@ -122,7 +122,7 @@ const shipAccessories = {
         energyCost: 500
     },
     "Sunscoop": {
-        description: "Equip this on a ship to scoop vast amount of energy from the sun! Once this accessory is used once, it is destroyed.",
+        description: "Equip this on a ship to scoop vast amount of energy from the sun! Once used, this accessory is destroyed.",
         baseCost: {
             dust: 15
         },
@@ -137,6 +137,16 @@ const shipAccessories = {
         },
         accessorySlots: 1,
         energyCost: 1500
+    },
+    "Repair Swarm": {
+        description: "A swarm of basic drones that seemly has their own intelligence. Gain 1 health at the start of every turn.",
+        baseCost: {
+            iridium: 1,
+            metal: 10,
+            dust: 10,
+        },
+        accessorySlots: 1,
+        energyCost: 1000
     }
 }
 const shipWeapons = {

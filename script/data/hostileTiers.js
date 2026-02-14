@@ -12,6 +12,24 @@ const hostileTiers = {
                 baseAttack: 3,
                 baseShield: 1,
                 baseSpeed: 2
+            },
+            baseStats: {
+                baseHealth: 10,
+                baseAttack: 1,
+                baseShield: 1,
+                baseSpeed: 10,
+            },
+            baseStats: {
+                baseHealth: 5,
+                baseAttack: 2,
+                baseShield: 2,
+                baseSpeed: 5
+            },
+            baseStats: {
+                baseHealth: 15,
+                baseAttack: 1,
+                baseShield: 2,
+                baseSpeed: 5,
             }
         }
     ],

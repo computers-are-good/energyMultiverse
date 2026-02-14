@@ -249,6 +249,29 @@ function block(ship) {
 async function playerTurn(playerShip, enemyShip) {
     const playerWeapon = shipWeapons[playerShip.weapon];
     const playerEnemyDistance = enemyX - playerX;
+    if (playerShip.accessories.includes("Repair Swarm")) {
+        if (playerShip.currentHealth < playerShip.baseStats.baseHealth) {
+            playerShip.currentHealth++;
+            for (let i = 0; i < 5; i++) {
+                for (let j = 0; j < 5; j++) {
+                    particles(playerSettings, {
+                        particleX: (playerX + Math.random() * 3 + i - 1) / battlefieldSize * (combatVisualisationWidth - 52.5) + combatVisualisationX,
+                        particleY: combatVisualisationY + shipPosY + 5 * j + Math.random() * 3,
+                        particleColor: "lime",
+                        spawnVariance: 0,
+                        particleLifetime: 1500,
+                        particleNumber: 1,
+                        particleSize: 3,
+                        zIndex: 99999,
+                        particleSpeed: 0,
+                        circular: false,
+                    });
+                    await wait(50);
+                }
+            }
+            combatLog("Repair drones activated.");
+        }
+    }
     updateStatsDisplay(playerShip, enemyShip);
     document.getElementById("actionButtons").style.display = "block";
 

@@ -787,12 +787,56 @@ const events = {
             toggleScreen(userData, "Universe");
         },
     },
-    unlockMissions: [
-        {
-            text: "Missile",
-            researchUnlocked: ["missile"]
-        }
-    ]
+    unlockMissions: {
+        script: [
+            {
+                text: "Missile",
+                researchUnlocked: ["missile"]
+            }
+        ]
+    },
+    unlockRepairSwarm: {
+        script: [
+            {
+                text: "In the distance, a small cluster of dots appear in your vision. Though first attributed to fatigue, they soon proved themselves otherwise."
+            },
+            {
+                text: "For the dots do not swim in your occipital ocean -- a place without logic, where the perceptions of logic arise from nothing -- as their role in your field of vision quickly grew."
+            },
+            {
+                text: "They pulled themselves out of that chaotic sea, into the realm of reality, where, with each passing second, you must be sure they exist in the physical world."
+            },
+            {
+                text: "What started as mere specks grew as if by mitosis, until they became dust, then dots, particles, and finally, a swarm."
+            },
+            {
+                text: "Their arrival at your ship was signalled by none. Before another could emerge from that sea again, your view became filled with nothing but that swarm."
+            },
+            {
+                text: "Swarming like locusts, gathering, breathing, they block your view of the atmosphere. Your world vanishes. Photons from the outside fight just to make it to your pupils."
+            },
+            {
+                text: "But the expected panic accompanying such an event was absent. No alarms, no turbulance, the juxtaposition of events left you in a mesmerised trance."
+            },
+            {
+                text: "Slowly, your ship appeared better. Repaired. Hear it from the ship itself: diagnostic logs showed errors disappearing. Structural integrity warnings vanishing."
+            },
+            {
+                text: "The swarm disappeared as quickly as it came, but left behind a parting gift."
+            },
+            {
+                text: "A single member of the swarm, who, through means not relevant to our story, entered, and fell to dormancy just above your central control panel. An opportunity for research has risen.",
+                eventResolved: true,
+                researchUnlocked: ["repairSwarm"],
+                script(shipData, userData) {
+                    console.log(shipData);
+                    shipData.currentHealth = shipData.baseStats.baseHealth;
+                    console.log(shipData);
+                }
+            }
+        ]
+
+    }
 }
 
 export default events;

@@ -226,6 +226,18 @@ const research = {
             drawBuildShipsDiv(userData);
             notify("A factory ship will help you start a factory; you just have to build it first.");
         }
+    },
+    "repairSwarm": {
+        cost: {
+            points: 20
+        },
+        name: "Repair Swarm",
+        description: "A small metallic home for a drone repair swarm. Restores one hull at the start of every turn.",
+        complete(userData) {
+            if (!userData.multiverses[userData.currentMultiverse].shipAccessoriesUnlocked.includes("Repair Swarm"))
+                userData.multiverses[userData.currentMultiverse].shipAccessoriesUnlocked.push("Repair Swarm");
+            drawBuildShipsDiv(userData);
+        }
     }
 }
 
