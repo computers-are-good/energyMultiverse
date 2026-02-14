@@ -294,6 +294,12 @@ function updateSolarSystem(userData) {
                     addDescriptionEvent(you, {
                         content: "You"
                     });
+                    you.addEventListener("mousedown", _ => {
+                        activeScreen = "mothershipInfo";
+                        selected = 0;
+                        updateVisibleDivs();
+                        if (redirectionInProgress) document.getElementById("mothershipInfo").appendChild(selectTargetButton)
+                    })
                     break;
                 case "hostile":
                     const enemy = drawNewElement(thing.posX - 7.5, thing.posY - 7.5);
