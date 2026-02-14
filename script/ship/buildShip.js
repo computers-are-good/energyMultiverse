@@ -33,6 +33,7 @@ function openChooseShipOverlay(userData) {
 
         const chooseShipClass = document.createElement("div");
         chooseShipClass.id = "chooseShipClass";
+        chooseShipClass.classList.add("flexCenter");
         document.getElementById("overlay").appendChild(chooseShipClass);
 
         const classesUnlockedArray = [];
