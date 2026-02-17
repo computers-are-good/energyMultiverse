@@ -1,6 +1,6 @@
 import { addDescriptionEvent } from "../addUIDescriptions.js";
 import events from "../data/events.js";
-import {notify} from "../notifs/notify.js"
+import { notify } from "../notifs/notify.js"
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons } from "../pageUpdates.js";
 import { addNavigationAttention } from "../toggleUIElement.js";
 import { textWidth, wait } from "../utils.js";
@@ -103,18 +103,20 @@ function eventPlayer(shipData, userData, eventId) {
 
             let widthUsed = 0;
             const eventTextWidth = 300;
+            const fontSize = 8;
             document.getElementById("encounterInfo").addEventListener("click", skipText);
             for (i = 0; i < textSplit.length; i++) {
-                if (widthUsed > eventTextWidth - textWidth(`${textSplit[i + 1]} `, eventText)) {
+                if (continueTextEvent) eventText.innerHTML += " "; // Technically this adds a space BEFORE every word...
+                widthUsed += textSplit[i].length * fontSize;
+                if (i > 0) widthUsed += fontSize;// But we don't need a space before the first word, and it doens't render in HTML, so only account for the space after the first word.
+                if (i + 1 < textSplit.length && widthUsed >= eventTextWidth) {
                     if (continueTextEvent) eventText.innerHTML += "<br>";
-                    widthUsed = 0;
+                    widthUsed = textSplit[i].length * fontSize;
                 }
                 for (let j = 0; j < textSplit[i].length; j++) {
                     if (continueTextEvent) eventText.innerHTML += textSplit[i][j];
                     await wait(25);
                 }
-                if (continueTextEvent) eventText.innerHTML += " ";
-                widthUsed += textWidth(`${textSplit[i]}  `, eventText);
             }
             document.getElementById("encounterInfo").removeEventListener("click", skipText);
             eventNext.style.display = "block";

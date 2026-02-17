@@ -9,7 +9,8 @@
     <script src="./script/main.js" type="module" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geo:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geo:ital@0;1&family=Inconsolata:wght@200..900&display=swap"
+        rel="stylesheet">
     <link href="./style.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -110,7 +111,7 @@
                         </div>
                         <div id="scriptPlayer" class="sidebarScreen">
                             <h2>Event</h2>
-                            <p id="eventText"></p>
+                            <p id="eventText" class="letterByLetterText"></p>
                             <div id="eventChoices"></div>
                         </div>
                         <div id="attacked" class="sidebarScreen">
@@ -397,7 +398,7 @@
                         </div>
                     </div>
                     <div class="combatStat">
-                    <p>Shield: <span id="enemyShield"></span></p>
+                        <p>Shield: <span id="enemyShield"></span></p>
                         <div id="enemyShieldContainer" class="barContainer shieldContainer">
                             <div id="enemyShieldRemaining"></div>
                         </div>

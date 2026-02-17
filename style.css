@@ -14,6 +14,12 @@ main p {
     margin: 10px;
 }
 
+.letterByLetterText {
+    font-size: 16px;
+    font-family: "Inconsolata", monospace;
+    font-weight: 500;
+}
+
 #eventText {
     text-align: left;
     width: 90%;
@@ -330,7 +336,7 @@ button {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 50; 
+    z-index: 50;
     width: 100%;
     height: 100vh;
     background-color: rgb(23, 22, 22);
@@ -588,7 +594,7 @@ button {
 }
 
 #solarPanel hr {
-   position: relative; 
+    position: relative;
 }
 
 #solarPanelLineTop {
@@ -603,6 +609,7 @@ button {
     z-index: 10;
     position: relative;
 }
+
 #solarPanelTextContainer {
     margin: auto;
 }
@@ -632,7 +639,7 @@ button {
     border-width: 0;
     background-color: rgb(20, 20, 20);
     margin: 0;
-    transition: background-color 0.3s 
+    transition: background-color 0.3s
 }
 
 #clickOnPlanetOrHostile,
@@ -681,6 +688,7 @@ button {
     display: flex;
     justify-content: center;
 }
+
 .screen {
     opacity: 0;
     transition: opacity 0.1s linear;
@@ -799,18 +807,22 @@ button {
     margin-left: 8px;
 }
 
-#energyButtonsContainer div, #energyButtonsContainer #buildAntimatterBeam  {
+#energyButtonsContainer div,
+#energyButtonsContainer #buildAntimatterBeam {
     margin: 10px;
 }
+
 #settingsDiv {
     margin: auto;
     display: block;
     width: 80%;
     max-width: 600px;
 }
+
 #settingsDiv h2 {
     text-align: center;
 }
+
 #settingsDiv button {
     margin-top: 0;
 }
@@ -838,6 +850,7 @@ button {
     justify-content: space-between;
     margin-top: 4px;
 }
+
 .combatStat p {
     display: inline-block;
     position: relative;
@@ -850,9 +863,11 @@ button {
     top: 40% !important;
     height: 20% !important;
 }
+
 .overlaySmall p {
     text-align: center;
 }
+
 .barContainer {
     display: inline-block;
     background-color: black;

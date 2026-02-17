@@ -41,7 +41,6 @@ function particles(userSettings, particleConfig, divToAppendTo) {
         }
 
         if (particleConfig.converge) {
-            console.log(particleConfig.particleSpeed * particleConfig.particleLifetime / 100)
             const newX = Math.cos(newParticle.theta) * particleConfig.particleSpeed * particleConfig.particleLifetime + particleConfig.particleX;
             const newY = Math.sin(newParticle.theta) * particleConfig.particleSpeed * particleConfig.particleLifetime + particleConfig.particleY;
             newParticle.particleX = newX;
