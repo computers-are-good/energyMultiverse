@@ -19,6 +19,7 @@ const biomeSpecificEvents = {
         "literallyJustGetMetal",
         "scanner"
     ],
+    "Living": [],
     "Ocean": [
         "ancientPonderer",
     ],

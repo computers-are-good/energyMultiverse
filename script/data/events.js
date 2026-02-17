@@ -4,10 +4,19 @@ const events = {
     "Batteries": {
         script: [
             {
-                text: "With the familiar sound of landing in the middle of a vast plain, you land in the middle of a vast plain."
+                text: "With the familiar sound of engines coming to idle, you land in the middle of grass -- blades dancing, weaving, intertwined."
             },
             {
-                text: "You come across a small abandoned building in a vast plain. There is a model wind turbine outside the building. You can take the wind turbine apart for dust, or let it generate energy. What do you do?",
+                text: "In the horizon, a small abandoned shed, its walls reminiscing of better days, and its panels in nothing but dusts of brown."
+            },
+            {
+                text: "There is a model wind turbine outside the building. Surprisingly, its functionality appears perserved. However, in an almost cruel twist of contrivance, you realise you can take the wind turbine apart for dust, or let it generate energy."
+            },
+            {
+                text: "You can't do both."
+            },
+            {
+                text: "What do you do?",
                 choice: [
                     {
                         text: "Take it apart",
@@ -28,7 +37,7 @@ const events = {
                 eventResolved: true,
             },
             {
-                text: "You let the turbine generate energy for a while. You gain 100 energy.",
+                text: "You let the turbine generate energy. You leave with exactly a hundred.",
                 item: {
                     energy: 100,
                 },
@@ -40,14 +49,29 @@ const events = {
     "Asteroid": {
         script: [
             {
-                text: "Before you even reach the planet, you find an asteroid floating around in space."
+                text: "An object catches your eye from orbit. A strange stone in space. A so-called asteroid."
+            },
+            {
+                text: "What was just a routine discovery turned took on a different aura when you came to a sudden realisation: the asteroid's shape almost appear to break down the walls that contain your world."
+            },
+            {
+                text: "Indeed, you feel something else flooding into your world. A different narrator. A different style. A different everything."
+            },
+            {
+                text: "Yes, my dear navigator, for although this seems to be a mere asteroid, it is not just a meer asteroid."
+            },
+            {
+                text: "This asteroid is boring. Yes. But it is also funny."
             },
             {
                 text: "Although the asteroid seems boring, consider this: it also has a very funny shape. In fact, its shape is so funny it cannot be descrbied here. Just trust that it is very funny."
             },
             {
                 text: "You spent so long looking at the asteroid you forgot something: you're running out of fuel. Better go back.",
-                eventResolved: true,
+            },
+            {
+                text: "As you break from the spontaneous trance, you realise that perhaps not all is as it seems with this world.",
+                eventResolved: true
             }
         ]
     },
@@ -554,7 +578,7 @@ const events = {
                 text: "A PART OF ME IS NOW A PART OF YOUR SHIP. WHEREVER YOU GO, I WILL GO. I WILL HELP YOUR RESEARCH."
             },
             {
-                text: "A PART OF MY KNOWLEDGE MANIFESTS TO YOU IN YOUR SYSTEMS AS 3 RESEARCH POINTS.",
+                text: "A PART OF MY KNOWLEDGE MANIFESTS TO YOU IN YOUR SYSTEMS. YOU CALL THIS KNOWLEDGE RESEARCH POINTS",
                 choice: [
                     {
                         text: "What are you?",
@@ -571,10 +595,10 @@ const events = {
                 goto: 16
             },
             {
-                text: "SORRY. SENT TOO MUCH DATA TO SHIP. SHIP SYSTEMS WENT OFFLINE. RESTARTED.",
+                text: "SENT TOO MUCH DATA TO SHIP. SHIP OVERLOADED. SHIP SYSTEMS WENT OFFLINE. SHIP SYSTEMS RESTARTED.",
             },
             {
-                text: "Regardless, Ancient ponderer is here to help you."
+                text: "Regardless, a higher power from beyond this world watches over you, and promises that Ancient Ponderer is here to help you."
             },
             {
                 text: "Ancient ponderer's power will help you complete research tasks faster.",

@@ -35,6 +35,7 @@ import { resetMessageCount } from "./notifs/notify.js";
 import updateStatistics from "./statistics.js";
 import { resizePanel, startSolarPanelAnimation } from "./animations/solarPanel.js";
 import { openSettingsPage } from "../settingsPage.js";
+import generateAllSystems from "./map/newSolarSystem.js";
 
 function applyEvents(userData) {
     if (mobileCheck()) { // Warning on mobile, as we do NOT officially support mobile devices.
@@ -222,8 +223,12 @@ async function firstLoadFunctions(userData) {
 
     resetMessageCount();
 
+    generateAllSystems(currentMultiverse)
     toggleScreen(userData, currentMultiverse.lastScreen || "Energy");
-    if (currentMultiverse.lastScreen === "Map") updateSolarSystem(userData);
+    if (currentMultiverse.lastScreen === "Map") {
+        updateSolarSystem(userData);
+        updateSolarSystemPositions(userData);
+    }
 
     updateWarpDriveButton(userData);
     addUIDescriptions(userData);
