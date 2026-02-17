@@ -65,8 +65,19 @@ function eventPlayer(shipData, userData, eventId) {
         async function readEvent(index) {
             let i;
             let text = eventScript[index].text;
-            let textSplit = text.split(" ");
             let continueTextEvent = true;
+            const replacementKeys = {
+                "{STARNAME}": currentSystem.name,
+                "{SHIPCLASS}": shipData.class,
+                "{PLANETNAME}": currentSystem.objects[shipData.targetObjectId]?.name ?? "Planet failure"
+            }
+
+            for (const key in replacementKeys) {
+                text = text.replaceAll(key, replacementKeys[key]);
+            }
+            
+            let textSplit = text.split(" "); // Split text for letter by letter function, after replacement keys are changed
+
             function skipText() {
                 i = textSplit.length - 1;
                 eventText.textContent = text;
@@ -82,16 +93,6 @@ function eventPlayer(shipData, userData, eventId) {
                     }
                     return;
                 }
-            }
-
-            const replacementKeys = {
-                "{STARNAME}": currentSystem.name,
-                "{SHIPCLASS}": shipData.class,
-                "{PLANETNAME}": currentSystem.objects[shipData.targetObjectId]?.name ?? "Planet failure"
-            }
-
-            for (const key in replacementKeys) {
-                text = text.replaceAll(key, replacementKeys[key]);
             }
 
             eventText.textContent = "";
