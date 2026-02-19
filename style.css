@@ -343,7 +343,7 @@ button {
 }
 
 #systemMap {
-    background-color: black;
+    background-color: #111111;
     position: absolute;
     transform-origin: top left;
     width: 750px;

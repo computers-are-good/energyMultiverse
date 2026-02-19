@@ -12,7 +12,9 @@
     allowXVelocity,
     allowYVelocity,
     direction,
-    converge
+    fadeIn,
+    converge,
+    fadeInTime
 } */
 
 let allParticles = [];
@@ -56,6 +58,10 @@ function particles(userSettings, particleConfig, divToAppendTo) {
         newParticleDiv.style.width = `${particleConfig.particleSize}px`;
         newParticleDiv.style.left = `${particleConfig.particleX}px`;
         newParticleDiv.style.top = `${particleConfig.particleY}px`;
+        if (particleConfig.fadeIn) {
+            newParticle.lifeLeft -= particleConfig.fadeIn;
+            newParticle.totalLife -= particleConfig.fadeIn;
+        }
         if (particleConfig.circular) newParticleDiv.style.borderRadius = "999px";
         if (divToAppendTo) {
             divToAppendTo.appendChild(newParticleDiv);

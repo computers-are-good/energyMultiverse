@@ -223,7 +223,6 @@ async function firstLoadFunctions(userData) {
 
     resetMessageCount();
 
-    generateAllSystems(currentMultiverse)
     toggleScreen(userData, currentMultiverse.lastScreen || "Energy");
     if (currentMultiverse.lastScreen === "Map") {
         updateSolarSystem(userData);

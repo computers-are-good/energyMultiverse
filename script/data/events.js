@@ -800,7 +800,10 @@ const events = {
                 text: "Your ship, just like the scientists, has the equipment to create multiple universes.",
             },
             {
-                text: "Make use of it.",
+                text: "To enter your new multiverse, you must face that which was once thought impossible: a black hole."
+            },
+            {
+                text: "A new multiverse could hold more energy, more resources. Use them for our world.",
             },
             {
                 text: "After all, you are our only hope.",

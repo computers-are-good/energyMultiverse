@@ -142,7 +142,8 @@ function generateAllSystems(multiverse) {
                 galaxyX: x,
                 galaxyY: y,
                 tier: systemTier,
-                timeUntilHostileSpawn: 99
+                timeUntilHostileSpawn: 99,
+                isBlackHoleSystem: false,
 
             }
             // Spawn in the player
@@ -245,6 +246,9 @@ function generateAllSystems(multiverse) {
             }
 
             // Actually spawn the new planet types in this system.
+            if (numberOfPlanetsInSystem === 0 || systemTier === 6) { // A system with no planets in it, or a tier 6 system, is a black hole system.
+                solarSystem.isBlackHoleSystem = true;
+            }
             const arrOfTypes = [];
             for (const type in planetsToSpawnInThisSystem) {
                 let count = planetsToSpawnInThisSystem[type];

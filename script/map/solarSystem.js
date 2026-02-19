@@ -169,39 +169,69 @@ function updateSolarSystem(userData) {
         mapTop = mapRect.top;
         mapLeft = mapRect.left;
         let mapWidth = mapRect.right - mapLeft;
+        
+        // Multiverse travel button
+        const lengthToCenter = Math.sqrt((currentSystem.objects.player.posX - 375) ** 2 + (currentSystem.objects.player.posY - 375) ** 2);
+        if (currentSystem.isBlackHoleSystem && userData.multiverses.length > 1 && lengthToCenter < 75) {
+            document.getElementById("multiverseTravel").style.display = "block";
+        } else {
+            document.getElementById("multiverseTravel").style.display = "none";
+        }
 
-        //Draw the star
-        const star = drawNewElement(375, 375);
-        star.style.backgroundColor = "Yellow";
-        star.style.height = "20px";
-        star.style.width = "20px";
-        star.style.borderRadius = `15px`;
+        if (currentSystem.isBlackHoleSystem) {
+            // Draw black hole.
+            const blackHole = drawNewElement(350, 350);
+            blackHole.style.backgroundColor = "black";
+            blackHole.style.height = "50px";
+            blackHole.style.width = "50px";
+            blackHole.style.borderRadius = "50px";
+            blackHole.style.zIndex = 20;
+            
+            particles(userData.settings, {
+                particleX: mapWidth / 2 + mapLeft -  mapScale,
+                particleY: mapWidth / 2 + mapTop -  mapScale,
+                particleColor: "White",
+                particleLifetime: 5000,
+                particleNumber: 5,
+                particleSize: 1,
+                circular: true,
+                particleSpeed: 0.02,
+                fadeIn: 4000,
+                converge: true,
+            }, map);
+        } else {
+            //Draw the star
+            const star = drawNewElement(375, 375);
+            star.style.backgroundColor = "Yellow";
+            star.style.height = "20px";
+            star.style.width = "20px";
+            star.style.borderRadius = `15px`;
 
-        particles(userData.settings, {
-            particleX: mapWidth / 2 + mapLeft + 10 * mapScale,
-            particleY: mapWidth / 2 + mapTop + 10 * mapScale,
-            particleColor: "#f7f29e",
-            particleLifetime: 9000,
-            particleNumber: 3,
-            particleSize: 1,
-            particleSpeed: 0.006
-        }, map);
+            particles(userData.settings, {
+                particleX: mapWidth / 2 + mapLeft + 10 * mapScale,
+                particleY: mapWidth / 2 + mapTop + 10 * mapScale,
+                particleColor: "#f7f29e",
+                particleLifetime: 9000,
+                particleNumber: 3,
+                particleSize: 1,
+                particleSpeed: 0.006
+            }, map);
+            star.addEventListener("mousedown", _ => {
+                if (!blockingScreens.includes(activeScreen)) {
+                    activeScreen = "sunInfo";
+                    updateVisibleDivs();
+                    document.getElementById("solarSystemName").textContent = currentSystem.name;
+                    document.getElementById("systemTierDisplay").textContent = currentSystem.tier;
+                    document.getElementById("threatLevelDisplay").textContent = currentSystem.dangerLevel;
+                    document.getElementById("explorationLevelDisplay").textContent = getSolarSystemExplorationLevel(userData, currentSystem);
 
-        star.addEventListener("mousedown", _ => {
-            if (!blockingScreens.includes(activeScreen)) {
-                activeScreen = "sunInfo";
-                updateVisibleDivs();
-                document.getElementById("solarSystemName").textContent = currentSystem.name;
-                document.getElementById("systemTierDisplay").textContent = currentSystem.tier;
-                document.getElementById("threatLevelDisplay").textContent = currentSystem.dangerLevel;
-                document.getElementById("explorationLevelDisplay").textContent = getSolarSystemExplorationLevel(userData, currentSystem);
+                }
+            });
 
-            }
-        });
-
-        addDescriptionEvent(star, {
-            content: currentSystem.name
-        });
+            addDescriptionEvent(star, {
+                content: currentSystem.name
+            });
+        }
 
         for (const id in currentSystem.objects) {
             const thing = currentSystem.objects[id];
@@ -843,6 +873,15 @@ async function updateSolarSystemPositions(userData) {
                         }
                     }
                 }
+                
+                // Is a hostile too close to a black hole? It will get deleted.
+                if (currentSystem.isBlackHoleSystem) {
+                    const distToBlackHole = Math.sqrt((thing.posX - 375) ** 2 + (thing.posY - 375) ** 2);
+                    console.log(distToBlackHole);
+                    if (distToBlackHole < 35) {
+                        delete currentSystem.objects[object];
+                    }
+                } 
             } else if (thing.type === "missile") {
                 let target = currentSystem.objects[thing.targetObjectId];
                 if (!target) {

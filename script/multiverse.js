@@ -30,7 +30,6 @@ async function callCreateFunction(userData) {
         document.getElementById("multiverseTravel").style.display = "block";
         matchMultipliers(userData);
         updateMultiverseMultipliers(userData);
-        selectMultiverse(userData, true, true);
     }
 
 }

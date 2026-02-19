@@ -85,7 +85,7 @@ function jumpButtonClicked(userData) {
         if (currentMultiverse.energy < energyReq) {
             document.getElementById("cannotJumpEnergyReq").innerText = energyReq - currentMultiverse.energy;
             feedbackToUserCannotJump(cannotJumpEnergy);
-        // notify user if we don't have enough drive cells
+            // notify user if we don't have enough drive cells
         } else if (currentMultiverse.manufactoryItems.driveCell < driveCellReq) {
             document.getElementById("cannotJumpDriveCellReq").innerText = driveCellReq - currentMultiverse.manufactoryItems.driveCell;
             feedbackToUserCannotJump(cannotJumpDriveCell);
@@ -104,6 +104,8 @@ function feedbackToUserCannotJump(elementToDisplay) {
 function jumpToSystem(userData, systemId) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
+    // Clear all particles from the star when we jump
+    document.querySelectorAll(".particle").forEach(e => e.remove());
     let canMakeJump = true;
     for (let ship of currentMultiverse.ships) {
         if (ship.isBusy) {
