@@ -27,6 +27,13 @@ let mapVelX = 0; // After player releases their mouse, "slide" the map with some
 let mapVelY = 0;
 let mapWidth = 900;
 let mapHeight = 700;
+let lastMouseX = 0;
+let lastMouseY = 0;
+let mouseDownTime = performance.now();
+let xWhenMouseDown = 0;
+let yWhenMouseDown = 0;
+let mouseHeldDown = false;
+
 const maxMapVelocity = 10;
 function calculateEnergyRequired(userData, targetSystemId) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -119,12 +126,7 @@ function galaxyView(userData) {
                 document.getElementById("driveCellsRequired").textContent = currentMultiverse.solarSystems[selectedIndex].tier;
             });
         }
-        let lastMouseX = 0;
-        let lastMouseY = 0;
-        let mouseDownTime = performance.now();
-        let xWhenMouseDown = 0;
-        let yWhenMouseDown = 0;
-        let mouseHeldDown = false;
+        ;
         updateGalaxyMapScreenPosition();
 
         // Events for moving the map around
@@ -140,7 +142,7 @@ function galaxyView(userData) {
         function handleMouseUpOrOut(e) {
             mouseHeldDown = false;
             let deltaT = performance.now() - mouseDownTime;
-            if (mapScale > 1.1 && deltaT < 500) {
+            if (mapScale > 1.1 && deltaT < 250) {
                 mapVelX = -(xWhenMouseDown - e.x) / deltaT * 1.2 * mapScale;
                 mapVelY = -(yWhenMouseDown - e.y) / deltaT * 1.2 * mapScale;
                 if (mapVelX < -maxMapVelocity) mapVelX = -maxMapVelocity;
@@ -150,7 +152,6 @@ function galaxyView(userData) {
             }
             residualVelocity();
             bigGalaxyMap.style.cursor = "default";
-
         }
         bigGalaxyMap.addEventListener("mouseup", handleMouseUpOrOut);
         bigGalaxyMap.addEventListener("mouseout", handleMouseUpOrOut);
