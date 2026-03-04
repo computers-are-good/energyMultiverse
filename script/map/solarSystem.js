@@ -184,6 +184,8 @@ function updateSolarSystem(userData) {
             blackHole.style.backgroundColor = "black";
             blackHole.style.height = "50px";
             blackHole.style.width = "50px";
+            blackHole.style.border = "2px solid #4D297A";
+            blackHole.style.filter = "drop-shadow(0px 0px 4px)"
             blackHole.style.borderRadius = "50px";
             blackHole.style.zIndex = 20;
             
