@@ -559,9 +559,29 @@ button {
 
 #bigGalaxyMap {
     background-color: black;
+    transform: scale(500%);
+    transform-origin: top left;
     width: 900px;
     height: 700px;
+    position: relative;
     display: block;
+}
+
+#bigGalaxyMapContainer {
+    width: 900px;
+    overflow: hidden;
+    height: 700px;
+    background-image:linear-gradient(rgba(0, 0, 40, 0.5), rgba(13, 13, 10, 0.5));
+}
+
+#galaxyMapCoords {
+    z-index: 100;
+    position: absolute;
+    width: 900px;
+    backdrop-filter: blur(2px);
+    margin: 0;
+    padding-top: 10px;
+    text-align: center;
 }
 
 #galaxyMapSidebar {

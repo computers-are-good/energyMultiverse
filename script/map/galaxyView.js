@@ -15,12 +15,70 @@ const tierColours = {
     6: "#df3d98",
 }
 let selectedIndex;
+
+let screenOffsetX = 0;
+let screenOffsetY = 0;
+let mapOffsetX = 0; // How much the underlying galaxyMap should be shifted by.
+let mapOffsetY = 0;
+let mouseMapX = 0; // The x coordinate of the bit of "map" under the mouse
+let mouseMapY = 0;
+let mapScale = 5;
+let mapVelX = 0; // After player releases their mouse, "slide" the map with some residual decaying velocity.
+let mapVelY = 0;
+let mapWidth = 900;
+let mapHeight = 700;
+const maxMapVelocity = 10;
 function calculateEnergyRequired(userData, targetSystemId) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     const currentSystem = currentMultiverse.solarSystems[currentMultiverse.currentSolarSystem];
     const targetSystem = currentMultiverse.solarSystems[targetSystemId];
     return Math.floor(Math.sqrt((currentSystem.galaxyX - targetSystem.galaxyX) ** 2 + (currentSystem.galaxyY - targetSystem.galaxyY) ** 2) * 15);
 }
+function moveMap() {
+    if (mapOffsetX > 300) {
+        mapOffsetX = 300;
+        mapVelX *= -0.5;
+    }
+    if (mapOffsetY > 300) {
+        mapOffsetY = 300;
+        mapVelY *= -0.5;
+    }
+    if (mapOffsetX < -((mapScale - 1) * mapWidth) - 300) {
+        mapOffsetX = -((mapScale - 1) * mapWidth) - 300;
+        mapVelX *= -0.5;
+    }
+    if (mapOffsetY < -((mapScale - 1) * mapHeight) - 300) {
+        mapOffsetY = -((mapScale - 1) * mapHeight) - 300;
+        mapVelY *= -0.5;
+    }
+    bigGalaxyMap.style.left = `${mapOffsetX}px`;
+    bigGalaxyMap.style.top = `${mapOffsetY}px`;
+    bigGalaxyMap.style.transform = `scale(${mapScale})`;
+}
+
+const velDecayConstant = 0.96;
+function residualVelocity() {
+    // Decrease ||vx|| and ||vy||
+    // Velocity decay for x
+    mapVelX *= velDecayConstant;
+    mapVelY *= velDecayConstant;
+    if (Math.abs(mapVelX) < 0.5) mapVelX = 0;
+    if (Math.abs(mapVelY) < 0.5) mapVelY = 0;
+
+    if (mapVelX != 0 && mapVelY != 0) {
+        mapOffsetX += mapVelX;
+        mapOffsetY += mapVelY;
+        moveMap();
+        requestAnimationFrame(residualVelocity);
+    }
+}
+
+function updateGalaxyMapScreenPosition() {
+    const container = document.getElementById("bigGalaxyMapContainer").getBoundingClientRect();
+    screenOffsetX = container.left;
+    screenOffsetY = container.top;
+}
+
 function galaxyView(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
 
@@ -37,6 +95,9 @@ function galaxyView(userData) {
             const explorationPercent = getSolarSystemExplorationLevel(userData, system);
 
             if (i == currentMultiverse.currentSolarSystem) {
+                mapOffsetX = Math.max(system.galaxyX * -mapScale + 450, -((mapScale - 1) * mapWidth));
+                mapOffsetY = Math.max(system.galaxyY * -mapScale + 350, -((mapScale - 1) * mapHeight));
+                moveMap();
                 systemDiv.style.backgroundColor = "white";
             } else {
                 systemDiv.style.backgroundColor = tierColours[system.tier];
@@ -58,6 +119,75 @@ function galaxyView(userData) {
                 document.getElementById("driveCellsRequired").textContent = currentMultiverse.solarSystems[selectedIndex].tier;
             });
         }
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        let mouseDownTime = performance.now();
+        let xWhenMouseDown = 0;
+        let yWhenMouseDown = 0;
+        let mouseHeldDown = false;
+        updateGalaxyMapScreenPosition();
+
+        // Events for moving the map around
+        bigGalaxyMap.addEventListener("mousedown", e => {
+            mouseHeldDown = true;
+            lastMouseX = xWhenMouseDown = e.x;
+            lastMouseY = yWhenMouseDown = e.y;
+            mapVelX = 0;
+            mapVelY = 0;
+            mouseDownTime = performance.now();
+            bigGalaxyMap.style.cursor = "pointer";
+        });
+        function handleMouseUpOrOut(e) {
+            mouseHeldDown = false;
+            let deltaT = performance.now() - mouseDownTime;
+            if (mapScale > 1.1 && deltaT < 500) {
+                mapVelX = -(xWhenMouseDown - e.x) / deltaT * 1.2 * mapScale;
+                mapVelY = -(yWhenMouseDown - e.y) / deltaT * 1.2 * mapScale;
+                if (mapVelX < -maxMapVelocity) mapVelX = -maxMapVelocity;
+                if (mapVelX > maxMapVelocity) mapVelX = maxMapVelocity;
+                if (mapVelY < -maxMapVelocity) mapVelY = -maxMapVelocity;
+                if (mapVelY > maxMapVelocity) mapVelY = maxMapVelocity;
+            }
+            residualVelocity();
+            bigGalaxyMap.style.cursor = "default";
+
+        }
+        bigGalaxyMap.addEventListener("mouseup", handleMouseUpOrOut);
+        bigGalaxyMap.addEventListener("mouseout", handleMouseUpOrOut);
+
+        // Event for zooming map in and out
+        bigGalaxyMap.addEventListener("wheel", e => {
+            mapScale -= e.deltaY * 0.0015;
+            if (mapScale < 1) mapScale = 1;
+
+            // Ensure the coordinates under mouse cursor is moved to the mouse cursor after zooming out.
+            // This code worked first try btw.
+            let newMouseMapX = (e.x - screenOffsetX - mapOffsetX) / mapScale;
+            let newMouseMapY = (e.y - screenOffsetY - mapOffsetY) / mapScale;
+            let delX = newMouseMapX - mouseMapX;
+            let delY = newMouseMapY - mouseMapY;
+            mapOffsetX += delX * mapScale;
+            mapOffsetY += delY * mapScale;
+            moveMap();
+        });
+
+        bigGalaxyMap.addEventListener("mousemove", e => {
+            // When you drag the map with the mouse
+            if (mouseHeldDown) {
+                let xDiff = e.x - lastMouseX;
+                let yDiff = e.y - lastMouseY;
+                mapOffsetX += xDiff;
+                mapOffsetY += yDiff;
+                moveMap();
+                lastMouseX = e.x;
+                lastMouseY = e.y;
+            }
+            // Find the equalvent coordinates of the map under your mouse.
+            mouseMapX = (e.x - screenOffsetX - mapOffsetX) / mapScale;
+            mouseMapY = (e.y - screenOffsetY - mapOffsetY) / mapScale;
+            document.getElementById("galaxyMapCoords").textContent = `x: ${Math.round(mouseMapX)} y: ${Math.round(mouseMapY)}`;
+
+        });
     } else {
         notify("Please resolve the event in the solar system before opening the galaxy map.");
     }
@@ -95,7 +225,6 @@ function jumpButtonClicked(userData) {
 // If the player cannot jump to another system, pass in an element corresponding to a hidden element in #galaxyMapSidebar with the relevant reason why they cannot jump.
 // Fade in that element, then remove it after 3 seconds.
 function feedbackToUserCannotJump(elementToDisplay) {
-    console.log(elementToDisplay);
     elementToDisplay.style.display = "block";
     fadeIn(elementToDisplay, 0.2);
     setTimeout(_ => elementToDisplay.style.display = "none", 3000);
@@ -133,8 +262,8 @@ function drawSystem(x, y) {
     newSystem.style.position = "absolute";
     newSystem.style.marginTop = `${y}px`;
     newSystem.style.marginLeft = `${x}px`;
-    newSystem.style.width = "20px";
-    newSystem.style.height = "20px";
+    newSystem.style.width = "4px";
+    newSystem.style.height = "4px";
     newSystem.style.borderRadius = "20px";
     newSystem.style.cursor = "pointer";
     bigGalaxyMap.appendChild(newSystem);
@@ -144,4 +273,4 @@ function closeGalaxyView() {
     document.getElementById("galaxyMap").style.display = "none";
 }
 
-export { galaxyView, closeGalaxyView, jumpButtonClicked }
+export { galaxyView, closeGalaxyView, jumpButtonClicked, updateGalaxyMapScreenPosition }

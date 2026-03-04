@@ -879,7 +879,6 @@ async function updateSolarSystemPositions(userData) {
                 // Is a hostile too close to a black hole? It will get deleted.
                 if (currentSystem.isBlackHoleSystem) {
                     const distToBlackHole = Math.sqrt((thing.posX - 375) ** 2 + (thing.posY - 375) ** 2);
-                    console.log(distToBlackHole);
                     if (distToBlackHole < 35) {
                         delete currentSystem.objects[object];
                     }

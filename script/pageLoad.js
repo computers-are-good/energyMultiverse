@@ -19,7 +19,7 @@ import { makeMissile, simpleItemMaker, updateInventoryDisplay, updateManufactory
 import { decreaseShipThrust, increaseShipThrust, updateShipThrust } from "./map/thrust.js";
 import metalClicker from "./resources/metal.js";
 import addCheats from "./cheats.js";
-import { closeGalaxyView, galaxyView, jumpButtonClicked } from "./map/galaxyView.js";
+import { closeGalaxyView, galaxyView, jumpButtonClicked, updateGalaxyMapScreenPosition } from "./map/galaxyView.js";
 import { buildWarpDrive, updateWarpDriveButton } from "./map/warpDriveEvents.js";
 import { updateSolarPanels } from "./resources/solarPanel.js";
 import { drawUpgradeButtons } from "./upgrades.js";
@@ -199,6 +199,7 @@ function applyEvents(userData) {
 function windowResize(userData) {
     scaleSolarSystem();
     resizePanel();
+    updateGalaxyMapScreenPosition();
     // Resize the big energy clicker on smaller screens.
     if (window.innerHeight < 1000) {
         document.getElementById("bigEnergy").style.marginTop = "-100px";
