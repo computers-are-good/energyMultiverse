@@ -319,17 +319,22 @@
             <p id="researchPointsParagraph">Research points: <span id="researchPointCount"></span></p>
             <p id="usingEnergyInfo"></p>
             <div id="researchBar" class="progressBarDiv">
-                <button id="decreaseResearchRate">-</button>
                 <div id="researchBarBackground" class="progressBarBackground">
                     <div id="researchBarForeground" class="progressBarForeground"></div>
                 </div>
-                <button id="increaseResearchRate">+</button>
             </div>
             <div id="researchInfo">
                 <p>Convert energy to research points. The faster the rate, the more energy is converted.</p>
-                <p>Research rate: <span id="researchRateDisplay"></span> energy / <span
-                        id="ticksPerResearchAdvancementDisplay"></span></p>
+                <div class="flexCenter" style="margin-top: 22px">
+                    <div class="flexCenter flexAlignCenter innerDiv">
+                        <button id="decreaseResearchRate">-</button>
+                        <p>Research rate: <br><span id="researchRateDisplay"></span> energy / <span
+                                id="ticksPerResearchAdvancementDisplay"></span></p>
+                        <button id="increaseResearchRate">+</button>
+                    </div>
+                </div>
             </div>
+            <hr style="margin-top: 22px">
             <div id="researchButtons"></div>
         </div>
         <div id="Universe" class="screen">

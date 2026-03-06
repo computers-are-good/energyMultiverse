@@ -1,6 +1,5 @@
 import { currentScreenDisplayed } from "../toggleUIElement.js";
 
-// TODO: Allow this animation to be turned off.
 let cellsInProgress = [];
 let tBottom;
 let resizeFinished = true;
