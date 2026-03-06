@@ -112,7 +112,7 @@ function tick(userData) {
         addNavigationAttention("energy", "pageEnergy");
     }
 
-    if (currentMultiverse.statistics.totalTicksPassed % 900 === 0) { // Gaining antimatter
+    if (currentMultiverse.statistics.totalTicksPassed % 9000 === 0) { // Gaining antimatter
         gainAntimatter(userData, 1);
         if (currentMultiverse.statistics.antimatterGained == 0) {
             notify("An inverted bit of matter finds itself into the space among you. It will be useful for your journey.")
