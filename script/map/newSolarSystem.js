@@ -261,8 +261,6 @@ function generateAllSystems(multiverse) {
                 const randomInt = Math.floor(Math.random() * arrOfTypes.length);
                 solarSystem.objects[1000 + numberOfPlanetsSpawned + 1] = newPlanet(numberOfPlanetsSpawned, arrOfTypes[randomInt], systemNumber, systemTier);
                 
-                if (systemNumber == 1) console.log(i, j)
-
                 numberOfPlanetsSpawned++
                 arrOfTypes.splice(randomInt, 1);
             }
@@ -326,9 +324,6 @@ const uniqueEventsAssigned = {
     unlockRadar: false,
 }
 function newPlanet(planetCount, planetType, solarSystemsMade, solarSystemTier) {
-    if (solarSystemsMade == 1) {
-        console.log(planetType)
-    }
     const uniqueEvents = [];
     const biomeSpecificEventsAvailable = 2;
 

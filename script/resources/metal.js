@@ -1,7 +1,6 @@
 import { unlockUIElement } from "../toggleUIElement.js";
 import { checkCosts, subtractCosts } from "../itemCosts.js";
 import { gainMetal } from "./gainResources.js";
-import notifyUnique from "../notifs/notifyUnique.js";
 
 function metalClicker(userData) {
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
@@ -16,7 +15,7 @@ function makeMetal(userData) {
         const currentMultiverse = userData.multiverses[userData.currentMultiverse];
         if (!currentMultiverse.eventsDone.includes("unlockShipyard")) {
             unlockUIElement(currentMultiverse.UIElementsUnlocked, "pageShipyard");
-            notifyUnique("makeShip");
+            notify("And when you have metal, you can make spaceships. Venture forwards into the unknown.");
             currentMultiverse.eventsDone.push("unlockShipyard");
         }
     }

@@ -2,7 +2,6 @@ import {notify} from "../notifs/notify.js"
 import eventPlayer from "./eventPlayer.js";
 import { choice, removeFromArray } from "../utils.js";
 import { addNavigationAttention } from "../toggleUIElement.js";
-import notifyUnique from "../notifs/notifyUnique.js";
 const genericEvents = [
     "Research Station",
     "Asteroid",

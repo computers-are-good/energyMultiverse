@@ -11,7 +11,6 @@ import { gainAntimatter, gainDust, gainEnergy, gainMetal } from "./resources/gai
 import updateStatistics from "./statistics.js";
 import unlockResearchForElement from "./unlockResearch.js";
 import { storeUserData } from "./userdata.js";
-import notifyUnique from "./notifs/notifyUnique.js";
 
 let tickCount = 0;
 function tick(userData) {
@@ -116,7 +115,7 @@ function tick(userData) {
     if (currentMultiverse.statistics.totalTicksPassed % 900 === 0) { // Gaining antimatter
         gainAntimatter(userData, 1);
         if (currentMultiverse.statistics.antimatterGained == 0) {
-            notifyUnique("firstAntimatter");
+            notify("An inverted bit of matter finds itself into the space among you. It will be useful for your journey.")
         }   
     }
 

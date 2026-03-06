@@ -1,5 +1,5 @@
 import { checkCosts, subtractCosts } from "../itemCosts.js";
-import notifyUnique from "../notifs/notifyUnique.js";
+import { notify } from "../notifs/notify.js";
 import { addNavigationAttention, unlockUIElement } from "../toggleUIElement.js";
 
 function updateWarpDriveButton(userData) {
@@ -28,7 +28,7 @@ function buildWarpDrive(userData) {
         currentMultiverse.warpDriveBuilt = true;
         updateWarpDriveButton(userData);
         unlockUIElement(userData.multiverses[userData.currentMultiverse].UIElementsUnlocked, "pageManufactory");
-        notifyUnique("manufactoryUnlocked");
+        notify("You turn a dusty old room into a makeshaft manufactory for your operations.")
         addNavigationAttention("Manufactory", "pageManufactory");
     }
 }

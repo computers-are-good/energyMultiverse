@@ -1,6 +1,5 @@
 import { checkCosts, subtractCosts } from "../itemCosts.js";
 import { notify } from "../notifs/notify.js"
-import notifyUnique from "../notifs/notifyUnique.js";
 import { addNavigationAttention } from "../toggleUIElement.js";
 import { drawUpgradeButtons } from "../upgrades.js";
 
@@ -40,7 +39,7 @@ function makeMissile(userData) {
                 addNavigationAttention("upgrades", "pageUpgrades");
                 drawUpgradeButtons(userData);
                 currentMultiverse.eventsDone.push("missileUpgrades");
-                notifyUnique("missileDamage");
+                notify("You've made a lot of missiles. Now it's time to make them stronger.");
             }
         }
     }

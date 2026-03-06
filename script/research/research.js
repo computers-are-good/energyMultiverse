@@ -1,4 +1,3 @@
-import notifyUnique from "../notifs/notifyUnique.js";
 import { updateEnergyCounter, updateResearchBar, updateResearchButtons, updateResearchPoints } from "../pageUpdates.js";
 import { useEnergy } from "../resources/useResources.js";
 
@@ -10,7 +9,7 @@ function updateResearch(userData) {
 
     if (currentMultiverse.progressUntilResearchPoint >= currentMultiverse.energyUntilResearchPoint) {
         if (!currentMultiverse.eventsDone.includes("researchTooSlow")) {
-            notifyUnique("researchTooSlow");
+            notify("This rate of research is too slow. Maybe you can do research into researching?");
             currentMultiverse.researchUnlocked.push("Faster Research");
             updateResearchButtons(userData);
             currentMultiverse.eventsDone.push("researchTooSlow");

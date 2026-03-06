@@ -1,6 +1,5 @@
 import { updateEnergyCounter, updateDustCounter, updateResearchButtons } from "../pageUpdates.js";
 import { addNavigationAttention, unlockUIElement } from "../toggleUIElement.js";
-import notifyUnique from "../notifs/notifyUnique.js"
 import { checkCosts, subtractCosts } from "../itemCosts.js";
 import { gainDust } from "./gainResources.js";
 import unlockResearchForElement from "../unlockResearch.js";
@@ -18,7 +17,7 @@ function makeDust(userData) {
         gainDust(userData, 1);
         subtractCosts(userData, {energy: 10})
         if (currentMultiverse.dust >= 5 && !currentMultiverse.eventsDone.includes("unlockDust")) {
-            notifyUnique("dustUseful");
+            notify("Maybe the dust you've been collecting can be used to build something?");
             unlockUIElement(currentMultiverse.UIElementsUnlocked, "drones");
             currentMultiverse.eventsDone.push("unlockDust");
         }
@@ -28,7 +27,7 @@ function makeDust(userData) {
         }
 
         if (currentMultiverse.statistics.dustGained > 10 && !currentMultiverse.eventsDone.includes("unlockMetal")) {
-            notifyUnique("unlockMetal");
+            notify("The dust you've been making could be made into something more...");
             unlockUIElement(currentMultiverse.UIElementsUnlocked, "metals");
             currentMultiverse.eventsDone.push("unlockMetal");
         }

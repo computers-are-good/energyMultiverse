@@ -6,7 +6,6 @@ import { notify } from "../notifs/notify.js"
 import { arriveAtTarget, getSolarSystemExplorationLevel } from "./planetEvents.js";
 import { combat } from "./combat.js";
 import threatLevel from "./threatLevel.js";
-import notifyUnique from "../notifs/notifyUnique.js";
 import { choice, deepClone, removeFromArray, wait } from "../utils.js";
 import { updateDustCounter, updateEnergyCounter, updateIridiumCounter, updateMetalCounter, updateResearchButtons } from "../pageUpdates.js";
 import hostileTiers from "../data/hostileTiers.js";
@@ -517,7 +516,7 @@ function buildScanner(userData) {
         document.getElementById("buildScanner").style.display = "none";
         document.getElementById("scanResults").style.display = "block";
 
-        notifyUnique("scannerAccuracy");
+        notify("You've built a scanner, but it still needs calibration.")
         currentMultiverse.maxUpgradeTimes.scannerAccuracy = 10;
         drawUpgradeButtons(userData);
     }

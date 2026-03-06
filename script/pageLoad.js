@@ -7,7 +7,6 @@ import { addUIDescriptions, mouseoverDescriptions, removeDescription } from "./a
 import { updateEnergyCounter, updateDustCounter, updateResearchPoints, updateResearchRate, updateResearchBar, updateResearchButtons, updateDustbot, updateShipConstruction, updateShipConstructionBar, updateMetalCounter, updateIridiumCounter, updateAntimatterCounter } from "./pageUpdates.js";
 import { droneClicker, droneCost, drawDronesDivs } from "./resources/drone/droneClicker.js";
 import { decreaseResearchRate, increaseResearchRate, showResearchProgress } from "./research/researchClicker.js";
-import notifyUnique from "./notifs/notifyUnique.js";
 import { mobileCheck, wait } from "./utils.js";
 import fadeIn from "./animations/fadeIn.js";
 import { buildDustbotEvent, dustbotSlider } from "./resources/dustbotClicker.js";
@@ -31,7 +30,7 @@ import displayTutorialText from "./notifs/tutorialText.js";
 import { callCreateFunction, decreaseMultiplier, increaseMultiplier, matchMultipliers, selectMultiverse, updateMultiverseMultipliers } from "./multiverse.js";
 import { appendCloseButton, hideOverlay, showOverlay } from "./overlay.js";
 import { checkCosts, subtractCosts } from "./itemCosts.js";
-import { resetMessageCount } from "./notifs/notify.js";
+import { notify, resetMessageCount } from "./notifs/notify.js";
 import updateStatistics from "./statistics.js";
 import { resizePanel, startSolarPanelAnimation } from "./animations/solarPanel.js";
 import { openSettingsPage } from "../settingsPage.js";
@@ -148,7 +147,7 @@ function applyEvents(userData) {
         }, true)) {
             subtractCosts(userData, { energy: 10000, antimatter: 15 });
             userData.antimatterBeamBuilt = true;
-            notifyUnique("antimatterBeamBuilt");
+            notify()
             document.getElementById("buildAntimatterBeam").style.display = "none";
         }
     });
@@ -265,13 +264,13 @@ async function firstLoadFunctions(userData) {
     animateDrones();
 
     if (!currentMultiverse.eventsDone.includes("awake")) { //Event for new users
-        notifyUnique("awake");
+        notify("As the light from the distant room fades, you find yourself awake among darkness.");
         const elementMain = document.querySelector("main");
         elementMain.style.display = "none";
 
         await wait(3000);
 
-        notifyUnique("light");
+        notify("And, in the distant, a faint glow of an unfamiliar light.")
 
         elementMain.style.display = "inline-block";
         fadeIn(elementMain, 1)

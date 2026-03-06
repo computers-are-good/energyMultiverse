@@ -1,6 +1,5 @@
 import { shipAccessories } from "../data/shipData.js";
 import {notify} from "../notifs/notify.js"
-import notifyUnique from "../notifs/notifyUnique.js";
 import { updateEnergyCounter, updateShipConstruction, updateShipConstructionBar } from "../pageUpdates.js";
 import { useEnergy } from "../resources/useResources.js";
 import { addNavigationAttention, unlockUIElement } from "../toggleUIElement.js";
@@ -42,7 +41,7 @@ function buildShip(userData) {
             }
 
             if (!currentMultiverse.eventsDone.includes("firstShip")){
-                notifyUnique("firstShip");
+                notify("Go forward, and explore the unknown. This little ship will keep you safe.");
                 unlockUIElement(currentMultiverse.UIElementsUnlocked, "pageMap");
                 currentMultiverse.eventsDone.push("firstShip");
             } else {
