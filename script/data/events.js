@@ -376,7 +376,7 @@ const events = {
                 text: "Innovation requires frontiers to be broken. We now must push through the limits of reality, the natural order, to continue our journey."
             },
             {
-                text: "And to do that, we need a drive to harness the impossible: an engine to invert the world",
+                text: "And to do that, we need a drive to harness the impossible: an engine to invert the world.",
                 eventResolved: true,
                 researchUnlocked: ["inversionDrive"]
             }
