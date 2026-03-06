@@ -169,7 +169,7 @@ function updateSolarSystem(userData) {
         mapTop = mapRect.top;
         mapLeft = mapRect.left;
         let mapWidth = mapRect.right - mapLeft;
-        
+
         // Multiverse travel button
         const lengthToCenter = Math.sqrt((currentSystem.objects.player.posX - 375) ** 2 + (currentSystem.objects.player.posY - 375) ** 2);
         if (currentSystem.isBlackHoleSystem && userData.multiverses.length > 1 && lengthToCenter < 75) {
@@ -188,10 +188,10 @@ function updateSolarSystem(userData) {
             blackHole.style.filter = "drop-shadow(0px 0px 4px)"
             blackHole.style.borderRadius = "50px";
             blackHole.style.zIndex = 20;
-            
+
             particles(userData.settings, {
-                particleX: mapWidth / 2 + mapLeft -  mapScale,
-                particleY: mapWidth / 2 + mapTop -  mapScale,
+                particleX: mapWidth / 2 + mapLeft - mapScale,
+                particleY: mapWidth / 2 + mapTop - mapScale,
                 particleColor: "White",
                 particleLifetime: 5000,
                 particleNumber: 5,
@@ -846,8 +846,14 @@ async function updateSolarSystemPositions(userData) {
                         }
                         updateSolarSystem(userData);
                     }
-                } else { //Move between random points in the solar system if we have no ship to target
-                    if (currentSystem.tier < 4) {
+                } else { //Move between random points in the solar system if we have no ship to target, or there are no planets for us to target.
+                    let planets = []; // List all planets in solar system
+                    for (const item in currentSystem.objects) {
+                        if (currentSystem.objects[item].type == "planet") {
+                            planets.push(item);
+                        }
+                    }
+                    if (currentSystem.tier < 4 || planets.length === 0) {
                         const targetX = thing.targetX;
                         const targetY = thing.targetY;
                         moveTowards(thing, {
@@ -863,26 +869,20 @@ async function updateSolarSystemPositions(userData) {
                         }
                     } else { // In more dangerous solar systems, hostile ships guard planets
                         if (!thing.targetObjectId || getDistanceTo(thing, currentSystem.objects[thing.targetObjectId]) < 10) {
-                            let planets = [];
-                            for (const item in currentSystem.objects) {
-                                if (currentSystem.objects[item].type == "planet") {
-                                    planets.push(item);
-                                }
-                            }
                             thing.targetObjectId = choice(planets);
                         } else {
                             moveTowards(thing, currentSystem.objects[thing.targetObjectId], thing.baseStats.baseSpeed * 0.6);
                         }
                     }
                 }
-                
+
                 // Is a hostile too close to a black hole? It will get deleted.
                 if (currentSystem.isBlackHoleSystem) {
                     const distToBlackHole = Math.sqrt((thing.posX - 375) ** 2 + (thing.posY - 375) ** 2);
                     if (distToBlackHole < 35) {
                         delete currentSystem.objects[object];
                     }
-                } 
+                }
             } else if (thing.type === "missile") {
                 let target = currentSystem.objects[thing.targetObjectId];
                 if (!target) {
@@ -1135,10 +1135,11 @@ function newHostile(userData) {
     let posX = playerX - 100 + Math.random() * 200;
     let posY = playerY - 100 + Math.random() * 200;
 
-    while (posX < 0 || posX > 750) {
+    // In black hole systems, do not spawn hostiles too close to the black hole.
+    while (posX < 0 || posX > 750 || (Math.abs(posX - 375) < 30 && currentSystem.isBlackHoleSystem)) {
         posX = playerX - 100 + Math.random() * 200;
     }
-    while (posY < 0 || posY > 750) {
+    while (posY < 0 || posY > 750 || (Math.abs(posY - 375) < 30 && currentSystem.isBlackHoleSystem)) {
         posY = playerY - 100 + Math.random() * 200;
     }
     return {

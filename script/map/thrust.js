@@ -15,7 +15,6 @@ function decreaseShipThrust(userData) {
 }
 
 function updateShipThrust(userData) {
-    console.log("yes")
     const currentMultiverse = userData.multiverses[userData.currentMultiverse];
     document.getElementById("thrustSpeed").textContent = currentMultiverse.mothershipCurrentThrust;
     if (currentMultiverse.mothershipCurrentThrust > 0) { // Thrusters on, display to user thrusters are on

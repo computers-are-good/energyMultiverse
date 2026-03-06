@@ -135,11 +135,11 @@ const research = {
             userData.multiverses[userData.currentMultiverse].maxJumpTier = 4;
         }
     },
-    "invertionDrive": {
+    "inversionDrive": {
         cost: {
             points: 30
         },
-        name: "Invertion Drive",
+        name: "Inversion Drive",
         description: "Inverts the reality that binds us all to unlock the secrets and access to tier 5 systems.",
         complete: function (userData) {
             userData.multiverses[userData.currentMultiverse].maxJumpTier = 5;

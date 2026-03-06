@@ -35,7 +35,7 @@ const biomeSpecificEvents = {
     "Diamond": [],
     "Barren": [],
     "Intrarelativistic": [],
-    "Exotic": [],
+    "Exotic": ["inversionDrive"],
     "White": [],
 }
 

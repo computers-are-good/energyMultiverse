@@ -20,11 +20,11 @@ const events = {
                 choice: [
                     {
                         text: "Take it apart",
-                        goto: 2,
+                        goto: 5,
                     },
                     {
                         text: "Generate Energy",
-                        goto: 3
+                        goto: 6
                     }
                 ]
             },
@@ -348,7 +348,37 @@ const events = {
             {
                 text: "You take the idea back to your mothership for more investigation",
                 eventResolved: true,
-                researchUnlocked: ["deflectionDrive"]
+                researchUnlocked: ["gradientDrive"]
+            }
+        ]
+    },
+    "inversionDrive": {
+        script: [
+            {
+                text: "Drifting in space, you encounter an event so bizarre it defys logic, so quick it is untranslatable in words, but we'll try our to put it to a screen."
+            },
+            {
+                text: "A flash of colour, then another. A dream where the space around you becomes white, and the stars themselves black -- before you find the old world as you know it."
+            },
+            {
+                text: "Then it occurs once more. Inversions flash faster. More intense. A blink, then two, and, before you knew it, this has become the permanent state of the world."
+            },
+            {
+                text: "The world flashes upside down. You know that right is left and left is right, as if by primal instincts. You operate in the world as it is now, where everything is mirrored."
+            },
+            {
+                text: "Instincts take over. You pilot the ship, like the new is the old. You know the controls as if nothing changed. Then suddenly -- the inverted world inverts again. A normal world forms."
+            },
+            {
+                text: "However, if there is one certainity to be described, it's that you saw more worlds in that inverted world. More solar systems. More places to explore."
+            },
+            {
+                text: "Innovation requires frontiers to be broken. We now must push through the limits of reality, the natural order, to continue our journey."
+            },
+            {
+                text: "And to do that, we need a drive to harness the impossible: an engine to invert the world",
+                eventResolved: true,
+                researchUnlocked: ["inversionDrive"]
             }
         ]
     },
